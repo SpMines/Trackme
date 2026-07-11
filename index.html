@@ -265,7 +265,7 @@ input:checked + .slider:before{transform:translateX(18px);}
  * CONFIG
  *************************************************************/
 const APP_VERSION = '1.0.0';
-const API_DEFAULT = 'PASTE_YOUR_WEB_APP_EXEC_URL_HERE';
+const API_DEFAULT = 'https://script.google.com/macros/s/AKfycbxJ_IYzllPBmqsMOht-RAZNPUTcIbwwBibMZg9gfVvZd6mRt5ksURavVih8I5GDEe4p/exec';
 let API = localStorage.getItem('pwrs_api') || API_DEFAULT;
 
 const SESSION = { token: localStorage.getItem('pwrs_token')||'', user: null };
