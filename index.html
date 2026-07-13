@@ -2,692 +2,1073 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>SP Mines OMS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PWRS — Personal Work Reminder System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 :root{
-  --bg:#0a0a14;--txt:#eceef6;--muted:#9aa0b4;--faint:#6b7186;
-  --accent:#6C5CE7;--accent2:#a29bfe;
-  --grad:linear-gradient(135deg,#6C5CE7,#a29bfe);
-  --ok:#37d399;--warn:#ffb547;--err:#ff5d6c;--info:#5aa9ff;
-  --card:rgba(255,255,255,.045);--brd:rgba(255,255,255,.09);--inp:rgba(255,255,255,.045);
-  --glass:rgba(16,16,28,.92);--ring:0 0 0 3px rgba(108,92,231,.22);
+  --bg:#0a0a14; --accent:#6C5CE7; --accent2:#a29bfe;
+  --txt:#eceef6; --muted:#9aa0b4; --brd:rgba(255,255,255,.09);
+  --ok:#37d399; --warn:#ffb547; --err:#ff5d6c; --glass:rgba(16,16,28,.92);
 }
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Jost',sans-serif;-webkit-tap-highlight-color:transparent}
-html{-webkit-text-size-adjust:100%}
-body{background:var(--bg);color:var(--txt);min-height:100dvh;letter-spacing:.1px;overflow-x:hidden}
-.aurora{position:fixed;border-radius:50%;filter:blur(110px);z-index:0;pointer-events:none;opacity:.5}
-.a1{width:520px;height:520px;background:#6C5CE7;top:-160px;left:-140px;animation:float1 14s ease-in-out infinite}
-.a2{width:460px;height:460px;background:#5aa9ff;bottom:-170px;right:-130px;animation:float2 16s ease-in-out infinite}
-@keyframes float1{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,50px)}}
-@keyframes float2{0%,100%{transform:translate(0,0)}50%{transform:translate(-50px,-40px)}}
-::selection{background:rgba(108,92,231,.35)}
-::-webkit-scrollbar{width:9px;height:9px}
-::-webkit-scrollbar-thumb{background:rgba(255,255,255,.09);border-radius:9px}
-::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.16)}
-.topload{position:fixed;top:0;left:0;height:2px;width:0;z-index:10002;background:var(--grad);box-shadow:0 0 12px rgba(108,92,231,.9);opacity:0;transition:width .3s ease,opacity .3s}
-.topload.show{opacity:1}
-.cfgbar{position:relative;z-index:5;background:linear-gradient(135deg,rgba(255,181,71,.14),rgba(255,93,108,.1));border-bottom:1px solid rgba(255,181,71,.3);padding:10px 16px;font-size:12.5px;color:#ffd591;display:flex;align-items:center;gap:8px;justify-content:center;text-align:center;flex-wrap:wrap}
-.cfgbar.ok{background:linear-gradient(135deg,rgba(55,211,153,.12),rgba(90,169,255,.08));border-color:rgba(55,211,153,.3);color:#8fe9c4}
-.cfgbar b{color:#fff}
-.faceLoader{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;flex-direction:column;gap:18px;background:rgba(10,10,20,.62);backdrop-filter:blur(11px);-webkit-backdrop-filter:blur(11px)}
-.faceLoader.show{display:flex;animation:fade .2s ease}
-@keyframes fade{from{opacity:0}to{opacity:1}}
-.loading-text{font-size:30px;font-weight:800;letter-spacing:5px;text-transform:uppercase;background:linear-gradient(90deg,rgba(255,255,255,.22),#fff 50%,rgba(255,255,255,.22));background-size:200% auto;color:transparent;-webkit-background-clip:text;background-clip:text;animation:shimmer 1.8s linear infinite}
-@keyframes shimmer{to{background-position:200% center}}
-.ldot{display:flex;gap:6px}.ldot i{width:7px;height:7px;border-radius:50%;background:var(--accent2);animation:ldb 1s infinite ease-in-out}
-.ldot i:nth-child(2){animation-delay:.15s}.ldot i:nth-child(3){animation-delay:.3s}
-@keyframes ldb{0%,100%{opacity:.35;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}
-.modal{position:fixed;inset:0;z-index:9998;display:none;align-items:flex-start;justify-content:center;background:rgba(10,10,20,.64);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);padding:24px 18px;overflow-y:auto}
-.modal.show{display:flex;animation:fade .2s ease}
-@keyframes pop{from{transform:scale(.94) translateY(10px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
-.modal-card{width:min(400px,100%);margin:auto;background:linear-gradient(180deg,rgba(26,26,42,.97),rgba(18,18,30,.97));border:1px solid var(--brd);border-radius:22px;padding:28px 26px;text-align:center;box-shadow:0 30px 90px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.05);animation:pop .3s cubic-bezier(.16,1,.3,1);max-height:90dvh}
-.modal-card.wide{width:min(560px,100%);text-align:left;display:flex;flex-direction:column}
-.modal-card.wide .mc-body{overflow-y:auto;flex:1;padding-right:2px}
-.modal-card.confirm{z-index:10000}
-.modal.confirm{z-index:10000}
-.modal-ic{font-size:36px;margin-bottom:12px;line-height:1}
-.modal-title{font-size:19px;font-weight:600;margin-bottom:8px;letter-spacing:.2px}
-.modal-msg{font-size:13.5px;color:var(--muted);line-height:1.55;margin-bottom:24px}
-.modal-acts{display:flex;gap:10px}.modal-acts .btn{margin-top:0}
-.mc-actionbar{position:sticky;bottom:0;background:linear-gradient(180deg,transparent,rgba(18,18,30,.97) 30%);padding-top:14px;margin-top:6px}
-.toast{position:fixed;top:22px;right:22px;background:linear-gradient(180deg,rgba(26,26,42,.98),rgba(20,20,30,.98));border:1px solid var(--brd);padding:14px 20px;border-radius:14px;font-size:13.5px;font-weight:500;z-index:10001;opacity:0;transform:translateX(30px);transition:.3s cubic-bezier(.16,1,.3,1);box-shadow:0 16px 40px rgba(0,0,0,.5);max-width:calc(100vw - 44px);display:flex;align-items:center;gap:10px}
-.toast::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--muted);flex-shrink:0}
-.toast.show{opacity:1;transform:translateX(0)}
-.toast.ok{border-color:rgba(55,211,153,.4)}.toast.ok::before{background:var(--ok);box-shadow:0 0 10px rgba(55,211,153,.8)}
-.toast.err{border-color:rgba(255,93,108,.4)}.toast.err::before{background:var(--err);box-shadow:0 0 10px rgba(255,93,108,.8)}
-.btn{width:100%;padding:13px 16px;border:none;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;letter-spacing:.2px;color:#fff;background:var(--grad);transition:.2s cubic-bezier(.16,1,.3,1);box-shadow:0 10px 28px rgba(108,92,231,.4);position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:8px}
-.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.16),transparent 45%);pointer-events:none}
-.btn:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(108,92,231,.55)}
-.btn:active{transform:translateY(0)}.btn:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
-.btn.ghost{background:var(--inp);border:1px solid var(--brd);box-shadow:none;color:var(--txt)}
-.btn.ghost::after{display:none}
-.btn.ghost:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.16);transform:translateY(-1px)}
-.btn.sm{width:auto;padding:8px 14px;font-size:13px;border-radius:10px;box-shadow:0 6px 16px rgba(108,92,231,.28)}
-.btn.ghost.sm{box-shadow:none}
-.btn.danger{background:linear-gradient(135deg,#ff5d6c,#ff3b6b);box-shadow:0 10px 28px rgba(255,93,108,.38)}
-.btn.danger.sm{box-shadow:0 6px 16px rgba(255,93,108,.3)}
-.field{margin-bottom:15px}
-.field label{display:block;font-size:11.5px;color:var(--muted);margin-bottom:8px;font-weight:600;letter-spacing:.4px;text-transform:uppercase}
-.field input,.field select,.field textarea{width:100%;padding:13px 15px;border-radius:12px;background:var(--inp);border:1px solid var(--brd);color:var(--txt);font-size:16px;outline:none;transition:.2s;font-family:'Jost'}
-.field textarea{resize:vertical;min-height:82px;line-height:1.5}
-.field input::placeholder,.field textarea::placeholder{color:var(--faint)}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);box-shadow:var(--ring);background:rgba(255,255,255,.06)}
-.field select option{background:#14141f}
-.pwrap{position:relative}
-.pwrap .eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:17px;opacity:.55;user-select:none}
-.pwrap .eye:hover{opacity:.9}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:14px;margin-bottom:18px}
-.stat{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid var(--brd);border-radius:18px;padding:20px;transition:.2s;overflow:hidden}
-.stat:hover{border-color:rgba(255,255,255,.16);transform:translateY(-2px)}
-.stat .n{font-size:32px;font-weight:700;letter-spacing:-.5px;line-height:1}
-.stat .l{font-size:12px;color:var(--muted);margin-top:6px;font-weight:500}
-.stat .bar{height:3px;border-radius:3px;margin-top:14px;opacity:.85}
-.box{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));border:1px solid var(--brd);border-radius:18px;padding:22px;margin-bottom:16px;box-shadow:0 12px 40px rgba(0,0,0,.25)}
-.box h4{font-size:15px;font-weight:600;margin-bottom:16px;letter-spacing:.2px;display:flex;align-items:center;justify-content:space-between;gap:8px}
-.fcard{display:flex;gap:14px;align-items:flex-start;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));border:1px solid var(--brd);border-left:4px solid var(--muted);border-radius:14px;padding:15px 16px;margin-bottom:11px;animation:cardIn .4s cubic-bezier(.16,1,.3,1)}
-@keyframes cardIn{from{opacity:0;transform:translateY(10px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}
-.fcard.s-Pending{border-left-color:#9aa0b4}
-.fcard.s-Done{border-left-color:var(--ok)}
-.fcard.s-Overdue{border-left-color:var(--err)}
-.fcard .ic{width:44px;height:44px;border-radius:12px;background:var(--inp);border:1px solid var(--brd);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
-.fcard .body{flex:1;min-width:0}
-.fcard .nm{font-size:14.5px;font-weight:600;letter-spacing:.1px}
-.fcard .meta{font-size:12px;color:var(--muted);margin-top:3px}
-.fcard .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
-.fcard .right{display:flex;flex-direction:column;align-items:flex-end;gap:9px;flex-shrink:0}
-.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;letter-spacing:.2px}
-.bg-Pending{background:rgba(154,160,180,.16);color:#c2c7d6;border:1px solid rgba(154,160,180,.32)}
-.bg-Done{background:rgba(55,211,153,.14);color:#7fe9c0;border:1px solid rgba(55,211,153,.36)}
-.bg-Overdue{background:rgba(255,93,108,.14);color:#ff97a2;border:1px solid rgba(255,93,108,.36)}
-.bg-Deferred{background:rgba(108,92,231,.16);color:#c9bdff;border:1px solid rgba(108,92,231,.36)}
-.pri-High{color:#ff97a2}.pri-Medium{color:#ffc875}.pri-Low{color:#8fd0ff}
-.nav{display:flex;gap:8px;padding:14px 20px;overflow-x:auto;border-bottom:1px solid var(--brd);scrollbar-width:none}
-.nav::-webkit-scrollbar{display:none}
-.nav button{flex-shrink:0;padding:9px 17px;border-radius:30px;border:1px solid var(--brd);background:var(--inp);color:var(--muted);font-size:13.5px;font-weight:500;cursor:pointer;transition:.2s;white-space:nowrap;font-family:'Jost'}
-.nav button:hover{color:var(--txt);border-color:rgba(255,255,255,.16)}
-.nav button.active{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 8px 22px rgba(108,92,231,.42)}
-.hidden{display:none!important}
-.wrap{position:relative;z-index:1;animation:fade .35s ease}
-.shell{display:flex;min-height:100dvh;max-width:1000px;margin:auto;background:var(--glass);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border:1px solid var(--brd);box-shadow:0 40px 100px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.05)}
-@media(min-width:821px){
-  #authView{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px}
-  .shell{min-height:auto;margin:0;border-radius:26px;overflow:hidden}
-}
-.brand{flex:1.05;padding:48px 44px;border-right:1px solid var(--brd);display:flex;flex-direction:column;justify-content:center;gap:24px;background:linear-gradient(160deg,rgba(108,92,231,.08),transparent 62%)}
-.pane{flex:1;padding:48px 44px;display:flex;flex-direction:column;justify-content:center}
-.logo{display:flex;align-items:center;gap:13px}
-.logo .dot{width:44px;height:44px;border-radius:13px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;box-shadow:0 10px 26px rgba(108,92,231,.5),inset 0 1px 0 rgba(255,255,255,.2)}
-.logo h1{font-size:21px;font-weight:600;letter-spacing:.2px}
-.logo .tag{font-size:12px;color:var(--muted);margin-top:1px}
-.hero{font-size:31px;font-weight:700;line-height:1.2;letter-spacing:-.6px}
-.hero span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.feat{display:flex;flex-direction:column;gap:15px}
-.feat div{display:flex;align-items:center;gap:12px;font-size:13.5px;color:#cfd2e0}
-.feat .ft{width:34px;height:34px;border-radius:10px;background:rgba(108,92,231,.14);border:1px solid rgba(108,92,231,.3);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.credit{font-size:11px;color:var(--faint);letter-spacing:.3px}
-.welcome{font-size:23px;font-weight:600;margin-bottom:4px}
-.welcome-sub{font-size:13px;color:var(--muted);margin-bottom:22px}
-.tabsw{display:flex;gap:6px;margin-bottom:22px;background:var(--inp);padding:5px;border-radius:14px;border:1px solid var(--brd)}
-.tabsw button{flex:1;padding:11px;border-radius:10px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-family:'Jost';font-weight:600;font-size:14px;transition:.2s}
-.tabsw button.active{background:var(--grad);color:#fff;box-shadow:0 6px 18px rgba(108,92,231,.4)}
-.link{color:var(--accent2);font-size:13px;cursor:pointer;text-align:center;margin-top:14px;font-weight:500;transition:.2s}
-.link:hover{color:#c0b6ff}
-.app{max-width:100%;margin:auto;min-height:100dvh;background:var(--glass);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border-left:1px solid var(--brd);border-right:1px solid var(--brd)}
-.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--brd);background:rgba(10,10,20,.85);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px)}
-.uchip{display:flex;align-items:center;gap:11px}
-.uchip .av{width:36px;height:36px;border-radius:11px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;box-shadow:0 8px 20px rgba(108,92,231,.45),inset 0 1px 0 rgba(255,255,255,.2)}
-.uchip .un{font-size:13.5px;font-weight:600;line-height:1.15}
-.uchip .ur{font-size:11px;color:var(--muted)}
-.content{padding:22px 32px 130px;max-width:100%;margin:auto}
-.empty{color:var(--muted);font-size:13.5px;text-align:center;padding:34px 16px}
-.empty .ei{font-size:32px;display:block;margin-bottom:10px;opacity:.5}
-.trow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 6px;border-bottom:1px solid var(--brd);transition:.15s}
-.trow:hover{background:rgba(255,255,255,.015)}
-.trow:last-child{border-bottom:none}
-.trow .tt{font-size:14.5px;font-weight:500}
-.trow .ts{font-size:12px;color:var(--muted);margin-top:3px}
-.trow .acts{display:flex;gap:8px;align-items:center;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end}
-.ck{display:flex;align-items:center;gap:11px;padding:12px 14px;border:1px solid var(--brd);border-radius:12px;margin-bottom:8px;background:var(--inp);cursor:pointer;font-size:14px;transition:.15s}
-.ck:hover{border-color:rgba(255,255,255,.16)}
-.ck input{width:18px;height:18px;accent-color:var(--accent);flex-shrink:0}
-.chiplist{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
-.chip{background:var(--inp);border:1px solid var(--brd);border-radius:20px;padding:6px 13px;font-size:12.5px;display:flex;gap:8px;align-items:center}
-.chip b{cursor:pointer;color:var(--err);font-weight:700}
-.fab{position:fixed;right:22px;bottom:22px;z-index:900;width:60px;height:60px;border-radius:19px;border:none;cursor:pointer;background:var(--grad);color:#fff;font-size:25px;box-shadow:0 18px 44px rgba(108,92,231,.55),inset 0 1px 0 rgba(255,255,255,.2);transition:.25s cubic-bezier(.16,1,.3,1);display:flex;align-items:center;justify-content:center}
-.fab:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 24px 54px rgba(108,92,231,.65)}
-.fab:active{transform:scale(.96)}
-.chatp{position:fixed;right:18px;bottom:94px;z-index:901;width:min(380px,calc(100vw - 36px));height:min(560px,74dvh);display:none;flex-direction:column;background:linear-gradient(180deg,rgba(18,18,30,.98),rgba(14,14,24,.98));backdrop-filter:blur(26px);-webkit-backdrop-filter:blur(26px);border:1px solid var(--brd);border-radius:22px;box-shadow:0 40px 100px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,255,255,.05);overflow:hidden}
-.chatp.show{display:flex;animation:pop .28s cubic-bezier(.16,1,.3,1)}
-.chath{display:flex;align-items:center;gap:11px;padding:15px 17px;border-bottom:1px solid var(--brd);background:linear-gradient(135deg,rgba(108,92,231,.24),rgba(162,155,254,.12))}
-.chath .dot{width:34px;height:34px;border-radius:11px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;box-shadow:0 6px 16px rgba(108,92,231,.5)}
-.chath .t1{font-size:14.5px;font-weight:600}
-.chath .t2{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:5px}
-.chath .t2::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px rgba(55,211,153,.9);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.chatm{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:11px}
-.msg{max-width:86%;padding:11px 14px;border-radius:16px;font-size:13.5px;line-height:1.5;white-space:pre-wrap;word-break:break-word;animation:msgIn .25s ease}
-@keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.msg.u{align-self:flex-end;background:var(--grad);color:#fff;border-bottom-right-radius:5px;box-shadow:0 6px 18px rgba(108,92,231,.35)}
-.msg.b{align-self:flex-start;background:var(--card);border:1px solid var(--brd);border-bottom-left-radius:5px}
-.fb{display:flex;gap:10px;margin-top:8px}
-.fb span{cursor:pointer;font-size:15px;opacity:.6;transition:.15s}
-.fb span:hover{opacity:1;transform:scale(1.15)}
-.chatq{display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 10px}
-.chatq button{border:1px solid var(--brd);background:var(--inp);color:var(--muted);font-size:11.5px;padding:6px 11px;border-radius:16px;cursor:pointer;font-family:'Jost';transition:.15s}
-.chatq button:hover{color:var(--txt);border-color:var(--accent);background:rgba(108,92,231,.1)}
-.chati{display:flex;gap:9px;padding:13px;border-top:1px solid var(--brd)}
-.chati input{flex:1;padding:12px 14px;border-radius:13px;background:var(--inp);border:1px solid var(--brd);color:var(--txt);font-size:16px;outline:none;font-family:'Jost';transition:.2s}
-.chati input:focus{border-color:var(--accent);box-shadow:var(--ring)}
-.chati button{width:46px;border-radius:13px;border:none;background:var(--grad);color:#fff;font-size:17px;cursor:pointer;box-shadow:0 6px 16px rgba(108,92,231,.4);transition:.2s}
-.chati button:hover{transform:translateY(-1px)}
-table.tbl{width:100%;border-collapse:collapse;font-size:12.5px}
-table.tbl th{text-align:left;color:var(--muted);font-weight:600;padding:9px 7px;border-bottom:1px solid var(--brd);text-transform:uppercase;font-size:11px;letter-spacing:.3px}
-table.tbl td{padding:9px 7px;border-bottom:1px solid var(--brd);vertical-align:top}
-table.tbl tr:hover td{background:rgba(255,255,255,.015)}
-.appfoot{text-align:center;font-size:11px;color:var(--faint);padding:18px;letter-spacing:.3px}
-@media(max-width:820px){
-  .shell{flex-direction:column;border-radius:0;min-height:100dvh}
-  .brand{border-right:none;border-bottom:1px solid var(--brd);padding:30px 22px;gap:18px}
-  .hero{font-size:24px}
-  .pane{padding:28px 22px}
-  .row2{grid-template-columns:1fr}
-  .app{border-left:none;border-right:none}
-  .topbar{padding:12px 14px}
-  .topbar .logo h1{font-size:15px}
-  .topbar .logo .dot{width:34px;height:34px}
-  .uchip{gap:9px}
-  .uchip>div:first-child{display:none}
-  .content{padding:18px 14px 140px}
-  .cards{grid-template-columns:repeat(2,1fr);gap:11px}
-  .stat{padding:16px}.stat .n{font-size:26px}
-  .trow{flex-wrap:wrap}.trow .acts{width:100%;justify-content:flex-end;margin-top:8px}
-  .fcard .right{flex-direction:row;align-items:center}
-  .chatp{right:12px;bottom:88px;width:calc(100vw - 24px);height:min(560px,74dvh)}
-  .fab{right:16px;bottom:18px;width:56px;height:56px}
-  .box{padding:18px 16px}
-}
-@media(max-width:380px){.cards{grid-template-columns:1fr 1fr}.hero{font-size:22px}.btn{font-size:14px}}
+*{box-sizing:border-box;}
+html,body{margin:0;background:var(--bg);color:var(--txt);font-family:'Jost',sans-serif;min-height:100dvh;}
+a{color:var(--accent2);text-decoration:none;}
+h1,h2,h3{font-weight:700;margin:0;}
+p{line-height:1.6;}
+::-webkit-scrollbar{width:8px;height:8px;}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:8px;}
+
+.card{background:var(--glass);backdrop-filter:blur(24px);border:1px solid var(--brd);border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.7);}
+.btn{font-family:'Jost',sans-serif;font-weight:700;border:none;border-radius:12px;padding:11px 20px;cursor:pointer;font-size:14px;transition:.2s;}
+.btn-primary{background:linear-gradient(135deg,#6C5CE7,#a29bfe);color:#fff;}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(108,92,231,.4);}
+.btn-ghost{background:transparent;border:1px solid var(--brd);color:var(--txt);}
+.btn-ghost:hover{background:rgba(255,255,255,.05);}
+.btn-danger{background:rgba(255,93,108,.15);color:var(--err);border:1px solid rgba(255,93,108,.3);}
+.btn-sm{padding:7px 14px;font-size:12.5px;border-radius:9px;}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+.between{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.muted{color:var(--muted);}
+.hidden{display:none !important;}
+
+/* ---------- Auth ---------- */
+#authView{min-height:100dvh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:20px;}
+.aurora{position:absolute;border-radius:50%;filter:blur(90px);opacity:.35;pointer-events:none;}
+.aurora1{width:420px;height:420px;background:#6C5CE7;top:-100px;left:-100px;animation:floatA 14s ease-in-out infinite;}
+.aurora2{width:380px;height:380px;background:#a29bfe;bottom:-120px;right:-80px;animation:floatB 16s ease-in-out infinite;}
+@keyframes floatA{0%,100%{transform:translate(0,0);}50%{transform:translate(40px,30px);}}
+@keyframes floatB{0%,100%{transform:translate(0,0);}50%{transform:translate(-30px,-40px);}}
+.auth-card{position:relative;z-index:1;display:flex;width:100%;max-width:840px;min-height:480px;border-radius:24px;overflow:hidden;}
+.auth-left{flex:1;background:linear-gradient(135deg,#6C5CE7,#a29bfe);padding:44px;display:flex;flex-direction:column;justify-content:center;color:#fff;}
+.auth-left h1{font-size:26px;margin-bottom:10px;}
+.feat{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:13.5px;opacity:.95;}
+.feat .tile{width:32px;height:32px;border-radius:9px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.auth-right{flex:1;background:var(--glass);backdrop-filter:blur(24px);padding:44px;display:flex;flex-direction:column;justify-content:center;}
+.auth-right h2{font-size:22px;margin-bottom:6px;}
+.eye{cursor:pointer;user-select:none;}
+@media(max-width:820px){.auth-card{flex-direction:column;min-height:auto;}.auth-left{padding:32px;}.auth-right{padding:32px;}}
+
+/* ---------- App shell ---------- */
+#appShell{max-width:1120px;margin:auto;min-height:100dvh;background:var(--glass);backdrop-filter:blur(28px);border-left:1px solid var(--brd);border-right:1px solid var(--brd);display:none;flex-direction:column;}
+#topbar{position:sticky;top:0;z-index:50;background:rgba(10,10,20,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--brd);padding:14px 20px;display:flex;align-items:center;gap:16px;}
+.brand{font-weight:800;font-size:17px;white-space:nowrap;background:linear-gradient(135deg,#6C5CE7,#a29bfe);-webkit-background-clip:text;background-clip:text;color:transparent;}
+#navRow{display:flex;gap:8px;overflow-x:auto;flex:1;scrollbar-width:none;}
+#navRow::-webkit-scrollbar{display:none;}
+.nav-pill{padding:9px 16px;border-radius:999px;background:transparent;border:1px solid transparent;color:var(--muted);cursor:pointer;font-weight:600;font-size:13.5px;white-space:nowrap;flex-shrink:0;}
+.nav-pill.active{background:linear-gradient(135deg,#6C5CE7,#a29bfe);color:#fff;box-shadow:0 6px 18px rgba(108,92,231,.35);}
+.content-col{max-width:1000px;margin:auto;padding:22px 20px 130px;width:100%;}
+.foot{text-align:center;color:var(--muted);font-size:12px;padding:20px;}
+
+/* ---------- Banner ---------- */
+#connBanner{position:fixed;top:0;left:0;right:0;z-index:9999;text-align:center;font-size:12.5px;padding:7px;display:none;}
+#connBanner.ok{background:rgba(55,211,153,.15);color:var(--ok);}
+#connBanner.err{background:rgba(255,93,108,.18);color:var(--err);}
+
+/* ---------- Stat cards ---------- */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px;}
+.stat-card{padding:16px;border-radius:16px;background:rgba(255,255,255,.03);border:1px solid var(--brd);cursor:pointer;transition:.2s;}
+.stat-card:hover{background:rgba(255,255,255,.06);}
+.stat-num{font-size:26px;font-weight:800;}
+.stat-label{font-size:12px;color:var(--muted);margin-top:4px;}
+.stat-bar{height:3px;border-radius:3px;margin-top:10px;background:var(--accent);}
+
+/* ---------- Section headers ---------- */
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin:26px 0 12px;}
+.sec-head h2{font-size:17px;}
+
+/* ---------- Task card (fcard) ---------- */
+.fcard{display:flex;gap:12px;padding:14px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid var(--brd);border-left:4px solid var(--accent);margin-bottom:10px;align-items:flex-start;animation:cardIn .35s cubic-bezier(.16,1,.3,1);}
+@keyframes cardIn{from{opacity:0;transform:translateY(8px) scale(.99);}to{opacity:1;transform:translateY(0) scale(1);}}
+.fcard.p-Critical{border-left-color:var(--err);} .fcard.p-High{border-left-color:var(--warn);}
+.fcard.p-Medium{border-left-color:var(--accent);} .fcard.p-Low{border-left-color:var(--ok);}
+.icon-tile{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
+.fcard-body{flex:1;min-width:0;}
+.fcard-title{font-weight:700;font-size:14.5px;}
+.fcard-meta{font-size:12px;color:var(--muted);margin-top:3px;}
+.fcard-actions{display:flex;flex-direction:column;gap:6px;align-items:flex-end;flex-shrink:0;}
+
+.badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap;}
+.badge-Pending{background:rgba(255,181,71,.15);color:var(--warn);}
+.badge-InProgress{background:rgba(108,92,231,.18);color:var(--accent2);}
+.badge-Completed{background:rgba(55,211,153,.15);color:var(--ok);}
+.badge-Cancelled{background:rgba(255,255,255,.08);color:var(--muted);}
+.badge-OnHold{background:rgba(255,255,255,.08);color:var(--muted);}
+.badge-Overdue{background:rgba(255,93,108,.18);color:var(--err);}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:5px;}
+.dot-Critical{background:var(--err);} .dot-High{background:var(--warn);} .dot-Medium{background:var(--accent2);} .dot-Low{background:var(--ok);}
+
+/* ---------- Forms ---------- */
+label{font-size:12px;color:var(--muted);display:block;margin:14px 0 6px;font-weight:600;}
+input,select,textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--brd);color:var(--txt);padding:11px 13px;border-radius:10px;font-family:'Jost',sans-serif;font-size:14px;}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);}
+textarea{resize:vertical;min-height:70px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:520px){.g2{grid-template-columns:1fr;}}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;}
+.chip-check{display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid var(--brd);font-size:12px;cursor:pointer;}
+.chip-check input{width:auto;}
+.switch-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--brd);}
+.switch{position:relative;width:42px;height:24px;flex-shrink:0;}
+.switch input{opacity:0;width:0;height:0;}
+.slider{position:absolute;inset:0;background:rgba(255,255,255,.15);border-radius:24px;cursor:pointer;transition:.2s;}
+.slider:before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;}
+input:checked + .slider{background:var(--accent);}
+input:checked + .slider:before{transform:translateX(18px);}
+
+/* ---------- Modal ---------- */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;z-index:9998;padding:40px 16px;}
+.modal-card{background:var(--glass);backdrop-filter:blur(24px);border:1px solid var(--brd);border-radius:20px;width:100%;max-width:580px;margin:auto;max-height:90dvh;display:flex;flex-direction:column;overflow:hidden;}
+.modal-head{padding:20px 24px;border-bottom:1px solid var(--brd);display:flex;justify-content:space-between;align-items:center;}
+.modal-body{padding:24px;overflow-y:auto;}
+.modal-actions{position:sticky;bottom:0;background:rgba(16,16,28,.98);padding:16px 24px;border-top:1px solid var(--brd);display:flex;gap:10px;justify-content:flex-end;}
+.x-close{cursor:pointer;font-size:20px;color:var(--muted);background:none;border:none;}
+.confirm-card{max-width:400px;}
+.att-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--brd);font-size:13px;}
+.rem-row{display:flex;gap:8px;align-items:center;margin-bottom:8px;}
+.rem-row input{flex:1;}
+
+/* ---------- Toasts ---------- */
+#toastWrap{position:fixed;top:16px;right:16px;z-index:10001;display:flex;flex-direction:column;gap:10px;}
+.toast{padding:13px 18px;border-radius:12px;background:var(--glass);border:1px solid var(--brd);font-size:13px;min-width:220px;max-width:320px;animation:toastIn .25s cubic-bezier(.16,1,.3,1);box-shadow:0 20px 50px rgba(0,0,0,.5);}
+.toast.ok{border-color:rgba(55,211,153,.4);}
+.toast.err{border-color:rgba(255,93,108,.4);}
+.toast.warn{border-color:rgba(255,181,71,.4);}
+@keyframes toastIn{from{transform:translateX(30px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+
+/* ---------- Calendar ---------- */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
+.cal-dow{text-align:center;font-size:11px;color:var(--muted);font-weight:700;padding:4px 0;}
+.cal-day{min-height:78px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid var(--brd);padding:6px;font-size:11px;cursor:pointer;}
+.cal-day:hover{background:rgba(255,255,255,.06);}
+.cal-day.today{border-color:var(--accent);}
+.cal-day.empty{background:transparent;border-color:transparent;cursor:default;}
+.cal-daynum{font-weight:700;color:var(--muted);margin-bottom:4px;}
+.cal-item{font-size:10px;padding:1px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* ---------- Bar chart ---------- */
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;font-size:12px;}
+.bar-label{width:70px;color:var(--muted);flex-shrink:0;}
+.bar-track{flex:1;background:rgba(255,255,255,.05);border-radius:6px;height:16px;overflow:hidden;}
+.bar-fill{height:100%;background:linear-gradient(90deg,#6C5CE7,#a29bfe);border-radius:6px;transition:width .4s;}
+
+/* ---------- Chatbot ---------- */
+#chatFab{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#6C5CE7,#a29bfe);display:flex;align-items:center;justify-content:center;font-size:23px;cursor:pointer;box-shadow:0 10px 30px rgba(108,92,231,.5);z-index:900;transition:.2s;}
+#chatFab:hover{transform:scale(1.08);}
+#chatPanel{position:fixed;bottom:92px;right:24px;width:360px;max-width:90vw;height:500px;max-height:70vh;background:var(--glass);backdrop-filter:blur(24px);border:1px solid var(--brd);border-radius:20px;display:none;flex-direction:column;z-index:900;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.7);}
+.chat-head{padding:16px;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:10px;}
+.chat-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6C5CE7,#a29bfe);display:flex;align-items:center;justify-content:center;font-weight:700;}
+.chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;}
+.msg{max-width:80%;padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;}
+.msg.bot{background:rgba(255,255,255,.06);align-self:flex-start;}
+.msg.user{background:linear-gradient(135deg,#6C5CE7,#a29bfe);color:#fff;align-self:flex-end;}
+.chip-sugg{padding:6px 11px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--brd);font-size:11.5px;cursor:pointer;white-space:nowrap;}
+.chat-input-row{padding:12px;border-top:1px solid var(--brd);display:flex;gap:8px;}
+.chat-input-row input{flex:1;}
+
+/* Empty state */
+.empty-state{text-align:center;padding:50px 20px;color:var(--muted);}
+.empty-state .em{font-size:38px;margin-bottom:10px;}
+
+/* Print report (used only when window opened for export) */
 </style>
 </head>
 <body>
-<div class="aurora a1"></div><div class="aurora a2"></div>
-<div class="topload" id="topload"></div>
 
-<div class="faceLoader" id="faceLoader">
-  <div class="loading-text">SP MINES</div>
-  <div class="ldot"><i></i><i></i><i></i></div>
-</div>
+<div id="connBanner"></div>
 
-<div class="modal confirm" id="modal" onclick="if(event.target===this)closeModal()">
-  <div class="modal-card confirm">
-    <div class="modal-ic" id="modalIc">⚠️</div>
-    <div class="modal-title" id="modalTitle"></div>
-    <div class="modal-msg" id="modalMsg"></div>
-    <div class="modal-acts" id="modalActs"></div>
-  </div>
-</div>
-
-<div class="modal" id="formModal" onclick="if(event.target===this)closeForm()">
-  <div class="modal-card wide">
-    <div class="modal-title" id="formTitle" style="margin-bottom:16px"></div>
-    <div class="mc-body" id="formBody"></div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<div class="wrap" id="authView">
-  <div class="shell">
-    <div class="brand">
-      <div class="logo"><div class="dot">SP</div><div><h1>SP Mines OMS</h1><div class="tag">Operations Management System</div></div></div>
-      <div class="hero">Every task.<br>Every day.<br><span>Never missed.</span></div>
-      <div class="feat">
-        <div><div class="ft">🔁</div>Recurring task engine — daily to yearly</div>
-        <div><div class="ft">📅</div>Weekly-off &amp; holiday aware auto-defer</div>
-        <div><div class="ft">🤖</div>SAM — assistant that learns on the job</div>
-        <div><div class="ft">🛡️</div>Full audit trail, nothing lost</div>
-      </div>
-      <div class="credit">Built by Somnath Karmakar</div>
+<!-- ============ AUTH VIEW ============ -->
+<div id="authView">
+  <div class="aurora aurora1"></div>
+  <div class="aurora aurora2"></div>
+  <div class="auth-card card">
+    <div class="auth-left">
+      <h1>PWRS ⚡</h1>
+      <p style="opacity:.9;font-size:14px;">Your personal work reminder &amp; task system. Save it once, PWRS never lets it slip.</p>
+      <div class="feat"><div class="tile">⏰</div> Unlimited reminders per task</div>
+      <div class="feat"><div class="tile">📧</div> Automatic email nudges</div>
+      <div class="feat"><div class="tile">🔁</div> Recurring bills &amp; tasks</div>
+      <div class="feat"><div class="tile">📊</div> Analytics on how you actually work</div>
     </div>
-    <div class="pane">
-      <div class="welcome">Welcome</div>
-      <div class="welcome-sub">Sign in to run today's operations.</div>
-      <div class="tabsw">
-        <button id="swLogin" class="active" onclick="authTab('login')">Sign In</button>
-        <button id="swSignup" onclick="authTab('signup')">Sign Up</button>
-      </div>
-      <div id="fLogin">
-        <div class="field"><label>Email</label><input id="liEmail" type="email" placeholder="you@company.com"></div>
-        <div class="field"><label>Password</label><div class="pwrap"><input id="liPass" type="password" placeholder="••••••••"><span class="eye" onclick="eye('liPass',this)">👁</span></div></div>
-        <button class="btn" onclick="doLogin()">Sign In →</button>
-        <div class="link" onclick="authTab('forgot')">Forgot password?</div>
-      </div>
-      <div id="fSignup" class="hidden">
-        <div class="field"><label>Full Name</label><input id="suName" placeholder="Your name"></div>
-        <div class="row2">
-          <div class="field"><label>Email</label><input id="suEmail" type="email" placeholder="you@company.com"></div>
-          <div class="field"><label>Phone</label><input id="suPhone" placeholder="98xxxxxxxx"></div>
+    <div class="auth-right">
+      <div id="loginBox">
+        <h2>Welcome back 👋</h2>
+        <p class="muted" style="font-size:13px;margin-bottom:6px;">Log in to your task system.</p>
+        <label>Email</label>
+        <input type="email" id="li_email" placeholder="you@email.com">
+        <label>Password</label>
+        <div style="position:relative;">
+          <input type="password" id="li_pass" placeholder="••••••••">
+          <span class="eye muted" onclick="togglePw('li_pass',this)" style="position:absolute;right:13px;top:11px;">👁</span>
         </div>
-        <div class="row2">
-          <div class="field"><label>Designation</label><input id="suDesig" placeholder="e.g. Sales Exec"></div>
-          <div class="field"><label>Password</label><div class="pwrap"><input id="suPass" type="password" placeholder="6+ chars"><span class="eye" onclick="eye('suPass',this)">👁</span></div></div>
+        <div class="row" style="margin-top:20px;">
+          <button class="btn btn-primary" style="flex:1;" onclick="doLogin()">Sign In ⚡</button>
         </div>
-        <button class="btn" onclick="doSignup()">Create Account →</button>
-        <div class="link" style="color:var(--muted);cursor:default">First account = Super Admin. Others need approval.</div>
+        <p style="text-align:center;margin-top:14px;font-size:12.5px;"><a onclick="showForgot()" style="cursor:pointer;">Forgot password?</a></p>
       </div>
-      <div id="fForgot" class="hidden">
-        <div class="field"><label>Email</label><input id="fgEmail" type="email" placeholder="you@company.com"></div>
-        <button class="btn ghost" onclick="doOtp()" style="margin-bottom:12px">Send OTP</button>
-        <div class="row2">
-          <div class="field"><label>OTP</label><input id="fgOtp" placeholder="6-digit"></div>
-          <div class="field"><label>New Password</label><div class="pwrap"><input id="fgPass" type="password" placeholder="6+ chars"><span class="eye" onclick="eye('fgPass',this)">👁</span></div></div>
+      <div id="forgotBox" class="hidden">
+        <h2>Reset password 🔑</h2>
+        <p class="muted" style="font-size:13px;">Enter your email — we'll send a code.</p>
+        <label>Email</label>
+        <input type="email" id="fg_email" placeholder="you@email.com">
+        <div class="row" style="margin-top:16px;">
+          <button class="btn btn-ghost" onclick="showLoginBack()">← Back</button>
+          <button class="btn btn-primary" style="flex:1;" onclick="doSendOtp()">Send Code 📩</button>
         </div>
-        <button class="btn" onclick="doReset()">Reset Password</button>
-        <div class="link" onclick="authTab('login')">← Back to sign in</div>
+        <div id="fg_step2" class="hidden">
+          <label>Code</label>
+          <input type="text" id="fg_otp" placeholder="6-digit code">
+          <label>New Password</label>
+          <input type="password" id="fg_newpass" placeholder="6+ characters">
+          <button class="btn btn-primary" style="width:100%;margin-top:16px;" onclick="doResetPassword()">Reset Password 🔑</button>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="wrap hidden" id="appView">
-  <div class="app">
-    <div class="cfgbar" id="cfgbar"></div>
-    <div class="topbar">
-      <div class="logo"><div class="dot">SP</div><div><h1 style="font-size:16px">SP Mines OMS</h1></div></div>
-      <div class="uchip">
-        <div style="text-align:right"><div class="un" id="uName"></div><div class="ur" id="uRole"></div></div>
-        <div class="av" id="uAv"></div>
-        <button class="btn ghost sm" onclick="doLogout()">Sign Out</button>
-      </div>
-    </div>
-    <div class="nav" id="mainNav"></div>
-    <div class="content" id="content"></div>
-    <div class="appfoot">SP Mines · Operations Management System · v2.0.0</div>
+<!-- ============ APP SHELL ============ -->
+<div id="appShell">
+  <div id="topbar">
+    <div class="brand">PWRS ⚡</div>
+    <div id="navRow"></div>
+    <button class="btn btn-ghost btn-sm" onclick="doLogout()">Sign Out 👋</button>
+  </div>
+  <div class="content-col" id="pageHost"></div>
+  <div class="foot">PWRS · Personal Task &amp; Reminder System · v1.0.0 · Built by Sam</div>
+</div>
+
+<!-- ============ Chatbot ============ -->
+<div id="chatFab" onclick="toggleChat()">💬</div>
+<div id="chatPanel">
+  <div class="chat-head">
+    <div class="chat-avatar">R</div>
+    <div><div style="font-weight:700;font-size:13.5px;">REMI</div><div class="muted" style="font-size:11px;">🟢 Online</div></div>
+    <button class="x-close" style="margin-left:auto;" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-msgs" id="chatMsgs"></div>
+  <div class="row" style="padding:0 12px;gap:6px;overflow-x:auto;" id="chatChips"></div>
+  <div class="chat-input-row">
+    <input type="text" id="chatInput" placeholder="Ask REMI…" onkeydown="if(event.key==='Enter')sendChat()">
+    <button class="btn btn-primary btn-sm" onclick="sendChat()">➤</button>
   </div>
 </div>
 
-<button class="fab hidden" id="fab" onclick="toggleChat()">💬</button>
-<div class="chatp" id="chatp">
-  <div class="chath">
-    <div class="dot">SA</div>
-    <div><div class="t1">SAM Assistant</div><div class="t2">online · learns on the job</div></div>
-  </div>
-  <div class="chatm" id="chatm"></div>
-  <div class="chatq">
-    <button onclick="quickAsk('My tasks today')">Today</button>
-    <button onclick="quickAsk('Pending')">Pending</button>
-    <button onclick="quickAsk('Overdue')">Overdue</button>
-    <button onclick="quickAsk('Next holiday')">Holiday</button>
-    <button onclick="quickAsk('Help')">Help</button>
-  </div>
-  <div class="chati">
-    <input id="chatIn" placeholder="Ask SAM anything…" onkeydown="if(event.key==='Enter')sendChat()">
-    <button onclick="sendChat()">➤</button>
-  </div>
-</div>
+<div id="toastWrap"></div>
+<div id="modalHost"></div>
+
 <script>
-/* ============================================================
-   CONFIG — apna GAS Web App /exec URL yahan paste karo
-   Deploy: Apps Script -> Deploy -> New deployment -> Web app
-           (Execute as: Me, Access: Anyone) -> copy /exec URL
-   ============================================================ */
-const API = "https://script.google.com/macros/s/AKfycbwzsel5orII21OU8s1sC885Yscjk1sb7tr1eON0oEcm4fiZhJBkMO2ja393ABcFjwkM/exec";
-/* ============================================================ */
+/*************************************************************
+ * CONFIG
+ *************************************************************/
+const APP_VERSION = '1.0.0';
+const API_DEFAULT = 'https://script.google.com/macros/s/AKfycbzFH4-k_wngcxKlUvU7a9FK--mf-DgR1XjCYz7cgkEw1AIby3QAAWS6sKewbg-43jQb/exec';
+let API = localStorage.getItem('pwrs_api') || API_DEFAULT;
 
-const DEVICE=(navigator.userAgent||"Unknown")+" | "+(navigator.platform||"");
-const API_SET=API && API.indexOf("PASTE_GAS_URL")<0 && /^https:\/\/script\.google\.com\/(a\/macros\/[^/]+|macros)\/s\//.test(API);
+const SESSION = { token: localStorage.getItem('pwrs_token')||'', user: null };
+const STATE = {
+  tasks: [], archived: [], settings: {}, meta: {priorities:['Critical','High','Medium','Low'], statuses:['Pending','In Progress','Completed','Cancelled','On Hold'], repeats:['None','Daily','Weekly','Monthly','Yearly','Custom'],
+    reminderOffsets:[{key:'7d',label:'7 Days Before'},{key:'3d',label:'3 Days Before'},{key:'1d',label:'1 Day Before'},{key:'12h',label:'12 Hours Before'},{key:'6h',label:'6 Hours Before'},{key:'2h',label:'2 Hours Before'},{key:'1h',label:'1 Hour Before'},{key:'30m',label:'30 Minutes Before'},{key:'15m',label:'15 Minutes Before'}]},
+  activity: [], page:'dashboard', calMonth: new Date(), customRems: [], curEditId: null
+};
+let notifTimer=null, countdownTimer=null;
 
-let _busy=0;
-function showLoader(){_busy++;document.getElementById('faceLoader').classList.add('show');const t=document.getElementById('topload');t.classList.add('show');t.style.width='75%';}
-function hideLoader(){_busy=Math.max(0,_busy-1);if(_busy===0){document.getElementById('faceLoader').classList.remove('show');const t=document.getElementById('topload');t.style.width='100%';setTimeout(()=>{t.classList.remove('show');t.style.width='0';},250);}}
-function guard(){if(!API_SET){modalAlert("GAS URL abhi set nahi hai. index.html me API constant me apna /exec URL paste karo, phir dobara host karo.","Backend not connected","🔌");return false;}return true;}
-function api(p){if(!guard())return Promise.reject(new Error('noapi'));showLoader();p.token=tGet();
-  return fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(p)})
-    .then(r=>r.json()).then(d=>{hideLoader();
-      if(d&&d.error==='AUTH'){tClr();showAuth();toast('Session expired. Sign in again.','err');throw new Error('auth');}
-      return d;}).catch(e=>{hideLoader();if(String(e.message)!=='auth')toast('Network error. Try again.','err');throw e;});}
-function apiS(p){if(!API_SET)return Promise.resolve({ok:false});p.token=tGet();
-  return fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(p)})
-    .then(r=>r.json()).catch(()=>({ok:false}));}
-function tGet(){try{return localStorage.getItem('spm_token')||''}catch(e){return ''}}
-function tSet(t){try{localStorage.setItem('spm_token',t)}catch(e){}}
-function tClr(){try{localStorage.removeItem('spm_token')}catch(e){}}
-function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
-function toast(msg,type){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+(type||'');setTimeout(()=>t.className='toast '+(type||''),3200);}
-function eye(id,el){const i=document.getElementById(id);if(i.type==='password'){i.type='text';el.textContent='🙈';}else{i.type='password';el.textContent='👁';}}
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function safeJSON(str, fallback){ try{ return JSON.parse(str); }catch(e){ return fallback; } }
+function togglePw(id,el){ const i=document.getElementById(id); i.type = i.type==='password'?'text':'password'; el.style.opacity = i.type==='password'?1:.5; }
 
-function modalConfirm(o){
-  document.getElementById('modalIc').textContent=o.icon||'⚠️';
-  document.getElementById('modalTitle').textContent=o.title||'Are you sure?';
-  document.getElementById('modalMsg').textContent=o.message||'';
-  const acts=document.getElementById('modalActs');acts.innerHTML='';
-  const cancel=document.createElement('button');cancel.className='btn ghost';cancel.textContent=o.cancelText||'Cancel';cancel.onclick=closeModal;
-  const ok=document.createElement('button');ok.className='btn'+(o.danger?' danger':'');ok.textContent=o.confirmText||'Confirm';
-  ok.onclick=function(){closeModal();if(o.onConfirm)o.onConfirm();};
-  if(o.onConfirm){acts.appendChild(cancel);acts.appendChild(ok);}else{acts.appendChild(ok);}
-  document.getElementById('modal').classList.add('show');}
-function modalAlert(m,t,i){modalConfirm({title:t||'Notice',message:m,icon:i||'ℹ️',confirmText:'OK'});}
-function closeModal(){document.getElementById('modal').classList.remove('show');}
-function openForm(title,html){document.getElementById('formTitle').textContent=title;document.getElementById('formBody').innerHTML=html;document.getElementById('formModal').classList.add('show');}
-function closeForm(){document.getElementById('formModal').classList.remove('show');}
+/*************************************************************
+ * API
+ *************************************************************/
+function apiUrlOk(u){ return /\/macros\/s\/[\w-]+\/exec$/.test(u) || /\/a\/macros\/[\w.-]+\/s\/[\w-]+\/exec$/.test(u); }
 
-let ME=null,DEPTS=[],EMPS=[],TASKS=[];
-const LV={'Super Admin':4,'Owner':3,'Manager':2,'Employee':1};
-function lv(){return ME?(LV[ME.Role]||1):0;}
-const today=()=>new Date().toLocaleDateString('en-CA');
-function val(id){return document.getElementById(id).value.trim();}
-
-function authTab(t){
-  ['fLogin','fSignup','fForgot'].forEach(id=>document.getElementById(id).classList.add('hidden'));
-  document.getElementById(t==='login'?'fLogin':t==='signup'?'fSignup':'fForgot').classList.remove('hidden');
-  document.getElementById('swLogin').classList.toggle('active',t==='login');
-  document.getElementById('swSignup').classList.toggle('active',t==='signup');}
-function doLogin(){api({action:'login',email:val('liEmail'),password:val('liPass'),device:DEVICE}).then(d=>{
-  if(!d.ok)return modalAlert(d.message,'Sign In Failed','🔒');tSet(d.token);ME=d.me;enterApp();});}
-function doSignup(){api({action:'signup',name:val('suName'),email:val('suEmail'),phone:val('suPhone'),designation:val('suDesig'),password:val('suPass'),device:DEVICE}).then(d=>{
-  if(!d.ok)return modalAlert(d.message,'Sign Up Failed','⚠️');
-  if(d.first){tSet(d.token);ME=d.me;modalAlert('You are the Super Admin. Full control unlocked.','Welcome 👑','👑');enterApp();}
-  else{modalAlert(d.message,'Account Created','✅');authTab('login');}});}
-function doOtp(){api({action:'forgotOtp',email:val('fgEmail')}).then(d=>toast(d.message,'ok'));}
-function doReset(){api({action:'resetPass',email:val('fgEmail'),otp:val('fgOtp'),password:val('fgPass')}).then(d=>{
-  if(!d.ok)return modalAlert(d.message,'Reset Failed','⚠️');modalAlert(d.message,'Done','✅');authTab('login');});}
-function doLogout(){api({action:'logout'}).finally(()=>{tClr();ME=null;showAuth();});}
-function showAuth(){document.getElementById('authView').classList.remove('hidden');document.getElementById('appView').classList.add('hidden');document.getElementById('fab').classList.add('hidden');document.getElementById('chatp').classList.remove('show');}
-
-function enterApp(){
-  document.getElementById('authView').classList.add('hidden');
-  document.getElementById('appView').classList.remove('hidden');
-  document.getElementById('fab').classList.remove('hidden');
-  document.getElementById('uName').textContent=ME.Name;
-  document.getElementById('uRole').textContent=ME.Role;
-  document.getElementById('uAv').textContent=(ME.Name||'?').slice(0,1).toUpperCase();
-  showCfg();buildNav();nav('dash');
-  api({action:'listDepts'}).then(d=>{DEPTS=d.depts||[];});}
-function showCfg(){const b=document.getElementById('cfgbar');b.className='cfgbar ok';
-  b.innerHTML='✅ Connected to Google Sheets · <b>SP Mines OMS v2.0.0</b>';
-  setTimeout(()=>{b.style.transition='.4s';b.style.opacity='0';b.style.padding='0';b.style.height='0';b.style.overflow='hidden';},2600);}
-function buildNav(){
-  const tabs=[['dash','Dashboard'],['mytasks','My Tasks']];
-  if(lv()>=2){tabs.push(['tasks','Tasks'],['team','Team Work'],['emps','Employees'],['hols','Holidays'],['leaves','Leaves']);}
-  if(lv()>=3){tabs.push(['depts','Departments'],['admin','Admin']);}
-  document.getElementById('mainNav').innerHTML=tabs.map(t=>`<button id="nav_${t[0]}" onclick="nav('${t[0]}')">${t[1]}</button>`).join('');}
-function nav(t){
-  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
-  const b=document.getElementById('nav_'+t);if(b)b.classList.add('active');
-  ({dash:vDash,mytasks:vMyTasks,tasks:vTasks,team:vTeam,emps:vEmps,hols:vHols,leaves:vLeaves,depts:vDepts,admin:vAdmin})[t]();}
-const C=()=>document.getElementById('content');
-
-function vDash(){api({action:'dashboard'}).then(d=>{const s=d.stats;
-  C().innerHTML=`<div class="cards">
-    <div class="stat"><div class="n">${s.today}</div><div class="l">Due Today</div><div class="bar" style="background:var(--accent2)"></div></div>
-    <div class="stat"><div class="n">${s.pending}</div><div class="l">Pending</div><div class="bar" style="background:var(--warn)"></div></div>
-    <div class="stat"><div class="n" style="color:${s.overdue?'#ff97a2':'inherit'}">${s.overdue}</div><div class="l">Overdue</div><div class="bar" style="background:var(--err)"></div></div>
-    <div class="stat"><div class="n">${s.done}</div><div class="l">Completed</div><div class="bar" style="background:var(--ok)"></div></div>
-    <div class="stat"><div class="n">${s.completionPct}%</div><div class="l">Completion (${s.scope})</div><div class="bar" style="background:var(--grad)"></div></div>
-  </div><div class="box"><h4>Today's Tasks</h4><div id="dToday"></div></div>`;
-  renderInstList('dToday',d.todayList,true);});}
-
-function renderInstList(elId,list,canComplete){
-  const el=document.getElementById(elId);
-  if(!list||!list.length){el.innerHTML='<div class="empty"><span class="ei">✓</span>All clear — nothing waiting on you.</div>';return;}
-  el.innerHTML=list.map(i=>{
-    const st=i.LiveStatus||i.Status;
-    const chips=[];
-    if(i.Deferred)chips.push(`<span class="badge bg-Deferred" title="Original ${esc(i.Deferred)}">⏭ Deferred · ${esc(i.Deferred)}</span>`);
-    chips.push(`<span class="pri-${esc(i.Priority)}" style="font-size:11px;font-weight:600">● ${esc(i.Priority)}</span>`);
-    const btn=(canComplete&&st!=='Done'&&(i.AssigneeID===ME.ID||lv()>=2))?`<button class="btn sm" onclick='openComplete(${JSON.stringify(i.ID)})'>Complete</button>`:'';
-    const ic=st==='Done'?'✅':st==='Overdue'?'⚠️':'📋';
-    return `<div class="fcard s-${st}"><div class="ic">${ic}</div>
-      <div class="body"><div class="nm">${esc(i.Title)}</div>
-        <div class="meta">👤 ${esc(i.AssigneeName||'')} · 📅 ${esc(i.DueDate)} · ⏱ ${esc(i.DueTime)}</div>
-        <div class="chips">${chips.join('')}</div></div>
-      <div class="right"><span class="badge bg-${st}">${st}</span>${btn}</div></div>`;}).join('');}
-let INST_CACHE=[];
-function vMyTasks(){C().innerHTML='<div class="box"><h4>My Tasks</h4><div id="miList"></div></div>';
-  api({action:'myInstances'}).then(d=>{INST_CACHE=d.instances||[];renderInstList('miList',INST_CACHE,true);});}
-function vTeam(){C().innerHTML='<div class="box"><h4>Team Work — all instances</h4><div id="teList"></div></div>';
-  api({action:'allInstances'}).then(d=>{INST_CACHE=d.instances||[];renderInstList('teList',INST_CACHE,true);});}
-function openComplete(id){const i=INST_CACHE.filter(x=>x.ID===id)[0];if(!i)return;
-  let ck=[];try{ck=JSON.parse(i.ChecklistStateJSON||'[]');}catch(e){}
-  const ckHtml=ck.length?ck.map((c,ix)=>`<label class="ck"><input type="checkbox" id="ck_${ix}" ${c.done?'checked':''}> ${esc(c.t)}</label>`).join(''):'<div class="empty" style="padding:14px">No checklist for this task.</div>';
-  openForm('Complete: '+i.Title,`
-    ${i.Deferred?`<div class="badge bg-Deferred" style="margin-bottom:12px">⏭ Deferred from Off-day · Original ${esc(i.Deferred)}</div>`:''}
-    ${ckHtml}
-    <div class="field" style="margin-top:12px"><label>Remarks / Evidence</label><textarea id="cpRemarks" placeholder="What was done, references, proof…"></textarea></div>
-    <div class="mc-actionbar"><button class="btn" onclick='submitComplete(${JSON.stringify(id)},${ck.length})'>Mark Complete ✓</button></div>`);}
-function submitComplete(id,n){const checklist=[];for(let ix=0;ix<n;ix++)checklist.push({done:document.getElementById('ck_'+ix).checked});
-  api({action:'completeInstance',id:id,checklist:checklist,remarks:document.getElementById('cpRemarks').value.trim()}).then(d=>{
-    if(!d.ok)return toast(d.message,'err');closeForm();toast(d.message,'ok');nav('mytasks');});}
-
-let CK_DRAFT=[];
-function vTasks(){
-  C().innerHTML=`<div class="box"><h4>Recurring Task Templates <button class="btn sm" onclick="openTaskForm()">+ New Task</button></h4><div id="tkList"></div></div>`;
-  Promise.all([api({action:'listTasks'}),api({action:'listEmployees'})]).then(([a,b])=>{
-    TASKS=a.tasks||[];EMPS=b.employees||[];
-    const el=document.getElementById('tkList');const act=TASKS.filter(t=>t.Active==='Yes');
-    if(!act.length){el.innerHTML='<div class="empty"><span class="ei">📋</span>No tasks yet. Spin up your first recurring task.</div>';return;}
-    el.innerHTML=act.map(t=>{const emp=EMPS.filter(e=>e.ID===t.AssigneeID)[0];
-      return `<div class="trow"><div>
-        <div class="tt">${esc(t.Title)} <span class="pri-${esc(t.Priority)}" style="font-size:11px">● ${esc(t.Priority)}</span></div>
-        <div class="ts">🔁 ${esc(t.Frequency)}${t.FreqDetail?' ('+esc(t.FreqDetail)+')':''} · 👤 ${esc(emp?emp.Name:'—')} · ⏱ ${esc(t.DueTime)}</div></div>
-        <div class="acts"><button class="btn ghost sm" onclick='openTaskForm(${JSON.stringify(t.ID)})'>Edit</button>
-        <button class="btn danger sm" onclick='delTask(${JSON.stringify(t.ID)})'>Off</button></div></div>`;}).join('');});}
-function freqDetailHint(f){return {Weekly:'Weekday (Mon…Sun)',Fortnightly:'Weekday (Mon…Sun)',Monthly:'Day of month (1–28)',Quarterly:'Day of month (1–28)',HalfYearly:'Day of month (1–28)',Yearly:'MM-DD (e.g. 03-31)',Once:'Date YYYY-MM-DD'}[f]||'Not needed';}
-function openTaskForm(id){const t=id?TASKS.filter(x=>x.ID===id)[0]:null;
-  try{CK_DRAFT=t?JSON.parse(t.ChecklistJSON||'[]'):[];}catch(e){CK_DRAFT=[];}
-  const empOpts=EMPS.filter(e=>e.Status==='Active').map(e=>`<option value="${esc(e.ID)}" ${t&&t.AssigneeID===e.ID?'selected':''}>${esc(e.Name)}</option>`).join('');
-  const deptOpts='<option value="">—</option>'+DEPTS.map(d=>`<option value="${esc(d.ID)}" ${t&&t.DepartmentID===d.ID?'selected':''}>${esc(d.Name)}</option>`).join('');
-  const freqs=['Once','Daily','AlternateDay','Weekly','Fortnightly','Monthly','Quarterly','HalfYearly','Yearly'];
-  openForm(t?'Edit Task':'New Recurring Task',`
-    <div class="field"><label>Title</label><input id="tfTitle" value="${t?esc(t.Title):''}" placeholder="e.g. Daily cash reconciliation"></div>
-    <div class="field"><label>Description</label><textarea id="tfDesc" placeholder="Optional">${t?esc(t.Description):''}</textarea></div>
-    <div class="row2"><div class="field"><label>Assignee</label><select id="tfAssign">${empOpts}</select></div>
-      <div class="field"><label>Department</label><select id="tfDept">${deptOpts}</select></div></div>
-    <div class="row2"><div class="field"><label>Frequency</label><select id="tfFreq" onchange="document.getElementById('fdHint').textContent=freqDetailHint(this.value)">${freqs.map(f=>`<option ${t&&t.Frequency===f?'selected':''}>${f}</option>`).join('')}</select></div>
-      <div class="field"><label>Detail — <span id="fdHint" style="color:var(--accent2)">${freqDetailHint(t?t.Frequency:'Once')}</span></label><input id="tfFD" value="${t?esc(t.FreqDetail):''}" placeholder="See hint"></div></div>
-    <div class="row2"><div class="field"><label>Due Time</label><input id="tfTime" type="time" value="${t?esc(t.DueTime):'18:00'}"></div>
-      <div class="field"><label>Priority</label><select id="tfPri">${['High','Medium','Low'].map(p=>`<option ${t&&t.Priority===p?'selected':''}>${p}</option>`).join('')}</select></div></div>
-    <div class="field"><label>Checklist Items</label><div class="chiplist" id="ckChips"></div>
-      <div style="display:flex;gap:8px"><input id="ckNew" placeholder="Add item…" style="flex:1;padding:11px 13px;border-radius:11px;background:var(--inp);border:1px solid var(--brd);color:var(--txt);font-size:16px;outline:none;font-family:'Jost'"><button class="btn sm" onclick="addCk()">Add</button></div></div>
-    <label class="ck" style="margin-bottom:14px"><input type="checkbox" id="tfEv" ${t&&t.EvidenceRequired==='Yes'?'checked':''}> Evidence / remarks mandatory on completion</label>
-    <div class="mc-actionbar"><button class="btn" onclick='saveTask(${JSON.stringify(id||"")})'>Save Task</button></div>`);
-  drawCk();}
-function drawCk(){document.getElementById('ckChips').innerHTML=CK_DRAFT.map((c,i)=>`<span class="chip">${esc(c)} <b onclick="CK_DRAFT.splice(${i},1);drawCk()">✕</b></span>`).join('');}
-function addCk(){const v=document.getElementById('ckNew').value.trim();if(!v)return;CK_DRAFT.push(v);document.getElementById('ckNew').value='';drawCk();}
-function saveTask(id){api({action:'saveTask',task:{ID:id||undefined,Title:val('tfTitle'),Description:val('tfDesc'),AssigneeID:val('tfAssign'),DepartmentID:val('tfDept'),Frequency:val('tfFreq'),FreqDetail:val('tfFD'),DueTime:val('tfTime'),Priority:val('tfPri'),Checklist:CK_DRAFT,EvidenceRequired:document.getElementById('tfEv').checked}}).then(d=>{
-  if(!d.ok)return toast(d.message,'err');closeForm();toast(d.message,'ok');vTasks();});}
-function delTask(id){modalConfirm({title:'Deactivate task?',message:'History stays. No new occurrences created.',danger:true,confirmText:'Deactivate',onConfirm:()=>api({action:'deleteTask',id:id}).then(d=>{toast(d.message,'ok');vTasks();})});}
-
-function vEmps(){C().innerHTML='<div class="box"><h4>Employees '+(lv()>=3?'<button class="btn sm" onclick="openEmpForm(null)">+ Add</button>':'')+'</h4><div id="emList"></div></div>';
-  Promise.all([api({action:'listEmployees'}),api({action:'listDepts'})]).then(([a,b])=>{
-    EMPS=a.employees||[];DEPTS=b.depts||[];const el=document.getElementById('emList');
-    if(!EMPS.length){el.innerHTML='<div class="empty">No employees.</div>';return;}
-    el.innerHTML=EMPS.map(e=>{const dp=DEPTS.filter(d=>d.ID===e.DepartmentID)[0];
-      const acts=lv()>=3?`<button class="btn ghost sm" onclick='openEmpForm(${JSON.stringify(e.ID)})'>Edit</button>
-        <button class="btn ghost sm" onclick='openEmailForm(${JSON.stringify(e.ID)})'>✉️</button>
-        ${e.Status==='Active'?`<button class="btn danger sm" onclick='empStatus(${JSON.stringify(e.ID)},"Disabled")'>Disable</button>`
-        :e.Status==='Disabled'?`<button class="btn sm" onclick='empStatus(${JSON.stringify(e.ID)},"Active")'>Enable</button>`:''}`:'';
-      return `<div class="trow"><div><div class="tt">${esc(e.Name)} <span style="font-size:11px;color:var(--muted)">${esc(e.Role)}</span></div>
-        <div class="ts">${esc(e.Email)} · ${esc(dp?dp.Name:'No dept')} · Off: ${esc(e.WeeklyOff||'Sun')}</div></div>
-        <div class="acts"><span class="badge bg-${e.Status==='Active'?'Done':e.Status==='Pending'?'Pending':'Overdue'}">${esc(e.Status)}</span>${acts}</div></div>`;}).join('');});}
-function openEmpForm(id){const e=id?EMPS.filter(x=>x.ID===id)[0]:{Name:'',Phone:'',Role:'Employee',DepartmentID:'',Designation:'',WeeklyOff:'Sun',BuddyID:''};if(id&&!e)return;
-  const deptOpts='<option value="">—</option>'+DEPTS.map(d=>`<option value="${esc(d.ID)}" ${e.DepartmentID===d.ID?'selected':''}>${esc(d.Name)}</option>`).join('');
-  const buddyOpts='<option value="">—</option>'+EMPS.filter(x=>x.ID!==id).map(x=>`<option value="${esc(x.ID)}" ${e.BuddyID===x.ID?'selected':''}>${esc(x.Name)}</option>`).join('');
-  const roles=['Employee','Manager','Owner','Super Admin'];const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  const offs=String(e.WeeklyOff||'Sun').split(',').map(s=>s.trim());
-  openForm(id?'Edit: '+e.Name:'Add Employee',`
-    <div class="row2"><div class="field"><label>Name</label><input id="efName" value="${esc(e.Name)}"></div>
-      <div class="field"><label>Phone</label><input id="efPhone" value="${esc(e.Phone)}"></div></div>
-    ${id?'':'<div class="field"><label>Email</label><input id="efEmail" type="email" placeholder="you@company.com"></div>'}
-    <div class="row2"><div class="field"><label>Role</label><select id="efRole">${roles.map(r=>`<option ${e.Role===r?'selected':''}>${r}</option>`).join('')}</select></div>
-      <div class="field"><label>Department</label><select id="efDept">${deptOpts}</select></div></div>
-    <div class="field"><label>Designation</label><input id="efDesig" value="${esc(e.Designation)}" placeholder="e.g. Personal Coordinator"></div>
-    <div class="field"><label>Assign Buddy (backup jab leave/absent ho)</label><select id="efBuddy">${buddyOpts}</select></div>
-    <div class="field"><label>Weekly Off</label><div class="chiplist">${days.map(d=>`<label class="chip" style="cursor:pointer"><input type="checkbox" class="woDay" value="${d}" ${offs.indexOf(d)>=0?'checked':''} style="accent-color:var(--accent)"> ${d}</label>`).join('')}</div></div>
-    ${id?'':'<div class="ts" style="margin-bottom:6px">Temp password auto-generate hoga, email pe chala jayega.</div>'}
-    <div class="mc-actionbar"><button class="btn" onclick='saveEmp(${JSON.stringify(id||"")})'>Save</button></div>`);}
-function saveEmp(id){const off=[...document.querySelectorAll('.woDay:checked')].map(x=>x.value).join(',');
-  const emp={ID:id||'',Name:val('efName'),Phone:val('efPhone'),Role:val('efRole'),DepartmentID:val('efDept'),Designation:val('efDesig'),WeeklyOff:off,BuddyID:val('efBuddy')};
-  if(!id)emp.Email=val('efEmail');
-  api({action:'saveEmployee',emp:emp}).then(d=>{
-    if(!d.ok)return toast(d.message,'err');closeForm();toast(d.message,'ok');vEmps();});}
-function empStatus(id,st){api({action:'setEmpStatus',id:id,status:st}).then(d=>{toast(d.message,'ok');vEmps();});}
-function openEmailForm(id){const e=EMPS.filter(x=>x.ID===id)[0];if(!e)return;
-  openForm('Email: '+e.Name,`
-    <div class="ts" style="margin-bottom:14px">${esc(e.Email)}</div>
-    <div class="field"><label>Subject</label><input id="emSub" placeholder="Subject"></div>
-    <div class="field"><label>Message</label><textarea id="emBody" placeholder="Message" style="min-height:110px"></textarea></div>
-    <div class="mc-actionbar"><button class="btn" onclick='sendEmpEmail(${JSON.stringify(id)})'>Send ✉️</button></div>`);}
-function sendEmpEmail(id){const sub=val('emSub'),msg=document.getElementById('emBody').value.trim();
-  if(!sub||!msg)return toast('Subject aur message required.','err');
-  api({action:'emailEmployee',id:id,subject:sub,message:msg}).then(d=>{
-    if(!d.ok)return toast(d.message,'err');closeForm();toast(d.message,'ok');});}
-
-function vHols(){C().innerHTML=`<div class="box"><h4>Holiday Calendar</h4>
-  <div class="row2"><div class="field"><label>Date</label><input id="hDate" type="date"></div>
-    <div class="field"><label>Name</label><input id="hName" placeholder="e.g. Diwali"></div></div>
-  <button class="btn sm" onclick="saveHol()">Add Holiday</button><div id="hList" style="margin-top:16px"></div></div>`;
-  api({action:'listHolidays'}).then(d=>{const hs=(d.holidays||[]).sort((a,b)=>String(a.Date).localeCompare(String(b.Date)));
-    document.getElementById('hList').innerHTML=hs.length?hs.map(h=>`<div class="trow"><div class="tt">${esc(h.Name)}</div>
-      <div class="acts"><span class="badge bg-Deferred">${esc(String(h.Date).slice(0,10))}</span>
-      <button class="btn danger sm" onclick='delHol(${JSON.stringify(String(h.Date).slice(0,10))})'>✕</button></div></div>`).join('')
-      :'<div class="empty">No holidays added.</div>';});}
-function saveHol(){api({action:'saveHoliday',date:val('hDate'),name:val('hName')}).then(d=>{if(!d.ok)return toast(d.message,'err');toast(d.message,'ok');vHols();});}
-function delHol(dt){api({action:'deleteHoliday',date:dt}).then(d=>{toast(d.message,'ok');vHols();});}
-
-function vLeaves(){C().innerHTML=`<div class="box"><h4>Leaves</h4>
-  <div class="field"><label>Employee</label><select id="lvEmp"></select></div>
-  <div class="row2"><div class="field"><label>From</label><input id="lvFrom" type="date"></div>
-    <div class="field"><label>To</label><input id="lvTo" type="date"></div></div>
-  <div class="field"><label>Reason</label><input id="lvReason" placeholder="e.g. Sick leave"></div>
-  <button class="btn sm" onclick="saveLeave()">Mark Leave</button><div id="lvList" style="margin-top:16px"></div></div>`;
-  Promise.all([api({action:'listEmployees'}),api({action:'listLeaves'})]).then(([a,b])=>{
-    EMPS=a.employees||[];const leaves=(b.leaves||[]).sort((x,y)=>String(y.DateFrom).localeCompare(String(x.DateFrom)));
-    const byId={};EMPS.forEach(e=>byId[e.ID]=e.Name);
-    document.getElementById('lvEmp').innerHTML=EMPS.map(e=>`<option value="${esc(e.ID)}">${esc(e.Name)}</option>`).join('');
-    document.getElementById('lvList').innerHTML=leaves.length?leaves.map(l=>`<div class="trow"><div><div class="tt">${esc(byId[l.EmployeeID]||'Unknown')}</div>
-      <div class="ts">${esc(String(l.DateFrom).slice(0,10))} → ${esc(String(l.DateTo).slice(0,10))}${l.Reason?' · '+esc(l.Reason):''}</div></div>
-      <div class="acts"><button class="btn danger sm" onclick='delLeave(${JSON.stringify(l.ID)})'>✕</button></div></div>`).join('')
-      :'<div class="empty">No leaves marked.</div>';});}
-function saveLeave(){const from=val('lvFrom'),to=val('lvTo')||from;
-  if(!val('lvEmp')||!from)return toast('Employee aur From date required.','err');
-  api({action:'saveLeave',leave:{EmployeeID:val('lvEmp'),DateFrom:from,DateTo:to,Reason:val('lvReason')}}).then(d=>{
-    if(!d.ok)return toast(d.message,'err');toast(d.message,'ok');vLeaves();});}
-function delLeave(id){api({action:'deleteLeave',id:id}).then(d=>{toast(d.message,'ok');vLeaves();});}
-
-function vDepts(){C().innerHTML=`<div class="box"><h4>Departments</h4>
-  <div class="field"><label>Name</label><input id="dpName" placeholder="e.g. Accounts"></div>
-  <button class="btn sm" onclick="saveDept()">Add Department</button><div id="dpList" style="margin-top:16px"></div></div>`;
-  api({action:'listDepts'}).then(d=>{DEPTS=d.depts||[];
-    document.getElementById('dpList').innerHTML=DEPTS.length?DEPTS.map(dp=>`<div class="trow"><div class="tt">${esc(dp.Name)}</div>
-      <div class="acts"><button class="btn danger sm" onclick='delDept(${JSON.stringify(dp.ID)})'>✕</button></div></div>`).join('')
-      :'<div class="empty">No departments yet.</div>';});}
-function saveDept(){api({action:'saveDept',dept:{Name:val('dpName')}}).then(d=>{if(!d.ok)return toast(d.message,'err');toast(d.message,'ok');vDepts();});}
-function delDept(id){modalConfirm({title:'Delete department?',message:'Employees in it show "No dept".',danger:true,confirmText:'Delete',onConfirm:()=>api({action:'deleteDept',id:id}).then(d=>{toast(d.message,'ok');vDepts();})});}
-
-let ADMIN_TAB='approvals';
-function vAdmin(){C().innerHTML=`<div class="nav" style="border-bottom:none;padding:0 0 14px">
-    <button id="at_approvals" onclick="adminTab('approvals')">Approvals</button>
-    <button id="at_brain" onclick="adminTab('brain')">SAM Brain</button>
-    <button id="at_unknown" onclick="adminTab('unknown')">Learning Queue</button>
-    <button id="at_audit" onclick="adminTab('audit')">Audit Log</button>
-    <button id="at_diag" onclick="adminTab('diag')">Diagnostics</button>
-  </div><div id="adminBody"></div>`;adminTab(ADMIN_TAB);}
-function adminTab(t){ADMIN_TAB=t;document.querySelectorAll('[id^=at_]').forEach(b=>b.classList.remove('active'));
-  document.getElementById('at_'+t).classList.add('active');({approvals:aApprovals,brain:aBrain,unknown:aUnknown,audit:aAudit,diag:aDiag})[t]();}
-const AB=()=>document.getElementById('adminBody');
-function aApprovals(){Promise.all([api({action:'listEmployees'}),api({action:'listDepts'})]).then(([a,b])=>{
-  EMPS=a.employees||[];DEPTS=b.depts||[];const pend=EMPS.filter(e=>e.Status==='Pending');
-  AB().innerHTML='<div class="box"><h4>Pending Approvals</h4><div id="apList"></div></div>';
-  document.getElementById('apList').innerHTML=pend.length?pend.map(e=>`<div class="trow"><div><div class="tt">${esc(e.Name)}</div><div class="ts">${esc(e.Email)} · ${esc(e.Designation||'')}</div></div>
-    <div class="acts"><button class="btn sm" onclick='openApprove(${JSON.stringify(e.ID)})'>Review</button></div></div>`).join('')
-    :'<div class="empty"><span class="ei">✓</span>No pending signups.</div>';});}
-function openApprove(id){const e=EMPS.filter(x=>x.ID===id)[0];
-  const deptOpts='<option value="">—</option>'+DEPTS.map(d=>`<option value="${esc(d.ID)}">${esc(d.Name)}</option>`).join('');
-  openForm('Approve: '+e.Name,`<div class="ts" style="margin-bottom:14px">${esc(e.Email)} · ${esc(e.Designation||'—')}</div>
-    <div class="row2"><div class="field"><label>Role</label><select id="apRole">${['Employee','Manager','Owner'].map(r=>`<option>${r}</option>`).join('')}</select></div>
-      <div class="field"><label>Department</label><select id="apDept">${deptOpts}</select></div></div>
-    <div class="mc-actionbar"><button class="btn" onclick='doApprove(${JSON.stringify(id)})'>Approve &amp; Notify</button></div>`);}
-function doApprove(id){api({action:'approveEmployee',id:id,role:val('apRole'),departmentId:val('apDept')}).then(d=>{
-  if(!d.ok)return toast(d.message,'err');closeForm();toast(d.message,'ok');aApprovals();});}
-let BRAIN=[];
-function aBrain(){AB().innerHTML=`<div class="box"><h4>SAM Brain <button class="btn sm" onclick="openBrainForm()">+ Teach SAM</button></h4>
-  <div class="ts" style="margin-bottom:12px">Har entry = ek cheez jo SAM jaanta hai. 👍/👎 aur usage ranking tune karte hain.</div><div id="brList"></div></div>`;
-  api({action:'brainList'}).then(d=>{BRAIN=d.brain||[];
-    document.getElementById('brList').innerHTML=BRAIN.length?BRAIN.map(b=>`<div class="trow"><div>
-      <div class="tt">${esc(b.Question||'(keywords only)')}</div>
-      <div class="ts">🔑 ${esc(b.Keywords)} · Uses ${esc(b.Uses||0)} · Score ${esc(b.Score||0)}</div>
-      <div class="ts" style="color:var(--txt);opacity:.8">↳ ${esc(String(b.Answer).slice(0,120))}${String(b.Answer).length>120?'…':''}</div></div>
-      <div class="acts"><button class="btn ghost sm" onclick='openBrainForm(${JSON.stringify(b.ID)})'>Edit</button>
-      <button class="btn danger sm" onclick='delBrain(${JSON.stringify(b.ID)})'>✕</button></div></div>`).join('')
-      :'<div class="empty"><span class="ei">🧠</span>Brain empty. Teach SAM something.</div>';});}
-function openBrainForm(id){const b=id?BRAIN.filter(x=>x.ID===id)[0]:null;
-  openForm(b?'Edit Brain Entry':'Teach SAM',`
-    <div class="field"><label>Question (example phrasing)</label><input id="brQ" value="${b?esc(b.Question):''}" placeholder="e.g. How do I claim travel expense?"></div>
-    <div class="field"><label>Keywords (comma sep — Hinglish daalo!)</label><input id="brK" value="${b?esc(b.Keywords):''}" placeholder="travel,expense,claim,kharcha,bill"></div>
-    <div class="field"><label>Answer</label><textarea id="brA" placeholder="Exact answer SAM should give">${b?esc(b.Answer):''}</textarea></div>
-    <div class="mc-actionbar"><button class="btn" onclick='saveBrain(${JSON.stringify(id||"")})'>Save to Brain 🧠</button></div>`);}
-function saveBrain(id){api({action:'brainSave',entry:{ID:id||undefined,Question:val('brQ'),Keywords:val('brK'),Answer:document.getElementById('brA').value.trim()}}).then(d=>{
-  if(!d.ok)return toast(d.message,'err');closeForm();toast(d.message,'ok');aBrain();});}
-function delBrain(id){api({action:'brainDelete',id:id}).then(d=>{toast(d.message,'ok');aBrain();});}
-let UNK=[];
-function aUnknown(){AB().innerHTML=`<div class="box"><h4>SAM Learning Queue</h4>
-  <div class="ts" style="margin-bottom:12px">Jo SAM nahi jaanta. Train karo → agli baar answer. Zyada count = pehle train.</div><div id="uqList"></div></div>`;
-  api({action:'unknownList'}).then(d=>{UNK=(d.unknown||[]).filter(u=>u.Status==='Open').sort((a,b)=>Number(b.Count||0)-Number(a.Count||0));
-    document.getElementById('uqList').innerHTML=UNK.length?UNK.map(u=>`<div class="trow"><div><div class="tt">"${esc(u.Query)}"</div><div class="ts">Asked ${esc(u.Count)}× · last ${esc(u.LastAsked)}</div></div>
-      <div class="acts"><button class="btn sm" onclick='openTrain(${JSON.stringify(u.ID)})'>Train</button></div></div>`).join('')
-      :'<div class="empty"><span class="ei">🧠</span>Queue clear — SAM knows everything asked so far.</div>';});}
-function openTrain(id){const u=UNK.filter(x=>x.ID===id)[0];
-  const kwGuess=String(u.Query).toLowerCase().replace(/[^a-z0-9\u0900-\u097F\s]/g,' ').split(/\s+/).filter(w=>w.length>2).join(',');
-  openForm('Train SAM',`<div class="ts" style="margin-bottom:14px">Question: <b style="color:var(--txt)">"${esc(u.Query)}"</b></div>
-    <div class="field"><label>Keywords</label><input id="tnK" value="${esc(kwGuess)}"></div>
-    <div class="field"><label>Answer</label><textarea id="tnA" placeholder="What should SAM reply?"></textarea></div>
-    <div class="mc-actionbar"><button class="btn" onclick='doTrain(${JSON.stringify(id)})'>Train SAM 🧠</button></div>`);}
-function doTrain(id){api({action:'trainUnknown',id:id,keywords:val('tnK'),answer:document.getElementById('tnA').value.trim()}).then(d=>{
-  if(!d.ok)return toast(d.message,'err');closeForm();toast(d.message,'ok');aUnknown();});}
-function aAudit(){AB().innerHTML='<div class="box"><h4>Audit Log — latest 300</h4><div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Time</th><th>Who</th><th>Action</th><th>Details</th></tr></thead><tbody id="auB"></tbody></table></div></div>';
-  api({action:'auditList'}).then(d=>{document.getElementById('auB').innerHTML=(d.audit||[]).map(a=>`<tr><td>${esc(a.Time)}</td><td>${esc(a.EmployeeID)}</td><td><span class="badge bg-Pending">${esc(a.Action)}</span></td><td>${esc(a.Details)}</td></tr>`).join('');});}
-
-function aDiag(){AB().innerHTML='<div class="box"><h4>Diagnostics <button class="btn sm" onclick="aDiag()">↻ Re-run</button></h4><div class="ts" style="margin-bottom:12px">Sheets, columns aur triggers ka live status.</div><pre id="diagOut" style="white-space:pre-wrap;font-family:monospace;font-size:13px;background:var(--inp);border:1px solid var(--brd);border-radius:11px;padding:14px">Checking…</pre></div>';
-  api({action:'checkSetup'}).then(d=>{document.getElementById('diagOut').textContent=d.ok?d.report:('Error: '+d.message);});}
-
-let chatOpen=false;
-function toggleChat(){chatOpen=!chatOpen;document.getElementById('chatp').classList.toggle('show',chatOpen);
-  if(chatOpen&&!document.getElementById('chatm').children.length)
-    botSay("Namaste "+(ME?ME.Name.split(' ')[0]:'')+"! 👋 Main SAM. Tasks, holidays, team — kuch bhi pucho. Jo nahi aata, wo main seekh leta hun.");}
-function quickAsk(q){document.getElementById('chatIn').value=q;sendChat();}
-function sendChat(){const inp=document.getElementById('chatIn');const q=inp.value.trim();if(!q)return;
-  inp.value='';userSay(q);const typing=botSay('…');
-  apiS({action:'chat',message:q}).then(d=>{typing.remove();
-    if(!d.ok){botSay(API_SET?'Something went wrong. Try again.':'Backend connect nahi hai. index.html me GAS URL daalo.');return;}
-    const m=botSay(d.reply);
-    if(d.source==='brain'&&d.brainId){const fb=document.createElement('div');fb.className='fb';
-      fb.innerHTML='<span title="Helpful">👍</span><span title="Wrong">👎</span>';
-      fb.children[0].onclick=()=>{apiS({action:'chatFeedback',brainId:d.brainId,up:true});fb.innerHTML='<span style="font-size:11px;color:var(--ok)">Thanks — noted ✓</span>';};
-      fb.children[1].onclick=()=>{apiS({action:'chatFeedback',brainId:d.brainId,up:false});fb.innerHTML='<span style="font-size:11px;color:var(--muted)">Noted — trainer will review</span>';};
-      m.appendChild(fb);}
-    if(d.source==='unknown')m.style.borderColor='rgba(255,181,71,.4)';});}
-function userSay(t){const m=document.createElement('div');m.className='msg u';m.textContent=t;push_(m);return m;}
-function botSay(t){const m=document.createElement('div');m.className='msg b';m.textContent=t;push_(m);return m;}
-function push_(m){const c=document.getElementById('chatm');c.appendChild(m);c.scrollTop=c.scrollHeight;}
-
-(function(){
-  if(!API_SET){
-    const b=document.getElementById('cfgbar');
-    document.getElementById('authView').classList.remove('hidden');
-    b.className='cfgbar';b.style.position='fixed';b.style.top='0';b.style.left='0';b.style.right='0';b.style.zIndex='6';
-    b.innerHTML='🔌 <b>Backend not connected.</b> index.html me GAS URL daalo (script ke top me API constant).';
-    document.body.appendChild(b);
-    return;
+async function api(action, payload, silent){
+  if(!apiUrlOk(API)){
+    if(!silent) toast('API URL not set. Go to Settings → paste your web app URL.', 'err');
+    return {ok:false, error:'NO_API'};
   }
-  if(!tGet())return;
-  api({action:'me'}).then(d=>{if(d.ok){ME=d.me;enterApp();}else{tClr();}}).catch(()=>{});
-})();
+  try{
+    const res = await fetch(API, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify(Object.assign({action, token:SESSION.token}, payload||{}))});
+    const raw = await res.text();
+    let data;
+    try{ data = JSON.parse(raw); }
+    catch(parseErr){
+      if(!silent) toast('Backend sent back something unexpected. In Apps Script → Deploy → Manage deployments, check Access is set to "Anyone".', 'err');
+      return {ok:false, error:'BAD_RESPONSE'};
+    }
+    if(data && data.error==='AUTH'){ hardLogout(); toast('Session expired — please log in again.','err'); }
+    return data;
+  }catch(err){
+    if(!silent) toast('Network error. Check internet / API URL.', 'err');
+    return {ok:false, error:String(err)};
+  }
+}
+
+async function checkConnection(){
+  const b = document.getElementById('connBanner');
+  if(!apiUrlOk(API)){
+    b.className='err'; b.style.display='block';
+    b.innerHTML = '⚠️ API URL not set. <a onclick="promptApiUrl()" style="cursor:pointer;text-decoration:underline;">Set URL</a>';
+    return false;
+  }
+  const r = await api('__ping', {}, true);
+  if(r && r.ok){ b.className='ok'; b.style.display='block'; b.innerHTML='✅ Connected'; setTimeout(()=>b.style.display='none', 2000); return true; }
+  b.className='err'; b.style.display='block';
+  b.innerHTML = '⚠️ Cannot reach backend. <a onclick="promptApiUrl()" style="cursor:pointer;text-decoration:underline;">Set URL</a>';
+  return false;
+}
+function promptApiUrl(){
+  const u = prompt('Paste your PWRS web app /exec URL:', API==='PASTE_YOUR_WEB_APP_EXEC_URL_HERE'?'':API);
+  if(u){ localStorage.setItem('pwrs_api', u.trim()); API=u.trim(); location.reload(); }
+}
+
+/*************************************************************
+ * BOOT
+ *************************************************************/
+window.addEventListener('DOMContentLoaded', boot);
+async function boot(){
+  await checkConnection();
+  if(SESSION.token){
+    const r = await api('whoami', {}, true);
+    if(r && r.ok){ SESSION.user = r.user; await afterLogin(); return; }
+  }
+  showLogin();
+}
+function showLogin(){ document.getElementById('authView').style.display='flex'; document.getElementById('appShell').style.display='none'; }
+function showForgot(){ document.getElementById('loginBox').classList.add('hidden'); document.getElementById('forgotBox').classList.remove('hidden'); }
+function showLoginBack(){ document.getElementById('forgotBox').classList.add('hidden'); document.getElementById('loginBox').classList.remove('hidden'); }
+
+async function afterLogin(){
+  document.getElementById('authView').style.display='none';
+  document.getElementById('appShell').style.display='flex';
+  buildNav();
+  const meta = await api('getMeta', {}, true);
+  if(meta && meta.ok) STATE.meta = meta.meta;
+  await Promise.all([loadTasks(), loadArchived(), loadSettings(), loadActivity()]);
+  go('dashboard');
+  startNotificationPolling();
+  runDeepLink();
+}
+
+/*************************************************************
+ * AUTH ACTIONS
+ *************************************************************/
+async function doLogin(){
+  const email=document.getElementById('li_email').value.trim();
+  const pass=document.getElementById('li_pass').value;
+  if(!email||!pass) return toast('Enter email & password','err');
+  const r = await api('login', {email,password:pass});
+  if(r.ok){ SESSION.token=r.token; SESSION.user=r.user; localStorage.setItem('pwrs_token', r.token); toast('Welcome, '+r.user.name+'! ⚡','ok'); await afterLogin(); }
+  else toast(r.error||'Login failed','err');
+}
+async function doSendOtp(){
+  const email=document.getElementById('fg_email').value.trim();
+  if(!email) return toast('Enter your email','err');
+  await api('forgotPassword', {email});
+  toast('If that email exists, a code was sent. 📩','ok');
+  document.getElementById('fg_step2').classList.remove('hidden');
+}
+async function doResetPassword(){
+  const email=document.getElementById('fg_email').value.trim();
+  const otp=document.getElementById('fg_otp').value.trim();
+  const newPassword=document.getElementById('fg_newpass').value;
+  const r = await api('resetPassword', {email,otp,newPassword});
+  if(r.ok){ toast('Password reset. Please log in. ✅','ok'); showLoginBack(); }
+  else toast(r.error||'Reset failed','err');
+}
+async function doLogout(){ await api('logout', {}); hardLogout(); }
+function hardLogout(){ localStorage.removeItem('pwrs_token'); SESSION.token=''; SESSION.user=null; stopNotificationPolling(); location.reload(); }
+
+/*************************************************************
+ * NAV
+ *************************************************************/
+const PAGES = [
+  {key:'dashboard', label:'Dashboard'},
+  {key:'tasks', label:'Tasks'},
+  {key:'calendar', label:'Calendar'},
+  {key:'analytics', label:'Analytics'},
+  {key:'archive', label:'Archive'},
+  {key:'settings', label:'Settings'}
+];
+function buildNav(){
+  document.getElementById('navRow').innerHTML = PAGES.map(p=>
+    `<button class="nav-pill" id="nav_${p.key}" onclick="go('${p.key}')">${p.label}</button>`).join('');
+}
+function go(page){
+  STATE.page = page;
+  PAGES.forEach(p=>document.getElementById('nav_'+p.key).classList.toggle('active', p.key===page));
+  const host = document.getElementById('pageHost');
+  if(page==='dashboard') host.innerHTML = renderDashboard();
+  else if(page==='tasks') host.innerHTML = renderTasksPage();
+  else if(page==='calendar') { host.innerHTML = renderCalendarPage(); renderCalGrid(); }
+  else if(page==='analytics') renderAnalyticsPage();
+  else if(page==='archive') host.innerHTML = renderArchivePage();
+  else if(page==='settings') renderSettingsPage();
+  if(page==='tasks') wireTaskFilters();
+  startCountdowns();
+}
+
+/*************************************************************
+ * DATA LOADERS
+ *************************************************************/
+async function loadTasks(){ const r = await api('listTasks', {archived:false}, true); if(r.ok) STATE.tasks = r.tasks; }
+async function loadArchived(){ const r = await api('listTasks', {archived:true}, true); if(r.ok) STATE.archived = r.tasks; }
+async function loadSettings(){ const r = await api('getSettings', {}, true); if(r.ok) STATE.settings = r.settings; }
+async function loadActivity(){ const r = await api('listActivity', {limit:12}, true); if(r.ok) STATE.activity = r.activity; }
+
+function isOpenStatus(s){ return s==='Pending'||s==='In Progress'||s==='On Hold'; }
+function isOverdue(t){ return isOpenStatus(t.status) && new Date(t.due_date+'T'+(t.due_time||'23:59')) < new Date(); }
+function fmtDT(t){ return t.due_date+' · '+t.due_time; }
+function todayISO(){ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
+/*************************************************************
+ * DASHBOARD
+ *************************************************************/
+function renderDashboard(){
+  const t = STATE.tasks;
+  const today = todayISO();
+  const cToday = t.filter(x=>x.due_date===today && isOpenStatus(x.status)).length;
+  const cCritical = t.filter(x=>x.priority==='Critical' && isOpenStatus(x.status)).length;
+  const cPending = t.filter(x=>isOpenStatus(x.status)).length;
+  const cCompleted = t.filter(x=>x.status==='Completed').length;
+  const cOverdue = t.filter(isOverdue).length;
+  const cUpcoming = t.filter(x=>isOpenStatus(x.status) && x.due_date>today).length;
+
+  const upcoming = t.filter(x=>isOpenStatus(x.status)).sort((a,b)=> new Date(a.due_date+'T'+a.due_time) - new Date(b.due_date+'T'+b.due_time)).slice(0,6);
+
+  return `
+  <div class="between">
+    <h2>Dashboard</h2>
+    <button class="btn btn-primary btn-sm" onclick="openTaskModal(null)">+ New Task ⚡</button>
+  </div>
+  <div class="stat-grid" style="margin-top:16px;">
+    ${statCard(cToday,'Today','var(--accent)')}
+    ${statCard(cCritical,'Critical','var(--err)')}
+    ${statCard(cPending,'Pending','var(--warn)')}
+    ${statCard(cCompleted,'Completed','var(--ok)')}
+    ${statCard(cUpcoming,'Upcoming','var(--accent2)')}
+    ${statCard(cOverdue,'Overdue','var(--err)')}
+  </div>
+  <div class="sec-head"><h2>Upcoming Deadlines</h2><a style="cursor:pointer;font-size:12.5px;" onclick="go('tasks')">View all →</a></div>
+  <div>${upcoming.length? upcoming.map(taskCard).join('') : emptyState('🎉','All clear. Nothing is waiting on you.')}</div>
+  <div class="sec-head"><h2>Recent Activity</h2></div>
+  <div class="card" style="padding:16px;">
+    ${STATE.activity.length ? STATE.activity.map(a=>`<div style="font-size:12.5px;padding:7px 0;border-bottom:1px solid var(--brd);"><span class="muted">${new Date(a.ts).toLocaleString()}</span> — ${esc(a.detail)}</div>`).join('') : '<div class="muted" style="font-size:13px;">Nothing yet.</div>'}
+  </div>`;
+}
+function statCard(num,label,color){
+  return `<div class="stat-card" onclick="go('tasks')"><div class="stat-num" style="color:${color}">${num}</div><div class="stat-label">${label}</div><div class="stat-bar" style="background:${color}"></div></div>`;
+}
+function emptyState(emoji,msg){ return `<div class="empty-state"><div class="em">${emoji}</div>${msg}</div>`; }
+
+/*************************************************************
+ * TASK CARD + LIST + FILTERS
+ *************************************************************/
+function taskCard(t){
+  const overdue = isOverdue(t);
+  const statusKey = overdue ? 'Overdue' : t.status.replace(' ','');
+  const due = new Date(t.due_date+'T'+t.due_time);
+  return `
+  <div class="fcard p-${t.priority}">
+    <div class="icon-tile">${priorityEmoji(t.priority)}</div>
+    <div class="fcard-body">
+      <div class="fcard-title">${esc(t.title)}</div>
+      <div class="fcard-meta">📁 ${esc(t.category)} · 📅 ${t.due_date} ⏰ ${t.due_time} ${t.repeat!=='None'?' · 🔁 '+t.repeat:''}</div>
+      <div class="fcard-meta" data-deadline="${due.toISOString()}" data-status="${t.status}"></div>
+      <div class="row" style="margin-top:6px;">
+        <span class="badge badge-${statusKey}">${overdue?'Overdue':t.status}</span>
+        <span class="badge" style="background:rgba(255,255,255,.06);color:var(--muted);"><span class="dot dot-${t.priority}"></span>${t.priority}</span>
+      </div>
+    </div>
+    <div class="fcard-actions">
+      ${isOpenStatus(t.status) ? `<button class="btn btn-primary btn-sm" onclick="completeTask('${t.id}')">Mark Done ✅</button>` : ''}
+      <button class="btn btn-ghost btn-sm" onclick="openTaskModal('${t.id}')">Edit ✏️</button>
+    </div>
+  </div>`;
+}
+function priorityEmoji(p){ return {Critical:'🔥',High:'⚠️',Medium:'📌',Low:'🍃'}[p]||'📌'; }
+
+function renderTasksPage(){
+  const cats = [...new Set(STATE.tasks.map(t=>t.category).filter(Boolean))];
+  return `
+  <div class="between"><h2>Tasks</h2><button class="btn btn-primary btn-sm" onclick="openTaskModal(null)">+ New Task ⚡</button></div>
+  <div class="row" style="margin:14px 0;">
+    <input type="text" id="tk_search" placeholder="🔍 Search tasks…" style="max-width:240px;" oninput="renderTaskList()">
+    <select id="tk_filter" style="max-width:160px;" onchange="renderTaskList()">
+      <option value="all">All</option><option value="today">Today</option><option value="tomorrow">Tomorrow</option>
+      <option value="week">This Week</option><option value="month">This Month</option><option value="overdue">Overdue</option>
+      <option value="pending">Pending</option><option value="completed">Completed</option><option value="upcoming">Upcoming</option>
+    </select>
+    <select id="tk_priority" style="max-width:140px;" onchange="renderTaskList()">
+      <option value="">Any Priority</option>${STATE.meta.priorities.map(p=>`<option>${p}</option>`).join('')}
+    </select>
+    <select id="tk_category" style="max-width:150px;" onchange="renderTaskList()">
+      <option value="">Any Category</option>${cats.map(c=>`<option>${esc(c)}</option>`).join('')}
+    </select>
+    <button class="btn btn-ghost btn-sm" onclick="exportCSV()">⬇ CSV</button>
+    <button class="btn btn-ghost btn-sm" onclick="exportExcel()">⬇ Excel</button>
+    <button class="btn btn-ghost btn-sm" onclick="exportPDF()">⬇ PDF</button>
+  </div>
+  <div id="taskListWrap"></div>`;
+}
+function wireTaskFilters(){ renderTaskList(); }
+function renderTaskList(){
+  const q = (document.getElementById('tk_search')?.value||'').toLowerCase();
+  const f = document.getElementById('tk_filter')?.value||'all';
+  const pr = document.getElementById('tk_priority')?.value||'';
+  const cat = document.getElementById('tk_category')?.value||'';
+  const today = todayISO();
+  const now = new Date();
+  const weekEnd = new Date(); weekEnd.setDate(weekEnd.getDate()+7);
+  const monthEnd = new Date(now.getFullYear(), now.getMonth()+1, 0);
+
+  let list = STATE.tasks.filter(t=>{
+    if(q && !t.title.toLowerCase().includes(q) && !(t.category||'').toLowerCase().includes(q) && !(t.description||'').toLowerCase().includes(q)) return false;
+    if(pr && t.priority!==pr) return false;
+    if(cat && t.category!==cat) return false;
+    const due = new Date(t.due_date+'T'+t.due_time);
+    if(f==='today') return t.due_date===today;
+    if(f==='tomorrow'){ const tm=new Date(); tm.setDate(tm.getDate()+1); return t.due_date===todayISOFrom(tm); }
+    if(f==='week') return due<=weekEnd && due>=now && isOpenStatus(t.status);
+    if(f==='month') return due<=monthEnd && isOpenStatus(t.status);
+    if(f==='overdue') return isOverdue(t);
+    if(f==='pending') return isOpenStatus(t.status);
+    if(f==='completed') return t.status==='Completed';
+    if(f==='upcoming') return isOpenStatus(t.status) && due>=now;
+    return true;
+  });
+  list.sort((a,b)=> new Date(a.due_date+'T'+a.due_time) - new Date(b.due_date+'T'+b.due_time));
+  document.getElementById('taskListWrap').innerHTML = list.length ? list.map(taskCard).join('') : emptyState('🗒️','Nothing here yet. Spin up your first task.');
+  startCountdowns();
+}
+function todayISOFrom(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
+/*************************************************************
+ * TASK ACTIONS
+ *************************************************************/
+async function completeTask(id){
+  const r = await api('completeTask', {id});
+  if(r.ok){ toast('Crushed it ✅','ok'); await loadTasks(); go(STATE.page); }
+  else toast(r.error||'Failed','err');
+}
+async function setStatus(id,status){
+  const r = await api('setStatus', {id,status});
+  if(r.ok){ toast('Status → '+status,'ok'); await loadTasks(); go(STATE.page); }
+  else toast(r.error||'Failed','err');
+}
+async function archiveTask(id){
+  const r = await api('archiveTask', {id});
+  if(r.ok){ toast('Archived 📦','ok'); await Promise.all([loadTasks(),loadArchived()]); go(STATE.page); }
+}
+async function restoreTask(id){
+  const r = await api('restoreTask', {id});
+  if(r.ok){ toast('Restored ✅','ok'); await Promise.all([loadTasks(),loadArchived()]); go(STATE.page); }
+}
+function deletePermanent(id){
+  confirmDialog('Delete this task permanently? This cannot be undone.', async ()=>{
+    const r = await api('deleteTaskPermanent', {id, confirm:true});
+    if(r.ok){ toast('Deleted','ok'); await loadArchived(); go(STATE.page); }
+  });
+}
+
+/*************************************************************
+ * TASK MODAL (create / edit)
+ *************************************************************/
+async function openTaskModal(id){
+  STATE.curEditId = id;
+  STATE.customRems = [];
+  let task = null, reminders = [];
+  if(id){
+    const r = await api('getTask', {id});
+    if(!r.ok) return toast('Could not load task','err');
+    task = r.task; reminders = r.reminders||[];
+  }
+  const defaults = safeJSON(STATE.settings.reminder_defaults, ['1d','2h','30m']);
+  const selectedOffsets = new Set();
+  reminders.filter(r=>!r.email_sent).forEach(r=>{
+    const def = STATE.meta.reminderOffsets.find(o=>o.label===r.label);
+    if(def) selectedOffsets.add(def.key);
+    else if(r.label==='Custom Reminder') STATE.customRems.push(r.fire_at);
+  });
+  if(!id) defaults.forEach(k=>selectedOffsets.add(k));
+
+  const cats = [...new Set(STATE.tasks.map(t=>t.category).filter(Boolean))];
+  document.getElementById('modalHost').innerHTML = `
+  <div class="modal-bg" onclick="if(event.target===this) closeModal()">
+    <div class="modal-card">
+      <div class="modal-head"><h3>${id?'Edit Task ✏️':'New Task ⚡'}</h3><button class="x-close" onclick="closeModal()">✕</button></div>
+      <div class="modal-body">
+        <label>Title *</label>
+        <input id="tf_title" value="${esc(task?.title||'')}" placeholder="e.g. GST Return">
+        <label>Description</label>
+        <textarea id="tf_desc" placeholder="Details…">${esc(task?.description||'')}</textarea>
+        <div class="g2">
+          <div><label>Category</label><input id="tf_cat" list="catList" value="${esc(task?.category||'General')}"><datalist id="catList">${cats.map(c=>`<option value="${esc(c)}">`).join('')}</datalist></div>
+          <div><label>Priority</label><select id="tf_priority">${STATE.meta.priorities.map(p=>`<option ${task?.priority===p?'selected':''}>${p}</option>`).join('')}</select></div>
+        </div>
+        <div class="g2">
+          <div><label>Due Date *</label><input type="date" id="tf_date" value="${task?.due_date||todayISO()}"></div>
+          <div><label>Due Time</label><input type="time" id="tf_time" value="${task?.due_time||'18:00'}"></div>
+        </div>
+        <div class="g2">
+          <div><label>Status</label><select id="tf_status">${STATE.meta.statuses.map(s=>`<option ${task?.status===s?'selected':''}>${s}</option>`).join('')}</select></div>
+          <div><label>Est. Minutes</label><input type="number" id="tf_est" value="${task?.est_minutes||''}" placeholder="30"></div>
+        </div>
+        <div class="g2">
+          <div><label>Repeat</label><select id="tf_repeat" onchange="toggleCustomRepeat()">${STATE.meta.repeats.map(r=>`<option ${task?.repeat===r?'selected':''}>${r}</option>`).join('')}</select></div>
+          <div id="tf_repeat_int_wrap" class="${task?.repeat==='Custom'?'':'hidden'}"><label>Every N Days</label><input type="number" id="tf_repeat_int" value="${task?.repeat_interval||''}" placeholder="e.g. 10"></div>
+        </div>
+        <label>Notes</label>
+        <textarea id="tf_notes" placeholder="Anything else…">${esc(task?.notes||'')}</textarea>
+
+        <label>Reminders</label>
+        <div class="chip-row" id="tf_offsets">
+          ${STATE.meta.reminderOffsets.map(o=>`<label class="chip-check"><input type="checkbox" value="${o.key}" ${selectedOffsets.has(o.key)?'checked':''}> ${o.label}</label>`).join('')}
+        </div>
+        <div id="customRemWrap" style="margin-top:10px;"></div>
+        <button class="btn btn-ghost btn-sm" style="margin-top:8px;" onclick="addCustomRem()">+ Add Custom Reminder</button>
+
+        ${id ? `<label>Attachments</label><div id="attWrap">${renderAttachments(task.attachments||[])}</div>
+          <input type="file" id="tf_file" class="hidden" onchange="uploadAttachment('${id}')">
+          <button class="btn btn-ghost btn-sm" style="margin-top:8px;" onclick="document.getElementById('tf_file').click()">📎 Add File</button>`
+          : `<p class="muted" style="font-size:12px;margin-top:14px;">Save the task first to attach files.</p>`}
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveTaskForm()">Save Task 💾</button>
+      </div>
+    </div>
+  </div>`;
+  renderCustomRems();
+}
+function toggleCustomRepeat(){
+  document.getElementById('tf_repeat_int_wrap').classList.toggle('hidden', document.getElementById('tf_repeat').value!=='Custom');
+}
+function renderAttachments(list){
+  if(!list.length) return '<div class="muted" style="font-size:12.5px;">No files yet.</div>';
+  return list.map(a=>`<div class="att-row"><a href="${a.url}" target="_blank">📄 ${esc(a.name)}</a><span class="muted">${Math.round(a.size/1024)} KB</span></div>`).join('');
+}
+function addCustomRem(){
+  const d=new Date(Date.now()+3600000);
+  const pad=n=>String(n).padStart(2,'0');
+  const local = d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes());
+  STATE.customRems.push(new Date(local).toISOString());
+  renderCustomRems();
+}
+function removeCustomRem(i){ STATE.customRems.splice(i,1); renderCustomRems(); }
+function renderCustomRems(){
+  const wrap = document.getElementById('customRemWrap');
+  wrap.innerHTML = STATE.customRems.map((iso,i)=>{
+    const d=new Date(iso); const pad=n=>String(n).padStart(2,'0');
+    const val = d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes());
+    return `<div class="rem-row"><input type="datetime-local" value="${val}" onchange="STATE.customRems[${i}]=new Date(this.value).toISOString()"><button class="btn btn-ghost btn-sm" onclick="removeCustomRem(${i})">✕</button></div>`;
+  }).join('');
+}
+async function saveTaskForm(){
+  const title = document.getElementById('tf_title').value.trim();
+  const due_date = document.getElementById('tf_date').value;
+  if(!title) return toast('Title required','err');
+  if(!due_date) return toast('Due date required','err');
+  const task = {
+    id: STATE.curEditId||undefined,
+    title, description:document.getElementById('tf_desc').value,
+    category:document.getElementById('tf_cat').value||'General',
+    priority:document.getElementById('tf_priority').value,
+    due_date, due_time:document.getElementById('tf_time').value||'23:59',
+    status:document.getElementById('tf_status').value,
+    repeat:document.getElementById('tf_repeat').value,
+    repeat_interval:document.getElementById('tf_repeat_int')?.value||'',
+    est_minutes:document.getElementById('tf_est').value,
+    notes:document.getElementById('tf_notes').value
+  };
+  const reminderOffsets = [...document.querySelectorAll('#tf_offsets input:checked')].map(i=>i.value);
+  const r = await api('saveTask', {task, reminderOffsets, customReminders: STATE.customRems});
+  if(r.ok){ toast('Saved 💾','ok'); closeModal(); await loadTasks(); go(STATE.page); }
+  else toast(r.error||'Save failed','err');
+}
+async function uploadAttachment(taskId){
+  const file = document.getElementById('tf_file').files[0];
+  if(!file) return;
+  if(file.size > 5*1024*1024) return toast('Max file size is 5MB','err');
+  const reader = new FileReader();
+  reader.onload = async ()=>{
+    const base64 = reader.result.split(',')[1];
+    toast('Uploading… ⏳','ok');
+    const r = await api('uploadAttachment', {taskId, base64, fileName:file.name, mimeType:file.type});
+    if(r.ok){ toast('File attached 📎','ok'); openTaskModal(taskId); }
+    else toast(r.error||'Upload failed','err');
+  };
+  reader.readAsDataURL(file);
+}
+function closeModal(){ document.getElementById('modalHost').innerHTML=''; }
+
+/*************************************************************
+ * CALENDAR
+ *************************************************************/
+function renderCalendarPage(){
+  return `
+  <div class="between">
+    <h2>Calendar</h2>
+    <div class="row">
+      <button class="btn btn-ghost btn-sm" onclick="calNav(-1)">←</button>
+      <div id="calLabel" style="font-weight:700;min-width:130px;text-align:center;"></div>
+      <button class="btn btn-ghost btn-sm" onclick="calNav(1)">→</button>
+    </div>
+  </div>
+  <div class="card" style="padding:16px;margin-top:14px;">
+    <div class="cal-grid" id="calDows">${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d=>`<div class="cal-dow">${d}</div>`).join('')}</div>
+    <div class="cal-grid" id="calGrid" style="margin-top:6px;"></div>
+  </div>`;
+}
+function calNav(dir){ STATE.calMonth.setMonth(STATE.calMonth.getMonth()+dir); renderCalGrid(); }
+function renderCalGrid(){
+  const m = STATE.calMonth;
+  document.getElementById('calLabel').textContent = m.toLocaleString('en-US',{month:'long',year:'numeric'});
+  const first = new Date(m.getFullYear(), m.getMonth(), 1);
+  const startDow = first.getDay();
+  const daysInMonth = new Date(m.getFullYear(), m.getMonth()+1, 0).getDate();
+  const today = todayISO();
+  let html='';
+  for(let i=0;i<startDow;i++) html += '<div class="cal-day empty"></div>';
+  for(let d=1; d<=daysInMonth; d++){
+    const iso = m.getFullYear()+'-'+String(m.getMonth()+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    const items = STATE.tasks.filter(t=>t.due_date===iso);
+    html += `<div class="cal-day ${iso===today?'today':''}" onclick="dayClick('${iso}')">
+      <div class="cal-daynum">${d}</div>
+      ${items.slice(0,3).map(t=>`<div class="cal-item"><span class="dot dot-${t.priority}"></span>${esc(t.title)}</div>`).join('')}
+      ${items.length>3?`<div class="cal-item muted">+${items.length-3} more</div>`:''}
+    </div>`;
+  }
+  document.getElementById('calGrid').innerHTML = html;
+}
+function dayClick(iso){
+  const items = STATE.tasks.filter(t=>t.due_date===iso);
+  if(!items.length) return toast('No tasks on '+iso,'ok');
+  if(items.length===1) return openTaskModal(items[0].id);
+  document.getElementById('pageHost').innerHTML = `<div class="between"><h2>${iso}</h2><button class="btn btn-ghost btn-sm" onclick="go('calendar')">← Back</button></div>` + items.map(taskCard).join('');
+  startCountdowns();
+}
+/*************************************************************
+ * ANALYTICS
+ *************************************************************/
+async function renderAnalyticsPage(){
+  const host = document.getElementById('pageHost');
+  host.innerHTML = '<h2>Analytics</h2><p class="muted">Crunching numbers…</p>';
+  const r = await api('getAnalytics', {});
+  if(!r.ok){ host.innerHTML='<h2>Analytics</h2><p class="muted">Could not load.</p>'; return; }
+  const a = r.analytics;
+  const months = Object.keys(a.byMonth).sort();
+  const maxV = Math.max(1, ...Object.values(a.byMonth));
+  host.innerHTML = `
+  <h2>Analytics</h2>
+  <div class="stat-grid" style="margin-top:16px;">
+    ${statCard(a.total,'Total Open','var(--accent)')}
+    ${statCard(a.pending,'Pending','var(--warn)')}
+    ${statCard(a.overdue,'Overdue','var(--err)')}
+    ${statCard(a.completedEvents,'Completed (all-time)','var(--ok)')}
+    ${statCard(a.completionPct+'%','Completion Rate','var(--accent2)')}
+    ${statCard(a.avgCompletionHours+'h','Avg. Completion Time','var(--accent)')}
+  </div>
+  <div class="sec-head"><h2>Tasks by Month ${a.busiestMonth?('· busiest: '+a.busiestMonth):''}</h2></div>
+  <div class="card" style="padding:16px;">
+    ${months.length? months.map(m=>`<div class="bar-row"><div class="bar-label">${m}</div><div class="bar-track"><div class="bar-fill" style="width:${(a.byMonth[m]/maxV*100)}%"></div></div><div>${a.byMonth[m]}</div></div>`).join('') : '<div class="muted">No data yet.</div>'}
+  </div>
+  <div class="sec-head"><h2>Upcoming Deadlines</h2></div>
+  <div>${a.upcoming.length? a.upcoming.map(taskCard).join('') : emptyState('🎉','Nothing on the horizon.')}</div>`;
+  startCountdowns();
+}
+
+/*************************************************************
+ * ARCHIVE
+ *************************************************************/
+function renderArchivePage(){
+  return `<h2>Archive</h2><p class="muted" style="font-size:13px;">Completed tasks move here automatically after ${esc(STATE.settings.auto_archive_days||'30')} days. Nothing is ever deleted unless you confirm.</p>
+  <div style="margin-top:14px;">${STATE.archived.length ? STATE.archived.map(archiveCard).join('') : emptyState('📦','Archive is empty.')}</div>`;
+}
+function archiveCard(t){
+  return `<div class="fcard p-${t.priority}">
+    <div class="icon-tile">${priorityEmoji(t.priority)}</div>
+    <div class="fcard-body"><div class="fcard-title">${esc(t.title)}</div><div class="fcard-meta">📅 ${t.due_date} ⏰ ${t.due_time} · ${t.status}</div></div>
+    <div class="fcard-actions">
+      <button class="btn btn-ghost btn-sm" onclick="restoreTask('${t.id}')">Restore ↩️</button>
+      <button class="btn btn-danger btn-sm" onclick="deletePermanent('${t.id}')">Delete</button>
+    </div>
+  </div>`;
+}
+
+/*************************************************************
+ * SETTINGS
+ *************************************************************/
+async function renderSettingsPage(){
+  const s = STATE.settings;
+  const defaults = safeJSON(s.reminder_defaults, ['1d','2h','30m']);
+  const host = document.getElementById('pageHost');
+  const brainR = await api('botBrain', {}, true);
+  const brain = brainR.ok ? brainR.brain : [];
+  const unknown = brainR.ok ? brainR.unknown : [];
+  host.innerHTML = `
+  <h2>Settings</h2>
+
+  <div class="sec-head"><h2>Connection</h2></div>
+  <div class="card" style="padding:16px;">
+    <label>Backend API URL (web app /exec link)</label>
+    <input id="st_api" value="${API==='PASTE_YOUR_WEB_APP_EXEC_URL_HERE'?'':esc(API)}" placeholder="https://script.google.com/macros/s/.../exec">
+    <label>Frontend App URL (used for email deep-links)</label>
+    <input id="st_appurl" value="${esc(s.app_url||'')}" placeholder="https://yourname.github.io/pwrs/">
+    <button class="btn btn-primary btn-sm" style="margin-top:12px;" onclick="saveConnection()">Save Connection 💾</button>
+  </div>
+
+  <div class="sec-head"><h2>Notifications</h2></div>
+  <div class="card" style="padding:16px;">
+    <div class="switch-row"><div>📧 Email Reminders</div><label class="switch"><input type="checkbox" id="st_email" ${s.email_enabled==='true'?'checked':''}><span class="slider"></span></label></div>
+    <div class="switch-row"><div>🔔 Desktop Notifications</div><label class="switch"><input type="checkbox" id="st_notif" ${s.notif_enabled==='true'?'checked':''}><span class="slider"></span></label></div>
+    <div class="switch-row" style="border-bottom:none;"><div>⏳ Overdue Nag Emails</div><label class="switch"><input type="checkbox" id="st_nag" ${s.overdue_nag_enabled==='true'?'checked':''}><span class="slider"></span></label></div>
+    <div class="g2">
+      <div><label>Nag Cap (days)</label><input type="number" id="st_nagcap" value="${s.overdue_nag_cap_days||14}"></div>
+      <div><label>Auto-Archive After (days)</label><input type="number" id="st_arch" value="${s.auto_archive_days||30}"></div>
+    </div>
+    <label>Default Reminders (for new tasks)</label>
+    <div class="chip-row" id="st_defaults">${STATE.meta.reminderOffsets.map(o=>`<label class="chip-check"><input type="checkbox" value="${o.key}" ${defaults.includes(o.key)?'checked':''}> ${o.label}</label>`).join('')}</div>
+    <button class="btn btn-primary btn-sm" style="margin-top:14px;" onclick="saveNotifSettings()">Save Settings 💾</button>
+    <p class="muted" style="font-size:11.5px;margin-top:10px;">Enable your browser's notification permission for live desktop alerts while the tab is open. If the tab is closed, you'll still get the email — and a "missed" catch-up toast next time you open PWRS.</p>
+    <button class="btn btn-ghost btn-sm" onclick="requestNotifPermission()">Enable Desktop Alerts 🔔</button>
+  </div>
+
+  <div class="sec-head"><h2>Backup &amp; Export</h2></div>
+  <div class="card" style="padding:16px;">
+    <div class="row">
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV()">⬇ Export CSV</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportExcel()">⬇ Export Excel</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportPDF()">⬇ Export PDF Report</button>
+      <button class="btn btn-primary btn-sm" onclick="backupNow()">💾 Backup Now</button>
+    </div>
+    <p class="muted" style="font-size:11.5px;margin-top:10px;">Automatic backups run weekly (Sunday 3 AM) into a "PWRS_Attachments" Drive folder.</p>
+  </div>
+
+  <div class="sec-head"><h2>Change Password</h2></div>
+  <div class="card" style="padding:16px;">
+    <div class="g2">
+      <div><label>Current Password</label><input type="password" id="st_oldpass"></div>
+      <div><label>New Password</label><input type="password" id="st_newpass"></div>
+    </div>
+    <button class="btn btn-primary btn-sm" style="margin-top:12px;" onclick="changePassword()">Update Password 🔑</button>
+  </div>
+
+  <div class="sec-head"><h2>Train REMI 🧠</h2></div>
+  <div class="card" style="padding:16px;">
+    ${unknown.length? `<p class="muted" style="font-size:12.5px;">Unanswered questions:</p>` + unknown.map(u=>`
+      <div class="unknown-row" data-q="${esc(u.q)}" style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--brd);">
+        <div style="font-size:13px;">"${esc(u.q)}"</div>
+        <div class="row" style="margin-top:6px;"><input type="text" class="teach-input" placeholder="Teach REMI the answer…" style="flex:1;">
+        <button class="btn btn-primary btn-sm teach-btn">Teach 🧠</button></div>
+      </div>`).join('') : '<p class="muted" style="font-size:12.5px;">No unanswered questions right now.</p>'}
+    ${brain.length? `<p class="muted" style="font-size:12.5px;margin-top:10px;">Already taught (${brain.length}):</p>` + brain.slice(0,8).map(b=>`<div style="font-size:12px;padding:5px 0;"><b>${esc(b.q)}</b> → ${esc(b.a)}</div>`).join('') : ''}
+  </div>`;
+  wireTeachButtons();
+}
+function wireTeachButtons(){
+  document.querySelectorAll('.unknown-row .teach-btn').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      const row = btn.closest('.unknown-row');
+      const q = row.dataset.q;
+      const a = row.querySelector('.teach-input').value.trim();
+      if(!a) return toast('Type an answer first','err');
+      const r = await api('botTeach', {q, a});
+      if(r.ok){ toast('REMI leveled up 🧠','ok'); renderSettingsPage(); }
+    });
+  });
+}
+async function saveConnection(){
+  const api_url = document.getElementById('st_api').value.trim();
+  const app_url = document.getElementById('st_appurl').value.trim();
+  if(api_url){ localStorage.setItem('pwrs_api', api_url); }
+  await api('saveSettings', {settings:{app_url}});
+  toast('Connection saved. Reloading…','ok');
+  setTimeout(()=>location.reload(), 900);
+}
+async function saveNotifSettings(){
+  const defaults = [...document.querySelectorAll('#st_defaults input:checked')].map(i=>i.value);
+  const settings = {
+    email_enabled: document.getElementById('st_email').checked?'true':'false',
+    notif_enabled: document.getElementById('st_notif').checked?'true':'false',
+    overdue_nag_enabled: document.getElementById('st_nag').checked?'true':'false',
+    overdue_nag_cap_days: document.getElementById('st_nagcap').value,
+    auto_archive_days: document.getElementById('st_arch').value,
+    reminder_defaults: JSON.stringify(defaults)
+  };
+  const r = await api('saveSettings', {settings});
+  if(r.ok){ toast('Settings saved 💾','ok'); await loadSettings(); }
+}
+async function changePassword(){
+  const oldPassword=document.getElementById('st_oldpass').value, newPassword=document.getElementById('st_newpass').value;
+  const r = await api('changePassword', {oldPassword,newPassword});
+  if(r.ok) toast('Password updated 🔑','ok'); else toast(r.error||'Failed','err');
+}
+async function backupNow(){ toast('Backing up… ⏳','ok'); const r = await api('backupNow', {}); if(r.ok) toast('Backup created 💾','ok'); }
+function requestNotifPermission(){
+  if(!('Notification' in window)) return toast('Browser notifications not supported here','err');
+  Notification.requestPermission().then(p=> toast(p==='granted'?'Desktop alerts enabled 🔔':'Permission not granted','ok'));
+}
+
+/*************************************************************
+ * NOTIFICATIONS (poll + missed-reminder catch-up)
+ *************************************************************/
+function startNotificationPolling(){
+  pollNotifications();
+  notifTimer = setInterval(pollNotifications, 30000);
+}
+function stopNotificationPolling(){ if(notifTimer) clearInterval(notifTimer); }
+async function pollNotifications(){
+  if(STATE.settings.notif_enabled==='false') return;
+  const r = await api('listDueNotifications', {}, true);
+  if(!r.ok || !r.notifications.length) return;
+  r.notifications.forEach(n=>{
+    const label = n.missed ? '⏰ Missed Reminder' : '⏰ Reminder';
+    toast(`${label}: ${n.taskTitle} — ${n.label}`, n.missed?'warn':'ok');
+    if('Notification' in window && Notification.permission==='granted'){
+      const notif = new Notification(n.taskTitle, {body:(n.missed?'Missed — ':'')+n.label});
+      notif.onclick = ()=>{ window.focus(); go('tasks'); openTaskModal(n.taskId); };
+    }
+    api('ackNotification', {id:n.id}, true);
+  });
+}
+
+/*************************************************************
+ * COUNTDOWNS
+ *************************************************************/
+function startCountdowns(){
+  if(countdownTimer) clearInterval(countdownTimer);
+  tickCountdowns();
+  countdownTimer = setInterval(tickCountdowns, 1000);
+}
+function tickCountdowns(){
+  document.querySelectorAll('[data-deadline]').forEach(el=>{
+    const due = new Date(el.dataset.deadline);
+    const status = el.dataset.status;
+    if(status==='Completed'||status==='Cancelled'){ el.textContent=''; return; }
+    const diff = due-new Date();
+    el.textContent = diff>0 ? '⏱ '+humanize(diff)+' left' : '⚠️ '+humanize(-diff)+' overdue';
+    el.style.color = diff>0 ? 'var(--muted)' : 'var(--err)';
+  });
+}
+function humanize(ms){
+  const s=Math.floor(ms/1000);
+  if(s<60) return s+'s';
+  const m=Math.floor(s/60); if(m<60) return m+'m';
+  const h=Math.floor(m/60); if(h<24) return h+'h '+(m%60)+'m';
+  const d=Math.floor(h/24); return d+'d '+(h%24)+'h';
+}
+
+/*************************************************************
+ * TOASTS + CONFIRM MODAL
+ *************************************************************/
+function toast(msg,type){
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast '+(type||'ok');
+  el.textContent = msg;
+  wrap.appendChild(el);
+  setTimeout(()=>el.remove(), 4200);
+}
+function confirmDialog(msg, onYes){
+  document.getElementById('modalHost').insertAdjacentHTML('beforeend', `
+  <div class="modal-bg confirm-bg" id="confirmBg">
+    <div class="modal-card confirm-card">
+      <div class="modal-body"><p>${esc(msg)}</p></div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="document.getElementById('confirmBg').remove()">Cancel</button>
+        <button class="btn btn-danger" id="confirmYesBtn">Confirm</button>
+      </div>
+    </div>
+  </div>`);
+  document.getElementById('confirmYesBtn').onclick = ()=>{ document.getElementById('confirmBg').remove(); onYes(); };
+}
+
+/*************************************************************
+ * EXPORTS
+ *************************************************************/
+function currentFilteredTasks(){
+  return STATE.tasks;
+}
+function exportCSV(){
+  const rows = currentFilteredTasks();
+  const headers = ['Title','Category','Priority','Due Date','Due Time','Status','Repeat','Notes'];
+  const csv = [headers.join(',')].concat(rows.map(t=>[t.title,t.category,t.priority,t.due_date,t.due_time,t.status,t.repeat,t.notes].map(v=>'"'+String(v||'').replace(/"/g,'""')+'"').join(','))).join('\n');
+  downloadBlob(csv, 'PWRS_Tasks.csv', 'text/csv');
+}
+function exportExcel(){
+  if(typeof XLSX==='undefined') return toast('Excel library not loaded — check internet','err');
+  const rows = currentFilteredTasks().map(t=>({Title:t.title,Category:t.category,Priority:t.priority,DueDate:t.due_date,DueTime:t.due_time,Status:t.status,Repeat:t.repeat,Notes:t.notes}));
+  const ws = XLSX.utils.json_to_sheet(rows);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Tasks');
+  XLSX.writeFile(wb, 'PWRS_Tasks.xlsx');
+}
+function exportPDF(){
+  const rows = currentFilteredTasks();
+  const w = window.open('', '_blank');
+  w.document.write(`<html><head><title>PWRS Report</title><style>
+    body{font-family:Arial,sans-serif;background:#fff;color:#111;padding:30px;}
+    h1{background:linear-gradient(135deg,#6C5CE7,#a29bfe);color:#fff;padding:20px;border-radius:12px;}
+    table{width:100%;border-collapse:collapse;margin-top:20px;} th,td{border:1px solid #ddd;padding:8px;font-size:12px;text-align:left;}
+    th{background:#6C5CE7;color:#fff;}
+  </style></head><body>
+    <h1>PWRS — Task Report</h1><p>Generated: ${new Date().toLocaleString()}</p>
+    <table><tr><th>Title</th><th>Category</th><th>Priority</th><th>Due</th><th>Status</th></tr>
+    ${rows.map(t=>`<tr><td>${esc(t.title)}</td><td>${esc(t.category)}</td><td>${esc(t.priority)}</td><td>${t.due_date} ${t.due_time}</td><td>${esc(t.status)}</td></tr>`).join('')}
+    </table>
+    <script>window.print();<\/script>
+  </body></html>`);
+  w.document.close();
+}
+function downloadBlob(content, filename, type){
+  const blob = new Blob([content], {type});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download=filename; a.click();
+  URL.revokeObjectURL(url);
+}
+
+/*************************************************************
+ * REMI CHATBOT
+ *************************************************************/
+const CHIPS = ['Kitne pending hai?','Aaj ke tasks?','Overdue kya hai?','Critical tasks?'];
+function toggleChat(){
+  const p = document.getElementById('chatPanel');
+  const opening = p.style.display!=='flex';
+  p.style.display = opening?'flex':'none';
+  if(opening && !document.getElementById('chatMsgs').dataset.inited){
+    document.getElementById('chatMsgs').dataset.inited='1';
+    addChatMsg('bot', `Hey! 👋 I'm REMI. Tasks, reminders, quick counts — ask me anything. What I don't know yet, I learn. That's the deal. 🤝`);
+    document.getElementById('chatChips').innerHTML = CHIPS.map(c=>`<div class="chip-sugg" onclick="quickChat('${c}')">${c}</div>`).join('');
+  }
+}
+function quickChat(text){ document.getElementById('chatInput').value=text; sendChat(); }
+async function sendChat(){
+  const input = document.getElementById('chatInput');
+  const q = input.value.trim();
+  if(!q) return;
+  addChatMsg('user', q); input.value='';
+  const r = await api('botAsk', {q});
+  addChatMsg('bot', r.ok ? r.answer : "Hmm, having trouble reaching the server.");
+}
+function addChatMsg(who,text){
+  const wrap = document.getElementById('chatMsgs');
+  const el = document.createElement('div');
+  el.className='msg '+who; el.textContent=text;
+  wrap.appendChild(el); wrap.scrollTop = wrap.scrollHeight;
+}
+
+/*************************************************************
+ * DEEP LINK (#task=ID from email)
+ *************************************************************/
+function runDeepLink(){
+  const m = location.hash.match(/task=([\w-]+)/);
+  if(m) { go('tasks'); openTaskModal(m[1]); }
+}
 </script>
 </body>
 </html>
