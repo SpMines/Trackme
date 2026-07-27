@@ -19,7 +19,8 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Jost',sans-serif;-webkit-tap-highlight-color:transparent}
 html,body{background:var(--bg);color:var(--txt);min-height:100dvh}
 body{overflow-x:hidden}
-a{color:var(--accent2);text-decoration:none}
+a{color:var(--accent2);text-decoration:none;transition:.2s}
+a:hover{text-decoration:underline;opacity:.85}
 
 /* glow blobs */
 .blob{position:fixed;border-radius:50%;filter:blur(100px);opacity:.4;z-index:0;pointer-events:none}
@@ -89,10 +90,12 @@ a{color:var(--accent2);text-decoration:none}
 
 /* task card */
 .task{display:flex;align-items:flex-start;gap:13px;background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:14px 15px;margin-bottom:10px;transition:.2s;animation:pageIn .3s ease}
+.task:hover{border-color:rgba(255,255,255,.16)}
 .task.overdue{border-color:rgba(255,93,108,.5);background:rgba(255,93,108,.07)}
 .task.done{opacity:.62}
 .chk{width:26px;height:26px;border-radius:50%;border:2px solid var(--brd);flex-shrink:0;margin-top:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:transparent;transition:.2s;background:var(--inp)}
 .chk:hover{border-color:var(--accent)}
+.chk:active{transform:scale(.82)}
 .chk.on{background:var(--ok);border-color:var(--ok);color:#04241a}
 .task .body{flex:1;min-width:0}
 .task .ttl{font-size:15px;font-weight:600;line-height:1.35}
@@ -104,8 +107,9 @@ a{color:var(--accent2);text-decoration:none}
 .chip.time{color:#8fd0ff;border-color:rgba(70,181,255,.35);background:rgba(70,181,255,.1)}
 .chip.red{color:#ff97a2;border-color:rgba(255,93,108,.45);background:rgba(255,93,108,.12)}
 .chip.grn{color:#7fe9c0;border-color:rgba(55,211,153,.4);background:rgba(55,211,153,.12)}
-.undo{font-size:11.5px;color:var(--muted);cursor:pointer;margin-top:8px;display:inline-block}
+.undo{font-size:11.5px;color:var(--muted);cursor:pointer;margin-top:8px;display:inline-block;transition:.2s}
 .undo:hover{color:var(--txt)}
+.undo:active{transform:scale(.94)}
 
 /* empty state */
 .empty{text-align:center;padding:34px 20px;color:var(--muted)}
@@ -117,8 +121,21 @@ a{color:var(--accent2);text-decoration:none}
 .perfect .e{font-size:28px}
 .perfect b{font-size:15px} .perfect p{font-size:12.5px;color:var(--muted);margin-top:2px}
 
+/* day verdict card — 80% daily+custom reward/penalty */
+.vcard{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:14px 16px;margin-bottom:18px}
+.vcard.ok{border-color:rgba(55,211,153,.4)} .vcard.warn{border-color:rgba(255,181,71,.4)} .vcard.bad{border-color:rgba(255,93,108,.4)}
+.vhead{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--muted);margin-bottom:8px}
+.vhead b{font-size:15px;color:var(--txt)}
+.vtrack{position:relative;height:9px;background:var(--inp);border-radius:8px;overflow:hidden;margin-bottom:9px}
+.vtrack i{display:block;height:100%;border-radius:8px;background:var(--grad);transition:width .5s ease}
+.vcard.ok .vtrack i{background:linear-gradient(135deg,#37d399,#7fe9c0)}
+.vcard.bad .vtrack i{background:linear-gradient(135deg,#ff5d6c,#ff97a2)}
+.vtrack .vmark{position:absolute;top:-3px;width:2px;height:15px;background:rgba(255,255,255,.55)}
+.vfoot{font-size:11.5px;color:var(--muted);line-height:1.4}
+
 /* manage task row */
-.mrow{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:12px 14px;margin-bottom:9px}
+.mrow{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:12px 14px;margin-bottom:9px;transition:.2s}
+.mrow:hover{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.07)}
 .mrow .ic{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .mrow .mb{flex:1;min-width:0}
 .mrow .mb .t{font-size:14.5px;font-weight:600}
@@ -126,6 +143,7 @@ a{color:var(--accent2);text-decoration:none}
 .iconbtn{width:34px;height:34px;border-radius:10px;border:1px solid var(--brd);background:var(--inp);color:var(--muted);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:.2s}
 .iconbtn:hover{color:var(--txt);border-color:var(--accent)}
 .iconbtn.del:hover{color:#ff97a2;border-color:rgba(255,93,108,.5)}
+.iconbtn:active{transform:scale(.88)}
 
 /* rewards: level card */
 .lvlcard{background:var(--grad);border-radius:22px;padding:22px;position:relative;overflow:hidden;margin-bottom:18px;box-shadow:0 20px 50px rgba(108,92,231,.4)}
@@ -146,9 +164,16 @@ a{color:var(--accent2);text-decoration:none}
 .bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:11px}
 .badge{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:14px 8px;text-align:center;opacity:.4;filter:grayscale(1);transition:.25s}
 .badge.on{opacity:1;filter:none;border-color:rgba(124,92,255,.4);background:rgba(124,92,255,.1)}
+.badge:hover{transform:translateY(-3px) scale(1.04)}
 .badge .e{font-size:26px}
 .badge .nm{font-size:11.5px;font-weight:600;margin-top:6px;line-height:1.2}
 .badge .ds{font-size:9.5px;color:var(--muted);margin-top:3px;line-height:1.25}
+
+/* verdict history chips */
+.vhist{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.vchip{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:9.5px;font-weight:700;border:1px solid var(--brd);background:var(--inp);color:var(--muted)}
+.vchip.reward{color:#7fe9c0;border-color:rgba(55,211,153,.4);background:rgba(55,211,153,.12)}
+.vchip.penalty{color:#ff97a2;border-color:rgba(255,93,108,.4);background:rgba(255,93,108,.12)}
 
 /* stats charts */
 .bars{display:flex;align-items:flex-end;gap:8px;height:130px;padding:6px 2px}
@@ -177,7 +202,7 @@ a{color:var(--accent2);text-decoration:none}
 
 /* buttons */
 .btn{width:100%;padding:13px;border:none;border-radius:12px;cursor:pointer;font-size:15px;font-weight:600;color:#fff;background:var(--grad);transition:.2s;box-shadow:0 12px 30px rgba(108,92,231,.4)}
-.btn:hover{transform:translateY(-2px)} .btn:active{transform:none} .btn:disabled{opacity:.5}
+.btn:hover{transform:translateY(-2px)} .btn:active{transform:scale(.97)} .btn:disabled{opacity:.5}
 .btn.ghost{background:transparent;border:1px solid var(--brd);box-shadow:none;color:var(--txt)}
 .btn.ghost:hover{background:var(--inp);transform:none}
 .btn.sm{width:auto;padding:9px 15px;font-size:13px;border-radius:10px;box-shadow:none}
@@ -188,12 +213,14 @@ a{color:var(--accent2);text-decoration:none}
 .fab{position:fixed;right:18px;bottom:84px;z-index:60;width:58px;height:58px;border-radius:50%;border:none;background:var(--grad);color:#fff;font-size:30px;font-weight:300;line-height:1;cursor:pointer;box-shadow:0 16px 40px rgba(108,92,231,.55);display:flex;align-items:center;justify-content:center;transition:.2s}
 .fab:hover{transform:scale(1.06)} .fab:active{transform:scale(.96)}
 
-/* bottom nav */
-.bnav{position:fixed;left:0;right:0;bottom:0;z-index:55;display:flex;background:rgba(10,10,20,.9);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-top:1px solid var(--brd);padding:8px 6px calc(8px + env(safe-area-inset-bottom))}
-.bnav button{flex:1;background:none;border:none;color:var(--muted);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;font-size:10.5px;font-weight:500;transition:.2s;border-radius:12px}
+/* bottom nav — glass bar */
+.bnav{position:fixed;left:14px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:55;display:flex;gap:2px;background:rgba(255,255,255,.06);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border:1px solid rgba(255,255,255,.14);border-radius:26px;padding:7px;box-shadow:0 14px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.12)}
+.bnav button{flex:1;background:none;border:none;color:var(--muted);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px;font-size:10.5px;font-weight:500;transition:.2s;border-radius:18px}
 .bnav button .bi{font-size:20px;line-height:1}
-.bnav button.active{color:var(--accent2)}
+.bnav button.active{color:var(--txt);background:var(--grad);box-shadow:0 8px 20px rgba(108,92,231,.45)}
 .bnav button.active .bi{transform:translateY(-1px)}
+.bnav button:hover{color:var(--txt)}
+.bnav button:active{transform:scale(.9)}
 
 /* modal + toast */
 .modal{position:fixed;inset:0;z-index:9998;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;background:rgba(7,7,16,.65);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:20px}
@@ -208,6 +235,7 @@ a{color:var(--accent2);text-decoration:none}
 .seg{display:flex;gap:8px;background:var(--inp);border:1px solid var(--brd);border-radius:12px;padding:5px;margin-bottom:14px}
 .seg button{flex:1;padding:9px 4px;border:none;background:none;color:var(--muted);font-size:12.5px;font-weight:600;border-radius:9px;cursor:pointer;transition:.2s;font-family:'Jost'}
 .seg button.on{background:var(--grad);color:#fff;box-shadow:0 6px 16px rgba(108,92,231,.4)}
+.seg button:hover{color:var(--txt)}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 
 .toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%) translateY(20px);background:#16161f;border:1px solid var(--brd);padding:13px 20px;border-radius:12px;font-size:13.5px;font-weight:500;z-index:10001;opacity:0;transition:.3s;box-shadow:0 12px 30px rgba(0,0,0,.5);max-width:90vw;text-align:center}
@@ -223,6 +251,7 @@ a{color:var(--accent2);text-decoration:none}
 @keyframes sp{to{transform:rotate(360deg)}}
 
 @media(max-width:420px){ .strip{gap:8px} .mini .n{font-size:19px} }
+@media(min-width:900px){ .wrap{max-width:100%;padding-left:48px;padding-right:48px} }
 </style>
 </head>
 <body>
@@ -262,6 +291,7 @@ a{color:var(--accent2);text-decoration:none}
     </div>
 
     <div id="perfectSlot"></div>
+    <div id="vcardToday"></div>
 
     <div class="ringwrap">
       <div class="ring">
@@ -313,6 +343,14 @@ a{color:var(--accent2);text-decoration:none}
 
     <div class="sec"><div class="head"><h2>🎖️ Badges</h2><div class="cnt" id="badgeCnt">0 unlocked</div></div>
       <div class="bgrid" id="badgeGrid"></div>
+    </div>
+
+    <div class="sec"><div class="head"><h2>⚖️ Day Verdicts</h2><div class="cnt" id="vCnt">0 reward · 0 penalty</div></div>
+      <div class="tworow">
+        <div class="box"><div class="big" id="vStreak">0</div><div class="lbl">🎁 Reward streak</div></div>
+        <div class="box"><div class="big" id="vBest">0</div><div class="lbl">🏅 Best streak</div></div>
+      </div>
+      <div id="vHistory" class="vhist"></div>
     </div>
   </div>
 
@@ -483,10 +521,15 @@ var BADGE_DEFS=[
  {id:'early', e:'🌅', nm:'Early Bird', ds:'Task before 7 AM', test:function(s){return s.early}},
  {id:'perfect',e:'✨', nm:'Flawless', ds:'A perfect day', test:function(s){return s.perfect}},
  {id:'allr',  e:'🌈', nm:'All-Rounder', ds:'Every category', test:function(s){return s.cats>=DB.categories.length}},
- {id:'clock', e:'⏱️', nm:'Clockwork', ds:'20 sticky on time', test:function(s){return s.stickyOnTime>=20}}
+ {id:'clock', e:'⏱️', nm:'Clockwork', ds:'20 sticky on time', test:function(s){return s.stickyOnTime>=20}},
+ {id:'rew1',  e:'🎁', nm:'Rewarded', ds:'First 80%+ day', test:function(s){return s.rewardDays>=1}},
+ {id:'rew7',  e:'🏵️', nm:'Reward Streak', ds:'5-day verdict streak', test:function(s){return s.bestVerdictStreak>=5}},
+ {id:'rew15', e:'💎', nm:'Ironclad', ds:'15 reward days', test:function(s){return s.rewardDays>=15}},
+ {id:'comeback',e:'🔁',nm:'Comeback', ds:'Bounced back after a penalty', test:function(s){return s.comebacks>=1}}
 ];
 
 var PRI_PTS={Low:5, Medium:10, High:20};
+var VERDICT_PCT=80, VERDICT_REWARD=25, VERDICT_PENALTY=15;   // daily+custom 80% rule
 var DB=loadDB();
 var CUR_PAGE='Today';
 var EDIT_ID=null, T_TYPE='once', T_PRI='Medium';
@@ -494,8 +537,9 @@ var syncTimer=null;
 
 /* ---------- storage ---------- */
 function defaultDB(){
-  return { v:APP_VERSION, profile:{name:'Sam',email:'',points:0,level:1,levelTitle:LEVELS[0],streak:0,longestStreak:0,lastActiveDate:''},
-           categories:DEFAULT_CATS.slice(), tasks:[], log:[], badges:{}, updatedAt:Date.now() };
+  return { v:APP_VERSION, profile:{name:'Sam',email:'',points:0,level:1,levelTitle:LEVELS[0],streak:0,longestStreak:0,lastActiveDate:'',
+           rewardDays:0,penaltyDays:0,verdictStreak:0,bestVerdictStreak:0,comebacks:0,lastVerdictDate:''},
+           categories:DEFAULT_CATS.slice(), tasks:[], log:[], badges:{}, verdicts:{}, updatedAt:Date.now() };
 }
 function loadDB(){
   try{ var raw=localStorage.getItem(LS_KEY); if(raw){ return migrate(JSON.parse(raw)); } }catch(e){}
@@ -508,6 +552,10 @@ function migrate(d){
   d.profile.longestStreak=d.profile.longestStreak||0; d.profile.lastActiveDate=d.profile.lastActiveDate||'';
   if(!d.categories||!d.categories.length) d.categories=DEFAULT_CATS.slice();
   d.tasks=d.tasks||[]; d.log=d.log||[]; d.badges=d.badges||{};
+  d.profile.rewardDays=d.profile.rewardDays||0; d.profile.penaltyDays=d.profile.penaltyDays||0;
+  d.profile.verdictStreak=d.profile.verdictStreak||0; d.profile.bestVerdictStreak=d.profile.bestVerdictStreak||0;
+  d.profile.comebacks=d.profile.comebacks||0; d.profile.lastVerdictDate=d.profile.lastVerdictDate||'';
+  d.verdicts=d.verdicts||{};
   return d;
 }
 function saveLocal(){ DB.updatedAt=Date.now(); try{localStorage.setItem(LS_KEY,JSON.stringify(DB));}catch(e){} }
@@ -604,7 +652,10 @@ function statPack(){
   var early=false, sticky=0, catset={};
   DB.log.forEach(function(l){ if(l.hour!=null&&l.hour<7)early=true; if(l.ttype==='sticky'&&l.onTime)sticky++; if(l.catId)catset[l.catId]=1; });
   return { total:DB.log.length, level:DB.profile.level, longest:DB.profile.longestStreak,
-           early:early, stickyOnTime:sticky, cats:Object.keys(catset).length, perfect:hasPerfectDay() };
+           early:early, stickyOnTime:sticky, cats:Object.keys(catset).length, perfect:hasPerfectDay(),
+           rewardDays:DB.profile.rewardDays||0, penaltyDays:DB.profile.penaltyDays||0,
+           verdictStreak:DB.profile.verdictStreak||0, bestVerdictStreak:DB.profile.bestVerdictStreak||0,
+           comebacks:DB.profile.comebacks||0 };
 }
 function hasPerfectDay(){
   // any day where >=3 timed tasks existed and all logged that day
@@ -621,6 +672,52 @@ function checkBadges(){
   return unlocked;
 }
 function recompute(){ recomputeStreak(); recomputeLevel(); }
+
+/* ---------- day verdicts: 80% rule, daily + custom(one-time) tasks ---------- */
+function dayTaskPool_(dateStr){
+  var daily=DB.tasks.filter(function(t){return t.type==='daily';});
+  var custom=DB.tasks.filter(function(t){
+    if(t.type!=='once')return false;
+    var c=new Date(t.createdAt||Date.now());
+    var cds=c.getFullYear()+'-'+pad(c.getMonth()+1)+'-'+pad(c.getDate());
+    return cds===dateStr;
+  });
+  var pool=daily.concat(custom);
+  var done=pool.filter(function(t){
+    return t.type==='once' ? (t.done && t.doneDate===dateStr) : (t.history||[]).indexOf(dateStr)!==-1;
+  }).length;
+  return {total:pool.length, done:done};
+}
+function verdictPctToday(){
+  var pk=dayTaskPool_(todayStr());
+  return {pct:pk.total?Math.round(pk.done/pk.total*100):null, done:pk.done, total:pk.total};
+}
+function applyVerdict_(dateStr){
+  var pk=dayTaskPool_(dateStr);
+  if(!pk.total) return null;   // nothing scheduled that day → no verdict
+  var pct=Math.round(pk.done/pk.total*100);
+  var win=pct>=VERDICT_PCT;
+  var delta=win?VERDICT_REWARD:-VERDICT_PENALTY;
+  DB.profile.points=Math.max(0,(DB.profile.points||0)+delta);
+  var yday=addDays(dateStr,-1), prevWasPenalty=DB.verdicts[yday]&&DB.verdicts[yday].verdict==='penalty';
+  if(win){ DB.profile.rewardDays=(DB.profile.rewardDays||0)+1; DB.profile.verdictStreak=(DB.profile.verdictStreak||0)+1;
+    if(prevWasPenalty) DB.profile.comebacks=(DB.profile.comebacks||0)+1;
+  } else { DB.profile.penaltyDays=(DB.profile.penaltyDays||0)+1; DB.profile.verdictStreak=0; }
+  DB.profile.bestVerdictStreak=Math.max(DB.profile.bestVerdictStreak||0,DB.profile.verdictStreak||0);
+  DB.verdicts[dateStr]={pct:pct,total:pk.total,done:pk.done,verdict:win?'reward':'penalty',delta:delta};
+  return DB.verdicts[dateStr];
+}
+function settleVerdicts(){
+  DB.verdicts=DB.verdicts||{};
+  var td=todayStr(), last=DB.profile.lastVerdictDate||'', out=null, guard=0;
+  var cursor=last?addDays(last,1):addDays(td,-1);
+  while(cursor<td && guard<14){                 // cap backfill to 2 weeks
+    if(!DB.verdicts[cursor]) out=applyVerdict_(cursor)||out;
+    cursor=addDays(cursor,1); guard++;
+  }
+  DB.profile.lastVerdictDate=addDays(td,-1);
+  return out;
+}
 
 /* ---------- complete / undo ---------- */
 function completeTask(id){
@@ -685,6 +782,18 @@ function render(){
   if(CUR_PAGE==='Settings')fillSettings();
 }
 
+function renderVerdictToday(){
+  var el=document.getElementById('vcardToday'); if(!el)return;
+  var v=verdictPctToday();
+  if(v.pct===null){ el.innerHTML=''; return; }
+  var win=v.pct>=VERDICT_PCT;
+  var cls=win?'ok':(v.pct>=VERDICT_PCT-20?'warn':'bad');
+  el.innerHTML='<div class="vcard '+cls+'">'+
+    '<div class="vhead"><span>⚖️ Day Verdict · Daily + Custom</span><b>'+v.pct+'%</b></div>'+
+    '<div class="vtrack"><i style="width:'+v.pct+'%"></i><span class="vmark" style="left:'+VERDICT_PCT+'%"></span></div>'+
+    '<div class="vfoot">'+v.done+'/'+v.total+' done · '+(win?'🎁 Reward locked in (+'+VERDICT_REWARD+' pts at day-end)':'⚠️ Below '+VERDICT_PCT+'% — Penalty (-'+VERDICT_PENALTY+' pts) if it stays here')+'</div>'+
+  '</div>';
+}
 function renderToday(){
   var td=todayStr();
   var timed=DB.tasks.filter(function(t){return t.type==='daily'||t.type==='sticky';});
@@ -700,6 +809,8 @@ function renderToday(){
   // perfect banner
   var ps=document.getElementById('perfectSlot');
   ps.innerHTML=(timed.length>=3 && pct===100)?'<div class="perfect"><div class="e">✨</div><div><b>Perfect day</b><p>Every habit done. This is how levels are built.</p></div></div>':'';
+
+  renderVerdictToday(); // ⚖️ 80% daily+custom reward/penalty tracker
 
   var sticky=DB.tasks.filter(function(t){return t.type==='sticky';});
   var daily =DB.tasks.filter(function(t){return t.type==='daily';});
@@ -789,6 +900,21 @@ function renderRewards(){
   });
   document.getElementById('badgeGrid').innerHTML=grid;
   document.getElementById('badgeCnt').textContent=cnt+' / '+BADGE_DEFS.length+' unlocked';
+  renderVerdictBlock();
+}
+
+function renderVerdictBlock(){
+  var p=DB.profile;
+  document.getElementById('vCnt').textContent=(p.rewardDays||0)+' reward · '+(p.penaltyDays||0)+' penalty';
+  document.getElementById('vStreak').textContent=p.verdictStreak||0;
+  document.getElementById('vBest').textContent=p.bestVerdictStreak||0;
+  var td=todayStr(), h='';
+  for(var i=6;i>=0;i--){
+    var d=addDays(td,-i), v=DB.verdicts[d];
+    if(!v){ h+='<div class="vchip">·</div>'; continue; }
+    h+='<div class="vchip '+(v.verdict==='reward'?'reward':'penalty')+'">'+(v.verdict==='reward'?'🎁':'⚠️')+'<span>'+v.pct+'%</span></div>';
+  }
+  document.getElementById('vHistory').innerHTML=h;
 }
 
 function renderStats(){
@@ -924,8 +1050,11 @@ function flyPts(n){ var f=document.getElementById('fly'); f.textContent='+'+n; f
 function init(){
   setTimeout(function(){ document.getElementById('boot').classList.add('hide'); },800);
   recompute();            // recalc streak/level from any restored log
+  var v=settleVerdicts(); // ⚖️ settle yesterday's 80% daily+custom reward/penalty rule
+  recomputeLevel(); checkBadges();
   saveLocal();
   render();
+  if(v){ setTimeout(function(){ toast((v.verdict==='reward'?'🎁 +':'⚠️ -')+Math.abs(v.delta)+' pts · yesterday '+v.pct+'%','ok'); },900); }
   pingBackend();
   // ticker for countdowns / streak-at-midnight
   setInterval(function(){ if(CUR_PAGE==='Today') renderToday(); }, 30000);
