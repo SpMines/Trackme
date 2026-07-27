@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#0a0a14">
-<title>ASCEND — Self-Upgrade OS</title>
+<title>Ascend — Self-Upgrade OS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -42,7 +42,7 @@ a{color:var(--accent2);text-decoration:none}
 .loading-text{font-size:30px;font-weight:800;letter-spacing:5px;text-transform:uppercase;background:linear-gradient(90deg,rgba(255,255,255,.28) 0%,#fff 50%,rgba(255,255,255,.28) 100%);background-size:200% auto;color:transparent;-webkit-background-clip:text;background-clip:text;animation:shimmer 1.6s linear infinite}
 
 /* connection banner */
-.conn{position:fixed;top:0;left:0;right:0;z-index:9000;padding:9px 16px;font-size:12.5px;text-align:center;display:none;font-weight:500}
+.conn{position:relative;z-index:40;padding:10px 16px;font-size:12.5px;text-align:center;display:none;font-weight:600;line-height:1.4}
 .conn.show{display:block;animation:flFade .25s ease}
 .conn.ok{background:rgba(55,211,153,.16);color:#8ef0c8;border-bottom:1px solid rgba(55,211,153,.35)}
 .conn.bad{background:rgba(255,93,108,.16);color:#ffb0b8;border-bottom:1px solid rgba(255,93,108,.35)}
@@ -89,6 +89,7 @@ a{color:var(--accent2);text-decoration:none}
 
 /* task card */
 .task{display:flex;align-items:flex-start;gap:13px;background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:14px 15px;margin-bottom:10px;transition:.2s;animation:pageIn .3s ease}
+.task:hover{border-color:var(--accent);box-shadow:0 6px 20px rgba(108,92,231,.18);transform:translateY(-1px)}
 .task.overdue{border-color:rgba(255,93,108,.5);background:rgba(255,93,108,.07)}
 .task.done{opacity:.62}
 .chk{width:26px;height:26px;border-radius:50%;border:2px solid var(--brd);flex-shrink:0;margin-top:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:transparent;transition:.2s;background:var(--inp)}
@@ -189,11 +190,7 @@ a{color:var(--accent2);text-decoration:none}
 .fab:hover{transform:scale(1.06)} .fab:active{transform:scale(.96)}
 
 /* bottom nav */
-.bnav{position:fixed;left:0;right:0;bottom:0;z-index:55;display:flex;background:rgba(10,10,20,.9);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-top:1px solid var(--brd);padding:8px 6px calc(8px + env(safe-area-inset-bottom))}
-.bnav button{flex:1;background:none;border:none;color:var(--muted);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;font-size:10.5px;font-weight:500;transition:.2s;border-radius:12px}
-.bnav button .bi{font-size:20px;line-height:1}
-.bnav button.active{color:var(--accent2)}
-.bnav button.active .bi{transform:translateY(-1px)}
+.bnav{position:fixed;left:0;right:0;bottom:0;z-index:55;display:flex}
 
 /* modal + toast */
 .modal{position:fixed;inset:0;z-index:9998;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;background:rgba(7,7,16,.65);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:20px}
@@ -242,11 +239,13 @@ a{color:var(--accent2);text-decoration:none}
 .sec .task:nth-child(n+6){animation-delay:.15s}
 .mrow{animation:pageIn .34s cubic-bezier(.16,1,.3,1) both}
 .badge{animation:pageIn .3s ease both}
-.bnav button:active{transform:scale(.86)}
-.bnav button.active .bi{animation:navpop .34s cubic-bezier(.2,.85,.3,1.4)}
+
 @keyframes navpop{0%{transform:scale(.75)}60%{transform:scale(1.22)}100%{transform:scale(1)}}
 .chk:active{transform:scale(.85)}
-.stat,.mini,.box{transition:transform .2s ease}
+.stat,.mini,.box{transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+.mini:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 8px 24px rgba(108,92,231,.22)}
+.box:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 8px 24px rgba(108,92,231,.22)}
+.stat:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 8px 24px rgba(108,92,231,.22)}
 
 /* ===== FAB — mobile overlap fix (sits clear above nav, respects notch) ===== */
 .fab{bottom:calc(88px + env(safe-area-inset-bottom));right:16px;width:56px;height:56px}
@@ -260,7 +259,6 @@ a{color:var(--accent2);text-decoration:none}
 .mrow .mb .t{font-weight:700}
 .chip{font-weight:700}
 .mini .l{font-weight:600}
-.bnav button{font-weight:600}
 .box h4,.setrow h4{font-weight:800}
 .ringwrap .info h3{font-weight:800}
 /* ===== bolder base ===== */
@@ -280,7 +278,8 @@ html,body{font-weight:500}
 .mcard .lbl{font-size:11.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
 .mcard .amt{font-size:22px;font-weight:800;margin-top:5px}
 .mcard.inC .amt{color:#7fe9c0}.mcard.outC .amt{color:#ff97a2}
-.txn{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:12px 14px;margin-bottom:9px;animation:pageIn .3s ease both}
+.txn{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:12px 14px;margin-bottom:9px;animation:pageIn .3s ease both;transition:.2s}
+.txn:hover{border-color:var(--brd);box-shadow:0 4px 14px rgba(0,0,0,.2);transform:translateY(-1px)}
 .txn .ti{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;background:var(--inp);border:1px solid var(--brd)}
 .txn .tb{flex:1;min-width:0}.txn .tb .t{font-size:14.5px;font-weight:700}.txn .tb .s{font-size:11.5px;color:var(--muted);margin-top:2px}
 .txn .amtv{font-size:15.5px;font-weight:800;white-space:nowrap;margin-left:auto}
@@ -289,7 +288,8 @@ html,body{font-weight:500}
 .txn .x:hover{color:#ff97a2}
 
 /* ===== workout module ===== */
-.wcard{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:13px 15px;margin-bottom:9px;animation:pageIn .3s ease both}
+.wcard{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:13px 15px;margin-bottom:9px;animation:pageIn .3s ease both;transition:.2s}
+.wcard:hover{border-color:rgba(55,211,153,.4);box-shadow:0 4px 14px rgba(55,211,153,.1);transform:translateY(-1px)}
 .wcard .wi{width:44px;height:44px;border-radius:12px;background:rgba(55,211,153,.14);border:1px solid rgba(55,211,153,.4);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
 .wcard .wb{flex:1;min-width:0}.wcard .wb .t{font-size:15px;font-weight:700}.wcard .wb .s{font-size:11.5px;color:var(--muted);margin-top:2px}
 .wcard .x{color:var(--muted);cursor:pointer;font-size:15px}
@@ -326,6 +326,23 @@ html,body{font-weight:500}
 }
 @media(min-width:1300px){
   #todaySlot,#manageSlot,#txnList,#woList{grid-template-columns:1fr 1fr 1fr}
+}
+/* ==== BOTTOM NAV — single source of truth, no bleed ==== */
+.bnav{gap:2px;padding:8px 6px calc(8px + env(safe-area-inset-bottom));background:rgba(9,9,17,.94);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid var(--brd)}
+.bnav button{flex:1;background:none !important;box-shadow:none !important;border:none;color:var(--muted);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;padding:5px 2px;font-size:10.5px;font-weight:600;transition:color .25s ease}
+.bnav button::after{display:none !important}
+.bnav button .bi{display:flex;align-items:center;justify-content:center;width:52px;height:30px;border-radius:12px;font-size:19px;line-height:1;background:transparent;box-shadow:none;transform:none;transition:transform .25s cubic-bezier(.2,.85,.3,1.5)}
+.bnav button.active{color:var(--accent2);font-weight:700}
+.bnav button.active .bi{background:linear-gradient(135deg,var(--accent),var(--accent2)) !important;box-shadow:0 8px 20px rgba(108,92,231,.5) !important;transform:translateY(-2px);animation:navpop .36s cubic-bezier(.2,.85,.3,1.5)}
+.bnav button:not(.active) .bi{background:transparent !important;box-shadow:none !important}
+.bnav button:not(.active):hover{color:var(--txt)}
+.bnav button:not(.active):active .bi{transform:scale(.88)}
+
+/* ==== FAB — never overlaps the nav ==== */
+.fab{right:18px;bottom:calc(84px + env(safe-area-inset-bottom))}
+@media(min-width:900px){
+  .bnav{max-width:640px;left:50%;transform:translateX(-50%);border:1px solid var(--brd);border-bottom:none;border-radius:20px 20px 0 0}
+  .fab{right:24px;bottom:92px;width:60px;height:60px}
 }
 </style>
 </head>
@@ -459,6 +476,16 @@ html,body{font-weight:500}
     </div>
 
     <div class="setrow">
+      <h4>🔌 Backend (Google Apps Script)</h4>
+      <p style="font-size:12.5px;color:var(--muted);line-height:1.55;margin-bottom:12px">If you opened this app from your <b>/exec</b> link, it's already connected — leave this blank. Only paste your Web App <b>/exec</b> URL here if you host the page elsewhere (GitHub Pages / Netlify).</p>
+      <div class="field"><label>Web app /exec URL</label><input id="inApi" placeholder="https://script.google.com/macros/s/…/exec"></div>
+      <div class="btnrow">
+        <button class="btn sm" onclick="saveApi()">Save URL</button>
+        <button class="btn sm ghost" onclick="testApi()">Test connection</button>
+      </div>
+    </div>
+
+    <div class="setrow">
       <h4>☁️ Sync &amp; backup</h4>
       <p style="font-size:12.5px;color:var(--muted);line-height:1.55;margin-bottom:14px">Your data lives on this device and auto-syncs to your Google Drive after every change. Restore pulls the last cloud backup onto this device.</p>
       <div class="btnrow">
@@ -474,7 +501,7 @@ html,body{font-weight:500}
 
     <div class="setrow">
       <h4>ℹ️ Status</h4>
-      <div class="krow"><span>App version</span><b id="stVer">1.1.0</b></div>
+      <div class="krow"><span>App version</span><b id="stVer">1.2.0</b></div>
       <div class="krow"><span>Cloud sync</span><b id="stConn">—</b></div>
       <div class="krow"><span>Last synced</span><b id="stLast">Never</b></div>
       <div class="krow"><span>Tasks</span><b id="stTasks">0</b></div>
@@ -645,11 +672,18 @@ html,body{font-weight:500}
    Built by Somnath Karmakar · v1.0.0
    localStorage-first · auto-sync to GAS/Drive
 ============================================================ */
-var APP_NAME='ASCEND', APP_VERSION='1.1.0';
+var APP_NAME='ASCEND', APP_VERSION='1.2.0';
 var LS_KEY='ascend_db_v1';
-/* true when the page is served from Apps Script (/exec). Then backend
-   calls go through google.script.run — no URL, no CORS, nothing to paste. */
+/* Backend = your Google Apps Script Web App /exec URL. Paste it in
+   Settings → Backend (or hardcode below). Frontend hosted anywhere
+   (GitHub Pages / Netlify); talks to GAS via CORS-safe text/plain POST. */
+var API_DEFAULT='PASTE_YOUR_GAS_EXEC_URL_HERE';
+var API=(localStorage.getItem('ascend_api')||API_DEFAULT).trim();
+var SECRET='ASCEND-7f3a9c21b8';   // must match Code.gs
+/* Opened FROM the /exec link? google.script.run is available → auto-connected,
+   no URL needed. Hosted elsewhere (GitHub Pages)? falls back to the pasted URL. */
 var hasServer=(typeof google!=='undefined' && google.script && google.script.run);
+function backendReady(){ return hasServer || apiOk(API); }
 
 var LEVELS=['Seedling','Spark','Riser','Builder','Grinder','Momentum','Contender','Achiever','Sharpshooter','Vanguard','Trailblazer','Powerhouse','Elite','Maverick','Champion','Warlord','Titan','Legend','Mythic','Ascended'];
 
@@ -755,56 +789,65 @@ function catColor(id){var c=catById(id);return c?c.color:'#6C5CE7';}
 function typeLabel(t){return t==='sticky'?'Sticky (timed)':t==='daily'?'Daily habit':'One-time';}
 function isDoneToday(t){var td=todayStr();if(t.type==='once')return !!t.done;return (t.history||[]).indexOf(td)!==-1;}
 
-/* ---------- server calls (native google.script.run — no URL, no CORS) ---------- */
+/* ---------- server calls (CORS-safe fetch to GAS /exec) ---------- */
 var _busy=0;
 function showLoader(){_busy++;var l=document.getElementById('faceLoader');if(l)l.classList.add('show');}
 function hideLoader(){_busy=Math.max(0,_busy-1);if(_busy===0){var l=document.getElementById('faceLoader');if(l)l.classList.remove('show');}}
-function srv(fn,arg,loud){
-  return new Promise(function(res,rej){
-    if(!hasServer){ rej(new Error('offline')); return; }
-    if(loud)showLoader();
-    var run=google.script.run
-      .withSuccessHandler(function(r){ if(loud)hideLoader(); try{res(JSON.parse(r));}catch(e){res(r);} })
-      .withFailureHandler(function(e){ if(loud)hideLoader(); rej(e); });
-    if(arg===undefined) run[fn](); else run[fn](arg);
-  });
+function apiOk(u){return /^https:\/\/script\.google\.com\/(a\/macros\/[^\/]+\/s\/|macros\/s\/)[\w-]+\/exec\/?$/.test(String(u||'').trim());}
+function post(payload,loud){
+  if(loud)showLoader();
+  if(hasServer){
+    return new Promise(function(res,rej){
+      var fn=payload.action==='__ping'?'srvPing':payload.action==='pushSync'?'srvPush':'srvPull';
+      var arg=payload.action==='pushSync'?JSON.stringify(payload.db):undefined;
+      var runner=google.script.run
+        .withSuccessHandler(function(r){ if(loud)hideLoader(); var d; try{d=JSON.parse(r);}catch(e){d=r;} res(d); })
+        .withFailureHandler(function(e){ if(loud)hideLoader(); rej(e); });
+      if(arg===undefined) runner[fn](); else runner[fn](arg);
+    });
+  }
+  return fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)})
+    .then(function(r){return r.json();})
+    .then(function(d){if(loud)hideLoader();return d;})
+    .catch(function(e){if(loud)hideLoader();throw e;});
 }
 
-/* ---------- sync (Drive/Sheet via server) ---------- */
-function scheduleSync(){ if(!hasServer)return; clearTimeout(syncTimer); syncTimer=setTimeout(pushSilent,1800); }
+/* ---------- sync (Drive/Sheet backup) ---------- */
+function scheduleSync(){ if(!backendReady())return; clearTimeout(syncTimer); syncTimer=setTimeout(pushSilent,1800); }
 function pushSilent(){
-  if(!hasServer)return;
-  srv('srvPush',JSON.stringify(DB),false)
+  if(!backendReady())return;
+  post({action:'pushSync',secret:SECRET,db:DB},false)
     .then(function(d){ if(d&&d.ok){ localStorage.setItem('ascend_last',d.syncedAt); refreshStatus(); } })
     .catch(function(){});
 }
 function syncNow(){
-  if(!hasServer){ toast('Open the app from your /exec link to sync','err'); return; }
-  srv('srvPush',JSON.stringify(DB),true)
+  if(!backendReady()){ toast('Not connected — open from your /exec link or add URL in Settings','err'); go('Settings'); return; }
+  post({action:'pushSync',secret:SECRET,db:DB},true)
     .then(function(d){ if(d&&d.ok){ localStorage.setItem('ascend_last',d.syncedAt); toast('Synced to cloud ☁️','ok'); refreshStatus(); } else toast((d&&d.error)||'Sync failed','err'); })
-    .catch(function(){ toast('Sync failed — reload and retry','err'); });
+    .catch(function(){ toast('Could not reach backend','err'); });
 }
 function restoreCloud(){
-  if(!hasServer){ toast('Cloud unavailable in this preview','err'); return; }
+  if(!backendReady()){ toast('Not connected — open from your /exec link or add URL in Settings','err'); go('Settings'); return; }
   confirmModal({icon:'☁️',title:'Restore from cloud?',msg:'This replaces the data on THIS device with the last cloud backup. Local unsynced changes will be lost.',ok:'Restore',danger:true,onOk:function(){
-    srv('srvPull',undefined,true).then(function(d){
+    post({action:'pullSync',secret:SECRET},true).then(function(d){
       if(d&&d.ok){ if(d.db){ DB=migrate(d.db); recompute(); saveLocal(); render(); toast('Restored from cloud ✅','ok'); } else toast('No cloud backup yet','err'); }
-      else toast('Restore failed','err');
-    }).catch(function(){ toast('Restore failed','err'); });
+      else toast((d&&d.error)||'Restore failed','err');
+    }).catch(function(){ toast('Could not reach backend','err'); });
   }});
 }
-function bootSync(){
+function pingBackend(){
   var c=document.getElementById('conn');
-  if(!hasServer){ c.className='conn bad show'; c.innerHTML='📴 Offline preview — data stays on this device only.'; setTimeout(function(){c.classList.remove('show');},2600); refreshStatus(); return; }
-  srv('srvPull',undefined,false).then(function(d){
-    if(d&&d.ok&&d.db){
-      var cloud=d.db, lt=DB.updatedAt||0, ct=cloud.updatedAt||0;
-      var localEmpty=(!DB.tasks||!DB.tasks.length)&&(!DB.log||!DB.log.length);
-      if(ct>lt || localEmpty){ DB=migrate(cloud); recompute(); saveLocal(); render(); }
-    }
-    c.className='conn ok show'; c.textContent='☁️ Synced · '+APP_NAME+' '+APP_VERSION; setTimeout(function(){c.classList.remove('show');},2200);
+  if(!backendReady()){ c.className='conn bad show'; c.innerHTML='⚠️ Not connected. Open this app from your <b>/exec</b> link, or add the URL in <a onclick="go(\'Settings\')">Settings</a>.'; refreshStatus(); return; }
+  post({action:'__ping'},false).then(function(d){
+    if(d&&d.ok){
+      c.className='conn ok show'; c.textContent='☁️ Connected · '+APP_NAME+' '+(d.version||APP_VERSION); setTimeout(function(){c.classList.remove('show');},2200);
+      // pull newest from cloud (restore on a fresh device / after storage wipe)
+      post({action:'pullSync'},false).then(function(r){
+        if(r&&r.ok&&r.db){ var cloud=r.db, lt=DB.updatedAt||0, ct=cloud.updatedAt||0; var empty=(!DB.tasks||!DB.tasks.length)&&(!DB.log||!DB.log.length); if(ct>lt||empty){ DB=migrate(cloud); recompute(); saveLocal(); render(); } }
+      }).catch(function(){});
+    } else { c.className='conn bad show'; c.innerHTML='⚠️ Backend responded oddly. <a onclick="go(\'Settings\')">Check</a>'; }
     refreshStatus();
-  }).catch(function(){ c.className='conn bad show'; c.textContent='⚠️ Cloud sync unavailable right now.'; setTimeout(function(){c.classList.remove('show');},2600); refreshStatus(); });
+  }).catch(function(){ c.className='conn bad show'; c.innerHTML='⚠️ Backend unreachable. <a onclick="go(\'Settings\')">Check</a>'; refreshStatus(); });
 }
 
 /* ---------- gamification core ---------- */
@@ -1057,6 +1100,7 @@ function renderStats(){
 function fillSettings(){
   document.getElementById('inName').value=DB.profile.name||'';
   document.getElementById('inEmail').value=DB.profile.email||'';
+  document.getElementById('inApi').value=(API===API_DEFAULT?'':API);
   refreshStatus();
 }
 function refreshStatus(){
@@ -1064,7 +1108,17 @@ function refreshStatus(){
   document.getElementById('stTasks').textContent=DB.tasks.length;
   var last=localStorage.getItem('ascend_last');
   document.getElementById('stLast').textContent=last?new Date(last).toLocaleString():'Never';
-  document.getElementById('stConn').textContent=hasServer?'Connected ☁️':'Offline preview';
+  document.getElementById('stConn').textContent=hasServer?'Connected (via /exec) ☁️':(apiOk(API)?'URL set ☁️':'Not set');
+}
+function saveApi(){
+  var u=document.getElementById('inApi').value.trim();
+  if(u && !apiOk(u)){ toast('That doesn\'t look like a /exec URL','err'); return; }
+  API=u||API_DEFAULT; localStorage.setItem('ascend_api',API);
+  refreshStatus(); toast('Backend URL saved','ok'); pingBackend(); if(apiOk(API))pushSilent();
+}
+function testApi(){
+  if(!apiOk(API)){ toast('Save a valid /exec URL first','err'); return; }
+  post({action:'__ping'},true).then(function(d){ if(d&&d.ok)toast('Connected ✅ '+APP_NAME+' '+d.version,'ok'); else toast('Odd response','err'); }).catch(function(){ toast('Unreachable','err'); });
 }
 function saveProfile(){
   DB.profile.name=document.getElementById('inName').value.trim()||'Sam';
@@ -1265,7 +1319,7 @@ function init(){
   recompute();            // recalc streak/level from any restored log
   saveLocal();
   render();
-  bootSync();
+  pingBackend();
   // ticker for countdowns / streak-at-midnight
   setInterval(function(){ if(CUR_PAGE==='Today') renderToday(); }, 30000);
 }
