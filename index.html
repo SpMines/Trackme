@@ -474,6 +474,52 @@ html,body{font-weight:500}
 
 /* ===== more hub ===== */
 .morebtn{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:16px 18px;margin-bottom:11px;cursor:pointer;transition:.2s;animation:pageIn .3s ease both}
+
+/* ===== FOOD / BULKING ===== */
+.macro-grid{display:flex;flex-direction:column;gap:14px}
+.macro-item{display:flex;flex-direction:column;gap:6px}
+.macro-bar-wrap{width:100%;height:8px;background:rgba(255,255,255,.06);border-radius:6px;overflow:hidden}
+.macro-bar{height:100%;border-radius:6px;width:0;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.macro-bar.cal{background:linear-gradient(90deg,#ff8c42,#ffb547)}
+.macro-bar.pro{background:linear-gradient(90deg,#ff5d6c,#ff97a2)}
+.macro-bar.car{background:linear-gradient(90deg,#46b5ff,#7cc9ff)}
+.macro-bar.fat{background:linear-gradient(90deg,#37d399,#6ee7b7)}
+.macro-lbl{display:flex;justify-content:space-between;align-items:center;font-size:12.5px}
+.macro-lbl span{color:var(--muted)}
+.macro-lbl b{font-size:12.5px;font-weight:700;color:var(--txt)}
+
+/* quick meal templates */
+.tmpl-row{display:flex;gap:10px;overflow-x:auto;padding:2px 0 10px;margin-bottom:6px;-webkit-overflow-scrolling:touch}
+.tmpl-row::-webkit-scrollbar{display:none}
+.tmpl-card{flex-shrink:0;min-width:118px;background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:12px 14px;cursor:pointer;transition:.2s}
+.tmpl-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.tmpl-card:active{transform:scale(.96)}
+.tmpl-card .te{font-size:22px;margin-bottom:6px}
+.tmpl-card .tn{font-size:12.5px;font-weight:700;margin-bottom:3px;line-height:1.25}
+.tmpl-card .tc{font-size:10.5px;color:var(--muted)}
+
+/* food list item */
+.food-item{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:12px 14px;margin-bottom:9px;animation:pageIn .3s ease both;transition:.2s}
+.food-item:hover{border-color:var(--accent)}
+.food-item .fe{font-size:22px;flex-shrink:0}
+.food-item .fb{flex:1;min-width:0}
+.food-item .fb .fn{font-size:14px;font-weight:600;margin-bottom:3px}
+.food-item .fb .fm{font-size:11.5px;color:var(--muted)}
+.food-item .fx{color:var(--muted);cursor:pointer;font-size:20px;padding:2px 6px;transition:.2s}
+.food-item .fx:hover{color:#ff97a2}
+
+/* diet plan cards */
+.plan-card{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:16px 18px;margin-bottom:12px;transition:.2s}
+.plan-card:hover{border-color:var(--accent)}
+.plan-card .ph{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.plan-card .ph .pt{font-size:15px;font-weight:800;margin-bottom:3px}
+.plan-card .ph .pd{font-size:11.5px;color:var(--muted)}
+.plan-card .pmac{display:inline-block;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;background:rgba(108,92,231,.15);color:var(--accent2);border:1px solid rgba(108,92,231,.25);white-space:nowrap}
+.plan-meal{display:flex;gap:9px;padding:7px 0;border-top:1px solid rgba(255,255,255,.05);font-size:12.5px}
+.plan-meal .pme{flex-shrink:0}
+.plan-meal .pmt{flex:1;color:var(--txt)}
+.plan-meal .pmk{color:var(--muted);font-size:11px;flex-shrink:0}
+.plan-card .puse{margin-top:12px;width:100%}
 .morebtn:hover{border-color:var(--accent);transform:translateY(-2px)}
 .morebtn .mi{width:46px;height:46px;border-radius:13px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0;box-shadow:0 8px 20px rgba(108,92,231,.4)}
 .morebtn .mt{flex:1}.morebtn .mt b{font-size:15.5px;font-weight:700}.morebtn .mt p{font-size:12px;color:var(--muted);margin-top:2px}
@@ -810,10 +856,56 @@ html,body{font-weight:500}
     </div>
   </div>
 
+  <!-- ============ FOOD / BULKING ============ -->
+  <div class="page" id="pageFood">
+    <div class="ptitle">Food &amp; Bulking</div>
+    <div class="psub">Track what you eat. Hit your surplus. Grow. 🍗</div>
+
+    <!-- daily targets ring -->
+    <div class="box" style="margin-bottom:16px;padding:18px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <h4 style="font-size:14px;font-weight:800">Today's intake</h4>
+        <button class="btn sm ghost" style="padding:6px 12px;font-size:12px" onclick="openGoal()">⚙️ Goals</button>
+      </div>
+      <div class="macro-grid">
+        <div class="macro-item">
+          <div class="macro-bar-wrap"><div class="macro-bar cal" id="mCalBar"></div></div>
+          <div class="macro-lbl"><span>🔥 Calories</span><b id="mCalTxt">0 / 0</b></div>
+        </div>
+        <div class="macro-item">
+          <div class="macro-bar-wrap"><div class="macro-bar pro" id="mProBar"></div></div>
+          <div class="macro-lbl"><span>🥩 Protein</span><b id="mProTxt">0 / 0 g</b></div>
+        </div>
+        <div class="macro-item">
+          <div class="macro-bar-wrap"><div class="macro-bar car" id="mCarBar"></div></div>
+          <div class="macro-lbl"><span>🍚 Carbs</span><b id="mCarTxt">0 / 0 g</b></div>
+        </div>
+        <div class="macro-item">
+          <div class="macro-bar-wrap"><div class="macro-bar fat" id="mFatBar"></div></div>
+          <div class="macro-lbl"><span>🥑 Fats</span><b id="mFatTxt">0 / 0 g</b></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- quick add templates -->
+    <div class="sec"><div class="head"><h2>⚡ Quick meals</h2><div class="cnt">tap to log</div></div></div>
+    <div class="tmpl-row" id="mealTemplates"></div>
+
+    <!-- today's meals list -->
+    <div class="sec" style="margin-top:8px"><div class="head"><h2>🍽️ Today's log</h2><div class="cnt" id="fCount">0 items</div></div>
+      <div id="foodList"></div>
+    </div>
+
+    <!-- diet plan templates -->
+    <div class="sec" style="margin-top:8px"><div class="head"><h2>📋 Bulking diet plans</h2><div class="cnt">59kg → gain</div></div></div>
+    <div id="dietPlans"></div>
+  </div>
+
   <!-- ============ MORE ============ -->
   <div class="page" id="pageMore">
     <div class="ptitle">More</div>
     <div class="psub">Everything else, one tap away.</div>
+    <div class="morebtn" onclick="go('Food')"><div class="mi">🍗</div><div class="mt"><b>Food &amp; Bulking</b><p>Track calories, protein &amp; hit your bulk goal</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Tasks')"><div class="mi">🗂️</div><div class="mt"><b>Manage Tasks</b><p>Create, edit &amp; organize what you track</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Rewards')"><div class="mi">🏆</div><div class="mt"><b>Rewards</b><p>Level, streaks &amp; badges</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Stats')"><div class="mi">📊</div><div class="mt"><b>Stats</b><p>7-day trend &amp; category split</p></div><div class="ar">›</div></div>
@@ -920,6 +1012,46 @@ html,body{font-weight:500}
   </div>
 </div>
 
+<!-- food modal -->
+<div class="modal" id="foodModal" onclick="if(event.target===this)closeFood()">
+  <div class="modal-card">
+    <h3 id="fmTitle">Add Food</h3>
+    <div class="mh">Log a meal or snack.</div>
+    <div class="field"><label>Food name</label><input id="fName" placeholder="e.g. 6 eggs + 2 roti"></div>
+    <div class="row2">
+      <div class="field"><label>Calories (kcal)</label><input id="fCal" type="number" inputmode="numeric" min="0" placeholder="500"></div>
+      <div class="field"><label>Protein (g)</label><input id="fPro" type="number" inputmode="numeric" min="0" placeholder="30"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Carbs (g)</label><input id="fCar" type="number" inputmode="numeric" min="0" placeholder="45"></div>
+      <div class="field"><label>Fats (g)</label><input id="fFat" type="number" inputmode="numeric" min="0" placeholder="15"></div>
+    </div>
+    <div class="btnrow">
+      <button class="btn ghost" onclick="closeFood()">Cancel</button>
+      <button class="btn" onclick="saveFood()">Add 🍽️</button>
+    </div>
+  </div>
+</div>
+
+<!-- goal modal -->
+<div class="modal" id="goalModal" onclick="if(event.target===this)closeGoal()">
+  <div class="modal-card">
+    <h3>Daily Bulking Goals</h3>
+    <div class="mh">Set your surplus targets. Current: 59kg → gaining.</div>
+    <div class="field"><label>🔥 Calorie target (kcal)</label><input id="gCal" type="number" inputmode="numeric" placeholder="2800"></div>
+    <div class="field"><label>🥩 Protein target (g)</label><input id="gPro" type="number" inputmode="numeric" placeholder="130"></div>
+    <div class="row2">
+      <div class="field"><label>🍚 Carbs (g)</label><input id="gCar" type="number" inputmode="numeric" placeholder="350"></div>
+      <div class="field"><label>🥑 Fats (g)</label><input id="gFat" type="number" inputmode="numeric" placeholder="75"></div>
+    </div>
+    <p style="font-size:11.5px;color:var(--muted);line-height:1.5;margin-bottom:14px">💡 For 59kg bulk: aim ~2700–2900 kcal &amp; 1.8–2.2g protein per kg (≈110–130g). Adjust after 2 weeks based on scale.</p>
+    <div class="btnrow">
+      <button class="btn ghost" onclick="applyBulkPreset()">Auto (59kg)</button>
+      <button class="btn" onclick="saveGoal()">Save Goals</button>
+    </div>
+  </div>
+</div>
+
 <!-- confirm modal -->
 <div class="modal confirm" id="confirm" onclick="if(event.target===this)closeConfirm()">
   <div class="modal-card">
@@ -1008,8 +1140,8 @@ var EXPENSE_CATS=['Food','Rent','Bills','Transport','Shopping','Health','Educati
 var TXN_ICON={Salary:'💼',Freelance:'🧑‍💻',Business:'🏢',Investment:'📈',Gift:'🎁',Food:'🍽️',Rent:'🏠',Bills:'🧾',Transport:'🚗',Shopping:'🛍️',Health:'💊',Education:'📚',Fun:'🎉',Savings:'🏦',Other:'📌'};
 var TXN_KIND='out';
 /* workout */
-var WO_TYPES=['Push','Pull','Legs','Full Body','Cardio','Run','Yoga','Mobility','Other'];
-var WO_ICON={'Push':'🏋️','Pull':'🪢','Legs':'🦵','Full Body':'💪','Cardio':'❤️','Run':'🏃','Yoga':'🧘','Mobility':'🤸','Other':'⚡'};
+var WO_TYPES=['Chest','Back','Shoulders','Biceps','Triceps','Legs','Abs / Core','Push','Pull','Full Body','Cardio','Run','Other'];
+var WO_ICON={'Chest':'🎯','Back':'🔙','Shoulders':'🏔️','Biceps':'💪','Triceps':'🔱','Legs':'🦵','Abs / Core':'🧱','Push':'⬆️','Pull':'⬇️','Full Body':'🔥','Cardio':'❤️','Run':'🏃','Other':'⚡'};
 var DB=loadDB();
 var CUR_PAGE='Today';
 var EDIT_ID=null, T_TYPE='once', T_PRI='Medium';
@@ -1018,7 +1150,7 @@ var syncTimer=null;
 /* ---------- storage ---------- */
 function defaultDB(){
   return { v:APP_VERSION, profile:{name:'Sam',email:'',points:0,level:1,levelTitle:LEVELS[0],streak:0,longestStreak:0,lastActiveDate:''},
-           categories:DEFAULT_CATS.slice(), tasks:[], log:[], badges:{}, money:[], workouts:[], updatedAt:Date.now() };
+           categories:DEFAULT_CATS.slice(), tasks:[], log:[], badges:{}, money:[], workouts:[], food:[], settings:{}, updatedAt:Date.now() };
 }
 function loadDB(){
   try{ var raw=localStorage.getItem(LS_KEY); if(raw){ return migrate(JSON.parse(raw)); } }catch(e){}
@@ -1031,7 +1163,7 @@ function migrate(d){
   d.profile.longestStreak=d.profile.longestStreak||0; d.profile.lastActiveDate=d.profile.lastActiveDate||'';
   if(!d.categories||!d.categories.length) d.categories=DEFAULT_CATS.slice();
   d.tasks=d.tasks||[]; d.log=d.log||[]; d.badges=d.badges||{};
-  d.money=d.money||[]; d.workouts=d.workouts||[];
+  d.money=d.money||[]; d.workouts=d.workouts||[]; d.food=d.food||[]; d.settings=d.settings||{};
   return d;
 }
 function saveLocal(){ DB.updatedAt=Date.now(); try{localStorage.setItem(LS_KEY,JSON.stringify(DB));}catch(e){} }
@@ -1246,7 +1378,7 @@ function go(page,el){
   for(var j=0;j<btns.length;j++) btns[j].classList.remove('active');
 
   /* which nav button owns this page? */
-  var morePages={Tasks:1,Stats:1,Settings:1};
+  var morePages={Tasks:1,Stats:1,Settings:1,Food:1};
   var owner = morePages[page] ? 'More' : page;
   var activeBtn=null;
   for(var k=0;k<btns.length;k++){
@@ -1262,7 +1394,7 @@ function go(page,el){
 
   /* 4. fab */
   var fab=document.querySelector('.fab');
-  if(fab) fab.classList.toggle('hide',!{Today:1,Money:1,Workout:1}[page]);
+  if(fab) fab.classList.toggle('hide',!{Today:1,Money:1,Workout:1,Food:1}[page]);
 
   window.scrollTo(0,0);
   render();
@@ -1270,7 +1402,178 @@ function go(page,el){
 function fabAction(){
   if(CUR_PAGE==='Money') openTxn();
   else if(CUR_PAGE==='Workout') openWorkout();
+  else if(CUR_PAGE==='Food') openFood();
   else openTask();
+}
+
+/* ═══════════ FOOD / BULKING ENGINE ═══════════ */
+var FOOD_GOAL_DEFAULT={cal:2800,pro:130,car:350,fat:75};
+
+/* quick-add meal templates (Indian bulking-friendly) */
+var MEAL_TEMPLATES=[
+  {e:'🥚',n:'6 Eggs + 2 Roti',cal:520,pro:34,car:40,fat:24},
+  {e:'🍗',n:'Chicken + Rice',cal:650,pro:52,car:70,fat:14},
+  {e:'🥛',n:'Milk + Banana + PB',cal:430,pro:18,car:52,fat:18},
+  {e:'🫘',n:'Dal + 3 Roti + Ghee',cal:560,pro:22,car:78,fat:18},
+  {e:'🍚',n:'Paneer Bhurji + Rice',cal:600,pro:30,car:62,fat:26},
+  {e:'🥤',n:'Whey Shake',cal:180,pro:28,car:8,fat:3},
+  {e:'🍌',n:'Oats + Milk + Nuts',cal:480,pro:20,car:60,fat:18},
+  {e:'🥜',n:'Peanut Chikki + Curd',cal:350,pro:12,car:38,fat:16}
+];
+
+/* full-day diet plan templates for 59kg bulk */
+var DIET_PLANS=[
+  {
+    title:'Plan A · Simple Desi Bulk',
+    desc:'~2800 kcal · 130g protein · veg-friendly',
+    mac:'2800 kcal',
+    meals:[
+      {e:'🌅',t:'Breakfast: 6 eggs, 2 roti, 1 glass milk',k:'620 kcal'},
+      {e:'☀️',t:'Mid-morning: Banana + 30g peanut butter',k:'320 kcal'},
+      {e:'🍽️',t:'Lunch: 1.5 cup rice, dal, paneer/chicken, curd',k:'750 kcal'},
+      {e:'🏋️',t:'Pre/post: Whey shake + oats',k:'480 kcal'},
+      {e:'🌙',t:'Dinner: 3 roti, sabzi, 2 eggs / paneer',k:'630 kcal'}
+    ]
+  },
+  {
+    title:'Plan B · High-Protein Push',
+    desc:'~2900 kcal · 150g protein · for lean gain',
+    mac:'2900 kcal',
+    meals:[
+      {e:'🌅',t:'Breakfast: 4 eggs + 4 whites, 2 toast, milk',k:'580 kcal'},
+      {e:'🥤',t:'Snack: Whey + 1 banana',k:'340 kcal'},
+      {e:'🍗',t:'Lunch: 200g chicken, 1.5 cup rice, salad',k:'720 kcal'},
+      {e:'🥜',t:'Evening: Handful almonds + curd + chikki',k:'400 kcal'},
+      {e:'🌙',t:'Dinner: Paneer/fish, 3 roti, sabzi',k:'660 kcal'}
+    ]
+  },
+  {
+    title:'Plan C · Budget Mass Gainer',
+    desc:'~2750 kcal · 120g protein · cheap & filling',
+    mac:'2750 kcal',
+    meals:[
+      {e:'🌅',t:'Breakfast: Oats + milk + 2 boiled eggs',k:'520 kcal'},
+      {e:'🍌',t:'Snack: 2 bananas + roasted chana',k:'380 kcal'},
+      {e:'🫘',t:'Lunch: Rajma/chole + 2 cup rice + curd',k:'780 kcal'},
+      {e:'🥛',t:'Evening: Milk + peanuts + jaggery',k:'420 kcal'},
+      {e:'🌙',t:'Dinner: 4 roti, dal, sabzi, ghee',k:'650 kcal'}
+    ]
+  },
+  {
+    title:'Plan D · Veg-Only Bulk',
+    desc:'~2800 kcal · 115g protein · zero meat',
+    mac:'2800 kcal',
+    meals:[
+      {e:'🌅',t:'Breakfast: Paneer paratha (2) + curd + milk',k:'640 kcal'},
+      {e:'🥤',t:'Snack: Whey (veg) + banana + PB',k:'400 kcal'},
+      {e:'🍚',t:'Lunch: Rajma + rice + paneer + salad',k:'760 kcal'},
+      {e:'🥜',t:'Evening: Sprouts + nuts + curd',k:'380 kcal'},
+      {e:'🌙',t:'Dinner: 3 roti, dal makhani, sabzi, ghee',k:'620 kcal'}
+    ]
+  }
+];
+
+function foodGoal(){ return (DB.settings&&DB.settings.foodGoal)?DB.settings.foodGoal:FOOD_GOAL_DEFAULT; }
+function todayFood(){ var t=todayStr(); return (DB.food||[]).filter(function(f){return f.date===t;}); }
+
+function openFood(id){
+  document.getElementById('fmTitle').textContent=id?'Edit Food':'Add Food';
+  document.getElementById('fName').value=''; document.getElementById('fCal').value='';
+  document.getElementById('fPro').value=''; document.getElementById('fCar').value=''; document.getElementById('fFat').value='';
+  document.getElementById('fName').setAttribute('data-edit', id||'');
+  document.getElementById('foodModal').classList.add('show');
+}
+function closeFood(){ document.getElementById('foodModal').classList.remove('show'); }
+function saveFood(){
+  var name=document.getElementById('fName').value.trim();
+  if(!name){ toast('Enter a food name','err'); return; }
+  var cal=+document.getElementById('fCal').value||0;
+  var pro=+document.getElementById('fPro').value||0;
+  var car=+document.getElementById('fCar').value||0;
+  var fat=+document.getElementById('fFat').value||0;
+  DB.food=DB.food||[];
+  DB.food.push({id:uid(),name:name,cal:cal,pro:pro,car:car,fat:fat,date:todayStr(),ts:Date.now()});
+  saveDB(); closeFood(); renderFood(); toast('Logged 🍽️','ok');
+}
+function quickAddMeal(i){
+  var m=MEAL_TEMPLATES[i]; if(!m)return;
+  DB.food=DB.food||[];
+  DB.food.push({id:uid(),name:m.n,cal:m.cal,pro:m.pro,car:m.car,fat:m.fat,date:todayStr(),ts:Date.now()});
+  saveDB(); renderFood(); toast('+'+m.cal+' kcal 🔥','ok');
+}
+function delFood(id){
+  DB.food=(DB.food||[]).filter(function(f){return f.id!==id;});
+  saveDB(); renderFood(); toast('Removed','');
+}
+function openGoal(){
+  var g=foodGoal();
+  document.getElementById('gCal').value=g.cal; document.getElementById('gPro').value=g.pro;
+  document.getElementById('gCar').value=g.car; document.getElementById('gFat').value=g.fat;
+  document.getElementById('goalModal').classList.add('show');
+}
+function closeGoal(){ document.getElementById('goalModal').classList.remove('show'); }
+function applyBulkPreset(){
+  document.getElementById('gCal').value=2800; document.getElementById('gPro').value=130;
+  document.getElementById('gCar').value=350; document.getElementById('gFat').value=75;
+  toast('59kg bulk preset loaded','');
+}
+function saveGoal(){
+  DB.settings=DB.settings||{};
+  DB.settings.foodGoal={
+    cal:+document.getElementById('gCal').value||2800,
+    pro:+document.getElementById('gPro').value||130,
+    car:+document.getElementById('gCar').value||350,
+    fat:+document.getElementById('gFat').value||75
+  };
+  saveDB(); closeGoal(); renderFood(); toast('Goals saved ✅','ok');
+}
+function useDietPlan(i){
+  var p=DIET_PLANS[i]; if(!p)return;
+  toast('Plan set as reference 📋 — log meals as you eat','ok');
+  go('Food');
+}
+function renderFood(){
+  var g=foodGoal(); var items=todayFood();
+  var tot={cal:0,pro:0,car:0,fat:0};
+  items.forEach(function(f){ tot.cal+=f.cal; tot.pro+=f.pro; tot.car+=f.car; tot.fat+=f.fat; });
+
+  function setBar(barId,txtId,val,goal,unit){
+    var pct=goal>0?Math.min(100,Math.round(val/goal*100)):0;
+    document.getElementById(barId).style.width=pct+'%';
+    document.getElementById(txtId).textContent=val+' / '+goal+(unit||'');
+  }
+  setBar('mCalBar','mCalTxt',tot.cal,g.cal,'');
+  setBar('mProBar','mProTxt',tot.pro,g.pro,' g');
+  setBar('mCarBar','mCarTxt',tot.car,g.car,' g');
+  setBar('mFatBar','mFatTxt',tot.fat,g.fat,' g');
+
+  /* templates */
+  var th='';
+  MEAL_TEMPLATES.forEach(function(m,i){
+    th+='<div class="tmpl-card" onclick="quickAddMeal('+i+')"><div class="te">'+m.e+'</div><div class="tn">'+esc(m.n)+'</div><div class="tc">'+m.cal+' kcal · '+m.pro+'g P</div></div>';
+  });
+  document.getElementById('mealTemplates').innerHTML=th;
+
+  /* today log */
+  document.getElementById('fCount').textContent=items.length+' item'+(items.length===1?'':'s');
+  if(!items.length){
+    document.getElementById('foodList').innerHTML='<div class="empty" style="padding:20px"><div class="em">🍽️</div><p>No food logged today. Tap a quick meal above or the + button.</p></div>';
+  } else {
+    var fh='';
+    items.slice().reverse().forEach(function(f){
+      fh+='<div class="food-item"><div class="fe">🍴</div><div class="fb"><div class="fn">'+esc(f.name)+'</div><div class="fm">'+f.cal+' kcal · '+f.pro+'g P · '+f.car+'g C · '+f.fat+'g F</div></div><div class="fx" onclick="delFood(\''+f.id+'\')">×</div></div>';
+    });
+    document.getElementById('foodList').innerHTML=fh;
+  }
+
+  /* diet plans */
+  var ph='';
+  DIET_PLANS.forEach(function(p,i){
+    var meals='';
+    p.meals.forEach(function(m){ meals+='<div class="plan-meal"><span class="pme">'+m.e+'</span><span class="pmt">'+esc(m.t)+'</span><span class="pmk">'+m.k+'</span></div>'; });
+    ph+='<div class="plan-card"><div class="ph"><div><div class="pt">'+esc(p.title)+'</div><div class="pd">'+esc(p.desc)+'</div></div><span class="pmac">'+p.mac+'</span></div>'+meals+'</div>';
+  });
+  document.getElementById('dietPlans').innerHTML=ph;
 }
 
 /* ---------- render ---------- */
@@ -1290,6 +1593,7 @@ function render(){
   if(CUR_PAGE==='Stats')  renderStats();
   if(CUR_PAGE==='Money')  renderMoney();
   if(CUR_PAGE==='Workout')renderWorkout();
+  if(CUR_PAGE==='Food')renderFood();
   if(CUR_PAGE==='Settings')fillSettings();
 }
 
