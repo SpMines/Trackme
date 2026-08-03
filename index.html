@@ -27,186 +27,25 @@ a{color:var(--accent2);text-decoration:none}
 .b2{width:400px;height:400px;background:#7c4dff;bottom:-260px;right:-120px;opacity:.18}
 
 /* ═══════════════════════════════════
-   BOOT — Solo Leveling style
+   BOOT — Premium minimal
    ═══════════════════════════════════ */
-.boot{
-  position:fixed;inset:0;z-index:12000;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  background:#000;gap:0;
-  transition:opacity .8s ease,visibility .8s;
-  overflow:hidden;
-}
+.boot{position:fixed;inset:0;z-index:12000;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#07070c;overflow:hidden;transition:opacity .7s ease,visibility .7s}
 .boot.hide{opacity:0;visibility:hidden;pointer-events:none}
-
-/* dark particle canvas bg */
-.boot-canvas{position:absolute;inset:0;z-index:0}
-
-/* scanlines */
-.boot::before{
-  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,.012) 3px,rgba(255,255,255,.012) 4px);
-}
-
-/* solo leveling corner marks */
-.boot-corner{position:absolute;width:28px;height:28px;z-index:2;pointer-events:none}
-.boot-corner.tl{top:20px;left:20px;border-top:2px solid rgba(108,92,231,.7);border-left:2px solid rgba(108,92,231,.7);animation:cIn .6s .1s both}
-.boot-corner.tr{top:20px;right:20px;border-top:2px solid rgba(108,92,231,.7);border-right:2px solid rgba(108,92,231,.7);animation:cIn .6s .2s both}
-.boot-corner.bl{bottom:20px;left:20px;border-bottom:2px solid rgba(108,92,231,.7);border-left:2px solid rgba(108,92,231,.7);animation:cIn .6s .3s both}
-.boot-corner.br{bottom:20px;right:20px;border-bottom:2px solid rgba(108,92,231,.7);border-right:2px solid rgba(108,92,231,.7);animation:cIn .6s .4s both}
-@keyframes cIn{from{opacity:0;transform:scale(1.6)}to{opacity:1;transform:scale(1)}}
-
-/* center content */
-.boot .b-inner{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;gap:0;text-align:center}
-
-/* ⚡ LOGO — animated SVG lightning core with energy rings */
-.boot .mark{
-  width:104px;height:104px;
-  position:relative;
-  display:flex;align-items:center;justify-content:center;
-  margin-bottom:36px;
-  animation:markEnter .9s .2s cubic-bezier(.2,.85,.3,1.4) both;
-}
-@keyframes markEnter{
-  0%{transform:translateY(-50px) scale(.4) rotate(-30deg);opacity:0}
-  60%{transform:translateY(5px) scale(1.1) rotate(6deg);opacity:1}
-  100%{transform:translateY(0) scale(1) rotate(0)}
-}
-/* rotating energy ring */
-.mark-ring{
-  position:absolute;inset:0;border-radius:26px;
-  border:1.5px solid transparent;
-  background:linear-gradient(#0a0a14,#0a0a14) padding-box,
-            conic-gradient(from 0deg,#7c5cff,#a29bfe,#46b5ff,#7c5cff) border-box;
-  animation:ringSpin 3s 1s linear infinite;
-  box-shadow:0 0 30px rgba(124,92,255,.4);
-}
-@keyframes ringSpin{to{transform:rotate(360deg)}}
-/* inner glass core */
-.mark-core{
-  position:absolute;inset:8px;border-radius:20px;
-  background:radial-gradient(circle at 30% 25%,#1e0d4a,#0a0020 70%);
-  border:1px solid rgba(124,92,255,.35);
-  display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
-}
-/* pulsing glow behind bolt */
-.mark-core::before{
-  content:'';position:absolute;width:60px;height:60px;border-radius:50%;
-  background:radial-gradient(circle,rgba(124,92,255,.6),transparent 65%);
-  animation:coreGlow 1.6s 1.2s ease-in-out infinite;
-}
-@keyframes coreGlow{0%,100%{opacity:.5;transform:scale(.9)}50%{opacity:1;transform:scale(1.25)}}
-/* the SVG bolt */
-.mark-bolt{position:relative;z-index:2;width:44px;height:44px}
-.mark-bolt path{
-  fill:url(#boltGrad);
-  filter:drop-shadow(0 0 8px rgba(124,92,255,.9));
-  stroke-dasharray:200;stroke-dashoffset:200;
-  animation:boltDraw 1s .5s ease forwards, boltFlicker 3s 1.6s ease-in-out infinite;
-}
-@keyframes boltDraw{to{stroke-dashoffset:0}}
-@keyframes boltFlicker{0%,100%{opacity:1;filter:drop-shadow(0 0 8px rgba(124,92,255,.9))}48%{opacity:1}50%{opacity:.75;filter:drop-shadow(0 0 16px rgba(162,155,254,1))}52%{opacity:1}}
-/* electric spark particles around logo */
-.mark-spark{position:absolute;width:3px;height:3px;border-radius:50%;background:#a29bfe;box-shadow:0 0 6px #7c5cff;opacity:0}
-.mark-spark.s1{top:6px;right:14px;animation:spark 2.4s 1.4s ease-in-out infinite}
-.mark-spark.s2{bottom:12px;left:8px;animation:spark 2.4s 1.9s ease-in-out infinite}
-.mark-spark.s3{top:40px;right:2px;animation:spark 2.4s 2.3s ease-in-out infinite}
-@keyframes spark{0%,100%{opacity:0;transform:scale(0) translate(0,0)}50%{opacity:1;transform:scale(1.4) translate(4px,-4px)}}
-
-/* VOLTS — letter-by-letter glitch reveal */
-.boot .word{
-  font-family:'Cinzel Decorative',serif;
-  font-size:46px;font-weight:900;
-  letter-spacing:6px;
-  margin-bottom:10px;
-  display:flex;gap:2px;
-  perspective:600px;
-}
-.boot .word span{
-  display:inline-block;
-  color:transparent;
-  background:linear-gradient(180deg,#fff 0%,#dcd6ff 40%,#a29bfe 70%,#7c5cff 100%);
-  background-size:100% 200%;
-  -webkit-background-clip:text;background-clip:text;
-  filter:drop-shadow(0 0 18px rgba(124,92,255,.7));
-  transform-origin:50% 120%;
-  opacity:0;
-}
-/* staggered drop, then each letter floats continuously */
-.boot .word span:nth-child(1){animation:letterDrop .75s .55s cubic-bezier(.15,.9,.25,1.4) both, letterFloat 3s 1.6s ease-in-out infinite}
-.boot .word span:nth-child(2){animation:letterDrop .75s .67s cubic-bezier(.15,.9,.25,1.4) both, letterFloat 3s 1.75s ease-in-out infinite}
-.boot .word span:nth-child(3){animation:letterDrop .75s .79s cubic-bezier(.15,.9,.25,1.4) both, letterFloat 3s 1.9s ease-in-out infinite}
-.boot .word span:nth-child(4){animation:letterDrop .75s .91s cubic-bezier(.15,.9,.25,1.4) both, letterFloat 3s 2.05s ease-in-out infinite}
-.boot .word span:nth-child(5){animation:letterDrop .75s 1.03s cubic-bezier(.15,.9,.25,1.4) both, letterFloat 3s 2.2s ease-in-out infinite}
-@keyframes letterDrop{
-  0%{opacity:0;transform:translateY(-70px) rotateX(-110deg) scale(1.5);filter:drop-shadow(0 0 45px rgba(124,92,255,1)) blur(8px)}
-  50%{opacity:1;transform:translateY(8px) rotateX(15deg) scale(1.05);filter:drop-shadow(0 0 34px rgba(255,255,255,.9)) blur(0)}
-  70%{transform:translateY(-3px) rotateX(-4deg) scale(.98)}
-  100%{opacity:1;transform:translateY(0) rotateX(0) scale(1);filter:drop-shadow(0 0 16px rgba(124,92,255,.55))}
-}
-@keyframes letterFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-/* light sweep across the word after letters land */
-.boot .word::after{
-  content:'';position:absolute;top:0;left:-30%;width:40%;height:100%;
-  background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);
-  transform:skewX(-20deg);
-  animation:wordSheen 1.1s 1.25s ease both;
-  pointer-events:none;
-}
-@keyframes wordSheen{from{left:-40%}to{left:130%}}
-.boot .word{position:relative}
-
-/* system text */
-.boot .sub{
-  font-size:10px;letter-spacing:4px;
-  color:rgba(162,155,254,.5);
-  text-transform:uppercase;
-  animation:fadeUp .5s 1.1s both;
-  margin-bottom:6px;
-}
-.boot .ltd{
-  display:inline-block;margin-top:16px;
-  font-size:8.5px;letter-spacing:2px;font-weight:700;
-  color:rgba(108,92,231,.7);
-  border:1px solid rgba(108,92,231,.3);
-  padding:3px 14px;border-radius:20px;
-  text-transform:uppercase;
-  animation:fadeUp .4s 1.3s both;
-  background:rgba(108,92,231,.06);
-}
-
-/* Solo Leveling style loading bar — purple streak */
-.boot .bprog{
-  width:180px;height:2px;
-  background:rgba(255,255,255,.06);
-  border-radius:2px;margin-top:36px;
-  overflow:hidden;
-  animation:fadeUp .3s 1s both;
-  position:relative;
-}
-.boot .bprog i{
-  display:block;height:100%;
-  background:linear-gradient(90deg,transparent,#6C5CE7,#a29bfe,#fff);
-  border-radius:2px;
-  animation:slLoad 1.4s .8s cubic-bezier(.4,0,.2,1) both;
-}
-.boot .bprog::after{
-  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
-  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.4) 50%,transparent 100%);
-  animation:barSheen 1.4s .8s ease both;
-}
-@keyframes slLoad{from{width:0}to{width:100%}}
-@keyframes barSheen{from{transform:translateX(-100%)}to{transform:translateX(200%)}}
-
-/* system status text */
-.boot .bstat{
-  font-size:9px;letter-spacing:2px;color:rgba(108,92,231,.5);
-  margin-top:10px;
-  animation:fadeUp .3s 1.1s both;
-  text-transform:uppercase;
-}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.boot::before{content:'';position:absolute;width:min(600px,120vw);height:min(600px,120vw);border-radius:50%;background:radial-gradient(circle,rgba(108,92,231,.14),transparent 60%);filter:blur(30px);animation:bootBreathe 4s ease-in-out infinite;pointer-events:none}
+@keyframes bootBreathe{0%,100%{opacity:.5;transform:scale(.95)}50%{opacity:.9;transform:scale(1.05)}}
+.boot .b-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center}
+.boot .logo-mark{width:72px;height:72px;margin-bottom:32px;position:relative;animation:bootLogoIn 1s cubic-bezier(.16,1,.3,1) both}
+@keyframes bootLogoIn{0%{opacity:0;transform:translateY(12px) scale(.92)}100%{opacity:1;transform:none}}
+.boot .logo-mark svg{width:100%;height:100%;overflow:visible}
+.boot .logo-mark .bolt-fill{fill:url(#bootBg);filter:drop-shadow(0 4px 20px rgba(108,92,231,.5))}
+.boot .word{font-family:'Cinzel Decorative',serif;font-size:38px;font-weight:900;letter-spacing:3px;color:#fff;margin-bottom:14px;position:relative;overflow:hidden;animation:bootFade .8s .5s both}
+.boot .word .sheen{position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.4),transparent);transform:skewX(-18deg);animation:bootSheen 2s 1s ease}
+@keyframes bootSheen{to{left:180%}}
+.boot .sub{font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:44px;animation:bootFade .8s .7s both}
+.boot .prog{width:160px;height:1.5px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;position:relative;animation:bootFade .6s .8s both}
+.boot .prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;animation:bootFill 1.6s .9s cubic-bezier(.65,0,.35,1) forwards}
+@keyframes bootFill{to{width:100%}}
+@keyframes bootFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @keyframes shimmer{to{background-position:200% center}}
 
 /* shimmer loader (server calls) */
@@ -292,6 +131,24 @@ a{color:var(--accent2);text-decoration:none}
 .perfect{background:linear-gradient(135deg,rgba(55,211,153,.18),rgba(70,181,255,.14));border:1px solid rgba(55,211,153,.4);border-radius:16px;padding:16px 18px;margin-bottom:18px;display:flex;align-items:center;gap:12px}
 .perfect .e{font-size:28px}
 .perfect b{font-size:15px} .perfect p{font-size:12.5px;color:var(--muted);margin-top:2px}
+
+/* ═══ DAILY REPORT ═══ */
+.report{border-radius:18px;padding:18px;margin-top:6px;margin-bottom:8px;border:1px solid var(--brd);background:var(--card);animation:pageIn .35s ease both}
+.report.rep-gold{background:linear-gradient(135deg,rgba(255,181,71,.14),rgba(108,92,231,.08));border-color:rgba(255,181,71,.4)}
+.report.rep-warm{background:linear-gradient(135deg,rgba(255,140,66,.12),rgba(108,92,231,.06));border-color:rgba(255,140,66,.35)}
+.report.rep-plain{background:var(--card);border-color:var(--brd)}
+.rep-head{display:flex;align-items:center;gap:13px;margin-bottom:14px}
+.rep-ic{font-size:30px;flex-shrink:0}
+.rep-head b{font-size:16px;font-weight:800;display:block}
+.rep-pct{font-size:12px;color:var(--muted);font-weight:600}
+.rep-bar{position:relative;width:100%;height:9px;background:rgba(255,255,255,.07);border-radius:6px;overflow:hidden;margin-bottom:14px}
+.rep-bar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .6s cubic-bezier(.4,0,.2,1)}
+.rep-bar .rep-mark{position:absolute;top:-2px;width:2px;height:13px;background:rgba(255,255,255,.55);border-radius:2px}
+.rep-msg{font-size:13px;line-height:1.55;color:var(--txt);margin-bottom:2px}
+.rep-missed-wrap{margin-top:13px;padding-top:13px;border-top:1px solid rgba(255,255,255,.06)}
+.rep-missed-lbl{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:600;margin-bottom:7px}
+.rep-missed{font-size:13px;color:#ffb0a0;padding:3px 0;font-weight:500}
+.rep-foot{font-size:11px;color:var(--muted);margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06);line-height:1.5}
 
 /* manage task row */
 .mrow{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:12px 14px;margin-bottom:9px}
@@ -687,26 +544,19 @@ html,body{font-weight:500}
 
 <!-- boot splash -->
 <div class="boot" id="boot">
-  <div class="mark">
-      <div class="mark-ring"></div>
-      <div class="mark-core">
-        <svg class="mark-bolt" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="boltGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#fff"/>
-              <stop offset="0.5" stop-color="#c7bfff"/>
-              <stop offset="1" stop-color="#7c5cff"/>
-            </linearGradient>
-          </defs>
-          <path d="M13 2L4.5 13.5H11L10 22L18.5 9.5H12L13 2Z" stroke="#a29bfe" stroke-width="0.5" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <span class="mark-spark s1"></span>
-      <span class="mark-spark s2"></span>
-      <span class="mark-spark s3"></span>
+  <div class="b-inner">
+    <div class="logo-mark">
+      <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="bootBg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#a29bfe"/><stop offset="1" stop-color="#6C5CE7"/>
+        </linearGradient></defs>
+        <path class="bolt-fill" d="M27 4L11 26h11l-2 18 16-22H25l2-18z"/>
+      </svg>
     </div>
-  <div class="word"><span>V</span><span>o</span><span>l</span><span>t</span><span>s</span></div>
-  <div class="sub">Self-Upgrade OS</div>
+    <div class="word">Volts<span class="sheen"></span></div>
+    <div class="sub">Self · Upgrade · OS</div>
+    <div class="prog"><i></i></div>
+  </div>
 </div>
 
 <!-- server loader -->
@@ -759,6 +609,7 @@ html,body{font-weight:500}
     </div>
 
     <div id="todaySlot"></div>
+    <div id="reportSlot"></div>
   </div>
 
   <!-- ============ TASKS ============ -->
@@ -1084,9 +935,9 @@ html,body{font-weight:500}
     <div class="field"><label>Category</label><select id="tCat"></select></div>
     <label style="display:block;font-size:12.5px;color:var(--muted);margin-bottom:7px">Type</label>
     <div class="seg" id="tType">
-      <button data-v="once" class="on" onclick="setType('once')">One-time</button>
-      <button data-v="daily" onclick="setType('daily')">Daily habit</button>
+      <button data-v="daily" class="on" onclick="setType('daily')">Daily habit</button>
       <button data-v="sticky" onclick="setType('sticky')">Sticky ⏱</button>
+      <button data-v="once" onclick="setType('once')">One-time</button>
     </div>
     <div id="timeWrap" style="display:none">
       <div class="field">
@@ -1294,13 +1145,13 @@ var WO_TYPES=['Chest','Back','Shoulders','Biceps','Triceps','Legs','Abs / Core',
 var WO_ICON={'Chest':'🎯','Back':'🔙','Shoulders':'🏔️','Biceps':'💪','Triceps':'🔱','Legs':'🦵','Abs / Core':'🧱','Push':'⬆️','Pull':'⬇️','Full Body':'🔥','Cardio':'❤️','Run':'🏃','Other':'⚡'};
 var DB=loadDB();
 var CUR_PAGE='Today';
-var EDIT_ID=null, T_TYPE='once', T_PRI='Medium';
+var EDIT_ID=null, T_TYPE='daily', T_PRI='Medium';
 var syncTimer=null;
 
 /* ---------- storage ---------- */
 function defaultDB(){
   return { v:APP_VERSION, profile:{name:'Sam',email:'',points:0,level:1,levelTitle:LEVELS[0],streak:0,longestStreak:0,lastActiveDate:''},
-           categories:DEFAULT_CATS.slice(), tasks:[], log:[], badges:{}, money:[], workouts:[], food:[], bodylog:[], dailylog:{}, settings:{}, updatedAt:Date.now() };
+           categories:DEFAULT_CATS.slice(), tasks:[], log:[], badges:{}, money:[], workouts:[], food:[], bodylog:[], dailylog:{}, dailyBonus:{}, settings:{}, updatedAt:Date.now() };
 }
 function loadDB(){
   try{ var raw=localStorage.getItem(LS_KEY); if(raw){ return migrate(JSON.parse(raw)); } }catch(e){}
@@ -1356,6 +1207,8 @@ function mergeDB(local,cloud){
       m.dailylog[day]=dst;
     }
   });
+  // dailyBonus: union, keep any awarded day
+  m.dailyBonus={}; [local.dailyBonus,cloud.dailyBonus].forEach(function(db){ if(db) for(var d in db) m.dailyBonus[d]=db[d]; });
   m.updatedAt=Date.now();
   return migrate(m);
 }
@@ -1366,7 +1219,7 @@ function migrate(d){
   d.profile.longestStreak=d.profile.longestStreak||0; d.profile.lastActiveDate=d.profile.lastActiveDate||'';
   if(!d.categories||!d.categories.length) d.categories=DEFAULT_CATS.slice();
   d.tasks=d.tasks||[]; d.log=d.log||[]; d.badges=d.badges||{};
-  d.money=d.money||[]; d.workouts=d.workouts||[]; d.food=d.food||[]; d.bodylog=d.bodylog||[]; d.dailylog=d.dailylog||{}; d.settings=d.settings||{};
+  d.money=d.money||[]; d.workouts=d.workouts||[]; d.food=d.food||[]; d.bodylog=d.bodylog||[]; d.dailylog=d.dailylog||{}; d.dailyBonus=d.dailyBonus||{}; d.settings=d.settings||{};
   return d;
 }
 function saveLocal(){ DB.updatedAt=Date.now(); try{localStorage.setItem(LS_KEY,JSON.stringify(DB));}catch(e){} }
@@ -1983,6 +1836,58 @@ function renderToday(){
     html='<div class="empty"><div class="em">⚡</div><p>Nothing tracked yet.<br>Tap <b>+</b> to add your first task and start leveling up.</p></div>';
   }
   document.getElementById('todaySlot').innerHTML=html;
+  renderDailyReport(timed,doneTimed,pct);
+}
+
+/* ═══════════ DAILY REPORT + 80% REWARD ═══════════ */
+function renderDailyReport(timed,doneTimed,pct){
+  var slot=document.getElementById('reportSlot'); if(!slot)return;
+  if(!timed.length){ slot.innerHTML=''; return; }
+  var td=todayStr();
+  var left=timed.length-doneTimed;
+  var missed=timed.filter(function(t){return !isDoneToday(t);});
+
+  /* award daily bonus once when crossing 80% */
+  DB.dailyBonus=DB.dailyBonus||{};
+  var hitThreshold = pct>=80;
+  var alreadyAwarded = DB.dailyBonus[td];
+  if(hitThreshold && !alreadyAwarded){
+    var bonus=25;
+    DB.profile.points+=bonus;
+    DB.dailyBonus[td]=bonus;
+    recompute(); saveDB();
+    toast('🏆 80% cleared — +'+bonus+' bonus XP!','ok');
+    if(typeof flyPts==='function') flyPts(bonus);
+  }
+
+  var missedHtml='';
+  if(missed.length){
+    missed.forEach(function(t){ missedHtml+='<div class="rep-missed">○ '+esc(t.title)+'</div>'; });
+  }
+
+  var state, icon, msg, cls;
+  if(pct===100){
+    state='Day cleared'; icon='🎉'; cls='rep-gold';
+    msg='Every task done. Streak protected, bonus earned. This is the standard.';
+  } else if(pct>=80){
+    state='Reward earned'; icon='🏆'; cls='rep-gold';
+    msg='You hit '+pct+'% — above the 80% line. Bonus XP unlocked. '+(left>0?left+' task'+(left>1?'s':'')+' still open if you want a perfect day.':'');
+  } else if(pct>=50){
+    state='Almost there'; icon='🔥'; cls='rep-warm';
+    msg='At '+pct+'%. Clear '+(Math.ceil(timed.length*0.8)-doneTimed)+' more to cross 80% and earn the daily bonus.';
+  } else {
+    state='Day in progress'; icon='📋'; cls='rep-plain';
+    msg=doneTimed+' of '+timed.length+' done. Reward unlocks at 80%.';
+  }
+
+  slot.innerHTML=
+    '<div class="report '+cls+'">'
+    +'<div class="rep-head"><span class="rep-ic">'+icon+'</span><div><b>'+state+'</b><span class="rep-pct">'+pct+'% complete · '+doneTimed+'/'+timed.length+'</span></div></div>'
+    +'<div class="rep-bar"><i style="width:'+pct+'%"></i><div class="rep-mark" style="left:80%"></div></div>'
+    +'<p class="rep-msg">'+msg+'</p>'
+    +(missedHtml?'<div class="rep-missed-wrap"><div class="rep-missed-lbl">Still open:</div>'+missedHtml+'</div>':'')
+    +'<p class="rep-foot">🌙 Daily habits reset at midnight. Progress logs to your history.</p>'
+    +'</div>';
 }
 
 function section(title,list,isSticky){
@@ -2174,7 +2079,7 @@ function openTask(id){
     setType(t.type); setPri(t.priority||'Medium');
   } else { document.getElementById('tmTitle').textContent='New Task';
     document.getElementById('tTitle').value=''; document.getElementById('tNote').value=''; document.getElementById('tTime').value='';
-    document.getElementById('tCat').selectedIndex=0; setType('once'); setPri('Medium');
+    document.getElementById('tCat').selectedIndex=0; setType('daily'); setPri('Medium');
   }
   document.getElementById('taskModal').classList.add('show');
   setTimeout(function(){document.getElementById('tTitle').focus();},120);
@@ -2343,31 +2248,8 @@ function toast(msg,type){ var t=document.getElementById('toast'); t.textContent=
 function flyPts(n){ var f=document.getElementById('fly'); f.textContent='+'+n; f.className='fly'; void f.offsetWidth; f.className='fly go'; }
 
 /* ---------- boot ---------- */
-function bootParticles(){
-  var c=document.getElementById('bootCanvas'); if(!c)return;
-  var ctx=c.getContext('2d');
-  c.width=window.innerWidth; c.height=window.innerHeight;
-  var pts=[];
-  for(var i=0;i<60;i++) pts.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.5+.3,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,o:Math.random()*.5+.1});
-  function draw(){
-    ctx.clearRect(0,0,c.width,c.height);
-    pts.forEach(function(p){
-      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle='rgba(108,92,231,'+p.o+')';ctx.fill();
-      p.x+=p.vx;p.y+=p.vy;
-      if(p.x<0||p.x>c.width)p.vx*=-1;
-      if(p.y<0||p.y>c.height)p.vy*=-1;
-    });
-    requestAnimationFrame(draw);
-  }
-  draw();
-}
 function init(){
-  bootParticles();
-  var msgs=['Initializing system...','Loading profile...','Syncing data...','System ready ⚡'];
-  var mi=0; var st=document.getElementById('bstat');
-  var iv=setInterval(function(){ mi++; if(st&&msgs[mi])st.textContent=msgs[mi]; if(mi>=msgs.length-1)clearInterval(iv); },520);
-  setTimeout(function(){ document.getElementById('boot').classList.add('hide'); },2500);
+  setTimeout(function(){ document.getElementById('boot').classList.add('hide'); },2600);
   recompute();
   saveLocal();
   render();
