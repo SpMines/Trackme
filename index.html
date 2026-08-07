@@ -901,11 +901,54 @@ html,body{font-weight:500}
     </div>
   </div>
 
+  <!-- ============ JOURNAL / DAY LOG ============ -->
+  <div class="page" id="pageJournal">
+    <div class="ptitle">Day Log</div>
+    <div class="psub">Raat ko bharo. Subah clarity milegi.</div>
+
+    <div class="box" style="margin-bottom:16px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <h4 style="font-size:14px;font-weight:700">📋 Aaj ka log</h4>
+        <span class="chip" id="jlDate">—</span>
+      </div>
+
+      <div class="field"><label>✅ Kaam hua</label><textarea id="jlDone" placeholder="Jo complete kiya — kaam, routine, sab"></textarea></div>
+      <div class="field"><label>❌ Kaam nahi hua</label><textarea id="jlNot" placeholder="Jo reh gaya — aur kyun"></textarea></div>
+      <div class="field"><label>🗣️ Kis se baat / kya decide kiya</label><textarea id="jlPeople" placeholder="Log, decisions, koi baat jo important thi"></textarea></div>
+
+      <div class="field">
+        <label>🌡️ Mood — <span id="jlMoodV" style="color:var(--acc2);font-weight:700">5</span>/10</label>
+        <input id="jlMood" type="range" min="1" max="10" value="5" oninput="document.getElementById('jlMoodV').textContent=this.value" style="width:100%;accent-color:#7c5cff">
+      </div>
+
+      <div class="field">
+        <label>⚡ Body / Routine</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap" id="jlFlags">
+          <button type="button" class="chip jl-flag" data-f="wake" onclick="jlFlag(this)">🌅 5 AM</button>
+          <button type="button" class="chip jl-flag" data-f="run" onclick="jlFlag(this)">🏃 Run</button>
+          <button type="button" class="chip jl-flag" data-f="food" onclick="jlFlag(this)">🍗 Khaana OK</button>
+          <button type="button" class="chip jl-flag" data-f="skill" onclick="jlFlag(this)">📚 Skill hour</button>
+        </div>
+      </div>
+
+      <div class="btnrow" style="display:flex;gap:10px">
+        <button class="btn ghost" onclick="copyDayReport()">📋 Copy report</button>
+        <button class="btn" onclick="saveDayLog()">Save log</button>
+      </div>
+    </div>
+
+    <div class="box">
+      <h4 style="font-size:14px;font-weight:700;margin-bottom:12px">📆 Pichle logs</h4>
+      <div id="jlHistory"></div>
+    </div>
+  </div>
+
   <!-- ============ MORE ============ -->
   <div class="page" id="pageMore">
     <div class="ptitle">More</div>
     <div class="psub">Everything else, one tap away.</div>
     <div class="morebtn" onclick="go('Food')"><div class="mi">🍗</div><div class="mt"><b>Food &amp; Bulking</b><p>Track calories, protein &amp; hit your bulk goal</p></div><div class="ar">›</div></div>
+    <div class="morebtn" onclick="go('Journal')"><div class="mi">📓</div><div class="mt"><b>Day Log</b><p>Raat ka report — kaam, log, mood</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Tasks')"><div class="mi">🗂️</div><div class="mt"><b>Manage Tasks</b><p>Create, edit &amp; organize what you track</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Rewards')"><div class="mi">🏆</div><div class="mt"><b>Rewards</b><p>Level, streaks &amp; badges</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Stats')"><div class="mi">📊</div><div class="mt"><b>Stats</b><p>7-day trend &amp; category split</p></div><div class="ar">›</div></div>
@@ -1151,7 +1194,7 @@ var syncTimer=null;
 /* ---------- storage ---------- */
 function defaultDB(){
   return { v:APP_VERSION, profile:{name:'Sam',email:'',points:0,level:1,levelTitle:LEVELS[0],streak:0,longestStreak:0,lastActiveDate:''},
-           categories:DEFAULT_CATS.slice(), tasks:[], log:[], badges:{}, money:[], workouts:[], food:[], bodylog:[], dailylog:{}, dailyBonus:{}, settings:{}, updatedAt:Date.now() };
+           categories:DEFAULT_CATS.slice(), tasks:[], log:[], badges:{}, money:[], workouts:[], food:[], bodylog:[], dailylog:{}, dailyBonus:{}, daylog:{}, settings:{}, updatedAt:Date.now() };
 }
 function loadDB(){
   try{ var raw=localStorage.getItem(LS_KEY); if(raw){ return migrate(JSON.parse(raw)); } }catch(e){}
@@ -1209,6 +1252,15 @@ function mergeDB(local,cloud){
   });
   // dailyBonus: union, keep any awarded day
   m.dailyBonus={}; [local.dailyBonus,cloud.dailyBonus].forEach(function(db){ if(db) for(var d in db) m.dailyBonus[d]=db[d]; });
+  // daylog: union per-day, newest ts wins
+  m.daylog={};
+  [local.daylog,cloud.daylog].forEach(function(dl){
+    if(!dl) return;
+    for(var day in dl){
+      var src=dl[day], ex=m.daylog[day];
+      if(!ex || (src.ts||0)>=(ex.ts||0)) m.daylog[day]=src;
+    }
+  });
   m.updatedAt=Date.now();
   return migrate(m);
 }
@@ -1219,7 +1271,7 @@ function migrate(d){
   d.profile.longestStreak=d.profile.longestStreak||0; d.profile.lastActiveDate=d.profile.lastActiveDate||'';
   if(!d.categories||!d.categories.length) d.categories=DEFAULT_CATS.slice();
   d.tasks=d.tasks||[]; d.log=d.log||[]; d.badges=d.badges||{};
-  d.money=d.money||[]; d.workouts=d.workouts||[]; d.food=d.food||[]; d.bodylog=d.bodylog||[]; d.dailylog=d.dailylog||{}; d.dailyBonus=d.dailyBonus||{}; d.settings=d.settings||{};
+  d.money=d.money||[]; d.workouts=d.workouts||[]; d.food=d.food||[]; d.bodylog=d.bodylog||[]; d.dailylog=d.dailylog||{}; d.dailyBonus=d.dailyBonus||{}; d.daylog=d.daylog||{}; d.settings=d.settings||{};
   return d;
 }
 function saveLocal(){ DB.updatedAt=Date.now(); try{localStorage.setItem(LS_KEY,JSON.stringify(DB));}catch(e){} }
@@ -1444,7 +1496,7 @@ function go(page,el){
   for(var j=0;j<btns.length;j++) btns[j].classList.remove('active');
 
   /* which nav button owns this page? */
-  var morePages={Tasks:1,Stats:1,Settings:1,Food:1};
+  var morePages={Tasks:1,Stats:1,Settings:1,Food:1,Journal:1};
   var owner = morePages[page] ? 'More' : page;
   var activeBtn=null;
   for(var k=0;k<btns.length;k++){
@@ -1786,6 +1838,116 @@ function renderWeekAnalytics(){
     '<div class="wa-row"><span class="wal">📆 Days food logged</span><span class="wav">'+calDays+' / 7</span></div>';
 }
 
+/* ═══════════ DAY LOG / JOURNAL ENGINE ═══════════ */
+var JL_FLAGS={};
+
+function jlFlag(btn){
+  var f=btn.getAttribute('data-f');
+  JL_FLAGS[f]=!JL_FLAGS[f];
+  btn.classList.toggle('grn',!!JL_FLAGS[f]);
+}
+
+function prettyDate(ds){
+  var p=ds.split('-'), M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return (+p[2])+' '+M[(+p[1])-1]+' '+p[0];
+}
+
+function renderJournal(){
+  var td=todayStr();
+  var d=document.getElementById('jlDate'); if(d) d.textContent=prettyDate(td);
+
+  var cur=(DB.daylog&&DB.daylog[td])||null;
+  document.getElementById('jlDone').value   = cur?(cur.done||''):'';
+  document.getElementById('jlNot').value    = cur?(cur.notDone||''):'';
+  document.getElementById('jlPeople').value = cur?(cur.people||''):'';
+  document.getElementById('jlMood').value   = cur?(cur.mood||5):5;
+  document.getElementById('jlMoodV').textContent = cur?(cur.mood||5):5;
+
+  JL_FLAGS = cur&&cur.flags ? JSON.parse(JSON.stringify(cur.flags)) : {};
+  var btns=document.querySelectorAll('.jl-flag');
+  for(var i=0;i<btns.length;i++){
+    var f=btns[i].getAttribute('data-f');
+    btns[i].classList.toggle('grn',!!JL_FLAGS[f]);
+  }
+
+  /* history — last 7 saved logs, newest first */
+  var keys=[]; for(var k in (DB.daylog||{})) keys.push(k);
+  keys.sort().reverse();
+  keys=keys.filter(function(x){return x!==td;}).slice(0,7);
+
+  var h='';
+  for(var j=0;j<keys.length;j++){
+    var e=DB.daylog[keys[j]];
+    var mood=e.mood||0;
+    var cls = mood>=7?'grn' : mood>=4?'time' : 'red';
+    var fl=[]; if(e.flags){ if(e.flags.wake)fl.push('🌅'); if(e.flags.run)fl.push('🏃'); if(e.flags.food)fl.push('🍗'); if(e.flags.skill)fl.push('📚'); }
+    h+='<div style="padding:12px 0;border-bottom:1px solid var(--brd)">'+
+         '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">'+
+           '<b style="font-size:13px">'+prettyDate(keys[j])+'</b>'+
+           '<span class="chip '+cls+'">Mood '+mood+'/10 '+fl.join('')+'</span>'+
+         '</div>'+
+         (e.done?'<div style="font-size:12.5px;color:var(--muted);line-height:1.6">✅ '+esc(e.done)+'</div>':'')+
+         (e.notDone?'<div style="font-size:12.5px;color:#ff97a2;line-height:1.6">❌ '+esc(e.notDone)+'</div>':'')+
+       '</div>';
+  }
+  document.getElementById('jlHistory').innerHTML = h || '<div style="font-size:13px;color:var(--muted);padding:8px 0">Abhi koi purana log nahi. Aaj se shuru.</div>';
+}
+
+function saveDayLog(){
+  var td=todayStr();
+  DB.daylog=DB.daylog||{};
+  DB.daylog[td]={
+    date:td,
+    done:document.getElementById('jlDone').value.trim(),
+    notDone:document.getElementById('jlNot').value.trim(),
+    people:document.getElementById('jlPeople').value.trim(),
+    mood:+document.getElementById('jlMood').value,
+    flags:JSON.parse(JSON.stringify(JL_FLAGS)),
+    ts:Date.now()
+  };
+  saveDB();
+  toast('Day log saved 📓','ok');
+  renderJournal();
+}
+
+function buildDayReport(){
+  var td=todayStr();
+  var e=(DB.daylog&&DB.daylog[td])||{
+    done:document.getElementById('jlDone').value.trim(),
+    notDone:document.getElementById('jlNot').value.trim(),
+    people:document.getElementById('jlPeople').value.trim(),
+    mood:+document.getElementById('jlMood').value,
+    flags:JL_FLAGS
+  };
+  var f=e.flags||{};
+  var timed=DB.tasks.filter(function(t){return t.type==='daily'||t.type==='sticky';});
+  var doneT=timed.filter(isDoneToday).length;
+
+  return 'DAY REPORT — '+prettyDate(td)+'\n'+
+    '────────────────\n'+
+    'Tasks: '+doneT+'/'+timed.length+' done · Streak: '+DB.profile.streak+'\n'+
+    'Routine: '+(f.wake?'5AM ✅':'5AM ❌')+' · '+(f.run?'Run ✅':'Run ❌')+' · '+(f.food?'Food ✅':'Food ❌')+' · '+(f.skill?'Skill ✅':'Skill ❌')+'\n'+
+    'Mood: '+(e.mood||'—')+'/10\n\n'+
+    '✅ KAAM HUA:\n'+(e.done||'—')+'\n\n'+
+    '❌ KAAM NAHI HUA:\n'+(e.notDone||'—')+'\n\n'+
+    '🗣️ BAAT / DECISIONS:\n'+(e.people||'—');
+}
+
+function copyDayReport(){
+  var txt=buildDayReport();
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){ toast('Report copied 📋','ok'); },function(){ jlFallbackCopy(txt); });
+  } else jlFallbackCopy(txt);
+}
+function jlFallbackCopy(txt){
+  var ta=document.createElement('textarea');
+  ta.value=txt; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); toast('Report copied 📋','ok'); }
+  catch(e){ toast('Copy failed — select manually','err'); }
+  document.body.removeChild(ta);
+}
+
 /* ---------- render ---------- */
 function render(){
   var p=DB.profile;
@@ -1804,6 +1966,7 @@ function render(){
   if(CUR_PAGE==='Money')  renderMoney();
   if(CUR_PAGE==='Workout')renderWorkout();
   if(CUR_PAGE==='Food')renderFood();
+  if(CUR_PAGE==='Journal')renderJournal();
   if(CUR_PAGE==='Settings')fillSettings();
 }
 
