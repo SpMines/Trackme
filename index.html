@@ -27,25 +27,28 @@ a{color:var(--accent2);text-decoration:none}
 .b2{width:400px;height:400px;background:#7c4dff;bottom:-260px;right:-120px;opacity:.18}
 
 /* ═══════════════════════════════════
-   BOOT — Premium minimal
+   BOOT — Solo Leveling motivation
    ═══════════════════════════════════ */
-.boot{position:fixed;inset:0;z-index:12000;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#07070c;overflow:hidden;transition:opacity .7s ease,visibility .7s}
+.boot{position:fixed;inset:0;z-index:12000;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#06060b;overflow:hidden;transition:opacity .7s ease,visibility .7s}
 .boot.hide{opacity:0;visibility:hidden;pointer-events:none}
-.boot::before{content:'';position:absolute;width:min(600px,120vw);height:min(600px,120vw);border-radius:50%;background:radial-gradient(circle,rgba(108,92,231,.14),transparent 60%);filter:blur(30px);animation:bootBreathe 4s ease-in-out infinite;pointer-events:none}
-@keyframes bootBreathe{0%,100%{opacity:.5;transform:scale(.95)}50%{opacity:.9;transform:scale(1.05)}}
-.boot .b-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center}
-.boot .logo-mark{width:72px;height:72px;margin-bottom:32px;position:relative;animation:bootLogoIn 1s cubic-bezier(.16,1,.3,1) both}
-@keyframes bootLogoIn{0%{opacity:0;transform:translateY(12px) scale(.92)}100%{opacity:1;transform:none}}
-.boot .logo-mark svg{width:100%;height:100%;overflow:visible}
-.boot .logo-mark .bolt-fill{fill:url(#bootBg);filter:drop-shadow(0 4px 20px rgba(108,92,231,.5))}
-.boot .word{font-family:'Cinzel Decorative',serif;font-size:38px;font-weight:900;letter-spacing:3px;color:#fff;margin-bottom:14px;position:relative;overflow:hidden;animation:bootFade .8s .5s both}
-.boot .word .sheen{position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.4),transparent);transform:skewX(-18deg);animation:bootSheen 2s 1s ease}
-@keyframes bootSheen{to{left:180%}}
-.boot .sub{font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:44px;animation:bootFade .8s .7s both}
-.boot .prog{width:160px;height:1.5px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;position:relative;animation:bootFade .6s .8s both}
-.boot .prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;animation:bootFill 1.6s .9s cubic-bezier(.65,0,.35,1) forwards}
+.boot::before{content:'';position:absolute;width:min(680px,130vw);height:min(680px,130vw);border-radius:50%;background:radial-gradient(circle,rgba(108,92,231,.13),transparent 62%);filter:blur(34px);animation:bootBreathe 4s ease-in-out infinite;pointer-events:none}
+@keyframes bootBreathe{0%,100%{opacity:.45;transform:scale(.95)}50%{opacity:.85;transform:scale(1.06)}}
+.boot::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(124,92,255,.02) 3px,rgba(124,92,255,.02) 4px);pointer-events:none}
+.boot .b-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 28px;width:100%;max-width:560px}
+.boot .sys-tag{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:rgba(162,155,254,.55);margin-bottom:26px;opacity:0;animation:bootFade .6s .1s both;display:flex;align-items:center;gap:9px}
+.boot .sys-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--accent2);box-shadow:0 0 8px var(--accent2);animation:sysBlink 1.2s ease-in-out infinite}
+@keyframes sysBlink{0%,100%{opacity:1}50%{opacity:.3}}
+.boot .quote{font-size:26px;font-weight:700;line-height:1.4;color:#fff;letter-spacing:.3px;margin-bottom:10px;min-height:74px;display:flex;flex-wrap:wrap;justify-content:center;gap:0 9px}
+.boot .quote .w{display:inline-block;opacity:0;transform:translateY(14px);filter:blur(6px);background:linear-gradient(180deg,#fff,#c9beff);-webkit-background-clip:text;background-clip:text;color:transparent;animation:bootWordUp .55s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes bootWordUp{to{opacity:1;transform:none;filter:blur(0)}}
+.boot .quote-by{font-family:'Cinzel Decorative',serif;font-size:13px;letter-spacing:3px;color:rgba(162,155,254,.6);text-transform:uppercase;margin-top:16px;opacity:0}
+.boot .quote-by.show{animation:bootFade .7s both}
+.boot .prog{width:180px;height:2px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;position:relative;margin-top:40px;opacity:0}
+.boot .prog.show{animation:bootFade .5s both}
+.boot .prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2),#fff);border-radius:2px}
+.boot .prog.go i{animation:bootFill 1.5s cubic-bezier(.65,0,.35,1) forwards}
 @keyframes bootFill{to{width:100%}}
-@keyframes bootFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes bootFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @keyframes shimmer{to{background-position:200% center}}
 
 /* shimmer loader (server calls) */
@@ -149,6 +152,72 @@ a{color:var(--accent2);text-decoration:none}
 .rep-missed-lbl{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:600;margin-bottom:7px}
 .rep-missed{font-size:13px;color:#ffb0a0;padding:3px 0;font-weight:500}
 .rep-foot{font-size:11px;color:var(--muted);margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06);line-height:1.5}
+
+/* ═══ PENALTY CARD (own section) ═══ */
+.penalty-card{border-radius:18px;padding:18px;margin-top:6px;margin-bottom:8px;background:linear-gradient(150deg,rgba(255,93,108,.16),rgba(255,93,108,.05));border:1px solid rgba(255,93,108,.4);animation:pageIn .35s ease both;position:relative;overflow:hidden}
+.penalty-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,#ff5d6c,#ff97a2)}
+.pen-head{display:flex;align-items:center;gap:13px;margin-bottom:14px}
+.pen-ic{font-size:28px;flex-shrink:0;animation:penShake 2.4s ease-in-out infinite}
+@keyframes penShake{0%,92%,100%{transform:rotate(0)}94%{transform:rotate(-9deg)}96%{transform:rotate(9deg)}98%{transform:rotate(-5deg)}}
+.pen-head b{font-size:16px;font-weight:800;display:block;color:#ffb0b8}
+.pen-sub{font-size:12px;color:var(--muted);line-height:1.45;display:block;margin-top:3px}
+.pen-task{display:flex;align-items:flex-start;gap:13px;background:rgba(0,0,0,.22);border:1px solid rgba(255,93,108,.28);border-radius:14px;padding:15px;margin-bottom:6px}
+.pen-te{font-size:28px;flex-shrink:0;line-height:1}
+.pen-tb{flex:1;min-width:0}
+.pen-tt{font-size:15.5px;font-weight:700;margin-bottom:4px;color:#fff}
+.pen-td{font-size:12.5px;color:var(--muted);line-height:1.5}
+.pen-foot{font-size:11.5px;color:#ff97a2;margin-top:14px;font-weight:600;text-align:center;letter-spacing:.2px}
+
+
+/* ═══ HARD DEADLINE toggle ═══ */
+.hard-wrap{margin:-6px 0 16px;max-height:0;overflow:hidden;opacity:0;transition:max-height .3s ease,opacity .3s ease,margin .3s ease}
+.hard-wrap.show{max-height:120px;opacity:1;margin:6px 0 16px}
+.hard-row{display:flex;align-items:center;justify-content:space-between;gap:14px;background:linear-gradient(135deg,rgba(255,93,108,.09),rgba(108,92,231,.05));border:1px solid rgba(255,93,108,.28);border-radius:14px;padding:13px 15px;cursor:pointer}
+.hard-row b{font-size:13.5px;font-weight:700;display:block}
+.hard-row p{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.45;max-width:230px}
+
+/* deadline badge on task */
+.dl-badge{display:inline-flex;align-items:center;gap:3px;font-size:9.5px;font-weight:800;letter-spacing:.4px;padding:3px 8px;border-radius:20px;background:rgba(255,93,108,.16);color:#ff97a2;border:1px solid rgba(255,93,108,.35);text-transform:uppercase}
+.dl-countdown{font-size:11px;font-weight:700;color:#ffb0a0}
+
+/* ═══ COMEBACK CHALLENGE (blocking) ═══ */
+.challenge-overlay{position:fixed;inset:0;z-index:11000;display:none;align-items:center;justify-content:center;background:rgba(5,5,10,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:20px}
+.challenge-overlay.show{display:flex;animation:flFade .3s ease}
+.challenge-card{width:min(430px,100%);background:linear-gradient(160deg,#16101f,#0d0a14);border:1px solid rgba(255,93,108,.3);border-radius:24px;padding:26px 24px;box-shadow:0 30px 80px rgba(0,0,0,.7),0 0 60px rgba(255,93,108,.1);text-align:center;animation:flPop .35s cubic-bezier(.2,.85,.3,1.25);max-height:92dvh;overflow-y:auto}
+.challenge-card .ch-ic{font-size:44px;margin-bottom:8px;animation:chPulse 1.6s ease-in-out infinite}
+@keyframes chPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.challenge-card h2{font-size:21px;font-weight:800;margin-bottom:6px}
+.challenge-card .ch-sub{font-size:13px;color:var(--muted);line-height:1.55;margin-bottom:8px}
+.challenge-card .ch-missed{font-size:12px;color:#ff97a2;font-weight:600;margin-bottom:20px}
+.ch-task{background:rgba(108,92,231,.1);border:1px solid rgba(108,92,231,.3);border-radius:16px;padding:16px;margin-bottom:12px;display:flex;align-items:center;gap:13px;text-align:left}
+.ch-task .cte{font-size:26px;flex-shrink:0}
+.ch-task .ctb{flex:1;min-width:0}
+.ch-task .ctt{font-size:14.5px;font-weight:700;margin-bottom:3px}
+.ch-task .ctd{font-size:11.5px;color:var(--muted);line-height:1.4}
+.ch-done-btn{width:100%;padding:15px;border:none;border-radius:14px;background:var(--grad);color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 12px 30px rgba(108,92,231,.4);transition:.15s;margin-top:6px}
+.ch-done-btn:active{transform:scale(.97)}
+.ch-escape{margin-top:16px;font-size:11.5px;color:var(--muted);line-height:1.5}
+.ch-escape a{color:var(--accent2);text-decoration:underline;cursor:pointer;font-weight:600}
+
+/* ═══ DISCIPLINE / MISS COUNTER ═══ */
+.disc-card{border-radius:18px;padding:16px 18px;margin-bottom:16px;border:1px solid var(--brd);background:var(--card)}
+.disc-card.disc-clean{background:linear-gradient(135deg,rgba(55,211,153,.12),rgba(70,181,255,.05));border-color:rgba(55,211,153,.35)}
+.disc-card.disc-ok{background:linear-gradient(135deg,rgba(255,181,71,.1),rgba(108,92,231,.04));border-color:rgba(255,181,71,.3)}
+.disc-card.disc-warn{background:linear-gradient(135deg,rgba(255,93,108,.12),rgba(108,92,231,.04));border-color:rgba(255,93,108,.35)}
+.disc-head{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.disc-head b{font-size:15px;font-weight:800;display:block}
+.disc-sub{font-size:12px;color:var(--muted);line-height:1.45;display:block;margin-top:3px}
+.disc-num{font-size:34px;font-weight:800;flex-shrink:0;opacity:.9}
+.disc-clean .disc-num{color:#6ee7b7}
+.disc-ok .disc-num{color:#ffb547}
+.disc-warn .disc-num{color:#ff97a2}
+.miss-list{margin-top:14px;padding-top:13px;border-top:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;gap:8px}
+.miss-item{display:flex;align-items:center;gap:9px;font-size:12.5px}
+.miss-x{color:#ff6b78;font-weight:800;flex-shrink:0}
+.miss-t{flex:1;min-width:0;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.miss-meta{color:var(--muted);font-size:11px;flex-shrink:0}
+
+
 
 /* manage task row */
 .mrow{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:12px 14px;margin-bottom:9px}
@@ -545,17 +614,10 @@ html,body{font-weight:500}
 <!-- boot splash -->
 <div class="boot" id="boot">
   <div class="b-inner">
-    <div class="logo-mark">
-      <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="bootBg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#a29bfe"/><stop offset="1" stop-color="#6C5CE7"/>
-        </linearGradient></defs>
-        <path class="bolt-fill" d="M27 4L11 26h11l-2 18 16-22H25l2-18z"/>
-      </svg>
-    </div>
-    <div class="word">Volts<span class="sheen"></span></div>
-    <div class="sub">Self · Upgrade · OS</div>
-    <div class="prog"><i></i></div>
+    <div class="sys-tag"><span class="dot"></span>Volts · System Online</div>
+    <div class="quote" id="bootQuote"></div>
+    <div class="quote-by" id="bootBy">⚡ Volts</div>
+    <div class="prog" id="bootProg"><i></i></div>
   </div>
 </div>
 
@@ -564,6 +626,19 @@ html,body{font-weight:500}
 
 <!-- connection banner -->
 <div class="conn" id="conn"></div>
+
+<!-- comeback challenge (blocking) -->
+<div class="challenge-overlay" id="challengeOverlay">
+  <div class="challenge-card">
+    <div class="ch-ic">⚡</div>
+    <h2>Comeback time</h2>
+    <div class="ch-sub">You missed a hard-deadline task yesterday. That's okay — champions aren't the ones who never fall, they're the ones who get back up fast.</div>
+    <div class="ch-missed" id="chMissed"></div>
+    <div id="chTaskSlot"></div>
+    <button class="ch-done-btn" onclick="completeChallenge()">I did it — mark complete ✅</button>
+    <div class="ch-escape">Genuinely sick or an emergency? <a onclick="escapeChallenge()">Skip this once</a> — no judgment. This is here for real days, not perfect ones.</div>
+  </div>
+</div>
 
 <!-- topbar -->
 <div class="topbar">
@@ -610,6 +685,7 @@ html,body{font-weight:500}
 
     <div id="todaySlot"></div>
     <div id="reportSlot"></div>
+    <div id="penaltySlot"></div>
   </div>
 
   <!-- ============ TASKS ============ -->
@@ -641,6 +717,8 @@ html,body{font-weight:500}
       <div class="box"><div class="big" id="rPts">0</div><div class="lbl">⭐ Total points</div></div>
       <div class="box"><div class="big" id="rDone">0</div><div class="lbl">✅ Tasks completed</div></div>
     </div>
+
+    <div id="disciplineSlot"></div>
 
     <div class="sec"><div class="head"><h2>🎖️ Badges</h2><div class="cnt" id="badgeCnt">0 unlocked</div></div>
       <div class="bgrid" id="badgeGrid"></div>
@@ -700,34 +778,21 @@ html,body{font-weight:500}
     </div>
 
     <div class="setrow">
-      <h4>🔌 Backend (Google Apps Script)</h4>
-      <p style="font-size:12.5px;color:var(--muted);line-height:1.55;margin-bottom:12px">If you opened this app from your <b>/exec</b> link, it's already connected — leave this blank. Only paste your Web App <b>/exec</b> URL here if you host the page elsewhere (GitHub Pages / Netlify).</p>
-      <div class="field"><label>Web app /exec URL</label><input id="inApi" placeholder="https://script.google.com/macros/s/…/exec"></div>
+      <h4>💾 Backup &amp; restore</h4>
+      <p style="font-size:12.5px;color:var(--muted);line-height:1.55;margin-bottom:6px">Your data is saved on <b>this device</b> only. Take a backup regularly — download a file and keep it in Google Drive, WhatsApp, or email. Restore it anytime, on any device.</p>
+      <p id="bkReminder" style="font-size:12px;line-height:1.5;margin-bottom:14px"></p>
       <div class="btnrow">
-        <button class="btn sm" onclick="saveApi()">Save URL</button>
-        <button class="btn sm ghost" onclick="testApi()">Test connection</button>
-      </div>
-    </div>
-
-    <div class="setrow">
-      <h4>☁️ Sync &amp; backup</h4>
-      <p style="font-size:12.5px;color:var(--muted);line-height:1.55;margin-bottom:14px">Your data lives on this device and auto-syncs to your Google Drive after every change. Restore pulls the last cloud backup onto this device.</p>
-      <div class="btnrow">
-        <button class="btn sm" onclick="syncNow()">Sync now</button>
-        <button class="btn sm ghost" onclick="restoreCloud()">Restore from cloud</button>
-      </div>
-      <div class="btnrow">
-        <button class="btn sm ghost" onclick="exportJson()">Export JSON</button>
-        <button class="btn sm ghost" onclick="document.getElementById('fileImp').click()">Import JSON</button>
+        <button class="btn sm" onclick="exportJson()">⬇️ Download backup</button>
+        <button class="btn sm ghost" onclick="document.getElementById('fileImp').click()">⬆️ Restore from file</button>
       </div>
       <input type="file" id="fileImp" accept="application/json" style="display:none" onchange="importJson(event)">
     </div>
 
     <div class="setrow">
       <h4>ℹ️ Status</h4>
-      <div class="krow"><span>App version</span><b id="stVer">1.2.0</b></div>
-      <div class="krow"><span>Cloud sync</span><b id="stConn">—</b></div>
-      <div class="krow"><span>Last synced</span><b id="stLast">Never</b></div>
+      <div class="krow"><span>App version</span><b id="stVer">1.3.0</b></div>
+      <div class="krow"><span>Storage</span><b>On this device</b></div>
+      <div class="krow"><span>Last backup</span><b id="stLast">Never</b></div>
       <div class="krow"><span>Tasks</span><b id="stTasks">0</b></div>
     </div>
 
@@ -901,54 +966,11 @@ html,body{font-weight:500}
     </div>
   </div>
 
-  <!-- ============ JOURNAL / DAY LOG ============ -->
-  <div class="page" id="pageJournal">
-    <div class="ptitle">Day Log</div>
-    <div class="psub">Raat ko bharo. Subah clarity milegi.</div>
-
-    <div class="box" style="margin-bottom:16px">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-        <h4 style="font-size:14px;font-weight:700">📋 Aaj ka log</h4>
-        <span class="chip" id="jlDate">—</span>
-      </div>
-
-      <div class="field"><label>✅ Kaam hua</label><textarea id="jlDone" placeholder="Jo complete kiya — kaam, routine, sab"></textarea></div>
-      <div class="field"><label>❌ Kaam nahi hua</label><textarea id="jlNot" placeholder="Jo reh gaya — aur kyun"></textarea></div>
-      <div class="field"><label>🗣️ Kis se baat / kya decide kiya</label><textarea id="jlPeople" placeholder="Log, decisions, koi baat jo important thi"></textarea></div>
-
-      <div class="field">
-        <label>🌡️ Mood — <span id="jlMoodV" style="color:var(--acc2);font-weight:700">5</span>/10</label>
-        <input id="jlMood" type="range" min="1" max="10" value="5" oninput="document.getElementById('jlMoodV').textContent=this.value" style="width:100%;accent-color:#7c5cff">
-      </div>
-
-      <div class="field">
-        <label>⚡ Body / Routine</label>
-        <div style="display:flex;gap:8px;flex-wrap:wrap" id="jlFlags">
-          <button type="button" class="chip jl-flag" data-f="wake" onclick="jlFlag(this)">🌅 5 AM</button>
-          <button type="button" class="chip jl-flag" data-f="run" onclick="jlFlag(this)">🏃 Run</button>
-          <button type="button" class="chip jl-flag" data-f="food" onclick="jlFlag(this)">🍗 Khaana OK</button>
-          <button type="button" class="chip jl-flag" data-f="skill" onclick="jlFlag(this)">📚 Skill hour</button>
-        </div>
-      </div>
-
-      <div class="btnrow" style="display:flex;gap:10px">
-        <button class="btn ghost" onclick="copyDayReport()">📋 Copy report</button>
-        <button class="btn" onclick="saveDayLog()">Save log</button>
-      </div>
-    </div>
-
-    <div class="box">
-      <h4 style="font-size:14px;font-weight:700;margin-bottom:12px">📆 Pichle logs</h4>
-      <div id="jlHistory"></div>
-    </div>
-  </div>
-
   <!-- ============ MORE ============ -->
   <div class="page" id="pageMore">
     <div class="ptitle">More</div>
     <div class="psub">Everything else, one tap away.</div>
     <div class="morebtn" onclick="go('Food')"><div class="mi">🍗</div><div class="mt"><b>Food &amp; Bulking</b><p>Track calories, protein &amp; hit your bulk goal</p></div><div class="ar">›</div></div>
-    <div class="morebtn" onclick="go('Journal')"><div class="mi">📓</div><div class="mt"><b>Day Log</b><p>Raat ka report — kaam, log, mood</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Tasks')"><div class="mi">🗂️</div><div class="mt"><b>Manage Tasks</b><p>Create, edit &amp; organize what you track</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Rewards')"><div class="mi">🏆</div><div class="mt"><b>Rewards</b><p>Level, streaks &amp; badges</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Stats')"><div class="mi">📊</div><div class="mt"><b>Stats</b><p>7-day trend &amp; category split</p></div><div class="ar">›</div></div>
@@ -981,6 +1003,15 @@ html,body{font-weight:500}
       <button data-v="daily" class="on" onclick="setType('daily')">Daily habit</button>
       <button data-v="sticky" onclick="setType('sticky')">Sticky ⏱</button>
       <button data-v="once" onclick="setType('once')">One-time</button>
+    </div>
+    <div id="hardWrap" class="hard-wrap">
+      <label class="hard-row">
+        <div>
+          <b>⚡ Hard deadline</b>
+          <p>Must clear by 11:59 PM or it's gone — and you owe a comeback challenge tomorrow. No mercy.</p>
+        </div>
+        <span class="switch"><input type="checkbox" id="tHard" onchange="hardChanged()"><span class="sw-slider"></span></span>
+      </label>
     </div>
     <div id="timeWrap" style="display:none">
       <div class="field">
@@ -1113,20 +1144,10 @@ html,body{font-weight:500}
 /* ============================================================
    Volts — Self-Upgrade OS · v2026 LIMITED
    Built by Somnath Karmakar · v1.0.0
-   localStorage-first · auto-sync to GAS/Drive
+   Local-first · single device · manual file backup
 ============================================================ */
-var APP_NAME='Volts', APP_VERSION='1.2.0';
+var APP_NAME='Volts', APP_VERSION='1.3.0';
 var LS_KEY='ascend_db_v1';
-/* Backend = your Google Apps Script Web App /exec URL. Paste it in
-   Settings → Backend (or hardcode below). Frontend hosted anywhere
-   (GitHub Pages / Netlify); talks to GAS via CORS-safe text/plain POST. */
-var API_DEFAULT='PASTE_YOUR_GAS_EXEC_URL_HERE';
-var API=(localStorage.getItem('ascend_api')||API_DEFAULT).trim();
-var SECRET='ASCEND-7f3a9c21b8';   // must match Code.gs
-/* Opened FROM the /exec link? google.script.run is available → auto-connected,
-   no URL needed. Hosted elsewhere (GitHub Pages)? falls back to the pasted URL. */
-var hasServer=(typeof google!=='undefined' && google.script && google.script.run);
-function backendReady(){ return hasServer || apiOk(API); }
 
 var LEVELS=['Seedling','Spark','Riser','Builder','Grinder','Momentum','Contender','Achiever','Sharpshooter','Vanguard','Trailblazer','Powerhouse','Elite','Maverick','Champion','Warlord','Titan','Legend','Mythic','Ascended'];
 
@@ -1181,7 +1202,7 @@ var PRI_PTS={Low:5, Medium:10, High:20};
 /* money */
 var INCOME_CATS=['Salary','Freelance','Business','Investment','Gift','Other'];
 var EXPENSE_CATS=['Food','Rent','Bills','Transport','Shopping','Health','Education','Fun','Savings','Other'];
-var TXN_ICON={Salary:'💼',Freelance:'🧑‍💻',Business:'🏢',Investment:'📈',Gift:'🎁',Food:'🍽️',Rent:'🏠',Bills:'🧾',Transport:'🚗',Shopping:'🛍️',Health:'💊',Education:'📚',Fun:'🎉',Savings:'🏦',Other:'📌'};
+var TXN_ICON={Salary:'💼',Freelance:'🧑💻',Business:'🏢',Investment:'📈',Gift:'🎁',Food:'🍽️',Rent:'🏠',Bills:'🧾',Transport:'🚗',Shopping:'🛍️',Health:'💊',Education:'📚',Fun:'🎉',Savings:'🏦',Other:'📌'};
 var TXN_KIND='out';
 /* workout */
 var WO_TYPES=['Chest','Back','Shoulders','Biceps','Triceps','Legs','Abs / Core','Push','Pull','Full Body','Cardio','Run','Other'];
@@ -1189,12 +1210,11 @@ var WO_ICON={'Chest':'🎯','Back':'🔙','Shoulders':'🏔️','Biceps':'💪',
 var DB=loadDB();
 var CUR_PAGE='Today';
 var EDIT_ID=null, T_TYPE='daily', T_PRI='Medium';
-var syncTimer=null;
 
 /* ---------- storage ---------- */
 function defaultDB(){
   return { v:APP_VERSION, profile:{name:'Sam',email:'',points:0,level:1,levelTitle:LEVELS[0],streak:0,longestStreak:0,lastActiveDate:''},
-           categories:DEFAULT_CATS.slice(), tasks:[], log:[], badges:{}, money:[], workouts:[], food:[], bodylog:[], dailylog:{}, dailyBonus:{}, daylog:{}, settings:{}, updatedAt:Date.now() };
+           categories:DEFAULT_CATS.slice(), tasks:[], log:[], badges:{}, money:[], workouts:[], food:[], bodylog:[], dailylog:{}, dailyBonus:{}, missedLog:[], activeChallenge:null, settings:{}, updatedAt:Date.now() };
 }
 function loadDB(){
   try{ var raw=localStorage.getItem(LS_KEY); if(raw){ return migrate(JSON.parse(raw)); } }catch(e){}
@@ -1252,15 +1272,10 @@ function mergeDB(local,cloud){
   });
   // dailyBonus: union, keep any awarded day
   m.dailyBonus={}; [local.dailyBonus,cloud.dailyBonus].forEach(function(db){ if(db) for(var d in db) m.dailyBonus[d]=db[d]; });
-  // daylog: union per-day, newest ts wins
-  m.daylog={};
-  [local.daylog,cloud.daylog].forEach(function(dl){
-    if(!dl) return;
-    for(var day in dl){
-      var src=dl[day], ex=m.daylog[day];
-      if(!ex || (src.ts||0)>=(ex.ts||0)) m.daylog[day]=src;
-    }
-  });
+  // missedLog: union by date+title+ts
+  m.missedLog=mergeArrById(local.missedLog,cloud.missedLog);
+  // activeChallenge: keep whichever newer snapshot has (a pending challenge should survive)
+  m.activeChallenge = newer.activeChallenge || older.activeChallenge || null;
   m.updatedAt=Date.now();
   return migrate(m);
 }
@@ -1271,11 +1286,11 @@ function migrate(d){
   d.profile.longestStreak=d.profile.longestStreak||0; d.profile.lastActiveDate=d.profile.lastActiveDate||'';
   if(!d.categories||!d.categories.length) d.categories=DEFAULT_CATS.slice();
   d.tasks=d.tasks||[]; d.log=d.log||[]; d.badges=d.badges||{};
-  d.money=d.money||[]; d.workouts=d.workouts||[]; d.food=d.food||[]; d.bodylog=d.bodylog||[]; d.dailylog=d.dailylog||{}; d.dailyBonus=d.dailyBonus||{}; d.daylog=d.daylog||{}; d.settings=d.settings||{};
+  d.money=d.money||[]; d.workouts=d.workouts||[]; d.food=d.food||[]; d.bodylog=d.bodylog||[]; d.dailylog=d.dailylog||{}; d.dailyBonus=d.dailyBonus||{}; d.missedLog=d.missedLog||[]; if(d.activeChallenge===undefined)d.activeChallenge=null; d.settings=d.settings||{};
   return d;
 }
 function saveLocal(){ DB.updatedAt=Date.now(); try{localStorage.setItem(LS_KEY,JSON.stringify(DB));}catch(e){} }
-function saveDB(){ saveLocal(); scheduleSync(); }
+function saveDB(){ saveLocal(); }
 
 /* ---------- date helpers (device local) ---------- */
 function pad(n){return (n<10?'0':'')+n;}
@@ -1328,72 +1343,9 @@ function isDoneToday(t){var td=todayStr();if(t.type==='once')return !!t.done;ret
 var _busy=0;
 function showLoader(){_busy++;var l=document.getElementById('faceLoader');if(l)l.classList.add('show');}
 function hideLoader(){_busy=Math.max(0,_busy-1);if(_busy===0){var l=document.getElementById('faceLoader');if(l)l.classList.remove('show');}}
-function apiOk(u){return /^https:\/\/script\.google\.com\/(a\/macros\/[^\/]+\/s\/|macros\/s\/)[\w-]+\/exec\/?$/.test(String(u||'').trim());}
-function post(payload,loud){
-  if(loud)showLoader();
-  if(hasServer){
-    return new Promise(function(res,rej){
-      var fn=payload.action==='__ping'?'srvPing':payload.action==='pushSync'?'srvPush':'srvPull';
-      var arg=payload.action==='pushSync'?JSON.stringify(payload.db):undefined;
-      var runner=google.script.run
-        .withSuccessHandler(function(r){ if(loud)hideLoader(); var d; try{d=JSON.parse(r);}catch(e){d=r;} res(d); })
-        .withFailureHandler(function(e){ if(loud)hideLoader(); rej(e); });
-      if(arg===undefined) runner[fn](); else runner[fn](arg);
-    });
-  }
-  return fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)})
-    .then(function(r){return r.json();})
-    .then(function(d){if(loud)hideLoader();return d;})
-    .catch(function(e){if(loud)hideLoader();throw e;});
-}
-
-/* ---------- sync (Drive/Sheet backup) ---------- */
-function scheduleSync(){ if(!backendReady())return; clearTimeout(syncTimer); syncTimer=setTimeout(pushSilent,1800); }
-function pushSilent(){
-  if(!backendReady())return;
-  post({action:'pushSync',secret:SECRET,db:DB},false)
-    .then(function(d){ if(d&&d.ok){ localStorage.setItem('ascend_last',d.syncedAt); refreshStatus(); } })
-    .catch(function(){});
-}
-function syncNow(){
-  if(!backendReady()){ toast('Not connected — open from your /exec link or add URL in Settings','err'); go('Settings'); return; }
-  post({action:'pushSync',secret:SECRET,db:DB},true)
-    .then(function(d){ if(d&&d.ok){ localStorage.setItem('ascend_last',d.syncedAt); toast('Synced to cloud ☁️','ok'); refreshStatus(); } else toast((d&&d.error)||'Sync failed','err'); })
-    .catch(function(){ toast('Could not reach backend','err'); });
-}
-function restoreCloud(){
-  if(!backendReady()){ toast('Not connected — open from your /exec link or add URL in Settings','err'); go('Settings'); return; }
-  confirmModal({icon:'☁️',title:'Restore from cloud?',msg:'This replaces the data on THIS device with the last cloud backup. Local unsynced changes will be lost.',ok:'Restore',danger:true,onOk:function(){
-    post({action:'pullSync',secret:SECRET},true).then(function(d){
-      if(d&&d.ok){ if(d.db){ DB=migrate(d.db); recompute(); saveLocal(); render(); toast('Restored from cloud ✅','ok'); } else toast('No cloud backup yet','err'); }
-      else toast((d&&d.error)||'Restore failed','err');
-    }).catch(function(){ toast('Could not reach backend','err'); });
-  }});
-}
-function pingBackend(){
-  var c=document.getElementById('conn');
-  if(!backendReady()){ c.className='conn bad show'; c.innerHTML='⚠️ Not connected. Open this app from your <b>/exec</b> link, or add the URL in <a onclick="go(\'Settings\')">Settings</a>.'; refreshStatus(); return; }
-  post({action:'__ping'},false).then(function(d){
-    if(d&&d.ok){
-      c.className='conn ok show'; c.textContent='☁️ Connected · '+APP_NAME+' '+(d.version||APP_VERSION); setTimeout(function(){c.classList.remove('show');},2200);
-      // pull newest from cloud and MERGE (never blindly overwrite local data)
-      post({action:'pullSync'},false).then(function(r){
-        if(r&&r.ok&&r.db){
-          var cloud=migrate(r.db);
-          var localEmpty = isDbEmpty(DB);
-          if(localEmpty){
-            // fresh device / wiped storage — safe to take cloud fully
-            DB=cloud; recompute(); saveLocal(); render();
-          } else {
-            // both have data — merge by id, keep newest of each record
-            DB=mergeDB(DB,cloud); recompute(); saveLocal(); render();
-          }
-        }
-      }).catch(function(){});
-    } else { c.className='conn bad show'; c.innerHTML='⚠️ Backend responded oddly. <a onclick="go(\'Settings\')">Check</a>'; }
-    refreshStatus();
-  }).catch(function(){ c.className='conn bad show'; c.innerHTML='⚠️ Backend unreachable. <a onclick="go(\'Settings\')">Check</a>'; refreshStatus(); });
-}
+/* ---------- local-only: no backend ---------- */
+function pingBackend(){ /* no server — data lives in localStorage on this device */ }
+function post(){ return Promise.resolve({ok:false}); } /* stub, unused */
 
 /* ---------- gamification core ---------- */
 function levelFrom(pts){
@@ -1496,7 +1448,7 @@ function go(page,el){
   for(var j=0;j<btns.length;j++) btns[j].classList.remove('active');
 
   /* which nav button owns this page? */
-  var morePages={Tasks:1,Stats:1,Settings:1,Food:1,Journal:1};
+  var morePages={Tasks:1,Stats:1,Settings:1,Food:1};
   var owner = morePages[page] ? 'More' : page;
   var activeBtn=null;
   for(var k=0;k<btns.length;k++){
@@ -1838,116 +1790,6 @@ function renderWeekAnalytics(){
     '<div class="wa-row"><span class="wal">📆 Days food logged</span><span class="wav">'+calDays+' / 7</span></div>';
 }
 
-/* ═══════════ DAY LOG / JOURNAL ENGINE ═══════════ */
-var JL_FLAGS={};
-
-function jlFlag(btn){
-  var f=btn.getAttribute('data-f');
-  JL_FLAGS[f]=!JL_FLAGS[f];
-  btn.classList.toggle('grn',!!JL_FLAGS[f]);
-}
-
-function prettyDate(ds){
-  var p=ds.split('-'), M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  return (+p[2])+' '+M[(+p[1])-1]+' '+p[0];
-}
-
-function renderJournal(){
-  var td=todayStr();
-  var d=document.getElementById('jlDate'); if(d) d.textContent=prettyDate(td);
-
-  var cur=(DB.daylog&&DB.daylog[td])||null;
-  document.getElementById('jlDone').value   = cur?(cur.done||''):'';
-  document.getElementById('jlNot').value    = cur?(cur.notDone||''):'';
-  document.getElementById('jlPeople').value = cur?(cur.people||''):'';
-  document.getElementById('jlMood').value   = cur?(cur.mood||5):5;
-  document.getElementById('jlMoodV').textContent = cur?(cur.mood||5):5;
-
-  JL_FLAGS = cur&&cur.flags ? JSON.parse(JSON.stringify(cur.flags)) : {};
-  var btns=document.querySelectorAll('.jl-flag');
-  for(var i=0;i<btns.length;i++){
-    var f=btns[i].getAttribute('data-f');
-    btns[i].classList.toggle('grn',!!JL_FLAGS[f]);
-  }
-
-  /* history — last 7 saved logs, newest first */
-  var keys=[]; for(var k in (DB.daylog||{})) keys.push(k);
-  keys.sort().reverse();
-  keys=keys.filter(function(x){return x!==td;}).slice(0,7);
-
-  var h='';
-  for(var j=0;j<keys.length;j++){
-    var e=DB.daylog[keys[j]];
-    var mood=e.mood||0;
-    var cls = mood>=7?'grn' : mood>=4?'time' : 'red';
-    var fl=[]; if(e.flags){ if(e.flags.wake)fl.push('🌅'); if(e.flags.run)fl.push('🏃'); if(e.flags.food)fl.push('🍗'); if(e.flags.skill)fl.push('📚'); }
-    h+='<div style="padding:12px 0;border-bottom:1px solid var(--brd)">'+
-         '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">'+
-           '<b style="font-size:13px">'+prettyDate(keys[j])+'</b>'+
-           '<span class="chip '+cls+'">Mood '+mood+'/10 '+fl.join('')+'</span>'+
-         '</div>'+
-         (e.done?'<div style="font-size:12.5px;color:var(--muted);line-height:1.6">✅ '+esc(e.done)+'</div>':'')+
-         (e.notDone?'<div style="font-size:12.5px;color:#ff97a2;line-height:1.6">❌ '+esc(e.notDone)+'</div>':'')+
-       '</div>';
-  }
-  document.getElementById('jlHistory').innerHTML = h || '<div style="font-size:13px;color:var(--muted);padding:8px 0">Abhi koi purana log nahi. Aaj se shuru.</div>';
-}
-
-function saveDayLog(){
-  var td=todayStr();
-  DB.daylog=DB.daylog||{};
-  DB.daylog[td]={
-    date:td,
-    done:document.getElementById('jlDone').value.trim(),
-    notDone:document.getElementById('jlNot').value.trim(),
-    people:document.getElementById('jlPeople').value.trim(),
-    mood:+document.getElementById('jlMood').value,
-    flags:JSON.parse(JSON.stringify(JL_FLAGS)),
-    ts:Date.now()
-  };
-  saveDB();
-  toast('Day log saved 📓','ok');
-  renderJournal();
-}
-
-function buildDayReport(){
-  var td=todayStr();
-  var e=(DB.daylog&&DB.daylog[td])||{
-    done:document.getElementById('jlDone').value.trim(),
-    notDone:document.getElementById('jlNot').value.trim(),
-    people:document.getElementById('jlPeople').value.trim(),
-    mood:+document.getElementById('jlMood').value,
-    flags:JL_FLAGS
-  };
-  var f=e.flags||{};
-  var timed=DB.tasks.filter(function(t){return t.type==='daily'||t.type==='sticky';});
-  var doneT=timed.filter(isDoneToday).length;
-
-  return 'DAY REPORT — '+prettyDate(td)+'\n'+
-    '────────────────\n'+
-    'Tasks: '+doneT+'/'+timed.length+' done · Streak: '+DB.profile.streak+'\n'+
-    'Routine: '+(f.wake?'5AM ✅':'5AM ❌')+' · '+(f.run?'Run ✅':'Run ❌')+' · '+(f.food?'Food ✅':'Food ❌')+' · '+(f.skill?'Skill ✅':'Skill ❌')+'\n'+
-    'Mood: '+(e.mood||'—')+'/10\n\n'+
-    '✅ KAAM HUA:\n'+(e.done||'—')+'\n\n'+
-    '❌ KAAM NAHI HUA:\n'+(e.notDone||'—')+'\n\n'+
-    '🗣️ BAAT / DECISIONS:\n'+(e.people||'—');
-}
-
-function copyDayReport(){
-  var txt=buildDayReport();
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(txt).then(function(){ toast('Report copied 📋','ok'); },function(){ jlFallbackCopy(txt); });
-  } else jlFallbackCopy(txt);
-}
-function jlFallbackCopy(txt){
-  var ta=document.createElement('textarea');
-  ta.value=txt; ta.style.position='fixed'; ta.style.opacity='0';
-  document.body.appendChild(ta); ta.select();
-  try{ document.execCommand('copy'); toast('Report copied 📋','ok'); }
-  catch(e){ toast('Copy failed — select manually','err'); }
-  document.body.removeChild(ta);
-}
-
 /* ---------- render ---------- */
 function render(){
   var p=DB.profile;
@@ -1966,7 +1808,6 @@ function render(){
   if(CUR_PAGE==='Money')  renderMoney();
   if(CUR_PAGE==='Workout')renderWorkout();
   if(CUR_PAGE==='Food')renderFood();
-  if(CUR_PAGE==='Journal')renderJournal();
   if(CUR_PAGE==='Settings')fillSettings();
 }
 
@@ -2037,7 +1878,7 @@ function renderDailyReport(timed,doneTimed,pct){
     msg='You hit '+pct+'% — above the 80% line. Bonus XP unlocked. '+(left>0?left+' task'+(left>1?'s':'')+' still open if you want a perfect day.':'');
   } else if(pct>=50){
     state='Almost there'; icon='🔥'; cls='rep-warm';
-    msg='At '+pct+'%. Clear '+(Math.ceil(timed.length*0.8)-doneTimed)+' more to cross 80% and earn the daily bonus.';
+    msg='At '+pct+'%. Clear '+(Math.ceil(timed.length*0.8)-doneTimed)+' more to cross 80% and lift the penalty.';
   } else {
     state='Day in progress'; icon='📋'; cls='rep-plain';
     msg=doneTimed+' of '+timed.length+' done. Reward unlocks at 80%.';
@@ -2050,6 +1891,43 @@ function renderDailyReport(timed,doneTimed,pct){
     +'<p class="rep-msg">'+msg+'</p>'
     +(missedHtml?'<div class="rep-missed-wrap"><div class="rep-missed-lbl">Still open:</div>'+missedHtml+'</div>':'')
     +'<p class="rep-foot">🌙 Daily habits reset at midnight. Progress logs to your history.</p>'
+    +'</div>';
+
+  renderPenalty(pct);
+}
+
+/* ═══════════ DAILY PENALTY — own section, shows when < 80% ═══════════ */
+var PENALTIES = [
+  { e:'🚫', t:'No mobile', d:'Phone switch off till tomorrow. Zero scrolling. Reclaim your focus.' },
+  { e:'🏋️', t:'100 Pushups & Squats', d:'Drop down and do it. No excuses, no breaks until it’s done.' },
+  { e:'📵', t:'No Social Media', d:'Delete the apps for 24 hours. You don’t need cheap dopamine.' },
+  { e:'💸', t:'No Money Day', d:'Zero spending. Keep your wallet locked.' },
+  { e:'🙅‍♂️', t:'No She (Monk Mode)', d:'Stop chasing validation. Focus on your own main character energy and dialogue dynamics.' },
+  { e:'✍️', t:'Write and Write Something', d:'Journal 3 full pages. Write out your frustrations and how you will conquer them.' },
+  { e:'🧼', t:'Accha Dikhna', d:'Strict grooming. Look sharp, dress well even if you are just sitting at SP Automobile.' },
+  { e:'🥗', t:'Accha Khana', d:'Zero sugar, zero junk. Eat like a man who respects his body.' },
+  { e:'✈️', t:'Acchi Jagah Ghumne', d:'Put ₹500 directly into the travel fund. No touching it.' },
+  { e:'🔥', t:'Ex Ko Jalana (Level Up)', d:'The best revenge is massive success. Put 1 extra hour into building that 3D UI component.' },
+  { e:'🚘', t:'Bada Ghar Gaadi', d:'Grind 1 solid hour on Google Apps Script and CRM automation. Wealth is built, not wished for.' },
+  { e:'📈', t:'Trading Discipline', d:'1 hour purely backtesting XAUUSD. Strict rules, no gambling.' },
+  { e:'🏢', t:'Empire Work', d:'30 mins reviewing NHAI empanelment or vendor lists. Build the business.' },
+  { e:'🥶', t:'Cold Shower', d:'Turn the tap to freezing. 5 minutes. Build that mental callous.' }
+];
+function renderPenalty(pct){
+  var slot=document.getElementById('penaltySlot'); if(!slot)return;
+  var td=todayStr();
+  var timed=DB.tasks.filter(function(t){return t.type==='daily'||t.type==='sticky';});
+  /* no timed tasks, or already at/above 80% → no penalty */
+  if(!timed.length || pct>=80){ slot.innerHTML=''; return; }
+  /* deterministic pick per day so it doesn't reshuffle on refresh */
+  var seed=0; for(var i=0;i<td.length;i++) seed+=td.charCodeAt(i);
+  var p=PENALTIES[seed % PENALTIES.length];
+  var need=Math.ceil(timed.length*0.8)-DB.tasks.filter(function(t){return (t.type==='daily'||t.type==='sticky')&&isDoneToday(t);}).length;
+  slot.innerHTML=
+    '<div class="penalty-card">'
+    +'<div class="pen-head"><span class="pen-ic">⚠️</span><div><b>Penalty active</b><span class="pen-sub">Below 80% today. Clear '+(need>0?need:1)+' more task'+((need>1)?'s':'')+' to lift it.</span></div></div>'
+    +'<div class="pen-task"><span class="pen-te">'+p.e+'</span><div class="pen-tb"><div class="pen-tt">'+esc(p.t)+'</div><div class="pen-td">'+esc(p.d)+'</div></div></div>'
+    +'<p class="pen-foot">Miss the day, own the penalty. This is the deal you set. 💪</p>'
     +'</div>';
 }
 
@@ -2081,9 +1959,17 @@ function taskCard(t,isSticky){
   } else if(t.type==='daily' && t.time){
     timeChip='<span class="chip time">⏰ '+t.time+'</span>';
   }
-  var cls='task'+(done?' done':'')+(over?' overdue':'');
+  /* hard-deadline badge + live countdown to midnight */
+  var hardChip='';
+  if(t.type==='daily' && t.hard && !done){
+    var minsToMidnight=(24*60)-nowMin();
+    hardChip='<span class="dl-badge">⚡ Do-or-die</span><span class="chip red dl-countdown">⏳ '+fmtMin(minsToMidnight)+' to midnight</span>';
+  } else if(t.type==='daily' && t.hard && done){
+    hardChip='<span class="dl-badge" style="background:rgba(55,211,153,.16);color:#6ee7b7;border-color:rgba(55,211,153,.35)">⚡ Cleared</span>';
+  }
+  var cls='task'+(done?' done':'')+(over?' overdue':'')+((t.type==='daily'&&t.hard&&!done)?' overdue':'');
   var note=t.note?'<div class="note">'+esc(t.note)+'</div>':'';
-  var meta='<div class="meta"><span class="chip">'+catEmoji(t.cat)+' '+esc(catName(t.cat))+'</span><span class="chip pts">⭐ '+pts+'</span>'+timeChip+'</div>';
+  var meta='<div class="meta"><span class="chip">'+catEmoji(t.cat)+' '+esc(catName(t.cat))+'</span><span class="chip pts">⭐ '+pts+'</span>'+timeChip+hardChip+'</div>';
   var undo=done?'<div class="undo" onclick="undoTask(\''+t.id+'\')">↩ Undo</div>':'';
   return '<div class="'+cls+'">'+
     '<div class="chk'+(done?' on':'')+'" onclick="'+(done?'undoTask':'completeTask')+'(\''+t.id+'\')">'+(done?'✓':'')+'</div>'+
@@ -2127,6 +2013,44 @@ function renderRewards(){
   });
   document.getElementById('badgeGrid').innerHTML=grid;
   document.getElementById('badgeCnt').textContent=cnt+' / '+BADGE_DEFS.length+' unlocked';
+  renderDiscipline();
+}
+
+/* accountability mirror — hard-task misses this month */
+function renderDiscipline(){
+  var slot=document.getElementById('disciplineSlot'); if(!slot)return;
+  var log=DB.missedLog||[];
+  var now=new Date();
+  var ym=now.getFullYear()+'-'+pad(now.getMonth()+1);
+  var monthMisses=log.filter(function(m){ return (m.date||'').indexOf(ym)===0; });
+  var totalMisses=log.length;
+  var xpLost=monthMisses.reduce(function(a,m){return a+(m.penalty||0);},0);
+
+  /* count hard tasks currently active — gives context */
+  var hardActive=(DB.tasks||[]).filter(function(t){return t.type==='daily'&&t.hard;}).length;
+
+  var recent='';
+  if(monthMisses.length){
+    monthMisses.slice(-4).reverse().forEach(function(m){
+      var d=new Date(m.date+'T00:00:00');
+      var when=(d.getMonth()+1)+'/'+d.getDate();
+      recent+='<div class="miss-item"><span class="miss-x">✕</span><span class="miss-t">'+esc(m.title)+'</span><span class="miss-meta">'+when+(m.penalty?' · −'+m.penalty:'')+'</span></div>';
+    });
+  }
+
+  var tone = monthMisses.length===0 ? 'disc-clean' : monthMisses.length<=2 ? 'disc-ok' : 'disc-warn';
+  var headline = monthMisses.length===0
+    ? 'Spotless month 🛡️'
+    : monthMisses.length+' miss'+(monthMisses.length>1?'es':'')+' this month';
+  var sub = monthMisses.length===0
+    ? (hardActive? 'Every hard deadline held. Keep it clean.' : 'No hard-deadline tasks yet. Add one to raise the stakes.')
+    : '−'+xpLost+' XP lost to missed deadlines. Each miss also reset your streak.';
+
+  slot.innerHTML=
+    '<div class="disc-card '+tone+'">'
+    +'<div class="disc-head"><div><b>'+headline+'</b><span class="disc-sub">'+sub+'</span></div><div class="disc-num">'+monthMisses.length+'</div></div>'
+    +(recent?'<div class="miss-list">'+recent+'</div>':'')
+    +'</div>';
 }
 
 function renderStats(){
@@ -2173,35 +2097,35 @@ function saveNotif(){
   toast('Alert settings saved ✅','ok');
 }
 function fillSettings(){
-  /* restore notif settings */
   if(DB.settings){
     if(DB.settings.notifCh) setNotif(DB.settings.notifCh);
     var wa=document.getElementById('inWaNum'); if(wa&&DB.settings.waNum)wa.value=DB.settings.waNum;
   }
   if('Notification' in window && Notification.permission==='granted'){
-    var pb=document.getElementById('pushBtn'); if(pb)pb.textContent='Enabled ✓';
+    var pb=document.getElementById('pushBtn'); if(pb)pb.textContent='Enabled \u2713';
   }
   document.getElementById('inName').value=DB.profile.name||'';
   document.getElementById('inEmail').value=DB.profile.email||'';
-  document.getElementById('inApi').value=(API===API_DEFAULT?'':API);
   refreshStatus();
+  updateBackupReminder();
 }
 function refreshStatus(){
-  document.getElementById('stVer').textContent=APP_VERSION;
-  document.getElementById('stTasks').textContent=DB.tasks.length;
-  var last=localStorage.getItem('ascend_last');
-  document.getElementById('stLast').textContent=last?new Date(last).toLocaleString():'Never';
-  document.getElementById('stConn').textContent=hasServer?'Connected (via /exec) ☁️':(apiOk(API)?'URL set ☁️':'Not set');
+  var v=document.getElementById('stVer'); if(v)v.textContent=APP_VERSION;
+  var t=document.getElementById('stTasks'); if(t)t.textContent=DB.tasks.length;
+  var last=localStorage.getItem('volts_last_backup');
+  var el=document.getElementById('stLast'); if(el) el.textContent=last?new Date(+last).toLocaleString():'Never';
 }
-function saveApi(){
-  var u=document.getElementById('inApi').value.trim();
-  if(u && !apiOk(u)){ toast('That doesn\'t look like a /exec URL','err'); return; }
-  API=u||API_DEFAULT; localStorage.setItem('ascend_api',API);
-  refreshStatus(); toast('Backend URL saved','ok'); pingBackend(); if(apiOk(API))pushSilent();
-}
-function testApi(){
-  if(!apiOk(API)){ toast('Save a valid /exec URL first','err'); return; }
-  post({action:'__ping'},true).then(function(d){ if(d&&d.ok)toast('Connected ✅ '+APP_NAME+' '+d.version,'ok'); else toast('Odd response','err'); }).catch(function(){ toast('Unreachable','err'); });
+function updateBackupReminder(){
+  var el=document.getElementById('bkReminder'); if(!el)return;
+  var last=localStorage.getItem('volts_last_backup');
+  if(!last){
+    el.style.color='#ffb0a0';
+    el.innerHTML='\u26a0\ufe0f You haven\u2019t backed up yet. Download a backup so you never lose your progress.';
+  } else {
+    var days=Math.floor((Date.now()-(+last))/86400000);
+    if(days>=7){ el.style.color='#ffb0a0'; el.innerHTML='\u26a0\ufe0f Last backup was '+days+' days ago. Time for a fresh one.'; }
+    else{ el.style.color='#6ee7b7'; el.innerHTML='\u2705 Last backup: '+(days===0?'today':days+' day'+(days>1?'s':'')+' ago')+'. Nice.'; }
+  }
 }
 function saveProfile(){
   DB.profile.name=document.getElementById('inName').value.trim()||'Sam';
@@ -2209,14 +2133,29 @@ function saveProfile(){
   saveDB(); render(); toast('Profile saved','ok');
 }
 function exportJson(){
-  var blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
-  var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='ascend_backup_'+todayStr()+'.json'; a.click();
-  toast('Exported','ok');
+  try{
+    var blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
+    var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+    a.download='volts_backup_'+todayStr()+'.json'; a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
+    localStorage.setItem('volts_last_backup', String(Date.now()));
+    refreshStatus(); updateBackupReminder();
+    toast('Backup downloaded \u2b07\ufe0f \u2014 keep it safe','ok');
+  }catch(e){ toast('Backup failed','err'); }
 }
 function importJson(ev){
   var f=ev.target.files[0]; if(!f)return;
   var r=new FileReader();
-  r.onload=function(){ try{ var d=migrate(JSON.parse(r.result)); DB=isDbEmpty(DB)?d:mergeDB(DB,d); recompute(); saveDB(); render(); toast('Imported & merged ✅','ok'); }catch(e){ toast('Invalid file','err'); } ev.target.value=''; };
+  r.onload=function(){
+    try{
+      var d=migrate(JSON.parse(r.result));
+      confirmModal({icon:'\u2b06\ufe0f',title:'Restore this backup?',msg:'This merges the backup with your current data \u2014 newest of each item is kept, nothing is lost.',ok:'Restore & merge',danger:false,onOk:function(){
+        DB = isDbEmpty(DB) ? d : mergeDB(DB,d);
+        recompute(); saveDB(); render(); toast('Restored \u2705','ok');
+      }});
+    }catch(e){ toast('Invalid backup file','err'); }
+    ev.target.value='';
+  };
   r.readAsText(f);
 }
 function resetAll(){
@@ -2228,9 +2167,12 @@ function resetAll(){
 /* ---------- task modal ---------- */
 function fillCatSelect(){
   var s=document.getElementById('tCat'); s.innerHTML='';
-  DB.categories.forEach(function(c){ var o=document.createElement('option'); o.value=c.id; o.textContent=c.emoji+'  '+c.name; s.appendChild(o); });
+  DB.categories.forEach(function(c){ var o=document.createElement('option'); o.value=c; o.textContent=c.emoji+'  '+c.name; s.appendChild(o); });
 }
-function setType(v){ T_TYPE=v; segSel('tType',v); document.getElementById('timeWrap').style.display=(v==='once')?'none':'block'; document.getElementById('tTimeLbl').textContent=(v==='sticky')?'Deadline time (must finish by)':'Reminder time (optional)'; syncTime('tTime','tTimeDisp'); }
+function setType(v){ T_TYPE=v; segSel('tType',v); document.getElementById('timeWrap').style.display=(v==='once')?'none':'block'; document.getElementById('tTimeLbl').textContent=(v==='sticky')?'Deadline time (must finish by)':'Reminder time (optional)'; syncTime('tTime','tTimeDisp');
+  var hw=document.getElementById('hardWrap'); if(hw){ hw.classList.toggle('show', v==='daily'); if(v!=='daily'){ var hc=document.getElementById('tHard'); if(hc)hc.checked=false; } }
+}
+function hardChanged(){ /* toggle handled inline; nothing else needed */ }
 function setPri(v){ T_PRI=v; segSel('tPri',v); }
 function segSel(id,v){ var b=document.getElementById(id).querySelectorAll('button'); for(var i=0;i<b.length;i++)b[i].classList.toggle('on',b[i].getAttribute('data-v')===v); }
 function openTask(id){
@@ -2240,9 +2182,12 @@ function openTask(id){
     document.getElementById('tTitle').value=t.title; document.getElementById('tCat').value=t.cat;
     document.getElementById('tNote').value=t.note||''; document.getElementById('tTime').value=t.time||'';
     setType(t.type); setPri(t.priority||'Medium');
+    var hc=document.getElementById('tHard'); if(hc)hc.checked=!!t.hard;
+    var hw=document.getElementById('hardWrap'); if(hw)hw.classList.toggle('show',t.type==='daily');
   } else { document.getElementById('tmTitle').textContent='New Task';
     document.getElementById('tTitle').value=''; document.getElementById('tNote').value=''; document.getElementById('tTime').value='';
     document.getElementById('tCat').selectedIndex=0; setType('daily'); setPri('Medium');
+    var hc2=document.getElementById('tHard'); if(hc2)hc2.checked=false;
   }
   document.getElementById('taskModal').classList.add('show');
   setTimeout(function(){document.getElementById('tTitle').focus();},120);
@@ -2256,8 +2201,9 @@ function saveTask(){
   var time=document.getElementById('tTime').value.trim();
   if(T_TYPE==='sticky' && !time){ toast('Sticky task needs a deadline time','err'); return; }
   var pts=PRI_PTS[T_PRI]||10;
-  if(EDIT_ID){ var t=taskById(EDIT_ID); t.title=title; t.cat=cat; t.note=note; t.type=T_TYPE; t.priority=T_PRI; t.points=pts; t.time=(T_TYPE==='once'?'':time); }
-  else { DB.tasks.push({id:uid(),title:title,cat:cat,note:note,type:T_TYPE,priority:T_PRI,points:pts,time:(T_TYPE==='once'?'':time),done:false,doneDate:'',history:[],createdAt:Date.now()}); }
+  var hard=(T_TYPE==='daily') && document.getElementById('tHard') && document.getElementById('tHard').checked;
+  if(EDIT_ID){ var t=taskById(EDIT_ID); t.title=title; t.cat=cat; t.note=note; t.type=T_TYPE; t.priority=T_PRI; t.points=pts; t.time=(T_TYPE==='once'?'':time); t.hard=!!hard; if(!t.hard)delete t.hard; }
+  else { var nt={id:uid(),title:title,cat:cat,note:note,type:T_TYPE,priority:T_PRI,points:pts,time:(T_TYPE==='once'?'':time),done:false,doneDate:'',history:[],createdAt:Date.now()}; if(hard)nt.hard=true; DB.tasks.push(nt); }
   saveDB(); closeTask(); render(); toast(EDIT_ID?'Task updated':'Task added ⚡','ok'); EDIT_ID=null;
 }
 function delTask(id){
@@ -2411,12 +2357,133 @@ function toast(msg,type){ var t=document.getElementById('toast'); t.textContent=
 function flyPts(n){ var f=document.getElementById('fly'); f.textContent='+'+n; f.className='fly'; void f.offsetWidth; f.className='fly go'; }
 
 /* ---------- boot ---------- */
+/* ═══════════════════════════════════════════
+   HARD-DEADLINE EXPIRY + COMEBACK CHALLENGE
+   ═══════════════════════════════════════════ */
+var COMEBACK_CHALLENGES=[
+  {e:'🏃', t:'20-minute brisk walk or light home workout', d:'Move your body. Walk, stretch, or easy bodyweight — no intense strain needed.'},
+  {e:'📵', t:'No social media for the whole day', d:'Zero Instagram, X, reels, YouTube shorts. Reclaim your focus for one day.'},
+  {e:'📱', t:'Under 2 hours screen time today', d:'Keep total phone screen time below 2 hours. Check your phone\'s screen-time counter tonight.'},
+  {e:'🌅', t:'Wake up before 6:30 AM tomorrow', d:'Early start resets discipline. Alarm set, feet on floor, no snooze.'},
+  {e:'📖', t:'Read 15 pages of a real book', d:'Paper or ebook — 15 pages, no skimming. Feed the mind you\'re building.'},
+  {e:'🧊', t:'Cold shower + 10 min meditation', d:'2-3 min cold finish to your shower, then 10 minutes of stillness.'},
+  {e:'✍️', t:'Write down why you missed yesterday', d:'Honest 5-line journal: what got in the way, and one fix for tomorrow.'}
+];
+
+/* pick a deterministic challenge for a given date so it does not reshuffle on refresh */
+function pickChallenge(dateStr){
+  var seed=0; for(var i=0;i<dateStr.length;i++) seed+=dateStr.charCodeAt(i);
+  return COMEBACK_CHALLENGES[seed % COMEBACK_CHALLENGES.length];
+}
+
+/* runs on every app open — expire missed hard-deadline dailies */
+function checkExpiry(){
+  var td=todayStr();
+  DB.missedLog=DB.missedLog||[];
+  var expired=[];
+  var keep=[];
+  (DB.tasks||[]).forEach(function(t){
+    if(t.type==='daily' && t.hard){
+      /* was it created before today AND not done on the most recent past day it was alive? */
+      var createdDay = t.createdAt ? new Date(t.createdAt).getFullYear()+'-'+pad(new Date(t.createdAt).getMonth()+1)+'-'+pad(new Date(t.createdAt).getDate()) : td;
+      var doneToday = (t.history||[]).indexOf(td)!==-1;
+      /* find if there is any past day (before today, on/after creation) with no completion */
+      var missedYesterday=false;
+      if(createdDay < td){
+        var y=addDays(td,-1);
+        /* only count as missed if it existed yesterday and wasn't done yesterday */
+        if(createdDay <= y && (t.history||[]).indexOf(y)===-1){ missedYesterday=true; }
+      }
+      if(missedYesterday && !doneToday){
+        expired.push(t);
+      } else {
+        keep.push(t);
+      }
+    } else {
+      keep.push(t);
+    }
+  });
+  if(expired.length){
+    var totalPenalty=0;
+    expired.forEach(function(t){
+      var pen=t.points||PRI_PTS[t.priority]||10; /* symmetric: lose what you'd have earned */
+      totalPenalty+=pen;
+      DB.missedLog.push({title:t.title, cat:t.cat, date:addDays(td,-1), penalty:pen, ts:Date.now()});
+    });
+    /* apply XP loss */
+    DB.profile.points=Math.max(0,(DB.profile.points||0)-totalPenalty);
+    /* break the streak — a missed hard task resets momentum */
+    DB.profile.streak=0;
+    DB._lastPenalty={amount:totalPenalty, date:td}; /* so the challenge screen can show it */
+    DB.tasks=keep;
+    /* set an active challenge for today if none pending */
+    if(!DB.activeChallenge){
+      var ch=pickChallenge(td);
+      DB.activeChallenge={ date:td, e:ch.e, t:ch.t, d:ch.d, missedTitle:expired[0].title, missedCount:expired.length, penalty:totalPenalty };
+    }
+    recompute(); saveDB();
+  }
+  /* stale challenge cleanup: if an old challenge from a previous day was never resolved, keep showing it (accountability) */
+}
+
+function maybeShowChallenge(){
+  var c=DB.activeChallenge;
+  if(!c){ document.getElementById('challengeOverlay').classList.remove('show'); return; }
+  var missTxt = c.missedCount>1 ? ('You missed '+c.missedCount+' hard-deadline tasks') : ('You missed: '+esc(c.missedTitle||'a hard-deadline task'));
+  var penTxt = c.penalty ? '  ·  −'+c.penalty+' XP  ·  streak reset' : '';
+  document.getElementById('chMissed').innerHTML='⚡ '+missTxt+'<span style="color:#ff97a2">'+penTxt+'</span>';
+  document.getElementById('chTaskSlot').innerHTML=
+    '<div class="ch-task"><div class="cte">'+c.e+'</div><div class="ctb"><div class="ctt">'+esc(c.t)+'</div><div class="ctd">'+esc(c.d)+'</div></div></div>';
+  document.getElementById('challengeOverlay').classList.add('show');
+}
+function completeChallenge(){
+  DB.activeChallenge=null;
+  DB.profile.points+=10; /* small reward for showing up */
+  recompute(); saveDB();
+  document.getElementById('challengeOverlay').classList.remove('show');
+  toast('Back on track 💪 +10 XP','ok');
+  render();
+}
+function escapeChallenge(){
+  confirmModal({icon:'🤝',title:'Skip this once?',msg:'This is your one honest out — for real sickness or emergencies. Use it when you truly need it.',ok:'Yes, skip today',danger:false,onOk:function(){
+    DB.activeChallenge=null; saveDB();
+    document.getElementById('challengeOverlay').classList.remove('show');
+    toast('Skipped. Rest up — come back stronger.','');
+    render();
+  }});
+}
+
+function runBootAnimation(){
+  var line = motivLine();
+  var words = line.replace(/[⚔️🔥🗡️🛡️💪]/g,'').trim().split(/\s+/);
+  var q = document.getElementById('bootQuote');
+  if(!q) return 2600;
+  q.innerHTML = words.map(function(w){ return '<span class="w">'+w+'</span>'; }).join(' ');
+  var spans = q.querySelectorAll('.w');
+  for(var i=0;i<spans.length;i++){ spans[i].style.animationDelay = (0.35 + i*0.11)+'s'; }
+  var wordsDone = 0.35 + words.length*0.11 + 0.35;
+  /* brand line in */
+  setTimeout(function(){ var by=document.getElementById('bootBy'); if(by)by.classList.add('show'); }, wordsDone*1000);
+  /* progress bar in + fill */
+  var progStart = wordsDone + 0.2;
+  setTimeout(function(){
+    var p=document.getElementById('bootProg');
+    if(p){ p.classList.add('show'); setTimeout(function(){ p.classList.add('go'); }, 120); }
+  }, progStart*1000);
+  /* total = quote + brand + 1.5s progress fill + small pad */
+  return (progStart + 1.5 + 0.4)*1000;
+}
+
 function init(){
-  setTimeout(function(){ document.getElementById('boot').classList.add('hide'); },2600);
+  var bootMs = runBootAnimation();
+  setTimeout(function(){ document.getElementById('boot').classList.add('hide'); }, bootMs);
+  checkExpiry();
   recompute();
   saveLocal();
   render();
   pingBackend();
+  /* show comeback challenge after boot finishes */
+  setTimeout(function(){ maybeShowChallenge(); }, bootMs + 200);
   setInterval(function(){ if(CUR_PAGE==='Today') renderToday(); }, 30000);
   /* init sliding indicator on Today */
   setTimeout(function(){
