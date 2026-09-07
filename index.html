@@ -219,8 +219,9 @@ a{color:var(--accent2);text-decoration:none}
 .vw-dot.slip{background:rgba(255,93,108,.45);color:#fff;font-weight:700}
 
 /* ═══ PENALTY DASHBOARD ═══ */
-.fail-link{font-size:12px;color:rgba(255,93,108,.7);cursor:pointer;margin-top:9px;display:inline-block;font-weight:600;transition:.15s}
-.fail-link:hover{color:#ff97a2}
+.fail-btn{margin-top:11px;display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:#ff97a2;background:rgba(255,93,108,.1);border:1px solid rgba(255,93,108,.35);border-radius:11px;padding:8px 15px;cursor:pointer;transition:.15s}
+.fail-btn:hover{background:rgba(255,93,108,.18);border-color:rgba(255,93,108,.55)}
+.fail-btn:active{transform:scale(.95)}
 .pd-status{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
 .pd-stat{background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:14px;text-align:center}
 .pd-num{font-size:26px;font-weight:800;line-height:1}
@@ -2811,20 +2812,20 @@ function renderDailyReport(timed,doneTimed,pct){
 
 /* ═══════════ DAILY PENALTY — own section, shows when < 80% ═══════════ */
 var PENALTIES = [
-  { e:'🚫', t:'No mobile', d:'Phone switch off till tomorrow. Zero scrolling. Reclaim your focus.' },
-  { e:'🏋️', t:'100 Pushups & Squats', d:'Drop down and do it. No excuses, no breaks until it’s done.' },
-  { e:'📵', t:'No Social Media', d:'Delete the apps for 24 hours. You don’t need cheap dopamine.' },
-  { e:'💸', t:'No Money Day', d:'Zero spending. Keep your wallet locked.' },
-  { e:'🙅‍♂️', t:'No She (Monk Mode)', d:'Stop chasing validation. Focus on your own main character energy and dialogue dynamics.' },
-  { e:'✍️', t:'Write and Write Something', d:'Journal 3 full pages. Write out your frustrations and how you will conquer them.' },
-  { e:'🧼', t:'Accha Dikhna', d:'Strict grooming. Look sharp, dress well even if you are just sitting at SP Automobile.' },
-  { e:'🥗', t:'Accha Khana', d:'Zero sugar, zero junk. Eat like a man who respects his body.' },
-  { e:'✈️', t:'Acchi Jagah Ghumne', d:'Put ₹500 directly into the travel fund. No touching it.' },
-  { e:'🔥', t:'Ex Ko Jalana (Level Up)', d:'The best revenge is massive success. Put 1 extra hour into building that 3D UI component.' },
-  { e:'🚘', t:'Bada Ghar Gaadi', d:'Grind 1 solid hour on Google Apps Script and CRM automation. Wealth is built, not wished for.' },
-  { e:'📈', t:'Trading Discipline', d:'1 hour purely backtesting XAUUSD. Strict rules, no gambling.' },
-  { e:'🏢', t:'Empire Work', d:'30 mins reviewing NHAI empanelment or vendor lists. Build the business.' },
-  { e:'🥶', t:'Cold Shower', d:'Turn the tap to freezing. 5 minutes. Build that mental callous.' }
+  { e:'🚫', t:'No mobile', d:'Phone away except essentials. Zero scrolling. Reclaim your focus for the day.' },
+  { e:'🏃', t:'Movement reset', d:'20-min brisk walk or an easy mobility flow. A reset, not a beating.' },
+  { e:'📵', t:'No social media', d:'Zero Instagram / YouTube / reels for the day. You don’t need cheap dopamine.' },
+  { e:'💸', t:'No-spend day', d:'Zero non-essential spending. Keep the wallet locked.' },
+  { e:'✍️', t:'Write it out', d:'Journal 3 full pages — your frustrations and exactly how you’ll conquer them.' },
+  { e:'🧼', t:'Look sharp', d:'Strict grooming. Dress well even if you’re just at the desk today.' },
+  { e:'🥗', t:'Eat clean', d:'Zero sugar, zero junk. Eat like a man who respects his body.' },
+  { e:'✈️', t:'Fund the goal', d:'Put ₹500 straight into your travel/savings fund. No touching it.' },
+  { e:'💬', t:'Sharpen speech', d:'30 min practising clear, confident conversation & delivery.' },
+  { e:'💻', t:'Build something', d:'1 focused hour on Apps Script / a UI component. Wealth is built, not wished for.' },
+  { e:'📈', t:'Backtest only', d:'1 hour purely backtesting XAUUSD. Strict rules, no live trades.' },
+  { e:'🏢', t:'Empire work', d:'30 min reviewing vendor / empanelment lists. Build the business.' },
+  { e:'📖', t:'Read hard', d:'Read 20 pages of a book that levels you up. No skimming.' },
+  { e:'🧘', t:'Reset & plan', d:'10 min planning tomorrow properly so today’s slip doesn’t repeat.' }
 ];
 function renderTodayPenalty(pct){
   var slot=document.getElementById('penaltySlot'); if(!slot)return;
@@ -2883,7 +2884,7 @@ function taskCard(t,isSticky){
   var cls='task'+(done?' done':'')+(over?' overdue':'')+((t.type==='daily'&&t.hard&&!done)?' overdue':'');
   var note=t.note?'<div class="note">'+esc(t.note)+'</div>':'';
   var meta='<div class="meta"><span class="chip">'+catEmoji(t.cat)+' '+esc(catName(t.cat))+'</span><span class="chip pts">⭐ '+pts+'</span>'+timeChip+hardChip+'</div>';
-  var undo=done?'<div class="undo" onclick="undoTask(\''+t.id+'\')">↩ Undo</div>':'<div class="fail-link" onclick="failTask(\''+t.id+'\')">✕ Mark failed</div>';
+  var undo=done?'<div class="undo" onclick="undoTask(\''+t.id+'\')">↩ Undo</div>':'<button class="fail-btn" onclick="failTask(\''+t.id+'\')">✕ Mark failed</button>';
   return '<div class="'+cls+'">'+
     '<div class="chk'+(done?' on':'')+'" onclick="'+(done?'undoTask':'completeTask')+'(\''+t.id+'\')">'+(done?'✓':'')+'</div>'+
     '<div class="body"><div class="ttl">'+esc(t.title)+'</div>'+note+meta+undo+'</div></div>';
