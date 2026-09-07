@@ -168,6 +168,57 @@ a{color:var(--accent2);text-decoration:none}
 .pen-td{font-size:12.5px;color:var(--muted);line-height:1.5}
 .pen-foot{font-size:11.5px;color:#ff97a2;margin-top:14px;font-weight:600;text-align:center;letter-spacing:.2px}
 
+/* ═══ VICES / BAD HABITS ═══ */
+.vice-card{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:15px 16px;margin-bottom:11px;transition:.2s;animation:pageIn .3s ease both}
+.vice-card.clean{border-color:rgba(55,211,153,.35);background:linear-gradient(135deg,rgba(55,211,153,.07),transparent)}
+.vice-card.slipped{border-color:rgba(255,181,71,.4);background:linear-gradient(135deg,rgba(255,181,71,.08),transparent)}
+.vice-card.over{border-color:rgba(255,93,108,.45);background:linear-gradient(135deg,rgba(255,93,108,.1),transparent)}
+.vice-top{display:flex;align-items:center;gap:13px;margin-bottom:12px}
+.vice-emoji{font-size:26px;flex-shrink:0}
+.vice-info{flex:1;min-width:0}
+.vice-name{font-size:15.5px;font-weight:700;line-height:1.2}
+.vice-goal{font-size:11.5px;color:var(--muted);margin-top:2px}
+.vice-edit{color:var(--muted);cursor:pointer;font-size:18px;padding:2px 6px;flex-shrink:0;transition:.2s}
+.vice-edit:hover{color:var(--txt)}
+.vice-streak{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;background:rgba(55,211,153,.14);color:#6ee7b7;border:1px solid rgba(55,211,153,.3)}
+.vice-streak.zero{background:rgba(255,255,255,.05);color:var(--muted);border-color:var(--brd)}
+.vice-actions{display:flex;align-items:center;gap:10px;margin-top:6px}
+.vice-count{font-size:22px;font-weight:800;min-width:30px;text-align:center}
+.vice-count.ok{color:#6ee7b7}.vice-count.warn{color:#ffb547}.vice-count.bad{color:#ff97a2}
+.vice-btn{width:38px;height:38px;border-radius:11px;border:1px solid var(--brd);background:var(--inp);color:var(--txt);font-size:20px;font-weight:700;cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.vice-btn:active{transform:scale(.9)}
+.vice-btn.plus{background:rgba(255,93,108,.14);border-color:rgba(255,93,108,.35);color:#ff97a2}
+.vice-btn.minus{background:rgba(255,255,255,.04)}
+.vice-lbl{font-size:12px;color:var(--muted);flex:1}
+.vice-clean-btn{margin-left:auto;font-size:12px;font-weight:700;padding:8px 14px;border-radius:11px;border:1px solid rgba(55,211,153,.4);background:rgba(55,211,153,.12);color:#6ee7b7;cursor:pointer;transition:.15s}
+.vice-clean-btn:active{transform:scale(.94)}
+.vice-clean-btn.done{background:rgba(55,211,153,.25);border-color:rgba(55,211,153,.6)}
+
+/* icon picker */
+.vice-icons{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.vice-icons .vi{width:44px;height:44px;border-radius:12px;border:1px solid var(--brd);background:var(--inp);font-size:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s}
+.vice-icons .vi.on{border-color:var(--accent);background:rgba(108,92,231,.18);transform:scale(1.05)}
+.vice-icons .vi:active{transform:scale(.9)}
+
+/* warning banner */
+.vice-warn{border-radius:16px;padding:15px 17px;margin-bottom:18px;display:flex;align-items:flex-start;gap:12px;animation:pageIn .3s ease both}
+.vice-warn.red{background:linear-gradient(135deg,rgba(255,93,108,.16),rgba(255,93,108,.05));border:1px solid rgba(255,93,108,.4)}
+.vice-warn.green{background:linear-gradient(135deg,rgba(55,211,153,.14),rgba(70,181,255,.05));border:1px solid rgba(55,211,153,.35)}
+.vice-warn .vw-ic{font-size:24px;flex-shrink:0;margin-top:1px}
+.vice-warn b{font-size:14px;font-weight:800;display:block;margin-bottom:3px}
+.vice-warn.red b{color:#ffb0b8}.vice-warn.green b{color:#8ef0c8}
+.vice-warn p{font-size:12.5px;color:var(--muted);line-height:1.5}
+
+/* week grid */
+.vw-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.vw-row:last-child{border-bottom:none}
+.vw-name{flex:1;min-width:0;font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vw-dots{display:flex;gap:4px}
+.vw-dot{width:15px;height:15px;border-radius:4px;background:rgba(255,255,255,.07);font-size:8px;display:flex;align-items:center;justify-content:center}
+.vw-dot.clean{background:rgba(55,211,153,.35)}
+.vw-dot.slip{background:rgba(255,93,108,.45);color:#fff;font-weight:700}
+
+
 
 /* ═══ HARD DEADLINE toggle ═══ */
 .hard-wrap{margin:-6px 0 16px;max-height:0;overflow:hidden;opacity:0;transition:max-height .3s ease,opacity .3s ease,margin .3s ease}
@@ -966,11 +1017,35 @@ html,body{font-weight:500}
     </div>
   </div>
 
+  <!-- ============ VICES / BAD HABITS ============ -->
+  <div class="page" id="pageVices">
+    <div class="ptitle">Break Bad Habits</div>
+    <div class="psub">Track the slip-ups. Watch clean streaks grow. Catch bad patterns early. 🚭</div>
+
+    <div id="viceWarnSlot"></div>
+
+    <div class="sec"><div class="head"><h2>🎯 Your habits to break</h2><div class="cnt" id="viceCount">0 tracked</div></div></div>
+    <div id="viceList"></div>
+
+    <div class="box" id="viceEmpty" style="display:none;text-align:center;padding:26px 20px">
+      <div style="font-size:38px;margin-bottom:10px">🚭</div>
+      <p style="font-size:13px;color:var(--muted);line-height:1.55;margin-bottom:16px">No bad habits tracked yet. Add one you want to quit or cut down — smoking, junk food, doomscrolling, whatever holds you back.</p>
+    </div>
+
+    <button class="btn" style="width:100%;margin-top:6px" onclick="openVice()">+ Add a habit to break</button>
+
+    <div class="sec" style="margin-top:24px"><div class="head"><h2>📉 This week</h2><div class="cnt">slip-ups</div></div></div>
+    <div class="box" id="viceWeekBox">
+      <div id="viceWeek"></div>
+    </div>
+  </div>
+
   <!-- ============ MORE ============ -->
   <div class="page" id="pageMore">
     <div class="ptitle">More</div>
     <div class="psub">Everything else, one tap away.</div>
     <div class="morebtn" onclick="go('Food')"><div class="mi">🍗</div><div class="mt"><b>Food &amp; Bulking</b><p>Track calories, protein &amp; hit your bulk goal</p></div><div class="ar">›</div></div>
+    <div class="morebtn" onclick="go('Vices')"><div class="mi">🚭</div><div class="mt"><b>Break Bad Habits</b><p>Track slip-ups, build clean streaks, get warned early</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Tasks')"><div class="mi">🗂️</div><div class="mt"><b>Manage Tasks</b><p>Create, edit &amp; organize what you track</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Rewards')"><div class="mi">🏆</div><div class="mt"><b>Rewards</b><p>Level, streaks &amp; badges</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Stats')"><div class="mi">📊</div><div class="mt"><b>Stats</b><p>7-day trend &amp; category split</p></div><div class="ar">›</div></div>
@@ -1127,6 +1202,31 @@ html,body{font-weight:500}
   </div>
 </div>
 
+<!-- vice (bad habit) modal -->
+<div class="modal" id="viceModal" onclick="if(event.target===this)closeVice()">
+  <div class="modal-card">
+    <h3 id="vmTitle">Add a habit to break</h3>
+    <div class="mh">What do you want to quit or cut down?</div>
+    <div class="field"><label>Habit name</label><input id="vName" placeholder="e.g. Smoking, Junk food, Doomscrolling"></div>
+    <label style="display:block;font-size:12.5px;color:var(--muted);margin-bottom:7px">Pick an icon</label>
+    <div class="vice-icons" id="vIconPick"></div>
+    <label style="display:block;font-size:12.5px;color:var(--muted);margin:4px 0 7px">Goal</label>
+    <div class="seg" id="vGoal">
+      <button data-v="zero" class="on" onclick="viceGoalSel('zero')">🚫 Zero (quit)</button>
+      <button data-v="limit" onclick="viceGoalSel('limit')">📉 Limit/day</button>
+    </div>
+    <div class="field" id="vLimitWrap" style="display:none">
+      <label>Max per day</label>
+      <input id="vLimit" type="number" inputmode="numeric" min="1" placeholder="e.g. 2">
+    </div>
+    <div class="btnrow">
+      <button class="btn ghost" id="vDeleteBtn" style="display:none" onclick="deleteVice()">Delete</button>
+      <button class="btn ghost" onclick="closeVice()">Cancel</button>
+      <button class="btn" onclick="saveVice()">Save</button>
+    </div>
+  </div>
+</div>
+
 <!-- confirm modal -->
 <div class="modal confirm" id="confirm" onclick="if(event.target===this)closeConfirm()">
   <div class="modal-card">
@@ -1214,7 +1314,7 @@ var EDIT_ID=null, T_TYPE='daily', T_PRI='Medium';
 /* ---------- storage ---------- */
 function defaultDB(){
   return { v:APP_VERSION, profile:{name:'Sam',email:'',points:0,level:1,levelTitle:LEVELS[0],streak:0,longestStreak:0,lastActiveDate:''},
-           categories:DEFAULT_CATS.slice(), tasks:[], log:[], badges:{}, money:[], workouts:[], food:[], bodylog:[], dailylog:{}, dailyBonus:{}, missedLog:[], activeChallenge:null, settings:{}, updatedAt:Date.now() };
+           categories:DEFAULT_CATS.slice(), tasks:[], log:[], badges:{}, money:[], workouts:[], food:[], bodylog:[], dailylog:{}, dailyBonus:{}, missedLog:[], activeChallenge:null, vices:[], vicelog:{}, settings:{}, updatedAt:Date.now() };
 }
 function loadDB(){
   try{ var raw=localStorage.getItem(LS_KEY); if(raw){ return migrate(JSON.parse(raw)); } }catch(e){}
@@ -1276,6 +1376,18 @@ function mergeDB(local,cloud){
   m.missedLog=mergeArrById(local.missedLog,cloud.missedLog);
   // activeChallenge: keep whichever newer snapshot has (a pending challenge should survive)
   m.activeChallenge = newer.activeChallenge || older.activeChallenge || null;
+  // vices: union the habit list by id
+  m.vices=mergeArrById(local.vices,cloud.vices);
+  // vicelog: merge per-day, per-vice; keep the higher count logged
+  m.vicelog={};
+  [local.vicelog,cloud.vicelog].forEach(function(vl){
+    if(!vl) return;
+    for(var day in vl){
+      var src=vl[day]; var dst=m.vicelog[day]||{};
+      for(var vid in src){ if(dst[vid]==null || src[vid]>dst[vid]) dst[vid]=src[vid]; }
+      m.vicelog[day]=dst;
+    }
+  });
   m.updatedAt=Date.now();
   return migrate(m);
 }
@@ -1286,7 +1398,7 @@ function migrate(d){
   d.profile.longestStreak=d.profile.longestStreak||0; d.profile.lastActiveDate=d.profile.lastActiveDate||'';
   if(!d.categories||!d.categories.length) d.categories=DEFAULT_CATS.slice();
   d.tasks=d.tasks||[]; d.log=d.log||[]; d.badges=d.badges||{};
-  d.money=d.money||[]; d.workouts=d.workouts||[]; d.food=d.food||[]; d.bodylog=d.bodylog||[]; d.dailylog=d.dailylog||{}; d.dailyBonus=d.dailyBonus||{}; d.missedLog=d.missedLog||[]; if(d.activeChallenge===undefined)d.activeChallenge=null; d.settings=d.settings||{};
+  d.money=d.money||[]; d.workouts=d.workouts||[]; d.food=d.food||[]; d.bodylog=d.bodylog||[]; d.dailylog=d.dailylog||{}; d.dailyBonus=d.dailyBonus||{}; d.missedLog=d.missedLog||[]; if(d.activeChallenge===undefined)d.activeChallenge=null; d.vices=d.vices||[]; d.vicelog=d.vicelog||{}; d.settings=d.settings||{};
   return d;
 }
 function saveLocal(){ DB.updatedAt=Date.now(); try{localStorage.setItem(LS_KEY,JSON.stringify(DB));}catch(e){} }
@@ -1448,7 +1560,7 @@ function go(page,el){
   for(var j=0;j<btns.length;j++) btns[j].classList.remove('active');
 
   /* which nav button owns this page? */
-  var morePages={Tasks:1,Stats:1,Settings:1,Food:1};
+  var morePages={Tasks:1,Stats:1,Settings:1,Food:1,Vices:1};
   var owner = morePages[page] ? 'More' : page;
   var activeBtn=null;
   for(var k=0;k<btns.length;k++){
@@ -1464,7 +1576,7 @@ function go(page,el){
 
   /* 4. fab */
   var fab=document.querySelector('.fab');
-  if(fab) fab.classList.toggle('hide',!{Today:1,Money:1,Workout:1,Food:1}[page]);
+  if(fab) fab.classList.toggle('hide',!{Today:1,Money:1,Workout:1,Food:1,Vices:1}[page]);
 
   window.scrollTo(0,0);
   render();
@@ -1473,6 +1585,7 @@ function fabAction(){
   if(CUR_PAGE==='Money') openTxn();
   else if(CUR_PAGE==='Workout') openWorkout();
   else if(CUR_PAGE==='Food') openFood();
+  else if(CUR_PAGE==='Vices') openVice();
   else openTask();
 }
 
@@ -1791,6 +1904,185 @@ function renderWeekAnalytics(){
 }
 
 /* ---------- render ---------- */
+/* ═══════════════════════════════════════════
+   VICES / BAD-HABIT TRACKER
+   ═══════════════════════════════════════════ */
+var VICE_ICONS=['🚬','🍔','📱','🍺','🛌','🍫','🎮','😤','💸','☕','🥤','🍟','📺','🤬'];
+var V_ICON='🚬', V_GOAL='zero', V_EDIT=null;
+
+function today_vices(){ var t=todayStr(); DB.vicelog=DB.vicelog||{}; DB.vicelog[t]=DB.vicelog[t]||{}; return DB.vicelog[t]; }
+function viceCountOn(id,day){ var d=DB.vicelog&&DB.vicelog[day]; return d&&d[id]!=null?d[id]:null; } /* null = not logged */
+
+/* clean streak: consecutive days (up to yesterday, plus today if clean) where the vice was within goal */
+function viceStreak(v){
+  var streak=0;
+  for(var i=0;i<400;i++){
+    var day=addDays(todayStr(),-i);
+    var c=viceCountOn(v.id,day);
+    if(i===0){
+      /* today: only counts toward streak if explicitly marked clean (0) */
+      if(c===0) { streak++; continue; }
+      else break; /* not yet logged clean today, or slipped → today doesn't extend, stop */
+    }
+    if(c===null) break;               /* a gap day with no log breaks the streak */
+    var within = v.goal==='zero' ? (c===0) : (c<=(v.limit||1));
+    if(within) streak++; else break;
+  }
+  return streak;
+}
+
+function openVice(id){
+  V_EDIT=id||null;
+  var name=document.getElementById('vName'), lim=document.getElementById('vLimit');
+  if(id){
+    var v=viceById(id);
+    document.getElementById('vmTitle').textContent='Edit habit';
+    name.value=v.name; V_ICON=v.icon||'🚬'; V_GOAL=v.goal||'zero';
+    if(v.goal==='limit'){ lim.value=v.limit||1; }
+    document.getElementById('vDeleteBtn').style.display='block';
+  } else {
+    document.getElementById('vmTitle').textContent='Add a habit to break';
+    name.value=''; lim.value=''; V_ICON='🚬'; V_GOAL='zero';
+    document.getElementById('vDeleteBtn').style.display='none';
+  }
+  /* build icon picker */
+  var ip=document.getElementById('vIconPick'); var ih='';
+  VICE_ICONS.forEach(function(ic){ ih+='<div class="vi'+(ic===V_ICON?' on':'')+'" onclick="viceIconSel(\''+ic+'\')">'+ic+'</div>'; });
+  ip.innerHTML=ih;
+  viceGoalSel(V_GOAL);
+  document.getElementById('viceModal').classList.add('show');
+}
+function closeVice(){ document.getElementById('viceModal').classList.remove('show'); V_EDIT=null; }
+function viceIconSel(ic){ V_ICON=ic; var p=document.getElementById('vIconPick').querySelectorAll('.vi'); for(var i=0;i<p.length;i++)p[i].classList.toggle('on',p[i].textContent===ic); }
+function viceGoalSel(g){ V_GOAL=g; segSel('vGoal',g); document.getElementById('vLimitWrap').style.display=(g==='limit')?'block':'none'; }
+function saveVice(){
+  var name=document.getElementById('vName').value.trim();
+  if(!name){ toast('Give the habit a name','err'); return; }
+  var limit=V_GOAL==='limit'?(parseInt(document.getElementById('vLimit').value)||1):0;
+  DB.vices=DB.vices||[];
+  if(V_EDIT){ var v=viceById(V_EDIT); v.name=name; v.icon=V_ICON; v.goal=V_GOAL; v.limit=limit; }
+  else { DB.vices.push({id:uid(),name:name,icon:V_ICON,goal:V_GOAL,limit:limit,createdAt:Date.now()}); }
+  saveDB(); closeVice(); renderVices(); toast(V_EDIT?'Habit updated':'Now tracking 🎯','ok');
+}
+function deleteVice(){
+  if(!V_EDIT)return;
+  var v=viceById(V_EDIT);
+  confirmModal({icon:'🗑️',title:'Stop tracking?',msg:'"'+(v?v.name:'')+'" and its history will be removed.',ok:'Delete',danger:true,onOk:function(){
+    DB.vices=(DB.vices||[]).filter(function(x){return x.id!==V_EDIT;});
+    /* clean its entries from vicelog */
+    for(var day in DB.vicelog){ if(DB.vicelog[day]) delete DB.vicelog[day][V_EDIT]; }
+    saveDB(); closeVice(); renderVices(); toast('Removed','');
+  }});
+}
+function viceById(id){ for(var i=0;i<(DB.vices||[]).length;i++) if(DB.vices[i].id===id) return DB.vices[i]; return null; }
+
+/* logging */
+function viceInc(id){ var d=today_vices(); d[id]=(d[id]!=null?d[id]:0)+1; saveDB(); renderVices(); }
+function viceDec(id){ var d=today_vices(); var c=(d[id]!=null?d[id]:0)-1; if(c<0)c=0; d[id]=c; saveDB(); renderVices(); }
+function viceMarkClean(id){ var d=today_vices(); d[id]=0; saveDB(); renderVices(); var v=viceById(id); toast('Clean today 💚 '+(v?v.name:''),'ok'); }
+
+function renderVices(){
+  var list=DB.vices||[];
+  document.getElementById('viceCount').textContent=list.length+' tracked';
+  document.getElementById('viceEmpty').style.display=list.length?'none':'block';
+  document.getElementById('viceWeekBox').style.display=list.length?'block':'none';
+
+  var td=today_vices();
+  var lh='';
+  list.forEach(function(v){
+    var c=td[v.id]; /* null = unlogged today */
+    var streak=viceStreak(v);
+    var within = v.goal==='zero' ? (c===0) : (c!=null && c<=(v.limit||1));
+    var cls = c==null ? '' : (v.goal==='zero' ? (c===0?'clean':'over') : (c<=(v.limit||1)?(c===0?'clean':'slipped'):'over'));
+    var goalTxt = v.goal==='zero' ? 'Goal: zero per day' : ('Goal: max '+(v.limit||1)+'/day');
+    var streakHtml = streak>0
+      ? '<span class="vice-streak">🔥 '+streak+' day'+(streak>1?'s':'')+' clean</span>'
+      : '<span class="vice-streak zero">Start your streak today</span>';
+
+    var countCls = c==null?'':(within?'ok':'bad');
+    var actions;
+    if(v.goal==='zero'){
+      /* zero-goal: a Clean button + a "slipped +1" */
+      actions='<div class="vice-actions">'
+        +'<button class="vice-clean-btn'+(c===0?' done':'')+'" onclick="viceMarkClean(\''+v.id+'\')">'+(c===0?'✓ Clean today':'Mark clean today')+'</button>'
+        +'<span class="vice-lbl" style="flex:0;margin:0 6px">or</span>'
+        +'<button class="vice-btn plus" onclick="viceInc(\''+v.id+'\')">+</button>'
+        +'<span class="vice-count '+countCls+'">'+(c!=null?c:'–')+'</span>'
+        +(c>0?'<button class="vice-btn minus" onclick="viceDec(\''+v.id+'\')">−</button>':'')
+        +'</div>';
+    } else {
+      actions='<div class="vice-actions">'
+        +'<button class="vice-btn minus" onclick="viceDec(\''+v.id+'\')">−</button>'
+        +'<span class="vice-count '+countCls+'">'+(c!=null?c:0)+'</span>'
+        +'<button class="vice-btn plus" onclick="viceInc(\''+v.id+'\')">+</button>'
+        +'<span class="vice-lbl" style="text-align:right">'+(c!=null?c:0)+' / '+(v.limit||1)+' today</span>'
+        +'</div>';
+    }
+
+    lh+='<div class="vice-card '+cls+'">'
+      +'<div class="vice-top"><span class="vice-emoji">'+(v.icon||'🚬')+'</span>'
+      +'<div class="vice-info"><div class="vice-name">'+esc(v.name)+'</div><div class="vice-goal">'+goalTxt+'</div></div>'
+      +'<span class="vice-edit" onclick="openVice(\''+v.id+'\')">✎</span></div>'
+      +'<div style="margin-bottom:10px">'+streakHtml+'</div>'
+      +actions
+      +'</div>';
+  });
+  document.getElementById('viceList').innerHTML=lh;
+
+  renderViceWeek();
+  renderViceWarning();
+}
+
+function renderViceWeek(){
+  var list=DB.vices||[]; if(!list.length){ document.getElementById('viceWeek').innerHTML=''; return; }
+  var days=[]; for(var i=6;i>=0;i--) days.push(addDays(todayStr(),-i));
+  var wh='';
+  list.forEach(function(v){
+    var dots='';
+    days.forEach(function(day){
+      var c=viceCountOn(v.id,day);
+      var st,txt;
+      if(c===null){ st=''; txt=''; }
+      else{
+        var within = v.goal==='zero'?(c===0):(c<=(v.limit||1));
+        st = within?'clean':'slip'; txt = within?'':String(c);
+      }
+      dots+='<div class="vw-dot '+st+'">'+txt+'</div>';
+    });
+    wh+='<div class="vw-row"><span class="vw-name">'+(v.icon||'')+' '+esc(v.name)+'</span><div class="vw-dots">'+dots+'</div></div>';
+  });
+  document.getElementById('viceWeek').innerHTML=wh;
+}
+
+/* early-warning: scan last 3 days for a worsening pattern */
+function renderViceWarning(){
+  var slot=document.getElementById('viceWarnSlot'); if(!slot)return;
+  var list=DB.vices||[]; if(!list.length){ slot.innerHTML=''; return; }
+
+  var flagged=[]; var cleanCount=0;
+  list.forEach(function(v){
+    /* count slips in the last 3 logged days */
+    var slips=0, logged=0;
+    for(var i=1;i<=3;i++){
+      var c=viceCountOn(v.id,addDays(todayStr(),-i));
+      if(c===null) continue;
+      logged++;
+      var within = v.goal==='zero'?(c===0):(c<=(v.limit||1));
+      if(!within) slips++;
+    }
+    if(slips>=2) flagged.push(v.name);
+    if(viceStreak(v)>=3) cleanCount++;
+  });
+
+  if(flagged.length){
+    slot.innerHTML='<div class="vice-warn red"><span class="vw-ic">⚠️</span><div><b>Pattern warning</b><p>'+esc(flagged.slice(0,3).join(', '))+' slipped on most of the last 3 days. This is how a bad habit digs in — break the chain today before it becomes automatic.</p></div></div>';
+  } else if(cleanCount>0){
+    slot.innerHTML='<div class="vice-warn green"><span class="vw-ic">💚</span><div><b>You\'re winning</b><p>'+cleanCount+' habit'+(cleanCount>1?'s':'')+' on a 3+ day clean streak. Momentum is real — protect it.</p></div></div>';
+  } else {
+    slot.innerHTML='';
+  }
+}
+
 function render(){
   var p=DB.profile;
   document.getElementById('sLevel').textContent=p.level;
@@ -1808,6 +2100,7 @@ function render(){
   if(CUR_PAGE==='Money')  renderMoney();
   if(CUR_PAGE==='Workout')renderWorkout();
   if(CUR_PAGE==='Food')renderFood();
+  if(CUR_PAGE==='Vices')renderVices();
   if(CUR_PAGE==='Settings')fillSettings();
 }
 
