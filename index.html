@@ -168,6 +168,30 @@ a{color:var(--accent2);text-decoration:none}
 .pen-td{font-size:12.5px;color:var(--muted);line-height:1.5}
 .pen-foot{font-size:11.5px;color:#ff97a2;margin-top:14px;font-weight:600;text-align:center;letter-spacing:.2px}
 
+/* penalty complete button (inline card) */
+.pen-complete-btn{margin-top:14px;width:100%;padding:13px;border:none;border-radius:13px;background:linear-gradient(135deg,#37d399,#2bb583);color:#04241a;font-size:14.5px;font-weight:800;cursor:pointer;box-shadow:0 10px 26px rgba(55,211,153,.35)}
+.pen-complete-btn:active{transform:scale(.98)}
+.penalty-card.pen-cleared{background:linear-gradient(135deg,rgba(55,211,153,.14),transparent);border-color:rgba(55,211,153,.35)}
+.penalty-card.pen-cleared .pen-head b{color:#8ef0c8}
+.penalty-card.pen-skipped{background:var(--card);border-color:var(--brd);opacity:.85}
+
+/* ═══ DAY PENALTY FLASH OVERLAY ═══ */
+#dayPenaltyOverlay .dp-card{border:1px solid rgba(255,59,82,.5);box-shadow:0 30px 90px rgba(0,0,0,.8),0 0 70px rgba(255,59,82,.18);text-align:center;animation:dpShake .5s cubic-bezier(.36,.07,.19,.97)}
+@keyframes dpShake{10%,90%{transform:translateX(-1px)}20%,80%{transform:translateX(2px)}30%,50%,70%{transform:translateX(-4px)}40%,60%{transform:translateX(4px)}}
+.dp-flash{font-size:14px;font-weight:800;letter-spacing:4px;color:#ff4b5c;margin-bottom:10px;animation:dpBlink 1s ease-in-out infinite}
+@keyframes dpBlink{0%,100%{opacity:1}50%{opacity:.35}}
+.dp-title{font-size:26px;font-weight:800;margin-bottom:10px;color:#fff}
+.dp-sub{font-size:13px;color:var(--muted);line-height:1.55;margin-bottom:20px}
+.dp-task{display:flex;align-items:flex-start;gap:13px;background:rgba(255,59,82,.08);border:1px solid rgba(255,59,82,.3);border-radius:16px;padding:16px;margin-bottom:18px;text-align:left}
+.dp-te{font-size:30px;flex-shrink:0;line-height:1}
+.dp-tb{flex:1;min-width:0}
+.dp-tt{font-size:16px;font-weight:800;margin-bottom:4px;color:#fff}
+.dp-td{font-size:12.5px;color:var(--muted);line-height:1.5}
+.dp-done{width:100%;background:linear-gradient(135deg,#37d399,#2bb583) !important;color:#04241a !important;font-weight:800 !important;box-shadow:0 12px 30px rgba(55,211,153,.4) !important}
+.dp-escape{margin-top:16px;font-size:11.5px;color:var(--muted);line-height:1.5}
+.dp-escape a{color:var(--accent2);text-decoration:underline;cursor:pointer;font-weight:600}
+
+
 /* ═══ VICES / BAD HABITS ═══ */
 .vice-card{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:15px 16px;margin-bottom:11px;transition:.2s;animation:pageIn .3s ease both}
 .vice-card.clean{border-color:rgba(55,211,153,.35);background:linear-gradient(135deg,rgba(55,211,153,.07),transparent)}
@@ -346,6 +370,25 @@ a{color:var(--accent2);text-decoration:none}
 .tp-hard-row{display:flex;align-items:center;justify-content:space-between;gap:14px;background:linear-gradient(135deg,rgba(255,93,108,.09),rgba(108,92,231,.04));border:1px solid rgba(255,93,108,.28);border-radius:13px;padding:13px 15px;margin:14px 0}
 .tp-hard-row b{font-size:13.5px;font-weight:700;display:block}
 .tp-hard-row p{font-size:11px;color:var(--muted);line-height:1.45;margin-top:3px;max-width:230px}
+
+/* ═══ REPORT ═══ */
+.rep-toggle{display:flex;gap:8px;background:var(--inp);border:1px solid var(--brd);border-radius:14px;padding:5px;margin-bottom:18px}
+.rep-tg{flex:1;padding:11px 0;border:none;border-radius:10px;background:transparent;color:var(--muted);font-size:14px;font-weight:700;cursor:pointer;transition:.2s;font-family:inherit}
+.rep-tg.on{background:var(--grad);color:#fff;box-shadow:0 6px 18px rgba(108,92,231,.35)}
+.rep-head-card{background:linear-gradient(150deg,rgba(108,92,231,.16),rgba(70,181,255,.06));border:1px solid rgba(108,92,231,.32);border-radius:20px;padding:22px;margin-bottom:18px;text-align:center}
+.rep-period{font-size:11px;letter-spacing:3px;font-weight:700;color:var(--accent2);text-transform:uppercase;margin-bottom:8px}
+.rep-name{font-size:24px;font-weight:800;margin-bottom:4px}
+.rep-dates{font-size:13px;color:var(--muted);margin-bottom:14px}
+.rep-verdict{font-size:14px;font-weight:600;line-height:1.5;background:rgba(0,0,0,.2);border-radius:12px;padding:12px 15px}
+.rep-section-lbl{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);font-weight:700;margin:22px 0 12px}
+.rep-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rep-card{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:17px;transition:.2s}
+.rep-card:hover{border-color:var(--accent)}
+.rep-card .rep-ic{font-size:23px;margin-bottom:9px}
+.rep-card .rep-big{font-size:27px;font-weight:800;line-height:1}
+.rep-card .rep-lbl{font-size:12px;color:var(--muted);margin-top:6px;font-weight:600}
+.rep-card .rep-sub{font-size:11px;color:var(--muted);opacity:.75;margin-top:2px}
+
 
 
 
@@ -1151,6 +1194,22 @@ html,body{font-weight:500}
     </div>
   </div>
 
+  <!-- ============ REPORT ============ -->
+  <div class="page" id="pageReport">
+    <div class="ptitle">My Report</div>
+    <div class="psub">Your progress, clean and simple. Switch period, or download it.</div>
+
+    <div class="rep-toggle">
+      <button id="repWeekBtn" class="rep-tg on" onclick="setReportPeriod('week')">Weekly</button>
+      <button id="repMonthBtn" class="rep-tg" onclick="setReportPeriod('month')">Monthly</button>
+    </div>
+
+    <div id="reportBody"></div>
+
+    <button class="btn" style="width:100%;margin-top:18px" onclick="downloadReport()">⬇️ Download this report</button>
+    <p style="font-size:11.5px;color:var(--muted);text-align:center;margin-top:10px;line-height:1.5">Saves a clean HTML page you can keep, print, or share.</p>
+  </div>
+
   <!-- ============ PENALTY & DISCIPLINE ============ -->
   <div class="page" id="pagePenalty">
     <div class="ptitle">Penalty &amp; Discipline</div>
@@ -1188,6 +1247,7 @@ html,body{font-weight:500}
     <div class="morebtn" onclick="go('Food')"><div class="mi">🍗</div><div class="mt"><b>Food &amp; Bulking</b><p>Track calories, protein &amp; hit your bulk goal</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Vices')"><div class="mi">🚭</div><div class="mt"><b>Break Bad Habits</b><p>Track slip-ups, build clean streaks, get warned early</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Penalty')"><div class="mi">⚖️</div><div class="mt"><b>Penalty &amp; Discipline</b><p>Failed tasks → auto penalties, boss fights &amp; recovery</p></div><div class="ar">›</div></div>
+    <div class="morebtn" onclick="go('Report')"><div class="mi">📈</div><div class="mt"><b>My Report</b><p>Weekly &amp; monthly summary — view or download</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Tasks')"><div class="mi">🗂️</div><div class="mt"><b>Manage Tasks</b><p>Create, edit &amp; organize what you track</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Rewards')"><div class="mi">🏆</div><div class="mt"><b>Rewards</b><p>Level, streaks &amp; badges</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Stats')"><div class="mi">📊</div><div class="mt"><b>Stats</b><p>7-day trend &amp; category split</p></div><div class="ar">›</div></div>
@@ -1380,6 +1440,18 @@ html,body{font-weight:500}
   </div>
 </div>
 
+<!-- DAY PENALTY flash overlay (holds all day until completed) -->
+<div class="modal" id="dayPenaltyOverlay" onclick="if(event.target===this){}">
+  <div class="modal-card dp-card">
+    <div class="dp-flash">⚠️ PENALTY</div>
+    <div class="dp-title">You owe today</div>
+    <div class="dp-sub" id="dpSub">You dropped below 80% today. This penalty holds until you clear it — closing or reopening the app won't make it vanish.</div>
+    <div class="dp-task" id="dpTaskSlot"></div>
+    <button class="btn dp-done" onclick="completeDayPenalty()">✅ I completed it</button>
+    <div class="dp-escape">Genuinely sick or an emergency? <a onclick="escapeDayPenalty()">Skip once</a> — recorded, for real days only.</div>
+  </div>
+</div>
+
 <!-- SYSTEM CHECK overlay -->
 <div class="modal" id="systemCheck" onclick="if(event.target===this){}">
   <div class="modal-card">
@@ -1544,7 +1616,7 @@ var EDIT_ID=null, T_TYPE='daily', T_PRI='Medium';
 /* ---------- storage ---------- */
 function defaultDB(){
   return { v:APP_VERSION, profile:{name:'Sam',email:'',points:0,level:1,levelTitle:LEVELS[0],streak:0,longestStreak:0,lastActiveDate:''},
-           categories:DEFAULT_CATS.slice(), tasks:[], log:[], badges:{}, money:[], workouts:[], food:[], bodylog:[], dailylog:{}, dailyBonus:{}, missedLog:[], activeChallenge:null, vices:[], vicelog:{}, penalties:[], penaltyConfig:null, trainingPlan:null, trainCheck:{}, settings:{}, updatedAt:Date.now() };
+           categories:DEFAULT_CATS.slice(), tasks:[], log:[], badges:{}, money:[], workouts:[], food:[], bodylog:[], dailylog:{}, dailyBonus:{}, missedLog:[], activeChallenge:null, vices:[], vicelog:{}, penalties:[], penaltyConfig:null, trainingPlan:null, trainCheck:{}, dayPenalty:{}, settings:{}, updatedAt:Date.now() };
 }
 function loadDB(){
   try{ var raw=localStorage.getItem(LS_KEY); if(raw){ return migrate(JSON.parse(raw)); } }catch(e){}
@@ -1625,6 +1697,9 @@ function mergeDB(local,cloud){
   // training plan: newer snapshot; trainCheck: union (a handled day stays handled)
   m.trainingPlan = newer.trainingPlan || older.trainingPlan || null;
   m.trainCheck={}; [local.trainCheck,cloud.trainCheck].forEach(function(tc){ if(tc) for(var d in tc) m.trainCheck[d]=tc[d]; });
+  // dayPenalty: per-day; a done/skipped status wins over active (don't re-lock a cleared day)
+  m.dayPenalty={};
+  [local.dayPenalty,cloud.dayPenalty].forEach(function(dp){ if(!dp)return; for(var d in dp){ var ex=m.dayPenalty[d]; if(!ex){ m.dayPenalty[d]=dp[d]; } else if(ex.status==='active' && dp[d].status!=='active'){ m.dayPenalty[d]=dp[d]; } } });
   m.updatedAt=Date.now();
   return migrate(m);
 }
@@ -1635,7 +1710,7 @@ function migrate(d){
   d.profile.longestStreak=d.profile.longestStreak||0; d.profile.lastActiveDate=d.profile.lastActiveDate||'';
   if(!d.categories||!d.categories.length) d.categories=DEFAULT_CATS.slice();
   d.tasks=d.tasks||[]; d.log=d.log||[]; d.badges=d.badges||{};
-  d.money=d.money||[]; d.workouts=d.workouts||[]; d.food=d.food||[]; d.bodylog=d.bodylog||[]; d.dailylog=d.dailylog||{}; d.dailyBonus=d.dailyBonus||{}; d.missedLog=d.missedLog||[]; if(d.activeChallenge===undefined)d.activeChallenge=null; d.vices=d.vices||[]; d.vicelog=d.vicelog||{}; d.penalties=d.penalties||[]; if(!d.penaltyConfig)d.penaltyConfig=defaultPenaltyConfig(); if(d.trainingPlan===undefined)d.trainingPlan=null; d.trainCheck=d.trainCheck||{}; d.settings=d.settings||{};
+  d.money=d.money||[]; d.workouts=d.workouts||[]; d.food=d.food||[]; d.bodylog=d.bodylog||[]; d.dailylog=d.dailylog||{}; d.dailyBonus=d.dailyBonus||{}; d.missedLog=d.missedLog||[]; if(d.activeChallenge===undefined)d.activeChallenge=null; d.vices=d.vices||[]; d.vicelog=d.vicelog||{}; d.penalties=d.penalties||[]; if(!d.penaltyConfig)d.penaltyConfig=defaultPenaltyConfig(); if(d.trainingPlan===undefined)d.trainingPlan=null; d.trainCheck=d.trainCheck||{}; d.dayPenalty=d.dayPenalty||{}; d.settings=d.settings||{};
   return d;
 }
 function saveLocal(){ DB.updatedAt=Date.now(); try{localStorage.setItem(LS_KEY,JSON.stringify(DB));}catch(e){} }
@@ -1797,7 +1872,7 @@ function go(page,el){
   for(var j=0;j<btns.length;j++) btns[j].classList.remove('active');
 
   /* which nav button owns this page? */
-  var morePages={Tasks:1,Stats:1,Settings:1,Food:1,Vices:1,Penalty:1};
+  var morePages={Tasks:1,Stats:1,Settings:1,Food:1,Vices:1,Penalty:1,Report:1};
   var owner = morePages[page] ? 'More' : page;
   var activeBtn=null;
   for(var k=0;k<btns.length;k++){
@@ -2703,6 +2778,231 @@ function savePenConfig(){
   saveDB(); closePenConfig(); renderPenalty(); toast('Penalty settings saved ✅','ok');
 }
 
+/* ═══════════════════════════════════════════
+   MY REPORT — weekly / monthly summary
+   Pulls from every tracker. Clean, Jost, shareable.
+   ═══════════════════════════════════════════ */
+var REPORT_PERIOD='week';
+function setReportPeriod(p){ REPORT_PERIOD=p;
+  document.getElementById('repWeekBtn').classList.toggle('on',p==='week');
+  document.getElementById('repMonthBtn').classList.toggle('on',p==='month');
+  renderReport();
+}
+
+/* gather all numbers for the last N days */
+function computeReport(days){
+  var td=todayStr();
+  var start=addDays(td,-(days-1));
+  var inRange=function(d){ return d>=start && d<=td; };
+
+  /* tasks completed from log */
+  var tasksDone=0, ptsEarned=0, catCount={};
+  (DB.log||[]).forEach(function(l){
+    if(inRange(l.date)){ tasksDone++; ptsEarned+=(l.points||0); if(l.catId) catCount[l.catId]=(catCount[l.catId]||0)+1; }
+  });
+
+  /* daily completion % per day (timed tasks) → average */
+  var pctSum=0, pctDays=0, perfectDays=0;
+  for(var i=0;i<days;i++){
+    var d=addDays(td,-i);
+    var timed=DB.tasks.filter(function(t){return t.type==='daily'||t.type==='sticky';});
+    if(!timed.length) continue;
+    var done=timed.filter(function(t){return (t.history||[]).indexOf(d)!==-1;}).length;
+    var pct=Math.round(done/timed.length*100);
+    pctSum+=pct; pctDays++;
+    if(pct===100) perfectDays++;
+  }
+  var avgPct = pctDays? Math.round(pctSum/pctDays):0;
+
+  /* workouts */
+  var workouts=0, woMin=0, woTypes={};
+  (DB.workouts||[]).forEach(function(w){ if(inRange(w.date)){ workouts++; woMin+=(w.dur||0); woTypes[w.type]=(woTypes[w.type]||0)+1; } });
+
+  /* food avg (only days with logs) */
+  var calSum=0, proSum=0, foodDays={};
+  (DB.food||[]).forEach(function(f){ if(inRange(f.date)){ calSum+=(f.cal||0); proSum+=(f.pro||0); foodDays[f.date]=1; } });
+  var fdCount=Object.keys(foodDays).length;
+  var avgCal=fdCount?Math.round(calSum/fdCount):0, avgPro=fdCount?Math.round(proSum/fdCount):0;
+
+  /* bodyweight change */
+  var bw=(DB.bodylog||[]).filter(function(b){return inRange(b.date);}).sort(function(a,b){return a.date<b.date?-1:1;});
+  var bwStart=bw.length?bw[0].kg:null, bwEnd=bw.length?bw[bw.length-1].kg:null;
+  var bwDelta=(bwStart!=null&&bwEnd!=null)?(bwEnd-bwStart):null;
+
+  /* penalties */
+  var penCount=0, penAmt=0;
+  (DB.penalties||[]).forEach(function(p){ if(inRange(p.date)&&p.status!=='cancelled'){ penCount++; penAmt+=(p.amount||0); } });
+
+  /* vices — slips in range */
+  var viceSlips=0;
+  (DB.vices||[]).forEach(function(v){
+    for(var i=0;i<days;i++){
+      var d=addDays(td,-i);
+      var c=(DB.vicelog&&DB.vicelog[d])?DB.vicelog[d][v.id]:null;
+      if(c==null) continue;
+      var within=v.goal==='zero'?(c===0):(c<=(v.limit||1));
+      if(!within) viceSlips++;
+    }
+  });
+
+  /* active days (any log) */
+  var activeDays={};
+  (DB.log||[]).forEach(function(l){ if(inRange(l.date)) activeDays[l.date]=1; });
+
+  return {
+    days:days, start:start, end:td,
+    tasksDone:tasksDone, ptsEarned:ptsEarned, avgPct:avgPct, perfectDays:perfectDays,
+    activeDays:Object.keys(activeDays).length,
+    workouts:workouts, woMin:woMin, woTypes:woTypes,
+    avgCal:avgCal, avgPro:avgPro, foodDays:fdCount,
+    bwStart:bwStart, bwEnd:bwEnd, bwDelta:bwDelta,
+    penCount:penCount, penAmt:penAmt, viceSlips:viceSlips,
+    catCount:catCount,
+    streak:DB.profile.streak, points:DB.profile.points, level:DB.profile.level, levelTitle:DB.profile.levelTitle
+  };
+}
+
+function fmtRange(r){
+  function nice(ds){ var d=new Date(ds+'T00:00:00'); var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return d.getDate()+' '+mo[d.getMonth()]; }
+  return nice(r.start)+' – '+nice(r.end);
+}
+
+/* one metric card */
+function repCard(icon,big,label,sub){
+  return '<div class="rep-card"><div class="rep-ic">'+icon+'</div><div class="rep-big">'+big+'</div><div class="rep-lbl">'+label+'</div>'+(sub?'<div class="rep-sub">'+sub+'</div>':'')+'</div>';
+}
+
+function renderReport(){
+  var slot=document.getElementById('reportBody'); if(!slot)return;
+  var days=REPORT_PERIOD==='week'?7:30;
+  var r=computeReport(days);
+  var name=(DB.profile.name||'Sam').split(' ')[0];
+
+  /* verdict line */
+  var verdict;
+  if(r.avgPct>=80) verdict='🔥 Elite week — you showed up when it counted.';
+  else if(r.avgPct>=60) verdict='💪 Solid effort. Push the average higher.';
+  else if(r.avgPct>=40) verdict='⚠️ Inconsistent. The system only works if you show up daily.';
+  else verdict='🚨 Rough stretch. Reset tomorrow — one clean day starts the climb.';
+  if(r.pctDays===0 && r.tasksDone===0) verdict='📋 Not much logged yet. Start tracking to see real numbers.';
+
+  var bwLine='—';
+  if(r.bwDelta!=null){
+    var sign=r.bwDelta>0?'+':'';
+    var perWk=(r.bwDelta/r.days*7).toFixed(2);
+    bwLine=sign+r.bwDelta.toFixed(1)+' kg <span style="font-size:11px;color:var(--muted)">('+(perWk>0?'+':'')+perWk+'/wk)</span>';
+  }
+
+  var h='';
+  h+='<div class="rep-head-card">'
+    +'<div class="rep-period">'+(REPORT_PERIOD==='week'?'WEEKLY REPORT':'MONTHLY REPORT')+'</div>'
+    +'<div class="rep-name">'+esc(name)+'\'s progress</div>'
+    +'<div class="rep-dates">'+fmtRange(r)+'</div>'
+    +'<div class="rep-verdict">'+verdict+'</div>'
+    +'</div>';
+
+  /* grid of core metrics */
+  h+='<div class="rep-grid">';
+  h+=repCard('✅', r.avgPct+'%', 'Avg completion', r.perfectDays+' perfect day'+(r.perfectDays===1?'':'s'));
+  h+=repCard('🔥', r.streak, 'Current streak', r.activeDays+'/'+r.days+' active days');
+  h+=repCard('⭐', r.ptsEarned, 'XP earned', 'Level '+r.level);
+  h+=repCard('☑️', r.tasksDone, 'Tasks done', 'in '+r.days+' days');
+  h+='</div>';
+
+  /* body / bulking */
+  h+='<div class="rep-section-lbl">💪 Body &amp; training</div>';
+  h+='<div class="rep-grid">';
+  h+=repCard('🏋️', r.workouts, 'Workouts', r.woMin+' min total');
+  h+=repCard('⚖️', bwLine, 'Weight change', r.bwEnd!=null?('now '+r.bwEnd+'kg'):'no logs');
+  h+=repCard('🍗', r.avgCal||'—', 'Avg calories', r.foodDays+' days logged');
+  h+=repCard('🥩', (r.avgPro||'—')+(r.avgPro?'g':''), 'Avg protein', 'per logged day');
+  h+='</div>';
+
+  /* discipline */
+  h+='<div class="rep-section-lbl">⚖️ Discipline</div>';
+  h+='<div class="rep-grid">';
+  h+=repCard('❌', r.penCount, 'Penalties', r.penAmt?('₹'+r.penAmt+' owed'):'clean');
+  h+=repCard('🚭', r.viceSlips, 'Habit slips', r.viceSlips===0?'spotless':'stay sharp');
+  h+='</div>';
+
+  slot.innerHTML=h;
+}
+
+/* build a standalone HTML report file and download it */
+function downloadReport(){
+  var days=REPORT_PERIOD==='week'?7:30;
+  var r=computeReport(days);
+  var name=(DB.profile.name||'Sam').split(' ')[0];
+  var title=(REPORT_PERIOD==='week'?'Weekly':'Monthly')+' Report — '+name;
+  var bwLine='—';
+  if(r.bwDelta!=null){ var sign=r.bwDelta>0?'+':''; bwLine=sign+r.bwDelta.toFixed(1)+' kg'; }
+
+  function row(label,val){ return '<tr><td class="l">'+label+'</td><td class="v">'+val+'</td></tr>'; }
+
+  var doc='<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
+    +'<title>'+title+'</title>'
+    +'<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">'
+    +'<style>'
+    +'*{margin:0;box-sizing:border-box}'
+    +'body{font-family:Jost,system-ui,sans-serif;background:#0a0a14;color:#eceef6;padding:32px 20px;max-width:640px;margin:auto;line-height:1.5}'
+    +'.hd{text-align:center;margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,.1)}'
+    +'.badge{display:inline-block;font-size:11px;letter-spacing:3px;font-weight:700;color:#a29bfe;text-transform:uppercase;margin-bottom:10px}'
+    +'.hd h1{font-size:30px;font-weight:800;margin-bottom:6px}'
+    +'.hd .dates{font-size:14px;color:#9aa0b4;margin-bottom:14px}'
+    +'.hd .verdict{font-size:15px;font-weight:600;background:linear-gradient(135deg,rgba(108,92,231,.18),rgba(70,181,255,.08));border:1px solid rgba(108,92,231,.3);border-radius:12px;padding:12px 16px;display:inline-block}'
+    +'h2{font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:#9aa0b4;margin:26px 0 12px;font-weight:700}'
+    +'.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}'
+    +'.c{background:#12121c;border:1px solid #262636;border-radius:16px;padding:18px}'
+    +'.c .ic{font-size:24px;margin-bottom:8px}'
+    +'.c .big{font-size:30px;font-weight:800;line-height:1}'
+    +'.c .lbl{font-size:12px;color:#9aa0b4;margin-top:6px}'
+    +'.c .sub{font-size:11px;color:#6a7086;margin-top:2px}'
+    +'.ft{text-align:center;font-size:12px;color:#6a7086;margin-top:30px;padding-top:20px;border-top:1px solid rgba(255,255,255,.08)}'
+    +'.ft b{color:#a29bfe}'
+    +'@media print{body{background:#fff;color:#111}.c{background:#f7f7fa;border-color:#e2e2ea}.hd .verdict{background:#f0eefe}}'
+    +'</style></head><body>'
+    +'<div class="hd"><div class="badge">'+(REPORT_PERIOD==='week'?'Weekly Report':'Monthly Report')+'</div>'
+    +'<h1>'+esc(name)+'\'s Progress</h1>'
+    +'<div class="dates">'+fmtRange(r)+'  ·  '+r.days+' days</div>'
+    +'<div class="verdict">'+reportVerdict(r)+'</div></div>'
+    +'<h2>Overview</h2><div class="grid">'
+    +repCardStatic('✅',r.avgPct+'%','Avg completion',r.perfectDays+' perfect days')
+    +repCardStatic('🔥',r.streak,'Current streak',r.activeDays+'/'+r.days+' active')
+    +repCardStatic('⭐',r.ptsEarned,'XP earned','Level '+r.level+' · '+esc(r.levelTitle||''))
+    +repCardStatic('☑️',r.tasksDone,'Tasks done','in '+r.days+' days')
+    +'</div>'
+    +'<h2>Body &amp; Training</h2><div class="grid">'
+    +repCardStatic('🏋️',r.workouts,'Workouts',r.woMin+' min total')
+    +repCardStatic('⚖️',bwLine,'Weight change',r.bwEnd!=null?('now '+r.bwEnd+'kg'):'no logs')
+    +repCardStatic('🍗',r.avgCal||'—','Avg calories/day',r.foodDays+' days logged')
+    +repCardStatic('🥩',(r.avgPro||'—')+(r.avgPro?'g':''),'Avg protein/day','per logged day')
+    +'</div>'
+    +'<h2>Discipline</h2><div class="grid">'
+    +repCardStatic('❌',r.penCount,'Penalties',r.penAmt?('₹'+r.penAmt+' owed'):'clean')
+    +repCardStatic('🚭',r.viceSlips,'Habit slips',r.viceSlips===0?'spotless':'stay sharp')
+    +'</div>'
+    +'<div class="ft">Generated by <b>Volts</b> · Self-Upgrade OS · '+new Date().toLocaleDateString()+'</div>'
+    +'</body></html>';
+
+  try{
+    var blob=new Blob([doc],{type:'text/html'});
+    var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+    a.download='volts_'+REPORT_PERIOD+'_report_'+todayStr()+'.html'; a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
+    toast('Report downloaded ⬇️','ok');
+  }catch(e){ toast('Download failed','err'); }
+}
+function reportVerdict(r){
+  if(r.pctDays===0 && r.tasksDone===0) return 'Not much logged yet — start tracking to see real numbers.';
+  if(r.avgPct>=80) return 'Elite stretch — you showed up when it counted.';
+  if(r.avgPct>=60) return 'Solid effort. Push the average higher.';
+  if(r.avgPct>=40) return 'Inconsistent — the system only works if you show up daily.';
+  return 'Rough stretch. Reset now — one clean day starts the climb.';
+}
+function repCardStatic(icon,big,label,sub){
+  return '<div class="c"><div class="ic">'+icon+'</div><div class="big">'+big+'</div><div class="lbl">'+label+'</div>'+(sub?'<div class="sub">'+sub+'</div>':'')+'</div>';
+}
+
 function render(){
   var p=DB.profile;
   document.getElementById('sLevel').textContent=p.level;
@@ -2722,6 +3022,7 @@ function render(){
   if(CUR_PAGE==='Food')renderFood();
   if(CUR_PAGE==='Vices')renderVices();
   if(CUR_PAGE==='Penalty')renderPenalty();
+  if(CUR_PAGE==='Report')renderReport();
   if(CUR_PAGE==='Settings')fillSettings();
 }
 
@@ -2827,22 +3128,96 @@ var PENALTIES = [
   { e:'📖', t:'Read hard', d:'Read 20 pages of a book that levels you up. No skimming.' },
   { e:'🧘', t:'Reset & plan', d:'10 min planning tomorrow properly so today’s slip doesn’t repeat.' }
 ];
+/* pick the deterministic penalty for a given date */
+function penaltyForDay(td){
+  var seed=0; for(var i=0;i<td.length;i++) seed+=td.charCodeAt(i);
+  return PENALTIES[seed % PENALTIES.length];
+}
+function todayPct(){
+  var timed=DB.tasks.filter(function(t){return t.type==='daily'||t.type==='sticky';});
+  if(!timed.length) return 100;
+  var done=timed.filter(function(t){return isDoneToday(t);}).length;
+  return Math.round(done/timed.length*100);
+}
+
+/* Called on render + app open. Once you dip below 80% on a day, that day's
+   penalty LOCKS and holds — clearing tasks afterward won't remove it. It
+   only clears when you mark it complete (or use the emergency skip). */
+function evaluateDayPenalty(){
+  var td=todayStr();
+  var timed=DB.tasks.filter(function(t){return t.type==='daily'||t.type==='sticky';});
+  DB.dayPenalty=DB.dayPenalty||{};
+  var rec=DB.dayPenalty[td];
+  /* no timed tasks today → nothing to owe (unless already locked earlier) */
+  if(!timed.length && !rec) return;
+
+  var pct=todayPct();
+
+  if(!rec){
+    /* lock a penalty the first time we observe < 80% today */
+    if(pct<80){
+      var p=penaltyForDay(td);
+      DB.dayPenalty[td]={ e:p.e, t:p.t, d:p.d, status:'active', lockedAt:Date.now(), lockedPct:pct };
+      saveDB();
+    }
+    return;
+  }
+  /* rec exists — it holds regardless of current pct. nothing auto-clears it. */
+}
+
+/* flash the overlay if today's penalty is active + unmet */
+function maybeFlashDayPenalty(){
+  var td=todayStr();
+  var rec=DB.dayPenalty&&DB.dayPenalty[td];
+  var ov=document.getElementById('dayPenaltyOverlay');
+  if(!ov) return;
+  if(rec && rec.status==='active'){
+    document.getElementById('dpSub').textContent='You dropped to '+(rec.lockedPct||0)+'% today. This penalty holds until you clear it — closing or reopening the app won\'t make it vanish.';
+    document.getElementById('dpTaskSlot').innerHTML=
+      '<span class="dp-te">'+rec.e+'</span><div class="dp-tb"><div class="dp-tt">'+esc(rec.t)+'</div><div class="dp-td">'+esc(rec.d)+'</div></div>';
+    ov.classList.add('show');
+  } else {
+    ov.classList.remove('show');
+  }
+}
+function completeDayPenalty(){
+  var td=todayStr();
+  if(DB.dayPenalty&&DB.dayPenalty[td]){ DB.dayPenalty[td].status='done'; DB.dayPenalty[td].doneAt=Date.now(); saveDB(); }
+  document.getElementById('dayPenaltyOverlay').classList.remove('show');
+  toast('Penalty cleared. Respect. 💪','ok');
+  render();
+}
+function escapeDayPenalty(){
+  confirmModal({icon:'🤝',title:'Skip today\'s penalty?',msg:'Only for genuine sickness or an emergency. It\'s recorded as skipped — don\'t make this a habit.',ok:'Yes, skip',danger:true,onOk:function(){
+    var td=todayStr();
+    if(DB.dayPenalty&&DB.dayPenalty[td]){ DB.dayPenalty[td].status='skipped'; DB.dayPenalty[td].skippedAt=Date.now(); saveDB(); }
+    document.getElementById('dayPenaltyOverlay').classList.remove('show');
+    toast('Skipped. Rest, then come back stronger.','');
+    render();
+  }});
+}
+
+/* the inline Today-page card (mirrors the locked penalty state) */
 function renderTodayPenalty(pct){
   var slot=document.getElementById('penaltySlot'); if(!slot)return;
   var td=todayStr();
-  var timed=DB.tasks.filter(function(t){return t.type==='daily'||t.type==='sticky';});
-  /* no timed tasks, or already at/above 80% → no penalty */
-  if(!timed.length || pct>=80){ slot.innerHTML=''; return; }
-  /* deterministic pick per day so it doesn't reshuffle on refresh */
-  var seed=0; for(var i=0;i<td.length;i++) seed+=td.charCodeAt(i);
-  var p=PENALTIES[seed % PENALTIES.length];
-  var need=Math.ceil(timed.length*0.8)-DB.tasks.filter(function(t){return (t.type==='daily'||t.type==='sticky')&&isDoneToday(t);}).length;
-  slot.innerHTML=
-    '<div class="penalty-card">'
-    +'<div class="pen-head"><span class="pen-ic">⚠️</span><div><b>Penalty active</b><span class="pen-sub">Below 80% today. Clear '+(need>0?need:1)+' more task'+((need>1)?'s':'')+' to lift it.</span></div></div>'
-    +'<div class="pen-task"><span class="pen-te">'+p.e+'</span><div class="pen-tb"><div class="pen-tt">'+esc(p.t)+'</div><div class="pen-td">'+esc(p.d)+'</div></div></div>'
-    +'<p class="pen-foot">Miss the day, own the penalty. This is the deal you set. 💪</p>'
-    +'</div>';
+  evaluateDayPenalty();
+  var rec=DB.dayPenalty&&DB.dayPenalty[td];
+  if(!rec){ slot.innerHTML=''; return; }
+
+  if(rec.status==='active'){
+    slot.innerHTML=
+      '<div class="penalty-card">'
+      +'<div class="pen-head"><span class="pen-ic">⚠️</span><div><b>Penalty active — held for today</b><span class="pen-sub">You hit '+(rec.lockedPct||0)+'% today. This must be completed — it won\'t clear on its own.</span></div></div>'
+      +'<div class="pen-task"><span class="pen-te">'+rec.e+'</span><div class="pen-tb"><div class="pen-tt">'+esc(rec.t)+'</div><div class="pen-td">'+esc(rec.d)+'</div></div></div>'
+      +'<button class="pen-complete-btn" onclick="completeDayPenalty()">✅ I completed this penalty</button>'
+      +'<p class="pen-foot">Held all day. Flashes every time you open the app until done. 💪</p>'
+      +'</div>';
+  } else {
+    var label=rec.status==='done'?'✅ Penalty cleared today':'⏭️ Penalty skipped today';
+    var cls=rec.status==='done'?'pen-cleared':'pen-skipped';
+    slot.innerHTML='<div class="penalty-card '+cls+'"><div class="pen-head"><span class="pen-ic">'+(rec.status==='done'?'✅':'⏭️')+'</span><div><b>'+label+'</b><span class="pen-sub">'+esc(rec.t)+'</span></div></div></div>';
+  }
 }
 
 function section(title,list,isSticky){
@@ -3572,12 +3947,19 @@ function init(){
   setTimeout(function(){ document.getElementById('boot').classList.add('hide'); }, bootMs);
   checkExpiry();
   checkTrainingMisses();
+  evaluateDayPenalty();
   recompute();
   saveLocal();
   render();
   pingBackend();
-  /* show comeback challenge after boot finishes */
-  setTimeout(function(){ maybeShowChallenge(); }, bootMs + 200);
+  /* show comeback challenge after boot finishes, then flash any held penalty */
+  setTimeout(function(){
+    maybeShowChallenge();
+    /* flash held penalty only if the challenge overlay isn't up */
+    if(!document.getElementById('challengeOverlay').classList.contains('show')){
+      maybeFlashDayPenalty();
+    }
+  }, bootMs + 200);
   setInterval(function(){ if(CUR_PAGE==='Today') renderToday(); }, 30000);
   /* init sliding indicator on Today */
   setTimeout(function(){
