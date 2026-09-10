@@ -210,6 +210,28 @@ a{color:var(--accent2);text-decoration:none}
 .dp-skip-link{font-size:11.5px;color:var(--muted);text-decoration:underline;cursor:pointer}
 .dp-skip-link:hover{color:var(--accent2)}
 
+/* ═══ REWARD CELEBRATION ═══ */
+#rewardOverlay .rw-card{position:relative;overflow:hidden;text-align:center;border:1px solid rgba(108,92,231,.4);box-shadow:0 30px 90px rgba(0,0,0,.75),0 0 80px rgba(108,92,231,.2)}
+.rw-rays{position:absolute;top:-40%;left:50%;width:260%;height:260%;transform:translateX(-50%);background:conic-gradient(from 0deg,rgba(108,92,231,.16) 0deg,transparent 18deg,rgba(162,155,254,.14) 36deg,transparent 54deg,rgba(70,181,255,.13) 72deg,transparent 90deg,rgba(108,92,231,.16) 108deg,transparent 126deg,rgba(162,155,254,.14) 144deg,transparent 162deg,rgba(70,181,255,.13) 180deg,transparent 198deg);animation:rwSpin 14s linear infinite;pointer-events:none}
+@keyframes rwSpin{to{transform:translateX(-50%) rotate(360deg)}}
+.rw-inner{position:relative;z-index:2}
+.rw-ic{font-size:58px;line-height:1;margin-bottom:12px;animation:rwPop .6s cubic-bezier(.2,.85,.3,1.5) both,rwFloat 2.4s 0.6s ease-in-out infinite}
+@keyframes rwPop{0%{transform:scale(0) rotate(-25deg);opacity:0}60%{transform:scale(1.2) rotate(8deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+@keyframes rwFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.rw-kicker{font-size:11px;font-weight:800;letter-spacing:3px;color:var(--accent2);margin-bottom:8px;animation:rwFade .5s .25s both}
+.rw-title{font-size:26px;font-weight:800;margin-bottom:8px;animation:rwFade .5s .35s both;background:linear-gradient(180deg,#fff,#c9beff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.rw-sub{font-size:13.5px;color:var(--muted);line-height:1.55;margin-bottom:22px;animation:rwFade .5s .45s both}
+.rw-btn{width:100%;background:var(--grad) !important;box-shadow:0 12px 30px rgba(108,92,231,.45) !important;animation:rwFade .5s .55s both}
+@keyframes rwFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* confetti */
+.rw-confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+.rw-c{position:absolute;top:-12px;width:8px;height:13px;border-radius:2px;opacity:.9;animation:rwFall linear forwards}
+@keyframes rwFall{0%{transform:translateY(-20px) rotate(0);opacity:1}100%{transform:translateY(560px) rotate(540deg);opacity:0}}
+
+/* demo badge on penalty */
+#dayPenaltyOverlay.demo-mode .dp-card::before{content:"DEMO";position:absolute;top:14px;left:16px;font-size:9px;font-weight:800;letter-spacing:1.5px;color:var(--accent2);background:rgba(108,92,231,.15);border:1px solid rgba(108,92,231,.35);padding:3px 8px;border-radius:20px;z-index:5}
+
+
 
 
 /* ═══ VICES / BAD HABITS ═══ */
@@ -1235,10 +1257,14 @@ html,body{font-weight:500}
 
     <div id="demoBox" class="demo-box">
       <div class="demo-head">🎬 <b>Try a demo</b></div>
-      <p class="demo-p">No real data yet? Load a sample week to see what your report looks like. Your real data is never touched.</p>
+      <p class="demo-p">No real data yet? Preview how everything looks — nothing is saved, your real data is never touched.</p>
       <div class="btnrow">
-        <button class="btn sm ghost" id="demoLoadBtn" onclick="loadDemoWeek()">Load sample week</button>
+        <button class="btn sm ghost" id="demoLoadBtn" onclick="loadDemoWeek()">📊 Sample week</button>
         <button class="btn sm ghost" id="demoClearBtn" onclick="clearDemo()" style="display:none">Clear demo</button>
+      </div>
+      <div class="btnrow" style="margin-top:8px">
+        <button class="btn sm ghost" onclick="demoPenalty()">⚠️ Preview penalty</button>
+        <button class="btn sm ghost" onclick="demoReward()">🏆 Preview reward</button>
       </div>
     </div>
   </div>
@@ -1482,6 +1508,21 @@ html,body{font-weight:500}
     <div id="dpDynamic"></div>
     <div class="dp-multi" id="dpMulti"></div>
     <div class="dp-skip-row"><a class="dp-skip-link" onclick="skipDayPenalty()">Emergency? Skip this once</a></div>
+  </div>
+</div>
+
+<!-- REWARD celebration overlay -->
+<div class="modal" id="rewardOverlay" onclick="if(event.target===this)closeReward()">
+  <div class="modal-card rw-card">
+    <div class="rw-rays"></div>
+    <div class="rw-confetti" id="rwConfetti"></div>
+    <div class="rw-inner">
+      <div class="rw-ic" id="rwIc">🏆</div>
+      <div class="rw-kicker" id="rwKicker">ACHIEVEMENT UNLOCKED</div>
+      <div class="rw-title" id="rwTitle">Level Up!</div>
+      <div class="rw-sub" id="rwSub"></div>
+      <button class="btn rw-btn" onclick="closeReward()">Let's go 🔥</button>
+    </div>
   </div>
 </div>
 
@@ -3000,6 +3041,62 @@ function clearDemo(){
 /* safety: if user leaves the Report page with demo on, restore real data */
 function ensureDemoCleared(){ if(_demoBackup){ DB=_demoBackup; _demoBackup=null; var lb=document.getElementById('demoLoadBtn'); if(lb)lb.style.display='block'; var cb=document.getElementById('demoClearBtn'); if(cb)cb.style.display='none'; } }
 
+/* ── DEMO: preview the penalty overlay (no real penalty created) ── */
+function demoPenalty(){
+  var p=PENALTIES[Math.floor(Math.random()*PENALTIES.length)];
+  var y=addDays(todayStr(),-1);
+  var demoRec={ forDay:y, e:p.e, t:p.t, d:p.d, status:'pending', missedPct:40, _demo:true };
+  /* stash real dayPenalty, inject demo one, flash, then restore on close */
+  window._demoPenBackup=DB.dayPenalty;
+  DB.dayPenalty={}; DB.dayPenalty[y]=demoRec;
+  renderDayPenaltyOverlay(demoRec);
+  var badge=document.getElementById('dpDemoBadge');
+  document.getElementById('dayPenaltyOverlay').classList.add('show','demo-mode');
+  toast('Demo penalty — nothing is saved','');
+}
+/* restore when a demo penalty overlay closes (skip/complete paths call render) */
+function restoreDemoPen(){
+  if(window._demoPenBackup!==undefined){ DB.dayPenalty=window._demoPenBackup; delete window._demoPenBackup; }
+  var ov=document.getElementById('dayPenaltyOverlay'); if(ov)ov.classList.remove('demo-mode');
+}
+
+/* ── DEMO: preview the reward celebration ── */
+function demoReward(){
+  var picks=[
+    {ic:'⬆️', kicker:'LEVEL UP', title:'Level 7 · Contender', sub:'You crossed 1,240 XP. The grind is compounding — keep stacking wins.'},
+    {ic:'🎖️', kicker:'BADGE UNLOCKED', title:'Week Warrior', sub:'7-day streak locked in. Consistency is becoming who you are.'},
+    {ic:'🔥', kicker:'STREAK MILESTONE', title:'10 Days Strong', sub:'Double digits. Most people quit by day 3 — you\'re not most people.'},
+    {ic:'🏆', kicker:'PERFECT DAY', title:'100% Cleared', sub:'Every task done, every rep in. This is the standard now.'}
+  ];
+  var r=picks[Math.floor(Math.random()*picks.length)];
+  showReward(r.ic, r.kicker, r.title, r.sub);
+}
+
+/* reusable celebration — also available for real unlocks later */
+function showReward(ic, kicker, title, sub){
+  document.getElementById('rwIc').textContent=ic;
+  document.getElementById('rwKicker').textContent=kicker;
+  document.getElementById('rwTitle').textContent=title;
+  document.getElementById('rwSub').textContent=sub;
+  spawnConfetti();
+  document.getElementById('rewardOverlay').classList.add('show');
+}
+function closeReward(){ document.getElementById('rewardOverlay').classList.remove('show'); }
+function spawnConfetti(){
+  var box=document.getElementById('rwConfetti'); if(!box)return;
+  var cols=['#6C5CE7','#a29bfe','#46b5ff','#37d399','#ffb547','#ff6b78'];
+  var html='';
+  for(var i=0;i<32;i++){
+    var left=Math.random()*100;
+    var delay=(Math.random()*0.5).toFixed(2);
+    var dur=(1.4+Math.random()*1.2).toFixed(2);
+    var col=cols[i%cols.length];
+    var rot=Math.floor(Math.random()*360);
+    html+='<span class="rw-c" style="left:'+left+'%;background:'+col+';animation-delay:'+delay+'s;animation-duration:'+dur+'s;transform:rotate('+rot+'deg)"></span>';
+  }
+  box.innerHTML=html;
+}
+
 function renderReport(){
   var slot=document.getElementById('reportBody'); if(!slot)return;
   var days=REPORT_PERIOD==='week'?7:30;
@@ -3412,6 +3509,7 @@ function submitProof(forDay){
   rec.proof={ photo:rec._pendingPhoto||null, note:note, ts:Date.now() };
   delete rec._pendingPhoto;
   rec.status='done'; rec.doneAt=Date.now();
+  if(window._demoPenBackup!==undefined){ restoreDemoPen(); document.getElementById('dayPenaltyOverlay').classList.remove('show'); toast('Demo complete — nothing saved 🎬','ok'); return; }
   saveDB();
   /* show next owed, or close */
   var next=currentOwed();
@@ -3422,6 +3520,7 @@ function submitProof(forDay){
 /* skip — SEPARATE from complete */
 function skipDayPenalty(){
   var rec=currentOwed(); if(!rec)return;
+  if(window._demoPenBackup!==undefined){ restoreDemoPen(); document.getElementById('dayPenaltyOverlay').classList.remove('show'); toast('Demo closed 🎬',''); return; }
   confirmModal({icon:'🤝',title:'Skip this penalty?',msg:'Only for genuine sickness or an emergency. Recorded as skipped — don\'t make it a habit.',ok:'Yes, skip',danger:true,onOk:function(){
     rec.status='skipped'; rec.skippedAt=Date.now(); saveDB();
     var next=currentOwed();
