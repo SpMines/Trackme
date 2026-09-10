@@ -191,6 +191,26 @@ a{color:var(--accent2);text-decoration:none}
 .dp-escape{margin-top:16px;font-size:11.5px;color:var(--muted);line-height:1.5}
 .dp-escape a{color:var(--accent2);text-decoration:underline;cursor:pointer;font-weight:600}
 
+/* new endure-flow bits */
+.dp-time-lbl{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:700;margin:6px 0 10px}
+.dp-time-opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;justify-content:center}
+.dp-time-opt{padding:11px 16px;border-radius:12px;border:1px solid var(--brd);background:var(--inp);color:var(--txt);font-size:14px;font-weight:700;cursor:pointer;transition:.15s;font-family:inherit}
+.dp-time-opt:hover{border-color:var(--accent);background:rgba(108,92,231,.14)}
+.dp-time-opt:active{transform:scale(.94)}
+.dp-countdown{font-size:44px;font-weight:800;text-align:center;color:#ffb547;font-variant-numeric:tabular-nums;margin:6px 0 16px;letter-spacing:1px}
+.dp-countdown.ready{color:#6ee7b7}
+.dp-dim{opacity:.7}
+.dp-proof-row{display:flex;gap:10px;margin-bottom:10px}
+.dp-proof-btn{flex:1;padding:13px;border-radius:12px;border:1px dashed rgba(108,92,231,.5);background:rgba(108,92,231,.08);color:var(--accent2);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+.dp-proof-btn:active{transform:scale(.97)}
+.dp-proof-prev{width:100%;max-height:180px;object-fit:cover;border-radius:12px;margin-bottom:10px;border:1px solid var(--brd)}
+.dp-note{width:100%;background:var(--inp) !important;border:1px solid var(--brd) !important;border-radius:12px;padding:12px !important;color:var(--txt);font-size:14px;font-family:inherit;resize:vertical;margin-bottom:12px;box-shadow:inset 0 1px 2px rgba(0,0,0,.2) !important}
+.dp-multi{font-size:11.5px;color:#ffb0a0;text-align:center;margin-top:12px;font-weight:600}
+.dp-skip-row{text-align:center;margin-top:14px}
+.dp-skip-link{font-size:11.5px;color:var(--muted);text-decoration:underline;cursor:pointer}
+.dp-skip-link:hover{color:var(--accent2)}
+
+
 
 /* ═══ VICES / BAD HABITS ═══ */
 .vice-card{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:15px 16px;margin-bottom:11px;transition:.2s;animation:pageIn .3s ease both}
@@ -388,6 +408,10 @@ a{color:var(--accent2);text-decoration:none}
 .rep-card .rep-big{font-size:27px;font-weight:800;line-height:1}
 .rep-card .rep-lbl{font-size:12px;color:var(--muted);margin-top:6px;font-weight:600}
 .rep-card .rep-sub{font-size:11px;color:var(--muted);opacity:.75;margin-top:2px}
+.demo-box{margin-top:22px;background:var(--card);border:1px dashed rgba(108,92,231,.4);border-radius:16px;padding:16px}
+.demo-box.on{border-style:solid;border-color:rgba(55,211,153,.5);background:linear-gradient(135deg,rgba(55,211,153,.08),transparent)}
+.demo-head{font-size:14px;margin-bottom:6px}
+.demo-p{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:12px}
 
 
 
@@ -1208,6 +1232,15 @@ html,body{font-weight:500}
 
     <button class="btn" style="width:100%;margin-top:18px" onclick="downloadReport()">⬇️ Download this report</button>
     <p style="font-size:11.5px;color:var(--muted);text-align:center;margin-top:10px;line-height:1.5">Saves a clean HTML page you can keep, print, or share.</p>
+
+    <div id="demoBox" class="demo-box">
+      <div class="demo-head">🎬 <b>Try a demo</b></div>
+      <p class="demo-p">No real data yet? Load a sample week to see what your report looks like. Your real data is never touched.</p>
+      <div class="btnrow">
+        <button class="btn sm ghost" id="demoLoadBtn" onclick="loadDemoWeek()">Load sample week</button>
+        <button class="btn sm ghost" id="demoClearBtn" onclick="clearDemo()" style="display:none">Clear demo</button>
+      </div>
+    </div>
   </div>
 
   <!-- ============ PENALTY & DISCIPLINE ============ -->
@@ -1440,15 +1473,15 @@ html,body{font-weight:500}
   </div>
 </div>
 
-<!-- DAY PENALTY flash overlay (holds all day until completed) -->
+<!-- DAY PENALTY flash overlay (holds until completed) -->
 <div class="modal" id="dayPenaltyOverlay" onclick="if(event.target===this){}">
   <div class="modal-card dp-card">
-    <div class="dp-flash">⚠️ PENALTY</div>
-    <div class="dp-title">You owe today</div>
-    <div class="dp-sub" id="dpSub">You dropped below 80% today. This penalty holds until you clear it — closing or reopening the app won't make it vanish.</div>
-    <div class="dp-task" id="dpTaskSlot"></div>
-    <button class="btn dp-done" onclick="completeDayPenalty()">✅ I completed it</button>
-    <div class="dp-escape">Genuinely sick or an emergency? <a onclick="escapeDayPenalty()">Skip once</a> — recorded, for real days only.</div>
+    <div class="dp-flash">⚠️ PENALTY OWED</div>
+    <div class="dp-title">You owe from yesterday</div>
+    <div class="dp-sub" id="dpSub"></div>
+    <div id="dpDynamic"></div>
+    <div class="dp-multi" id="dpMulti"></div>
+    <div class="dp-skip-row"><a class="dp-skip-link" onclick="skipDayPenalty()">Emergency? Skip this once</a></div>
   </div>
 </div>
 
@@ -1713,7 +1746,7 @@ function migrate(d){
   d.money=d.money||[]; d.workouts=d.workouts||[]; d.food=d.food||[]; d.bodylog=d.bodylog||[]; d.dailylog=d.dailylog||{}; d.dailyBonus=d.dailyBonus||{}; d.missedLog=d.missedLog||[]; if(d.activeChallenge===undefined)d.activeChallenge=null; d.vices=d.vices||[]; d.vicelog=d.vicelog||{}; d.penalties=d.penalties||[]; if(!d.penaltyConfig)d.penaltyConfig=defaultPenaltyConfig(); if(d.trainingPlan===undefined)d.trainingPlan=null; d.trainCheck=d.trainCheck||{}; d.dayPenalty=d.dayPenalty||{}; d.settings=d.settings||{};
   return d;
 }
-function saveLocal(){ DB.updatedAt=Date.now(); try{localStorage.setItem(LS_KEY,JSON.stringify(DB));}catch(e){} }
+function saveLocal(){ if(typeof _demoBackup!=='undefined' && _demoBackup){ return; } DB.updatedAt=Date.now(); try{localStorage.setItem(LS_KEY,JSON.stringify(DB));}catch(e){} }
 function saveDB(){ saveLocal(); }
 
 /* ---------- date helpers (device local) ---------- */
@@ -1860,6 +1893,8 @@ function slideIndicator(activeBtn){
 }
 
 function go(page,el){
+  /* leaving Report while demo is loaded → restore real data first */
+  if(CUR_PAGE==='Report' && page!=='Report' && typeof ensureDemoCleared==='function') ensureDemoCleared();
   CUR_PAGE=page;
 
   /* 1. pages */
@@ -2872,6 +2907,99 @@ function repCard(icon,big,label,sub){
   return '<div class="rep-card"><div class="rep-ic">'+icon+'</div><div class="rep-big">'+big+'</div><div class="rep-lbl">'+label+'</div>'+(sub?'<div class="rep-sub">'+sub+'</div>':'')+'</div>';
 }
 
+/* ═══════════ DEMO WEEK ═══════════
+   Loads a realistic sample week so the report has life.
+   Real data is stashed and restored on Clear. In-memory
+   only — demo is NOT saved to localStorage. */
+var _demoBackup=null;
+function loadDemoWeek(){
+  if(_demoBackup){ toast('Demo already loaded','err'); return; }
+  /* stash the real DB (deep copy) */
+  _demoBackup=JSON.parse(JSON.stringify(DB));
+
+  var td=todayStr();
+  function d(n){ return addDays(td,-n); }
+
+  /* a believable bulking week for Sam */
+  var cats=DEFAULT_CATS.slice();
+  var demoTasks=[
+    {id:'d_run',  title:'Morning run',       cat:'fit',  type:'daily', priority:'High',  points:20, time:'', history:[d(6),d(5),d(4),d(2),d(1),d(0)]},
+    {id:'d_read', title:'Read 20 pages',     cat:'learn',type:'daily', priority:'Medium',points:10, time:'', history:[d(6),d(5),d(3),d(2),d(1),d(0)]},
+    {id:'d_code', title:'Deep work — Apps Script', cat:'money', type:'daily', priority:'High', points:20, time:'', history:[d(6),d(4),d(3),d(1),d(0)]},
+    {id:'d_water',title:'Hit protein target',cat:'health',type:'daily',priority:'Medium',points:10, time:'', history:[d(5),d(4),d(3),d(2),d(0)]},
+    {id:'d_med',  title:'10-min meditation', cat:'mind', type:'daily', priority:'Low',   points:5,  time:'', history:[d(6),d(5),d(4),d(3),d(2),d(1),d(0)]}
+  ];
+
+  /* log entries (drives tasks-done + XP + streak) */
+  var demoLog=[];
+  demoTasks.forEach(function(t){ (t.history||[]).forEach(function(day){ demoLog.push({date:day,points:t.points,catId:t.cat}); }); });
+
+  /* workouts across the week (PPL-ish) */
+  var demoWorkouts=[
+    {id:'dw1',type:'Push', dur:65,date:d(6),ts:1},
+    {id:'dw2',type:'Pull', dur:60,date:d(5),ts:1},
+    {id:'dw3',type:'Legs', dur:70,date:d(4),ts:1},
+    {id:'dw4',type:'Push', dur:55,date:d(2),ts:1},
+    {id:'dw5',type:'Pull', dur:60,date:d(1),ts:1},
+    {id:'dw6',type:'Chest',dur:50,date:d(0),ts:1}
+  ];
+
+  /* food logs — bulking calories */
+  var demoFood=[];
+  [ [6,2820,132],[5,2760,128],[4,2900,140],[3,2680,122],[2,2850,135],[1,2790,130],[0,2760,126] ].forEach(function(x){
+    demoFood.push({id:'df'+x[0],cal:x[1],pro:x[2],car:340,fat:75,date:d(x[0]),ts:1});
+  });
+
+  /* bodyweight — a lean bulk climb */
+  var demoBody=[
+    {date:d(6),kg:59.0},{date:d(4),kg:59.2},{date:d(2),kg:59.5},{date:d(0),kg:59.7}
+  ];
+
+  /* a couple of penalties (missed days) */
+  var demoPen=[
+    {id:'dp1',taskTitle:'Deep work — Apps Script',reason:'Task marked failed',level:2,date:d(3),ts:1,amount:100,status:'completed',consequences:[]},
+    {id:'dp2',taskTitle:'Morning run',reason:'Skipped',level:1,date:d(3),ts:1,amount:100,status:'completed',consequences:[]}
+  ];
+
+  /* one bad habit with mostly-clean week */
+  var demoVices=[{id:'dv1',name:'Doomscrolling',icon:'📱',goal:'zero',limit:0,createdAt:1}];
+  var demoViceLog={};
+  demoViceLog[d(6)]={dv1:0}; demoViceLog[d(5)]={dv1:0}; demoViceLog[d(4)]={dv1:1};
+  demoViceLog[d(3)]={dv1:0}; demoViceLog[d(2)]={dv1:0}; demoViceLog[d(1)]={dv1:0}; demoViceLog[d(0)]={dv1:0};
+
+  /* swap into DB (in memory only) */
+  DB.tasks=demoTasks;
+  DB.log=demoLog;
+  DB.workouts=demoWorkouts;
+  DB.food=demoFood;
+  DB.bodylog=demoBody;
+  DB.penalties=demoPen;
+  DB.vices=demoVices;
+  DB.vicelog=demoViceLog;
+  DB.profile=JSON.parse(JSON.stringify(DB.profile));
+  DB.profile.points=1240; DB.profile.streak=6; DB.profile.longestStreak=11;
+  recomputeLevel();
+
+  /* toggle buttons */
+  document.getElementById('demoLoadBtn').style.display='none';
+  document.getElementById('demoClearBtn').style.display='block';
+  document.getElementById('demoBox').classList.add('on');
+
+  setReportPeriod('week');
+  toast('Sample week loaded 🎬','ok');
+}
+function clearDemo(){
+  if(!_demoBackup) return;
+  DB=_demoBackup; _demoBackup=null;
+  document.getElementById('demoLoadBtn').style.display='block';
+  document.getElementById('demoClearBtn').style.display='none';
+  document.getElementById('demoBox').classList.remove('on');
+  renderReport(); render();
+  toast('Demo cleared — your real data is back','ok');
+}
+/* safety: if user leaves the Report page with demo on, restore real data */
+function ensureDemoCleared(){ if(_demoBackup){ DB=_demoBackup; _demoBackup=null; var lb=document.getElementById('demoLoadBtn'); if(lb)lb.style.display='block'; var cb=document.getElementById('demoClearBtn'); if(cb)cb.style.display='none'; } }
+
 function renderReport(){
   var slot=document.getElementById('reportBody'); if(!slot)return;
   var days=REPORT_PERIOD==='week'?7:30;
@@ -3139,85 +3267,207 @@ function todayPct(){
   var done=timed.filter(function(t){return isDoneToday(t);}).length;
   return Math.round(done/timed.length*100);
 }
-
-/* Called on render + app open. Once you dip below 80% on a day, that day's
-   penalty LOCKS and holds — clearing tasks afterward won't remove it. It
-   only clears when you mark it complete (or use the emergency skip). */
-function evaluateDayPenalty(){
-  var td=todayStr();
+/* completion % for a PAST day */
+function pctForDay(day){
   var timed=DB.tasks.filter(function(t){return t.type==='daily'||t.type==='sticky';});
+  if(!timed.length) return 100;
+  var done=timed.filter(function(t){return (t.history||[]).indexOf(day)!==-1;}).length;
+  return Math.round(done/timed.length*100);
+}
+
+/* On app open: look at YESTERDAY. If it ended below 80% and we haven't
+   already locked a penalty for it, lock one now (you get all of today to
+   clear it). Today's own tasks are still in progress — never penalised yet. */
+function evaluateDayPenalty(){
   DB.dayPenalty=DB.dayPenalty||{};
-  var rec=DB.dayPenalty[td];
-  /* no timed tasks today → nothing to owe (unless already locked earlier) */
-  if(!timed.length && !rec) return;
+  var td=todayStr();
+  var y=addDays(td,-1);
+  if(!DB.dayPenalty[y] && DB.tasks.length){
+    var timed=DB.tasks.filter(function(t){return t.type==='daily'||t.type==='sticky';});
+    if(timed.length){
+      /* only judge yesterday if the user was actually USING the app by then:
+         a timed task must have been created on or before yesterday. New users
+         (or a task added today) are never penalised for a day they weren't here. */
+      var existedByYesterday = timed.some(function(t){
+        if(!t.createdAt) return true; /* legacy tasks with no createdAt: assume old */
+        var c=new Date(t.createdAt); var cs=c.getFullYear()+'-'+pad(c.getMonth()+1)+'-'+pad(c.getDate());
+        return cs<=y;
+      });
+      if(!existedByYesterday){ return; } /* don't record anything — give it time */
 
-  var pct=todayPct();
-
-  if(!rec){
-    /* lock a penalty the first time we observe < 80% today */
-    if(pct<80){
-      var p=penaltyForDay(td);
-      DB.dayPenalty[td]={ e:p.e, t:p.t, d:p.d, status:'active', lockedAt:Date.now(), lockedPct:pct };
-      saveDB();
+      var yp=pctForDay(y);
+      if(yp<80){
+        var p=penaltyForDay(y);
+        DB.dayPenalty[y]={ forDay:y, e:p.e, t:p.t, d:p.d, status:'pending', lockedAt:Date.now(), missedPct:yp, endMins:0, endsAt:0, proof:null };
+        saveDB();
+      } else {
+        DB.dayPenalty[y]={ forDay:y, status:'clean' };
+        saveDB();
+      }
     }
-    return;
   }
-  /* rec exists — it holds regardless of current pct. nothing auto-clears it. */
 }
 
-/* flash the overlay if today's penalty is active + unmet */
-function maybeFlashDayPenalty(){
-  var td=todayStr();
-  var rec=DB.dayPenalty&&DB.dayPenalty[td];
-  var ov=document.getElementById('dayPenaltyOverlay');
-  if(!ov) return;
-  if(rec && rec.status==='active'){
-    document.getElementById('dpSub').textContent='You dropped to '+(rec.lockedPct||0)+'% today. This penalty holds until you clear it — closing or reopening the app won\'t make it vanish.';
-    document.getElementById('dpTaskSlot').innerHTML=
-      '<span class="dp-te">'+rec.e+'</span><div class="dp-tb"><div class="dp-tt">'+esc(rec.t)+'</div><div class="dp-td">'+esc(rec.d)+'</div></div>';
-    ov.classList.add('show');
-  } else {
-    ov.classList.remove('show');
-  }
+/* any penalty still owed (pending / enduring / awaitingProof) */
+function owedPenalties(){
+  var out=[];
+  for(var day in DB.dayPenalty){ var r=DB.dayPenalty[day]; if(r && (r.status==='pending'||r.status==='enduring'||r.status==='awaitingProof')) out.push(r); }
+  out.sort(function(a,b){return a.forDay<b.forDay?-1:1;});
+  return out;
 }
-function completeDayPenalty(){
-  var td=todayStr();
-  if(DB.dayPenalty&&DB.dayPenalty[td]){ DB.dayPenalty[td].status='done'; DB.dayPenalty[td].doneAt=Date.now(); saveDB(); }
-  document.getElementById('dayPenaltyOverlay').classList.remove('show');
-  toast('Penalty cleared. Respect. 💪','ok');
+function currentOwed(){ var o=owedPenalties(); return o.length?o[0]:null; }
+
+/* flash the overlay whenever something is owed */
+function maybeFlashDayPenalty(){
+  var ov=document.getElementById('dayPenaltyOverlay'); if(!ov)return;
+  var rec=currentOwed();
+  if(!rec){ ov.classList.remove('show'); return; }
+  renderDayPenaltyOverlay(rec);
+  ov.classList.add('show');
+}
+function renderDayPenaltyOverlay(rec){
+  var owed=owedPenalties().length;
+  var body=document.getElementById('dpDynamic');
+  var sub=document.getElementById('dpSub');
+  var whenTxt='Yesterday ('+niceDay(rec.forDay)+') ended at '+(rec.missedPct||0)+'%.';
+
+  if(rec.status==='pending'){
+    sub.textContent=whenTxt+' Own it today. Set how long you\'ll take, then do it.';
+    body.innerHTML=
+      '<div class="dp-task"><span class="dp-te">'+rec.e+'</span><div class="dp-tb"><div class="dp-tt">'+esc(rec.t)+'</div><div class="dp-td">'+esc(rec.d)+'</div></div></div>'
+      +'<div class="dp-time-lbl">How long will you take?</div>'
+      +'<div class="dp-time-opts">'
+      +[15,20,30,45,60].map(function(m){return '<button class="dp-time-opt" onclick="startEndure(\''+rec.forDay+'\','+m+')">'+m+' min</button>';}).join('')
+      +'</div>'
+      +'<button class="dp-done" onclick="startEndureCustom(\''+rec.forDay+'\')">Custom time</button>';
+  } else if(rec.status==='enduring'){
+    var left=rec.endsAt-Date.now();
+    sub.textContent='Timer running. Do the penalty now. When it hits zero, add your proof.';
+    body.innerHTML=
+      '<div class="dp-task"><span class="dp-te">'+rec.e+'</span><div class="dp-tb"><div class="dp-tt">'+esc(rec.t)+'</div><div class="dp-td">'+esc(rec.d)+'</div></div></div>'
+      +'<div class="dp-countdown" id="dpCountdown" data-ends="'+rec.endsAt+'">'+fmtRemain(left>0?left:0)+'</div>'
+      +(left<=0
+        ? '<button class="dp-done" onclick="toProof(\''+rec.forDay+'\')">⏱️ Time\'s up — add proof</button>'
+        : '<button class="dp-done dp-dim" onclick="toProof(\''+rec.forDay+'\')">I\'m done early — add proof</button>');
+  } else if(rec.status==='awaitingProof'){
+    sub.textContent='Last step: add a photo or a note as your proof. Then it\'s cleared.';
+    var pv = rec._pendingPhoto ? '<img class="dp-proof-prev" src="'+rec._pendingPhoto+'">' : '';
+    body.innerHTML=
+      '<div class="dp-task"><span class="dp-te">'+rec.e+'</span><div class="dp-tb"><div class="dp-tt">'+esc(rec.t)+'</div><div class="dp-td">'+esc(rec.d)+'</div></div></div>'
+      +'<div class="dp-time-lbl">Proof (for your own record)</div>'
+      + pv
+      +'<div class="dp-proof-row">'
+      +'<button class="dp-proof-btn" onclick="document.getElementById(\'dpPhoto\').click()">📷 Add photo</button>'
+      +'</div>'
+      +'<input type="file" id="dpPhoto" accept="image/*" capture="environment" style="display:none" onchange="dpPhotoChosen(event,\''+rec.forDay+'\')">'
+      +'<textarea id="dpNote" class="dp-note" rows="2" placeholder="or write a quick note — what you did"></textarea>'
+      +'<button class="dp-done" onclick="submitProof(\''+rec.forDay+'\')">✅ Submit proof & clear</button>';
+  }
+
+  var multi=document.getElementById('dpMulti');
+  if(multi) multi.textContent = owed>1 ? ('+'+(owed-1)+' more penalty'+(owed-1>1?'ies':'')+' after this') : '';
+}
+
+function niceDay(ds){ var d=new Date(ds+'T00:00:00'); var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return d.getDate()+' '+mo[d.getMonth()]; }
+
+/* ── endure flow ── */
+function startEndure(forDay, mins){
+  var rec=DB.dayPenalty[forDay]; if(!rec)return;
+  rec.status='enduring'; rec.endMins=mins; rec.endsAt=Date.now()+mins*60000;
+  saveDB(); renderDayPenaltyOverlay(rec); startDpTick(); render();
+}
+function startEndureCustom(forDay){
+  var v=prompt('How many minutes will this penalty take?','30');
+  var m=parseInt(v); if(!m||m<1){ toast('Enter a number of minutes','err'); return; }
+  if(m>240)m=240;
+  startEndure(forDay,m);
+}
+function toProof(forDay){
+  var rec=DB.dayPenalty[forDay]; if(!rec)return;
+  rec.status='awaitingProof'; saveDB(); renderDayPenaltyOverlay(rec);
+}
+function dpPhotoChosen(ev,forDay){
+  var f=ev.target.files[0]; if(!f)return;
+  var rec=DB.dayPenalty[forDay]; if(!rec)return;
+  var r=new FileReader();
+  r.onload=function(){
+    /* downscale to keep localStorage small */
+    var img=new Image();
+    img.onload=function(){
+      var max=520, sc=Math.min(1,max/Math.max(img.width,img.height));
+      var c=document.createElement('canvas'); c.width=img.width*sc; c.height=img.height*sc;
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+      rec._pendingPhoto=c.toDataURL('image/jpeg',0.7);
+      renderDayPenaltyOverlay(rec);
+    };
+    img.src=r.result;
+  };
+  r.readAsDataURL(f);
+}
+function submitProof(forDay){
+  var rec=DB.dayPenalty[forDay]; if(!rec)return;
+  var note=(document.getElementById('dpNote')||{}).value||'';
+  note=note.trim();
+  if(!rec._pendingPhoto && !note){ toast('Add a photo or a note as proof','err'); return; }
+  rec.proof={ photo:rec._pendingPhoto||null, note:note, ts:Date.now() };
+  delete rec._pendingPhoto;
+  rec.status='done'; rec.doneAt=Date.now();
+  saveDB();
+  /* show next owed, or close */
+  var next=currentOwed();
+  if(next){ renderDayPenaltyOverlay(next); toast('Cleared. Next penalty 👇','ok'); }
+  else{ document.getElementById('dayPenaltyOverlay').classList.remove('show'); toast('All penalties cleared. Respect. 💪','ok'); }
   render();
 }
-function escapeDayPenalty(){
-  confirmModal({icon:'🤝',title:'Skip today\'s penalty?',msg:'Only for genuine sickness or an emergency. It\'s recorded as skipped — don\'t make this a habit.',ok:'Yes, skip',danger:true,onOk:function(){
-    var td=todayStr();
-    if(DB.dayPenalty&&DB.dayPenalty[td]){ DB.dayPenalty[td].status='skipped'; DB.dayPenalty[td].skippedAt=Date.now(); saveDB(); }
-    document.getElementById('dayPenaltyOverlay').classList.remove('show');
-    toast('Skipped. Rest, then come back stronger.','');
+/* skip — SEPARATE from complete */
+function skipDayPenalty(){
+  var rec=currentOwed(); if(!rec)return;
+  confirmModal({icon:'🤝',title:'Skip this penalty?',msg:'Only for genuine sickness or an emergency. Recorded as skipped — don\'t make it a habit.',ok:'Yes, skip',danger:true,onOk:function(){
+    rec.status='skipped'; rec.skippedAt=Date.now(); saveDB();
+    var next=currentOwed();
+    if(next){ renderDayPenaltyOverlay(next); }
+    else{ document.getElementById('dayPenaltyOverlay').classList.remove('show'); }
+    toast('Skipped. Come back stronger.','');
     render();
   }});
 }
 
-/* the inline Today-page card (mirrors the locked penalty state) */
+/* live countdown ticker for the overlay */
+var _dpTick=null;
+function startDpTick(){
+  if(_dpTick)clearInterval(_dpTick);
+  _dpTick=setInterval(function(){
+    var el=document.getElementById('dpCountdown'); if(!el){ return; }
+    var ends=+el.getAttribute('data-ends'); var left=ends-Date.now();
+    if(left<=0){ el.textContent='00:00'; el.classList.add('ready'); var rec=currentOwed(); if(rec&&rec.status==='enduring'){ renderDayPenaltyOverlay(rec); } clearInterval(_dpTick); }
+    else el.textContent=fmtRemain(left);
+  },1000);
+}
+
+/* the inline Today-page card mirrors the owed penalty */
 function renderTodayPenalty(pct){
   var slot=document.getElementById('penaltySlot'); if(!slot)return;
-  var td=todayStr();
   evaluateDayPenalty();
-  var rec=DB.dayPenalty&&DB.dayPenalty[td];
-  if(!rec){ slot.innerHTML=''; return; }
-
-  if(rec.status==='active'){
-    slot.innerHTML=
-      '<div class="penalty-card">'
-      +'<div class="pen-head"><span class="pen-ic">⚠️</span><div><b>Penalty active — held for today</b><span class="pen-sub">You hit '+(rec.lockedPct||0)+'% today. This must be completed — it won\'t clear on its own.</span></div></div>'
-      +'<div class="pen-task"><span class="pen-te">'+rec.e+'</span><div class="pen-tb"><div class="pen-tt">'+esc(rec.t)+'</div><div class="pen-td">'+esc(rec.d)+'</div></div></div>'
-      +'<button class="pen-complete-btn" onclick="completeDayPenalty()">✅ I completed this penalty</button>'
-      +'<p class="pen-foot">Held all day. Flashes every time you open the app until done. 💪</p>'
-      +'</div>';
-  } else {
-    var label=rec.status==='done'?'✅ Penalty cleared today':'⏭️ Penalty skipped today';
-    var cls=rec.status==='done'?'pen-cleared':'pen-skipped';
-    slot.innerHTML='<div class="penalty-card '+cls+'"><div class="pen-head"><span class="pen-ic">'+(rec.status==='done'?'✅':'⏭️')+'</span><div><b>'+label+'</b><span class="pen-sub">'+esc(rec.t)+'</span></div></div></div>';
+  var rec=currentOwed();
+  var td=todayStr();
+  /* also show a cleared/skipped chip for yesterday if handled today */
+  if(!rec){
+    var y=addDays(td,-1), yr=DB.dayPenalty&&DB.dayPenalty[y];
+    if(yr && (yr.status==='done'||yr.status==='skipped')){
+      var lbl=yr.status==='done'?'✅ Yesterday\'s penalty cleared':'⏭️ Yesterday\'s penalty skipped';
+      var cc=yr.status==='done'?'pen-cleared':'pen-skipped';
+      slot.innerHTML='<div class="penalty-card '+cc+'"><div class="pen-head"><span class="pen-ic">'+(yr.status==='done'?'✅':'⏭️')+'</span><div><b>'+lbl+'</b><span class="pen-sub">'+esc(yr.t||'')+'</span></div></div></div>';
+    } else slot.innerHTML='';
+    return;
   }
+  var statusTxt = rec.status==='pending'?'Not started': rec.status==='enduring'?'Timer running': 'Needs proof';
+  slot.innerHTML=
+    '<div class="penalty-card">'
+    +'<div class="pen-head"><span class="pen-ic">⚠️</span><div><b>Penalty owed — '+statusTxt+'</b><span class="pen-sub">From '+niceDay(rec.forDay)+' ('+(rec.missedPct||0)+'%). Held until you complete it.</span></div></div>'
+    +'<div class="pen-task"><span class="pen-te">'+rec.e+'</span><div class="pen-tb"><div class="pen-tt">'+esc(rec.t)+'</div><div class="pen-td">'+esc(rec.d)+'</div></div></div>'
+    +'<button class="pen-complete-btn" onclick="maybeFlashDayPenalty()">Open penalty →</button>'
+    +'<p class="pen-foot">Flashes every time you open the app until done. 💪</p>'
+    +'</div>';
 }
 
 function section(title,list,isSticky){
@@ -3955,9 +4205,10 @@ function init(){
   /* show comeback challenge after boot finishes, then flash any held penalty */
   setTimeout(function(){
     maybeShowChallenge();
-    /* flash held penalty only if the challenge overlay isn't up */
+    /* flash owed penalty only if the challenge overlay isn't up */
     if(!document.getElementById('challengeOverlay').classList.contains('show')){
       maybeFlashDayPenalty();
+      var _o=currentOwed(); if(_o && _o.status==='enduring') startDpTick();
     }
   }, bootMs + 200);
   setInterval(function(){ if(CUR_PAGE==='Today') renderToday(); }, 30000);
