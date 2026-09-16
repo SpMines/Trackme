@@ -231,6 +231,114 @@ a{color:var(--accent2);text-decoration:none}
 /* demo badge on penalty */
 #dayPenaltyOverlay.demo-mode .dp-card::before{content:"DEMO";position:absolute;top:14px;left:16px;font-size:9px;font-weight:800;letter-spacing:1.5px;color:var(--accent2);background:rgba(108,92,231,.15);border:1px solid rgba(108,92,231,.35);padding:3px 8px;border-radius:20px;z-index:5}
 
+/* ═══ BOSS BATTLE — Monarch / storm ═══ */
+.boss-card{position:relative;overflow:hidden;background:radial-gradient(circle at 50% 10%,#1a1030,#0a0812 70%);border:1px solid rgba(255,75,92,.3);border-radius:22px;padding:22px 20px;text-align:center}
+.boss-card.storm{border-color:rgba(124,92,255,.35)}
+.boss-card.low-card{border-color:rgba(255,75,92,.55);box-shadow:0 0 40px rgba(255,75,92,.15) inset}
+.boss-card.dead{background:radial-gradient(circle at 50% 10%,#0f2018,#0a0812 70%);border-color:rgba(55,211,153,.35)}
+.boss-card.shake{animation:bossCardShake .5s cubic-bezier(.36,.07,.19,.97)}
+@keyframes bossCardShake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(3px)}30%,50%,70%{transform:translateX(-5px)}40%,60%{transform:translateX(5px)}}
+
+/* storm background */
+.storm-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.storm-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% -10%,rgba(124,92,255,.18),transparent 55%),radial-gradient(ellipse at 20% 30%,rgba(70,181,255,.08),transparent 45%);animation:stormDrift 8s ease-in-out infinite}
+@keyframes stormDrift{0%,100%{opacity:.6;transform:translateX(-4%)}50%{opacity:1;transform:translateX(4%)}}
+.storm-flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,rgba(255,255,255,.5),transparent 60%);opacity:0}
+.storm-flash.go{animation:stormFlash .5s ease-out}
+@keyframes stormFlash{0%{opacity:0}8%{opacity:.9}16%{opacity:.2}24%{opacity:.7}100%{opacity:0}}
+.storm-bolt{position:absolute;top:-10px;width:30px;height:110px;opacity:0;filter:drop-shadow(0 0 6px rgba(162,155,254,.8))}
+.storm-bolt.sb1{left:16%;animation:ambientBolt 6s 1.5s infinite}
+.storm-bolt.sb2{right:20%;animation:ambientBolt 6s 4s infinite}
+@keyframes ambientBolt{0%,100%{opacity:0}2%{opacity:.9}5%{opacity:.1}7%{opacity:.6}10%{opacity:0}}
+
+.boss-stage{position:relative;height:160px;display:flex;align-items:center;justify-content:center;margin-bottom:6px;z-index:2}
+.boss-avatar{position:relative;z-index:2;animation:bossIdle 3.4s ease-in-out infinite;filter:drop-shadow(0 6px 20px var(--bc))}
+.boss-avatar svg{display:block}
+.boss-eye{animation:eyeGlow 2s ease-in-out infinite}
+@keyframes eyeGlow{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes bossIdle{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(1.03)}}
+.boss-stage::before{content:'';position:absolute;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle,var(--bc,#ff4b5c),transparent 62%);opacity:.16;animation:bossAura 3.4s ease-in-out infinite;z-index:1}
+@keyframes bossAura{0%,100%{transform:scale(.8);opacity:.12}50%{transform:scale(1.15);opacity:.26}}
+.boss-avatar.hit{animation:bossHit .55s cubic-bezier(.36,.07,.19,.97)}
+@keyframes bossHit{0%{transform:translateX(0) scale(1)}15%{transform:translateX(-12px) scale(.92);filter:drop-shadow(0 0 30px #fff) brightness(3)}30%{transform:translateX(10px) scale(.96)}45%{transform:translateX(-8px)}60%{transform:translateX(6px) scale(1)}100%{transform:translateX(0) scale(1);filter:drop-shadow(0 6px 20px var(--bc))}}
+.boss-avatar.dead{opacity:.5;animation:bossDie 1.1s ease forwards}
+@keyframes bossDie{0%{transform:scale(1) rotate(0);filter:none}40%{transform:scale(1.15) rotate(-8deg);filter:brightness(2)}100%{transform:scale(.65) rotate(14deg) translateY(24px);opacity:.35;filter:grayscale(1)}}
+.boss-dead-x{position:absolute;font-size:56px;z-index:3;animation:deadXin .6s .5s cubic-bezier(.2,.85,.3,1.5) both}
+@keyframes deadXin{from{transform:scale(0) rotate(-40deg);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* strike lightning (on hit) */
+.boss-lightning{position:absolute;top:-14px;left:50%;transform:translateX(-50%);width:70px;height:150px;opacity:0;z-index:4;filter:drop-shadow(0 0 10px #fff) drop-shadow(0 0 20px var(--bc,#a29bfe))}
+.boss-lightning.strike{animation:strikeBolt .5s ease-out}
+@keyframes strikeBolt{0%{opacity:0;transform:translateX(-50%) scaleY(.3)}10%{opacity:1;transform:translateX(-50%) scaleY(1)}30%{opacity:.3}45%{opacity:1}60%{opacity:.2}100%{opacity:0}}
+.boss-dmg-float{position:absolute;top:22px;right:26px;font-size:32px;font-weight:800;color:#fff;text-shadow:0 0 14px var(--bc,#ff4b5c),0 2px 8px rgba(0,0,0,.6);opacity:0;z-index:5;pointer-events:none}
+.boss-dmg-float.go{animation:dmgFloat .85s ease-out forwards}
+@keyframes dmgFloat{0%{opacity:0;transform:translateY(10px) scale(.6)}25%{opacity:1;transform:translateY(-6px) scale(1.2)}100%{opacity:0;transform:translateY(-46px) scale(1)}}
+
+.boss-mtitle{font-size:11px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:4px;position:relative;z-index:2;text-shadow:0 0 12px currentColor}
+.boss-name{font-size:20px;font-weight:800;margin-bottom:6px;position:relative;z-index:2;color:#fff}
+.boss-defeated-tag{font-size:12px;font-weight:800;letter-spacing:3px;color:#6ee7b7;margin-bottom:8px}
+.boss-taunt{font-size:12.5px;color:var(--muted);font-style:italic;margin-bottom:16px;line-height:1.4;position:relative;z-index:2}
+.boss-hpwrap{position:relative;width:100%;height:22px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.12);border-radius:12px;overflow:hidden;margin-bottom:12px;z-index:2}
+.boss-hp{height:100%;border-radius:12px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.boss-hp.high{background:linear-gradient(90deg,#ff4b5c,#ff8c42)}
+.boss-hp.mid{background:linear-gradient(90deg,#ff8c42,#ffb547)}
+.boss-hp.low{background:linear-gradient(90deg,#ffb547,#ff4b5c);animation:hpDanger .7s ease-in-out infinite}
+@keyframes hpDanger{0%,100%{opacity:1;box-shadow:0 0 12px rgba(255,75,92,.6)}50%{opacity:.75;box-shadow:none}}
+.boss-hp-txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8)}
+.boss-stats{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:20px;padding:0 4px;position:relative;z-index:2}
+.boss-attacks-lbl{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);font-weight:700;margin-bottom:12px;text-align:left;position:relative;z-index:2}
+.boss-attack{position:relative;z-index:2;display:flex;align-items:center;gap:11px;background:rgba(20,16,32,.8);border:1px solid rgba(124,92,255,.25);border-radius:13px;padding:13px 15px;margin-bottom:9px;cursor:pointer;transition:.15s;text-align:left}
+.boss-attack:hover{border-color:var(--accent);transform:translateX(3px);background:rgba(108,92,231,.14)}
+.boss-attack:active{transform:scale(.97)}
+.ba-sword{font-size:19px;flex-shrink:0}
+.ba-name{flex:1;min-width:0;font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ba-dmg{font-size:13px;font-weight:800;color:#ff97a2;flex-shrink:0}
+.boss-noattacks{position:relative;z-index:2;font-size:12.5px;color:var(--muted);line-height:1.5;padding:16px;background:rgba(20,16,32,.7);border-radius:12px}
+.boss-victory{position:relative;z-index:2;font-size:15px;font-weight:800;color:#6ee7b7;margin-bottom:8px}
+.boss-foot{position:relative;z-index:2;font-size:11.5px;color:var(--muted);margin-top:6px}
+
+/* boss avatar scales with how big today's Monarch is */
+.boss-avatar{transform:scale(var(--bscale,1))}
+@keyframes bossIdleScaled{0%,100%{transform:translateY(0) scale(var(--bscale,1))}50%{transform:translateY(-8px) scale(calc(var(--bscale,1) * 1.03))}}
+.boss-avatar{animation:bossIdleScaled 3.4s ease-in-out infinite}
+
+/* ═══ BOSS PREVIEW in task modal ═══ */
+.boss-preview{max-height:0;overflow:hidden;opacity:0;transition:max-height .35s ease,opacity .3s ease,margin .3s ease;margin:0}
+.boss-preview.show{max-height:150px;opacity:1;margin:-4px 0 16px}
+.bp-inner{display:flex;align-items:center;gap:14px;background:radial-gradient(circle at 20% 50%,rgba(124,92,255,.16),rgba(10,8,18,.9));border:1px solid rgba(124,92,255,.32);border-radius:15px;padding:13px 15px;overflow:hidden;position:relative}
+.bp-inner.t4{border-color:rgba(255,75,92,.45);background:radial-gradient(circle at 20% 50%,rgba(255,75,92,.18),rgba(10,8,18,.9))}
+.bp-inner.t3{border-color:rgba(255,140,66,.4)}
+.bp-avatar{width:56px;height:56px;flex-shrink:0;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 3px 10px var(--bc));transition:transform .35s cubic-bezier(.2,.85,.3,1.5)}
+.bp-avatar svg{width:56px !important;height:56px !important}
+.bp-avatar.grow{animation:bpGrow .5s cubic-bezier(.2,.85,.3,1.6)}
+@keyframes bpGrow{0%{transform:scale(.7)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
+.bp-body{flex:1;min-width:0}
+.bp-tier{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px}
+.bp-txt{font-size:12.5px;color:var(--txt);line-height:1.35;margin-bottom:5px}
+.bp-stats{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11px;color:var(--muted);font-weight:600}
+.bp-grow{color:#ffb547;font-weight:800}
+
+/* ═══ MINI BOSS on Today ═══ */
+.mini-boss{display:flex;align-items:center;gap:12px;background:radial-gradient(circle at 15% 50%,rgba(124,92,255,.14),var(--card) 70%);border:1px solid rgba(124,92,255,.3);border-radius:16px;padding:12px 14px;margin-bottom:16px;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
+.mini-boss:hover{border-color:var(--accent);transform:translateY(-1px)}
+.mini-boss.slain{background:radial-gradient(circle at 15% 50%,rgba(55,211,153,.12),var(--card) 70%);border-color:rgba(55,211,153,.35)}
+.mini-boss.struck{animation:mbStruck .6s ease-out}
+@keyframes mbStruck{0%{box-shadow:0 0 0 0 rgba(255,255,255,0)}12%{box-shadow:0 0 34px 6px rgba(255,255,255,.55);transform:translateX(-3px)}30%{transform:translateX(3px)}50%{transform:translateX(-2px)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0);transform:none}}
+.mb-av{width:44px;height:44px;flex-shrink:0;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 2px 8px var(--bc))}
+.mb-av svg{width:44px !important;height:44px !important}
+.mb-av.dead{filter:grayscale(1);opacity:.5}
+.mb-body{flex:1;min-width:0}
+.mb-name{font-size:13.5px;font-weight:700;margin-bottom:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mb-bar{width:100%;height:7px;background:rgba(0,0,0,.45);border-radius:5px;overflow:hidden;margin-bottom:4px}
+.mb-bar i{display:block;height:100%;border-radius:5px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.mb-bar i.high{background:linear-gradient(90deg,#ff4b5c,#ff8c42)}
+.mb-bar i.mid{background:linear-gradient(90deg,#ff8c42,#ffb547)}
+.mb-bar i.low{background:linear-gradient(90deg,#ffb547,#ff4b5c)}
+.mb-sub{font-size:11px;color:var(--muted);font-weight:600}
+.mb-go{font-size:20px;color:var(--muted);flex-shrink:0}
+
+
+
 
 
 
@@ -954,6 +1062,7 @@ html,body{font-weight:500}
       </div>
     </div>
 
+    <div id="miniBossSlot"></div>
     <div id="todaySlot"></div>
     <div id="reportSlot"></div>
     <div id="penaltySlot"></div>
@@ -1240,6 +1349,13 @@ html,body{font-weight:500}
     </div>
   </div>
 
+  <!-- ============ BOSS BATTLE ============ -->
+  <div class="page" id="pageBoss">
+    <div class="ptitle">Boss Battle</div>
+    <div class="psub">Every task you clear is a hit. Kill the boss before midnight — or it strikes back. ⚔️</div>
+    <div id="bossArena"></div>
+  </div>
+
   <!-- ============ REPORT ============ -->
   <div class="page" id="pageReport">
     <div class="ptitle">My Report</div>
@@ -1266,6 +1382,8 @@ html,body{font-weight:500}
         <button class="btn sm ghost" onclick="demoPenalty()">⚠️ Preview penalty</button>
         <button class="btn sm ghost" onclick="demoReward()">🏆 Preview reward</button>
       </div>
+      <div class="btnrow" style="margin-top:8px">
+        <button class="btn sm ghost" onclick="demoBossWin()">⚔️ Preview boss win</button>
     </div>
   </div>
 
@@ -1306,6 +1424,7 @@ html,body{font-weight:500}
     <div class="morebtn" onclick="go('Food')"><div class="mi">🍗</div><div class="mt"><b>Food &amp; Bulking</b><p>Track calories, protein &amp; hit your bulk goal</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Vices')"><div class="mi">🚭</div><div class="mt"><b>Break Bad Habits</b><p>Track slip-ups, build clean streaks, get warned early</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Penalty')"><div class="mi">⚖️</div><div class="mt"><b>Penalty &amp; Discipline</b><p>Failed tasks → auto penalties, boss fights &amp; recovery</p></div><div class="ar">›</div></div>
+    <div class="morebtn" onclick="go('Boss')"><div class="mi">👹</div><div class="mt"><b>Boss Battle</b><p>Beat today's boss by clearing tasks — or it strikes back</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Report')"><div class="mi">📈</div><div class="mt"><b>My Report</b><p>Weekly &amp; monthly summary — view or download</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Tasks')"><div class="mi">🗂️</div><div class="mt"><b>Manage Tasks</b><p>Create, edit &amp; organize what you track</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Rewards')"><div class="mi">🏆</div><div class="mt"><b>Rewards</b><p>Level, streaks &amp; badges</p></div><div class="ar">›</div></div>
@@ -1332,7 +1451,8 @@ html,body{font-weight:500}
   <div class="modal-card">
     <h3 id="tmTitle">New Task</h3>
     <div class="mh">What do you want to level up?</div>
-    <div class="field"><label>Task</label><input id="tTitle" placeholder="e.g. 10 min cold-approach practice"></div>
+    <div class="field"><label>Task</label><input id="tTitle" placeholder="e.g. 10 min cold-approach practice" oninput="updateBossPreview()"></div>
+    <div id="bossPreview" class="boss-preview"></div>
     <div class="field"><label>Category</label><select id="tCat"></select></div>
     <label style="display:block;font-size:12.5px;color:var(--muted);margin-bottom:7px">Type</label>
     <div class="seg" id="tType">
@@ -1690,7 +1810,7 @@ var EDIT_ID=null, T_TYPE='daily', T_PRI='Medium';
 /* ---------- storage ---------- */
 function defaultDB(){
   return { v:APP_VERSION, profile:{name:'Sam',email:'',points:0,level:1,levelTitle:LEVELS[0],streak:0,longestStreak:0,lastActiveDate:''},
-           categories:DEFAULT_CATS.slice(), tasks:[], log:[], badges:{}, money:[], workouts:[], food:[], bodylog:[], dailylog:{}, dailyBonus:{}, missedLog:[], activeChallenge:null, vices:[], vicelog:{}, penalties:[], penaltyConfig:null, trainingPlan:null, trainCheck:{}, dayPenalty:{}, settings:{}, updatedAt:Date.now() };
+           categories:DEFAULT_CATS.slice(), tasks:[], log:[], badges:{}, money:[], workouts:[], food:[], bodylog:[], dailylog:{}, dailyBonus:{}, missedLog:[], activeChallenge:null, vices:[], vicelog:{}, penalties:[], penaltyConfig:null, trainingPlan:null, trainCheck:{}, dayPenalty:{}, boss:null, bossWins:0, settings:{}, updatedAt:Date.now() };
 }
 function loadDB(){
   try{ var raw=localStorage.getItem(LS_KEY); if(raw){ return migrate(JSON.parse(raw)); } }catch(e){}
@@ -1774,6 +1894,8 @@ function mergeDB(local,cloud){
   // dayPenalty: per-day; a done/skipped status wins over active (don't re-lock a cleared day)
   m.dayPenalty={};
   [local.dayPenalty,cloud.dayPenalty].forEach(function(dp){ if(!dp)return; for(var d in dp){ var ex=m.dayPenalty[d]; if(!ex){ m.dayPenalty[d]=dp[d]; } else if(ex.status==='active' && dp[d].status!=='active'){ m.dayPenalty[d]=dp[d]; } } });
+  m.boss = (newer.boss && newer.boss.date) ? newer.boss : (older.boss||null);
+  m.bossWins = Math.max(local.bossWins||0, cloud.bossWins||0);
   m.updatedAt=Date.now();
   return migrate(m);
 }
@@ -1784,7 +1906,7 @@ function migrate(d){
   d.profile.longestStreak=d.profile.longestStreak||0; d.profile.lastActiveDate=d.profile.lastActiveDate||'';
   if(!d.categories||!d.categories.length) d.categories=DEFAULT_CATS.slice();
   d.tasks=d.tasks||[]; d.log=d.log||[]; d.badges=d.badges||{};
-  d.money=d.money||[]; d.workouts=d.workouts||[]; d.food=d.food||[]; d.bodylog=d.bodylog||[]; d.dailylog=d.dailylog||{}; d.dailyBonus=d.dailyBonus||{}; d.missedLog=d.missedLog||[]; if(d.activeChallenge===undefined)d.activeChallenge=null; d.vices=d.vices||[]; d.vicelog=d.vicelog||{}; d.penalties=d.penalties||[]; if(!d.penaltyConfig)d.penaltyConfig=defaultPenaltyConfig(); if(d.trainingPlan===undefined)d.trainingPlan=null; d.trainCheck=d.trainCheck||{}; d.dayPenalty=d.dayPenalty||{}; d.settings=d.settings||{};
+  d.money=d.money||[]; d.workouts=d.workouts||[]; d.food=d.food||[]; d.bodylog=d.bodylog||[]; d.dailylog=d.dailylog||{}; d.dailyBonus=d.dailyBonus||{}; d.missedLog=d.missedLog||[]; if(d.activeChallenge===undefined)d.activeChallenge=null; d.vices=d.vices||[]; d.vicelog=d.vicelog||{}; d.penalties=d.penalties||[]; if(!d.penaltyConfig)d.penaltyConfig=defaultPenaltyConfig(); if(d.trainingPlan===undefined)d.trainingPlan=null; d.trainCheck=d.trainCheck||{}; d.dayPenalty=d.dayPenalty||{}; if(d.boss===undefined)d.boss=null; d.bossWins=d.bossWins||0; d.settings=d.settings||{};
   return d;
 }
 function saveLocal(){ if(typeof _demoBackup!=='undefined' && _demoBackup){ return; } DB.updatedAt=Date.now(); try{localStorage.setItem(LS_KEY,JSON.stringify(DB));}catch(e){} }
@@ -1908,7 +2030,20 @@ function completeTask(id){
   flyPts(pts);
   if(newBadges.length){ setTimeout(function(){ toast('🎖️ Badge unlocked · '+newBadges[0].nm,'ok'); },700); }
   else toast('+'+pts+' pts · '+t.title.slice(0,26)+' ✓','ok');
-  render();
+  var onBoss=(CUR_PAGE==='Boss');
+  var onToday=(CUR_PAGE==='Today');
+  if(typeof bossHit==='function') bossHit(t.title, pts);
+  /* on the Boss page, bossHit runs the strike animation + its own delayed re-render;
+     a plain render() here would wipe the animation, so update the rest without it */
+  if(onBoss){ var pp=DB.profile; document.getElementById('sPoints').textContent=pp.points; document.getElementById('sStreak').textContent=pp.streak; document.getElementById('flameN').textContent=pp.streak; }
+  else {
+    render();
+    /* on Today: flash the mini boss strip so the damage is visible */
+    if(onToday){
+      var mb=document.querySelector('.mini-boss');
+      if(mb){ mb.classList.remove('struck'); void mb.offsetWidth; mb.classList.add('struck'); }
+    }
+  }
 }
 function undoTask(id){
   var t=taskById(id); if(!t||!isDoneToday(t))return;
@@ -1948,7 +2083,7 @@ function go(page,el){
   for(var j=0;j<btns.length;j++) btns[j].classList.remove('active');
 
   /* which nav button owns this page? */
-  var morePages={Tasks:1,Stats:1,Settings:1,Food:1,Vices:1,Penalty:1,Report:1};
+  var morePages={Tasks:1,Stats:1,Settings:1,Food:1,Vices:1,Penalty:1,Report:1,Boss:1};
   var owner = morePages[page] ? 'More' : page;
   var activeBtn=null;
   for(var k=0;k<btns.length;k++){
@@ -3082,6 +3217,10 @@ function showReward(ic, kicker, title, sub){
   document.getElementById('rewardOverlay').classList.add('show');
 }
 function closeReward(){ document.getElementById('rewardOverlay').classList.remove('show'); }
+function demoBossWin(){
+  var r=BOSS_ROSTER[Math.floor(Math.random()*BOSS_ROSTER.length)];
+  showReward('⚔️','BOSS DEFEATED', r.name+' is down!', '"'+r.deadTaunt+'" — You landed every hit. +30 bonus XP. (Demo — nothing saved)');
+}
 function spawnConfetti(){
   var box=document.getElementById('rwConfetti'); if(!box)return;
   var cols=['#6C5CE7','#a29bfe','#46b5ff','#37d399','#ffb547','#ff6b78'];
@@ -3228,6 +3367,322 @@ function repCardStatic(icon,big,label,sub){
   return '<div class="c"><div class="ic">'+icon+'</div><div class="big">'+big+'</div><div class="lbl">'+label+'</div>'+(sub?'<div class="sub">'+sub+'</div>':'')+'</div>';
 }
 
+/* ═══════════════════════════════════════════
+   BOSS BATTLE — tasks are your attacks
+   HP scales to how many tasks you actually have,
+   difficulty nudges from your recent completion rate.
+   ═══════════════════════════════════════════ */
+var BOSS_ROSTER=[
+  {name:'Antares, the Ashen Monarch', title:'Monarch of Destruction', svg:'dragon', color:'#ff4b5c', taunt:'You are but an ant before a dragon.', deadTaunt:'Impossible... an ant... felled a Monarch...'},
+  {name:'Baran, King of Beasts',      title:'Monarch of White Flames', svg:'beast', color:'#ff8c42', taunt:'Your discipline is a candle in my storm.', deadTaunt:'My flames... extinguished...'},
+  {name:'Querehsha, the Plaguebringer', title:'Monarch of Iron Body', svg:'serpent', color:'#37d399', taunt:'Tomorrow, tomorrow — you always kneel.', deadTaunt:'You struck... today, of all days...'},
+  {name:'Legia, the Void Wraith',     title:'Monarch of Beginning', svg:'wraith', color:'#a29bfe', taunt:'Too tired. Too busy. You will fail.', deadTaunt:'No excuses... remain...'},
+  {name:'Sillad, the Frost Sovereign', title:'Monarch of Frost', svg:'demon', color:'#46b5ff', taunt:'Comfort is warm. Why leave it?', deadTaunt:'My throne of ease... shatters...'},
+  {name:'Rakan, the Storm Tyrant',    title:'Monarch of Transfiguration', svg:'dragon', color:'#7c5cff', taunt:'Your plans mean nothing before the storm!', deadTaunt:'The storm... has broken...'},
+  {name:'Yogumunt, the Devourer',     title:'Monarch of the Chasm', svg:'beast', color:'#ff6b78', taunt:'I feed on every day you waste.', deadTaunt:'Starved... you gave me nothing...'}
+];
+
+/* SVG monarch avatars — drawn, glowing, animated */
+function bossSvg(kind, color){
+  var c=color||'#ff4b5c';
+  var common='style="width:130px;height:130px;overflow:visible" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"';
+  var glow='<defs><radialGradient id="bg_'+kind+'" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="'+c+'" stop-opacity=".9"/><stop offset="1" stop-color="'+c+'" stop-opacity=".2"/></radialGradient></defs>';
+  var eye='<circle class="boss-eye" cx="47" cy="52" r="4.5" fill="#fff"/><circle class="boss-eye" cx="73" cy="52" r="4.5" fill="#fff"/><circle cx="47" cy="52" r="2" fill="'+c+'"/><circle cx="73" cy="52" r="2" fill="'+c+'"/>';
+  if(kind==='dragon'){
+    return '<svg '+common+'>'+glow
+      +'<path d="M60 18 L40 30 L28 22 L34 40 L18 46 L36 54 L30 74 L48 64 L60 92 L72 64 L90 74 L84 54 L102 46 L86 40 L92 22 L80 30 Z" fill="url(#bg_dragon)" stroke="'+c+'" stroke-width="2" stroke-linejoin="round"/>'
+      +'<path d="M44 44 Q60 34 76 44 Q70 60 60 66 Q50 60 44 44 Z" fill="#0d0a14" opacity=".7"/>'
+      + eye
+      +'<path d="M52 74 L60 84 L68 74" fill="none" stroke="'+c+'" stroke-width="2.5" stroke-linecap="round"/>'
+      +'</svg>';
+  }
+  if(kind==='beast'){
+    return '<svg '+common+'>'+glow
+      +'<path d="M60 20 L34 34 L26 28 L30 46 L40 44 L36 70 L52 60 L60 78 L68 60 L84 70 L80 44 L90 46 L94 28 L86 34 Z" fill="url(#bg_beast)" stroke="'+c+'" stroke-width="2" stroke-linejoin="round"/>'
+      +'<circle cx="60" cy="52" r="20" fill="#0d0a14" opacity=".55"/>'
+      + eye
+      +'<path d="M48 68 Q60 76 72 68" fill="none" stroke="'+c+'" stroke-width="3" stroke-linecap="round"/>'
+      +'<path d="M40 46 L34 40 M80 46 L86 40" stroke="'+c+'" stroke-width="2.5" stroke-linecap="round"/>'
+      +'</svg>';
+  }
+  if(kind==='serpent'){
+    return '<svg '+common+'>'+glow
+      +'<path d="M60 16 Q88 28 78 52 Q70 72 60 96 Q50 72 42 52 Q32 28 60 16 Z" fill="url(#bg_serpent)" stroke="'+c+'" stroke-width="2"/>'
+      +'<ellipse cx="60" cy="50" rx="22" ry="26" fill="#0d0a14" opacity=".5"/>'
+      + eye
+      +'<path d="M54 66 Q60 62 66 66" fill="none" stroke="'+c+'" stroke-width="2.5" stroke-linecap="round"/>'
+      +'<path d="M60 84 L56 96 M60 84 L64 96" stroke="'+c+'" stroke-width="2" stroke-linecap="round"/>'
+      +'</svg>';
+  }
+  if(kind==='wraith'){
+    return '<svg '+common+'>'+glow
+      +'<path d="M60 18 Q92 22 88 58 Q86 82 78 100 L70 88 L60 100 L50 88 L42 100 Q34 82 32 58 Q28 22 60 18 Z" fill="url(#bg_wraith)" stroke="'+c+'" stroke-width="2" stroke-linejoin="round"/>'
+      + eye
+      +'<path d="M50 66 Q60 60 70 66" fill="none" stroke="'+c+'" stroke-width="2.5" stroke-linecap="round"/>'
+      +'</svg>';
+  }
+  return '<svg '+common+'>'+glow
+    +'<path d="M38 30 Q30 16 26 24 Q30 34 40 40 M82 30 Q90 16 94 24 Q90 34 80 40" fill="url(#bg_demon)" stroke="'+c+'" stroke-width="2"/>'
+    +'<path d="M60 24 Q90 32 84 62 Q78 84 60 98 Q42 84 36 62 Q30 32 60 24 Z" fill="url(#bg_demon)" stroke="'+c+'" stroke-width="2" stroke-linejoin="round"/>'
+    +'<path d="M40 48 Q60 40 80 48 Q72 62 60 68 Q48 62 40 48 Z" fill="#0d0a14" opacity=".6"/>'
+    + eye
+    +'<path d="M50 78 L55 72 L60 78 L65 72 L70 78" fill="none" stroke="'+c+'" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>'
+    +'</svg>';
+}
+
+/* recent completion rate over last 7 days → difficulty multiplier */
+function recentCompletionRate(){
+  var td=todayStr(), timed=DB.tasks.filter(function(t){return t.type==='daily'||t.type==='sticky';});
+  if(!timed.length) return 0.5;
+  var sum=0,n=0;
+  for(var i=1;i<=7;i++){ var d=addDays(td,-i);
+    var done=timed.filter(function(t){return (t.history||[]).indexOf(d)!==-1;}).length;
+    sum+=done/timed.length; n++;
+  }
+  return n?sum/n:0.5;
+}
+
+/* how many tasks the user has available to clear today (their "attacks") */
+function todaysAttackPool(){
+  return DB.tasks.filter(function(t){ return (t.type==='daily'||t.type==='sticky'||t.type==='once'); });
+}
+
+/* spawn a boss for today if none / stale */
+function ensureBoss(){
+  var td=todayStr();
+  if(DB.boss && DB.boss.date===td) return DB.boss;
+
+  var pool=todaysAttackPool();
+  var attackCount=Math.max(1,pool.length);
+  var rate=recentCompletionRate();
+
+  /* HP = tasks needed to kill. base = how many tasks exist, tuned by behaviour.
+     doing well (high rate) → boss needs a bit more (a challenge).
+     struggling (low rate) → boss is beatable so you get a win. */
+  var needed;
+  if(rate>=0.8) needed=Math.min(attackCount, Math.max(3, Math.round(attackCount*0.9)));
+  else if(rate>=0.5) needed=Math.max(2, Math.round(attackCount*0.7));
+  else needed=Math.max(1, Math.round(attackCount*0.5));
+  if(needed>attackCount) needed=attackCount;
+
+  var perHit=100/needed;              /* each task damages this much % */
+  var pick=BOSS_ROSTER[(dateSeed(td))%BOSS_ROSTER.length];
+
+  DB.boss={
+    date:td, name:pick.name, title:pick.title, svg:pick.svg, color:pick.color, taunt:pick.taunt, deadTaunt:pick.deadTaunt,
+    maxHp:100, hp:100, perHit:perHit, needed:needed, hits:0,
+    status:'alive'   /* alive | dead | defeated */
+  };
+  /* apply damage already earned by tasks done today */
+  var doneToday=pool.filter(function(t){return isDoneToday(t);}).length;
+  applyBossHits(doneToday, true);
+  saveDB();
+  return DB.boss;
+}
+function dateSeed(ds){ var s=0; for(var i=0;i<ds.length;i++) s+=ds.charCodeAt(i); return s; }
+
+/* set boss HP from a given number of hits (silent = no animation, used on spawn) */
+function applyBossHits(totalHits, silent){
+  var bs=DB.boss; if(!bs)return;
+  bs.hits=totalHits;
+  bs.hp=Math.max(0, Math.round((bs.maxHp - totalHits*bs.perHit)*10)/10);
+  if(bs.hp<=0 && bs.status==='alive'){ bs.status='dead'; if(!silent) onBossDeath(); }
+}
+
+/* called from completeTask — one hit lands */
+function bossHit(taskTitle, pts){
+  ensureBoss();
+  var bs=DB.boss; if(!bs || bs.status!=='alive') return;
+  var doneToday=todaysAttackPool().filter(function(t){return isDoneToday(t);}).length;
+  var prevHp=bs.hp;
+  applyBossHits(doneToday, true);
+  saveDB();
+  /* if on the Boss page, animate the hit */
+  if(CUR_PAGE==='Boss'){ animateBossHit(prevHp, bs.hp, pts); }
+  if(bs.hp<=0 && bs.status==='dead'){ onBossDeath(); }
+}
+
+function onBossDeath(){
+  var bs=DB.boss; if(!bs || bs.status==='defeated') return;
+  bs.status='defeated';
+  DB.bossWins=(DB.bossWins||0)+1;
+  var bonus=30;
+  DB.profile.points+=bonus;
+  recompute(); saveDB();
+  /* celebrate — reuse the reward overlay */
+  setTimeout(function(){
+    if(typeof showReward==='function'){
+      showReward('⚔️','BOSS DEFEATED', bs.name+' is down!', 'You landed every hit and won. +'+bonus+' bonus XP. That\'s '+DB.bossWins+' boss'+(DB.bossWins>1?'es':'')+' slain.');
+    }
+    if(CUR_PAGE==='Boss') renderBoss();
+  }, 500);
+}
+
+/* at day rollover: if boss survived, it strikes back → a penalty */
+function checkBossDefeat(){
+  if(!DB.boss) return;
+  var td=todayStr();
+  if(DB.boss.date < td && DB.boss.status==='alive'){
+    /* boss survived yesterday → it deals a penalty (uses existing dayPenalty flow) */
+    var y=DB.boss.date;
+    DB.dayPenalty=DB.dayPenalty||{};
+    if(!DB.dayPenalty['boss_'+y]){
+      var p=(typeof PENALTIES!=='undefined')?PENALTIES[dateSeed(y)%PENALTIES.length]:{e:'⚠️',t:'Recovery',d:'Make up the missed work.'};
+      DB.dayPenalty['boss_'+y]={ forDay:y, e:DB.boss.emoji, t:DB.boss.name+' struck back', d:'The boss survived. '+p.t+': '+p.d, status:'pending', missedPct:Math.round(DB.boss.hp), fromBoss:true };
+      saveDB();
+    }
+  }
+}
+
+/* ═══ RENDER ═══ */
+/* ── live preview in the task modal: how this task feeds the Monarch ── */
+function updateBossPreview(){
+  var el=document.getElementById('bossPreview'); if(!el)return;
+  var bs=DB.boss;
+  var pool=todaysAttackPool();
+  var current=pool.length;
+  var isNew=!EDIT_ID;
+  var title=(document.getElementById('tTitle').value||'').trim();
+
+  if(!isNew){ el.innerHTML=''; el.classList.remove('show'); return; }
+
+  var after=current+1;
+  /* what the boss would look like with one more task */
+  var rate=recentCompletionRate();
+  var neededAfter;
+  if(rate>=0.8) neededAfter=Math.min(after, Math.max(3, Math.round(after*0.9)));
+  else if(rate>=0.5) neededAfter=Math.max(2, Math.round(after*0.7));
+  else neededAfter=Math.max(1, Math.round(after*0.5));
+  if(neededAfter>after) neededAfter=after;
+
+  var tier = after<=2?{n:'Lesser',cls:'t1'} : after<=4?{n:'Elite',cls:'t2'} : after<=6?{n:'Monarch',cls:'t3'} : {n:'Sovereign',cls:'t4'};
+  var size = Math.min(100, 40+after*9);
+  var col = bs?bs.color:'#ff4b5c';
+  var kind = bs?bs.svg:'dragon';
+
+  el.innerHTML=
+    '<div class="bp-inner '+tier.cls+'">'
+    +'<div class="bp-avatar" style="--bc:'+col+';transform:scale('+(size/100)+')">'+bossSvg(kind,col)+'</div>'
+    +'<div class="bp-body">'
+    +'<div class="bp-tier" style="color:'+col+'">'+tier.n+' tier'+(title?'':'')+'</div>'
+    +'<div class="bp-txt">Adding this makes today\u2019s Monarch <b>stronger</b>.</div>'
+    +'<div class="bp-stats"><span>\u2694\ufe0f '+neededAfter+' strikes to slay</span><span class="bp-grow">'+current+' \u2192 '+after+' tasks</span></div>'
+    +'</div></div>';
+  el.classList.add('show');
+  /* pop the avatar each time the count meaningfully changes */
+  var av=el.querySelector('.bp-avatar'); if(av){ av.classList.remove('grow'); void av.offsetWidth; av.classList.add('grow'); }
+}
+
+/* ── mini boss strip on the Today page ── */
+function renderMiniBoss(){
+  var slot=document.getElementById('miniBossSlot'); if(!slot)return;
+  var pool=todaysAttackPool();
+  if(!pool.length){ slot.innerHTML=''; return; }
+  var bs=ensureBoss(); if(!bs){ slot.innerHTML=''; return; }
+
+  if(bs.status==='defeated'){
+    slot.innerHTML='<div class="mini-boss slain" onclick="go(\'Boss\')">'
+      +'<div class="mb-av dead" style="--bc:'+bs.color+'">'+bossSvg(bs.svg,bs.color)+'</div>'
+      +'<div class="mb-body"><div class="mb-name">\u2620\ufe0f '+esc(bs.name)+' \u2014 slain</div>'
+      +'<div class="mb-sub">Monarch down. +30 XP claimed.</div></div>'
+      +'<span class="mb-go">\u203a</span></div>';
+    return;
+  }
+  var remaining=Math.max(0,bs.needed-bs.hits);
+  var hpCls=bs.hp>60?'high':bs.hp>30?'mid':'low';
+  slot.innerHTML='<div class="mini-boss" onclick="go(\'Boss\')">'
+    +'<div class="mb-av" style="--bc:'+bs.color+'">'+bossSvg(bs.svg,bs.color)+'</div>'
+    +'<div class="mb-body">'
+    +'<div class="mb-name">'+esc(bs.name)+'</div>'
+    +'<div class="mb-bar"><i class="'+hpCls+'" id="miniHpBar" style="width:'+bs.hp+'%"></i></div>'
+    +'<div class="mb-sub">'+Math.ceil(bs.hp)+'% HP \u00b7 '+remaining+' strike'+(remaining===1?'':'s')+' to slay</div>'
+    +'</div><span class="mb-go">\u203a</span></div>';
+}
+
+function renderBoss(){
+  var arena=document.getElementById('bossArena'); if(!arena)return;
+  var bs=ensureBoss();
+  var pool=todaysAttackPool();
+  var doneToday=pool.filter(function(t){return isDoneToday(t);}).length;
+  var remaining=Math.max(0, bs.needed - bs.hits);
+  var openTasks=pool.filter(function(t){return !isDoneToday(t);});
+
+  if(bs.status==='defeated'){
+    arena.innerHTML=
+      '<div class="boss-card dead storm">'
+      + stormLayer()
+      +'<div class="boss-stage">'
+      +'<div class="boss-avatar dead" id="bossAvatar" style="--bc:'+bs.color+'">'+bossSvg(bs.svg,bs.color)+'</div>'
+      +'<div class="boss-dead-x">☠️</div>'
+      +'</div>'
+      +'<div class="boss-mtitle" style="color:'+bs.color+'">'+esc(bs.title||'Monarch')+'</div>'
+      +'<div class="boss-name">'+esc(bs.name)+'</div>'
+      +'<div class="boss-defeated-tag">MONARCH SLAIN</div>'
+      +'<div class="boss-taunt">"'+esc(bs.deadTaunt)+'"</div>'
+      +'<div class="boss-hpwrap"><div class="boss-hp" style="width:0%"></div><span class="boss-hp-txt">0% HP</span></div>'
+      +'<div class="boss-victory">🏆 +30 XP · '+DB.bossWins+' Monarchs slain</div>'
+      +'<p class="boss-foot">A new Monarch rises at dawn. Rest, Hunter.</p>'
+      +'</div>';
+    return;
+  }
+
+  var hpPct=bs.hp;
+  var hpCls=hpPct>60?'high':hpPct>30?'mid':'low';
+  var attacksHtml='';
+  if(openTasks.length){
+    openTasks.slice(0,6).forEach(function(t){
+      var dmg=Math.round(bs.perHit);
+      attacksHtml+='<div class="boss-attack" onclick="completeTask(\''+t.id+'\')"><span class="ba-sword">⚔️</span><span class="ba-name">'+esc(t.title)+'</span><span class="ba-dmg">-'+dmg+'%</span></div>';
+    });
+  } else {
+    attacksHtml='<div class="boss-noattacks">No attacks ready. Add tasks to strike, or the Monarch waits until dawn.</div>';
+  }
+
+  arena.innerHTML=
+    '<div class="boss-card storm '+hpCls+'-card" id="bossCard">'
+    + stormLayer()
+    +'<div class="boss-stage">'
+    +'<svg class="boss-lightning" id="bossLightning" viewBox="0 0 120 150" preserveAspectRatio="none"><path d="M64 0 L44 60 L58 62 L36 150 L84 54 L66 52 Z" fill="#fff"/></svg>'
+    +'<div class="boss-avatar" id="bossAvatar" style="--bc:'+bs.color+';--bscale:'+(0.75+Math.min(0.55, bs.needed*0.09))+'">'+bossSvg(bs.svg,bs.color)+'</div>'
+    +'<div class="boss-dmg-float" id="bossDmgFloat"></div>'
+    +'</div>'
+    +'<div class="boss-mtitle" style="color:'+bs.color+'">'+esc(bs.title||'Monarch')+'</div>'
+    +'<div class="boss-name">'+esc(bs.name)+'</div>'
+    +'<div class="boss-taunt">"'+esc(bs.taunt)+'"</div>'
+    +'<div class="boss-hpwrap"><div class="boss-hp '+hpCls+'" id="bossHpBar" style="width:'+hpPct+'%"></div><span class="boss-hp-txt">'+Math.ceil(hpPct)+'% HP</span></div>'
+    +'<div class="boss-stats"><span>⚔️ '+bs.hits+' strikes</span><span>🎯 '+remaining+' to slay</span></div>'
+    +'<div class="boss-attacks-lbl">Your strikes — tap to attack</div>'
+    + attacksHtml
+    +'</div>';
+}
+
+/* storm background layer with drifting clouds + ambient lightning */
+function stormLayer(){
+  return '<div class="storm-bg">'
+    +'<div class="storm-flash" id="stormFlash"></div>'
+    +'<svg class="storm-bolt sb1" viewBox="0 0 40 120"><path d="M22 0 L10 50 L18 52 L6 120 L30 44 L20 42 Z" fill="rgba(162,155,254,.5)"/></svg>'
+    +'<svg class="storm-bolt sb2" viewBox="0 0 40 120"><path d="M22 0 L10 50 L18 52 L6 120 L30 44 L20 42 Z" fill="rgba(124,92,255,.4)"/></svg>'
+    +'</div>';
+}
+
+/* hit animation */
+function animateBossHit(prevHp, newHp, pts){
+  var av=document.getElementById('bossAvatar');
+  var bar=document.getElementById('bossHpBar');
+  var flt=document.getElementById('bossDmgFloat');
+  var lit=document.getElementById('bossLightning');
+  var flash=document.getElementById('stormFlash');
+  var card=document.getElementById('bossCard');
+  /* lightning strike on the boss */
+  if(lit){ lit.classList.remove('strike'); void lit.offsetWidth; lit.classList.add('strike'); }
+  if(flash){ flash.classList.remove('go'); void flash.offsetWidth; flash.classList.add('go'); }
+  if(card){ card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake'); }
+  if(av){ av.classList.remove('hit'); void av.offsetWidth; av.classList.add('hit'); }
+  if(flt){ var dmg=Math.round(prevHp-newHp); flt.textContent='-'+dmg+'%'; flt.classList.remove('go'); void flt.offsetWidth; flt.classList.add('go'); }
+  if(bar){ bar.style.width=Math.max(0,newHp)+'%'; }
+  setTimeout(function(){ if(CUR_PAGE==='Boss') renderBoss(); }, 700);
+}
+
 function render(){
   var p=DB.profile;
   document.getElementById('sLevel').textContent=p.level;
@@ -3248,6 +3703,7 @@ function render(){
   if(CUR_PAGE==='Vices')renderVices();
   if(CUR_PAGE==='Penalty')renderPenalty();
   if(CUR_PAGE==='Report')renderReport();
+  if(CUR_PAGE==='Boss')renderBoss();
   if(CUR_PAGE==='Settings')fillSettings();
 }
 
@@ -3280,6 +3736,7 @@ function renderToday(){
     html='<div class="empty"><div class="em">⚡</div><p>Nothing tracked yet.<br>Tap <b>+</b> to add your first task and start leveling up.</p></div>';
   }
   document.getElementById('todaySlot').innerHTML=html;
+  renderMiniBoss();
   renderDailyReport(timed,doneTimed,pct);
 }
 
@@ -3827,6 +4284,7 @@ function openTask(id){
     document.getElementById('tCat').selectedIndex=0; setType('daily'); setPri('Medium');
     var hc2=document.getElementById('tHard'); if(hc2)hc2.checked=false;
   }
+  updateBossPreview();
   document.getElementById('taskModal').classList.add('show');
   setTimeout(function(){document.getElementById('tTitle').focus();},120);
 }
@@ -4296,7 +4754,9 @@ function init(){
   setTimeout(function(){ document.getElementById('boot').classList.add('hide'); }, bootMs);
   checkExpiry();
   checkTrainingMisses();
+  checkBossDefeat();
   evaluateDayPenalty();
+  ensureBoss();
   recompute();
   saveLocal();
   render();
