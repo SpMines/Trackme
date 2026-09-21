@@ -3520,19 +3520,19 @@ function onBossDeath(){
 
 /* at day rollover: if boss survived, it strikes back → a penalty */
 function checkBossDefeat(){
-  if(!DB.boss) return;
+if(!DB.boss) return;
   var td=todayStr();
   if(DB.boss.date < td && DB.boss.status==='alive'){
-    /* boss survived yesterday → it deals a penalty (uses existing dayPenalty flow) */
     var y=DB.boss.date;
     DB.dayPenalty=DB.dayPenalty||{};
     if(!DB.dayPenalty['boss_'+y]){
       var p=(typeof PENALTIES!=='undefined')?PENALTIES[dateSeed(y)%PENALTIES.length]:{e:'⚠️',t:'Recovery',d:'Make up the missed work.'};
-      DB.dayPenalty['boss_'+y]={ forDay:y, e:DB.boss.emoji, t:DB.boss.name+' struck back', d:'The boss survived. '+p.t+': '+p.d, status:'pending', missedPct:Math.round(DB.boss.hp), fromBoss:true };
+      /* FIX: DB.boss.emoji undefined tha, uski jagah fixed icon '👹' aur p.e use kiya gaya hai */
+      DB.dayPenalty['boss_'+y]={ forDay:y, e:'👹', t:DB.boss.name+' struck back', d:'The boss survived. '+p.t+': '+p.d, status:'pending', missedPct:Math.round(DB.boss.hp), fromBoss:true };
       saveDB();
     }
   }
-}
+  }
 
 /* ═══ RENDER ═══ */
 /* ── live preview in the task modal: how this task feeds the Monarch ── */
@@ -3795,20 +3795,38 @@ function renderDailyReport(timed,doneTimed,pct){
 
 /* ═══════════ DAILY PENALTY — own section, shows when < 80% ═══════════ */
 var PENALTIES = [
-  { e:'🚫', t:'No mobile', d:'Phone away except essentials. Zero scrolling. Reclaim your focus for the day.' },
-  { e:'🏃', t:'Movement reset', d:'20-min brisk walk or an easy mobility flow. A reset, not a beating.' },
-  { e:'📵', t:'No social media', d:'Zero Instagram / YouTube / reels for the day. You don’t need cheap dopamine.' },
-  { e:'💸', t:'No-spend day', d:'Zero non-essential spending. Keep the wallet locked.' },
-  { e:'✍️', t:'Write it out', d:'Journal 3 full pages — your frustrations and exactly how you’ll conquer them.' },
-  { e:'🧼', t:'Look sharp', d:'Strict grooming. Dress well even if you’re just at the desk today.' },
-  { e:'🥗', t:'Eat clean', d:'Zero sugar, zero junk. Eat like a man who respects his body.' },
-  { e:'✈️', t:'Fund the goal', d:'Put ₹500 straight into your travel/savings fund. No touching it.' },
-  { e:'💬', t:'Sharpen speech', d:'30 min practising clear, confident conversation & delivery.' },
-  { e:'💻', t:'Build something', d:'1 focused hour on Apps Script / a UI component. Wealth is built, not wished for.' },
-  { e:'📈', t:'Backtest only', d:'1 hour purely backtesting XAUUSD. Strict rules, no live trades.' },
-  { e:'🏢', t:'Empire work', d:'30 min reviewing vendor / empanelment lists. Build the business.' },
-  { e:'📖', t:'Read hard', d:'Read 20 pages of a book that levels you up. No skimming.' },
-  { e:'🧘', t:'Reset & plan', d:'10 min planning tomorrow properly so today’s slip doesn’t repeat.' }
+{ e:'📵', t:'No Bandi Texting (12 Hrs)', d:'Bandi se koi texting ya calling nahi agle 12 ghante tak. Strictly focus on yourself.' },
+  { e:'🚫', t:'Phone Vault (8 Hrs)', d:'Phone switch off karke drawer me daal do 8 ghante ke liye. Complete digital isolation.' },
+  { e:'🍗', t:'Raw Protein Day', d:'Strict diet today. Chicken, eggs, aur whey ke alawa koi junk nahi. Zero sugar.' },
+  { e:'🛌', t:'Floor Sleep', d:'Aaj raat bina mattress ke zameen par sona hai. No music, no podcasts. Just silence.' },
+  { e:'💸', t:'Heavy Deduction', d:'Seedha ₹1000 penalty box me dalo. No non-essential spending for the next 48 hours.' },
+  { e:'🏢', t:'Business Deep Work', d:'SP Automobile ke CRM lists ya empanelment data par 3 ghante uninterrupted focus karo.' },
+  { e:'💻', t:'Code Penalty', d:'Frontend par ek tough UI component (jaise pure CSS shimmer ya 3D element) bina kisi distraction ke 2 ghante me banao.' },
+  { e:'📚', t:'Real Reading', d:'20 pages of a hard self-improvement book. Koi Wattpad fiction ya tropes nahi, read for reality.' },
+  { e:'🏃', t:'5KM Hard Run', d:'Jute pehno aur 5km bhago abhi. Track it. Koi excuses nahi.' },
+  { e:'🎧', t:'Dopamine Detox (24 Hrs)', d:'Pure din koi music ya podcast nahi. Gym me bhi absolute silence.' },
+  { e:'🤝', t:'Cancel Plans', d:'Aaj ke sare social plans aur meetups cancel. Dost, bandi, sabse door. Sirf pending kaam.' },
+  { e:'💪', t:'100 Pushups Now', d:'Abhi zameen par aao aur 100 pushups pure karo. Dard mehsoos karo.' },
+  { e:'🤐', t:'Monk Silence (4 Hrs)', d:'Agle 4 ghante tak kisi se ek word nahi bolna hai. Isolate and work.' },
+  { e:'🚿', t:'Ice Cold Shower', d:'5 minute ka straight cold shower. Body aur mind dono ko shock do.' },
+  { e:'💧', t:'Water Gallon', d:'Aaj pure din me 4 litre pani peena mandatory hai. Flush out the weakness.' },
+  { e:'🛑', t:'No Junk (48 Hrs)', d:'Agle 48 ghante tak ek cheat meal bhi nahi. Sirf clean, hardcore meals.' },
+  { e:'🧘', t:'Wall Stare (30 Min)', d:'Bina phone ke 30 minute deewar ko dekhte hue baitho. Face your own thoughts.' },
+  { e:'💸', t:'Double Tax', d:'Aaj ki penalty amount double kardo. Jab tak dard nahi hoga, badlaav nahi aayega.' },
+  { e:'🧹', t:'Space Reset', d:'Apna pura room aur working desk deeply clean karo agle 1 ghante me.' },
+  { e:'📵', t:'App Block (12 Hrs)', d:'Sare social media aur distraction apps par 12 hours ka strict blocker laga do.' },
+  { e:'🏋️', t:'Leg Day Punishment', d:'Gym me aaj extra 100 bodyweight squats add karo apne current routine me.' },
+  { e:'🍽️', t:'Intermittent Fast (16 Hrs)', d:'Agle 16 ghante tak sirf pani. No calories. Build mental endurance.' },
+  { e:'🚶', t:'Night Walk Isolation', d:'Raat me 1 ghante ki akele walk bina kisi gadget ke. Plan your comeback.' },
+  { e:'📝', t:'Accountability Mirror', d:'Ek paper par likho ki tumne kyu fail kiya aur bandi ko batao ki aaj tumne apna target miss kiya hai.' },
+  { e:'🕰️', t:'Wake Up 5 AM', d:'Kal subah 5 baje uthna hai. Koi snooze button nahi. Seedha bed se bahar.' },
+  { e:'⚖️', t:'Stand & Work (4 Hrs)', d:'Agle 4 ghante tak chair par nahi baithna hai. Khade hoke kaam karo.' },
+  { e:'🚫', t:'No Sugar (72 Hrs)', d:'Agle 3 din tak direct sugar puri tarah se cut. Absolutely zero exceptions.' },
+  { e:'🔥', t:'Max Plank', d:'3 set max time plank hold karo abhi ke abhi. Core ko burn hone do.' },
+  { e:'📵', t:'No Phone in Bed', d:'Raat me sone se 2 ghante pehle phone dusre room me rakh do. Lights out.' },
+  { e:'🧊', t:'Brain Freeze', d:'Bina AC/Fan ke 1 ghanta focus work karo garmi me. Seekho discomfort me jeena.' },
+  { e:'🛠️', t:'Google Sheets Grind', d:'Apne Google Sheets automated scripts (Code.gs) par 2 ghante baith kar optimization karo.' },
+  { e:'📈', t:'Raw Assessment', d:'Apne pichle 7 din ke failed tasks ko review karo aur exactly 3 reasons likho ki tum kyu bhatak rahe ho.' }
 ];
 /* pick the deterministic penalty for a given date */
 function penaltyForDay(td){
