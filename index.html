@@ -197,6 +197,11 @@ a{color:var(--accent2);text-decoration:none}
 .dp-time-opt{padding:11px 16px;border-radius:12px;border:1px solid var(--brd);background:var(--inp);color:var(--txt);font-size:14px;font-weight:700;cursor:pointer;transition:.15s;font-family:inherit}
 .dp-time-opt:hover{border-color:var(--accent);background:rgba(108,92,231,.14)}
 .dp-time-opt:active{transform:scale(.94)}
+.dp-custom-row{display:flex;gap:8px;margin-bottom:4px}
+.dp-custom-in{flex:1;min-width:0;background:var(--inp) !important;border:1px solid var(--brd) !important;border-radius:12px;padding:12px 14px !important;color:var(--txt);font-size:15px;font-weight:700;font-family:inherit;text-align:center;box-shadow:inset 0 1px 2px rgba(0,0,0,.2) !important}
+.dp-custom-in:focus{outline:none;border-color:var(--accent) !important}
+.dp-custom-go{flex:0 0 auto;padding:12px 20px;border-radius:12px;border:none;background:linear-gradient(135deg,#6C5CE7,#a29bfe);color:#fff;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit}
+.dp-custom-go:active{transform:scale(.95)}
 .dp-countdown{font-size:44px;font-weight:800;text-align:center;color:#ffb547;font-variant-numeric:tabular-nums;margin:6px 0 16px;letter-spacing:1px}
 .dp-countdown.ready{color:#6ee7b7}
 .dp-dim{opacity:.7}
@@ -209,6 +214,12 @@ a{color:var(--accent2);text-decoration:none}
 .dp-skip-row{text-align:center;margin-top:14px}
 .dp-skip-link{font-size:11.5px;color:var(--muted);text-decoration:underline;cursor:pointer}
 .dp-skip-link:hover{color:var(--accent2)}
+.dp-skip-link.locked{color:#ff8da0;cursor:default;text-decoration:none;opacity:.75}
+.dp-lock-note{font-size:11px;color:#ffb0a0;text-align:center;margin-top:8px;font-weight:600;line-height:1.4}
+/* when a penalty is blocking, the page behind is frozen & unreachable */
+body.pen-locked{overflow:hidden}
+body.pen-locked .wrap,body.pen-locked .bnav{filter:blur(2px) brightness(.5);pointer-events:none;user-select:none}
+body.pen-locked #dayPenaltyOverlay{pointer-events:auto}
 
 /* ═══ REWARD CELEBRATION ═══ */
 #rewardOverlay .rw-card{position:relative;overflow:hidden;text-align:center;border:1px solid rgba(108,92,231,.4);box-shadow:0 30px 90px rgba(0,0,0,.75),0 0 80px rgba(108,92,231,.2)}
@@ -790,6 +801,39 @@ html,body{font-weight:500}
 .txn .tb{flex:1;min-width:0}.txn .tb .t{font-size:14.5px;font-weight:700}.txn .tb .s{font-size:11.5px;color:var(--muted);margin-top:2px}
 .txn .amtv{font-size:15.5px;font-weight:800;white-space:nowrap;margin-left:auto}
 .txn .amtv.inA{color:#7fe9c0}.txn .amtv.outA{color:#ff97a2}
+/* money tabs + ledger filters */
+.money-tabs{margin-bottom:16px}
+.ledger-filters{margin-bottom:14px;position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 12px;border-bottom:1px solid var(--brd)}
+.led-export-row{display:flex;gap:8px;margin-top:10px}
+.led-export-row .btn{flex:1}
+.led-row{display:flex;gap:8px;margin-bottom:10px}
+.led-sel{flex:1;min-width:0;background:var(--inp);border:1px solid var(--brd);border-radius:12px;padding:11px 12px;color:var(--txt);font-size:13px;font-weight:600;font-family:'Jost';appearance:none;cursor:pointer}
+.led-sel:focus{outline:none;border-color:var(--accent)}
+.led-search{width:100%;background:var(--inp);border:1px solid var(--brd);border-radius:12px;padding:11px 14px;color:var(--txt);font-size:13.5px;font-family:'Jost';box-shadow:inset 0 1px 2px rgba(0,0,0,.2)}
+.led-search:focus{outline:none;border-color:var(--accent)}
+.led-summary{display:flex;gap:8px;margin-bottom:14px}
+.led-summary .ls{flex:1;background:var(--card);border:1px solid var(--brd);border-radius:12px;padding:10px 12px;text-align:center}
+.led-summary .ls .lsl{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:700}
+.led-summary .ls .lsv{font-size:15px;font-weight:800;margin-top:3px}
+.led-summary .ls.inV .lsv{color:#7fe9c0}.led-summary .ls.outV .lsv{color:#ff97a2}
+.txn .bal{font-size:10.5px;color:var(--muted);margin-top:2px;font-variant-numeric:tabular-nums}
+.led-date-sep{font-size:10.5px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:700;margin:14px 2px 8px}
+/* proof history */
+.proof-row{display:flex;gap:12px;background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:12px;margin-bottom:10px}
+.proof-thumb{width:58px;height:58px;border-radius:11px;object-fit:cover;flex-shrink:0;border:1px solid var(--brd);cursor:pointer;background:var(--inp)}
+.proof-thumb.noimg{display:flex;align-items:center;justify-content:center;font-size:24px;cursor:default}
+.proof-body{flex:1;min-width:0}
+.proof-top{display:flex;align-items:center;gap:7px;margin-bottom:4px;flex-wrap:wrap}
+.proof-top .proof-e{font-size:15px}
+.proof-top b{font-size:14px;font-weight:800}
+.proof-badge{font-size:9px;font-weight:800;letter-spacing:.5px;padding:2px 7px;border-radius:20px;margin-left:auto}
+.proof-badge.dn{background:rgba(55,211,153,.15);color:#6ee7b7;border:1px solid rgba(55,211,153,.4)}
+.proof-badge.sk{background:rgba(255,183,71,.14);color:#ffc97a;border:1px solid rgba(255,183,71,.4)}
+.proof-reason{font-size:13px;color:var(--txt);line-height:1.5;margin-bottom:4px;word-break:break-word}
+.proof-date{font-size:11px;color:var(--muted)}
+#proofImgOverlay .modal-card{padding:14px;max-width:92vw}
+#proofImgFull{width:100%;max-height:72vh;object-fit:contain;border-radius:12px;border:1px solid var(--brd)}
+#proofImgCap{font-size:12px;color:var(--muted);text-align:center;margin-top:10px;line-height:1.5}
 .txn .x{margin-left:8px;color:var(--muted);cursor:pointer;font-size:15px;flex-shrink:0}
 .txn .x:hover{color:#ff97a2}
 
@@ -1170,10 +1214,14 @@ html,body{font-weight:500}
 
     <div class="setrow">
       <h4>ℹ️ Status</h4>
-      <div class="krow"><span>App version</span><b id="stVer">1.3.0</b></div>
+      <div class="krow"><span>App version</span><b id="stVer">1.6.0</b></div>
       <div class="krow"><span>Storage</span><b>On this device</b></div>
       <div class="krow"><span>Last backup</span><b id="stLast">Never</b></div>
       <div class="krow"><span>Tasks</span><b id="stTasks">0</b></div>
+      <div class="krow" style="align-items:flex-start">
+        <div><span>Performance watchdog</span><p style="font-size:11px;color:var(--muted);margin-top:2px;max-width:220px">Warns on-screen when any part of the app runs slower than usual</p></div>
+        <label class="switch"><input type="checkbox" id="perfToggle" onchange="perfSetEnabled(this.checked)"><span class="sw-slider"></span></label>
+      </div>
     </div>
 
     <div class="setrow">
@@ -1195,19 +1243,59 @@ html,body{font-weight:500}
       <div class="sub" id="mSaveRate">Log income &amp; expenses to see your savings rate.</div>
     </div>
 
-    <div class="moneyhead">
-      <div class="mcard inC"><div class="lbl">This month · In</div><div class="amt" id="mIn">₹0</div></div>
-      <div class="mcard outC"><div class="lbl">This month · Out</div><div class="amt" id="mOut">₹0</div></div>
-      <div class="mcard"><div class="lbl">This month · Net</div><div class="amt" id="mNet">₹0</div></div>
+    <!-- tab switch: Overview vs full Ledger -->
+    <div class="seg money-tabs" id="moneyTabs">
+      <button data-v="overview" class="on" onclick="setMoneyTab('overview')">📊 Overview</button>
+      <button data-v="ledger" onclick="setMoneyTab('ledger')">📒 Ledger</button>
     </div>
 
-    <div class="sec"><div class="head"><h2>💸 This month</h2><div class="cnt" id="mCount">0 entries</div></div>
-      <div id="txnList"></div>
+    <!-- ===== OVERVIEW TAB ===== -->
+    <div id="moneyOverview">
+      <div class="moneyhead">
+        <div class="mcard inC"><div class="lbl">This month · In</div><div class="amt" id="mIn">₹0</div></div>
+        <div class="mcard outC"><div class="lbl">This month · Out</div><div class="amt" id="mOut">₹0</div></div>
+        <div class="mcard"><div class="lbl">This month · Net</div><div class="amt" id="mNet">₹0</div></div>
+      </div>
+
+      <div class="sec"><div class="head"><h2>💸 This month</h2><div class="cnt" id="mCount">0 entries</div></div>
+        <div id="txnList"></div>
+      </div>
+
+      <div class="box">
+        <h4 style="font-size:14px;font-weight:800;margin-bottom:14px">Where money went (this month)</h4>
+        <div id="mBreak"></div>
+      </div>
     </div>
 
-    <div class="box">
-      <h4 style="font-size:14px;font-weight:800;margin-bottom:14px">Where money went (this month)</h4>
-      <div id="mBreak"></div>
+    <!-- ===== LEDGER TAB ===== -->
+    <div id="moneyLedger" style="display:none">
+      <div class="ledger-filters">
+        <div class="seg" id="ledKind" style="margin-bottom:10px">
+          <button data-v="all" class="on" onclick="setLedKind('all')">All</button>
+          <button data-v="in" onclick="setLedKind('in')">In</button>
+          <button data-v="out" onclick="setLedKind('out')">Out</button>
+        </div>
+        <div class="led-row">
+          <select id="ledRange" class="led-sel" onchange="renderLedger()">
+            <option value="all">All time</option>
+            <option value="month" selected>This month</option>
+            <option value="lastmonth">Last month</option>
+            <option value="year">This year</option>
+          </select>
+          <select id="ledCat" class="led-sel" onchange="renderLedger()">
+            <option value="all">All categories</option>
+          </select>
+        </div>
+        <input id="ledSearch" class="led-search" type="text" placeholder="🔍 Search note or category…" oninput="renderLedger()">
+        <div class="led-export-row">
+          <button class="btn sm ghost" onclick="exportMoneyCsv()">⬇️ CSV</button>
+          <button class="btn sm ghost" onclick="exportJson()">⬇️ Full backup (JSON)</button>
+        </div>
+      </div>
+
+      <div class="sec" style="margin-top:4px"><div class="head"><h2>📒 Ledger</h2><div class="cnt" id="ledCount">0 entries</div></div></div>
+      <div class="led-summary" id="ledSummary"></div>
+      <div id="ledgerList"></div>
     </div>
   </div>
 
@@ -1384,6 +1472,7 @@ html,body{font-weight:500}
       </div>
       <div class="btnrow" style="margin-top:8px">
         <button class="btn sm ghost" onclick="demoBossWin()">⚔️ Preview boss win</button>
+      </div>
     </div>
   </div>
 
@@ -1627,7 +1716,17 @@ html,body{font-weight:500}
     <div class="dp-sub" id="dpSub"></div>
     <div id="dpDynamic"></div>
     <div class="dp-multi" id="dpMulti"></div>
-    <div class="dp-skip-row"><a class="dp-skip-link" onclick="skipDayPenalty()">Emergency? Skip this once</a></div>
+    <div class="dp-skip-row"><a class="dp-skip-link" onclick="skipDayPenalty()">Emergency? Use your 1 skip this week</a></div>
+    <div class="dp-lock-note" id="dpLockNote"></div>
+  </div>
+</div>
+
+<!-- proof image lightbox -->
+<div class="modal" id="proofImgOverlay" onclick="if(event.target===this)closeProofImg()">
+  <div class="modal-card">
+    <img id="proofImgFull" src="" alt="proof">
+    <div id="proofImgCap"></div>
+    <button class="btn ghost" style="width:100%;margin-top:12px" onclick="closeProofImg()">Close</button>
   </div>
 </div>
 
@@ -1742,7 +1841,7 @@ html,body{font-weight:500}
    Built by Somnath Karmakar · v1.0.0
    Local-first · single device · manual file backup
 ============================================================ */
-var APP_NAME='Volts', APP_VERSION='1.3.0';
+var APP_NAME='Volts', APP_VERSION='1.6.0';
 var LS_KEY='ascend_db_v1';
 
 var LEVELS=['Seedling','Spark','Riser','Builder','Grinder','Momentum','Contender','Achiever','Sharpshooter','Vanguard','Trailblazer','Powerhouse','Elite','Maverick','Champion','Warlord','Titan','Legend','Mythic','Ascended'];
@@ -1810,7 +1909,7 @@ var EDIT_ID=null, T_TYPE='daily', T_PRI='Medium';
 /* ---------- storage ---------- */
 function defaultDB(){
   return { v:APP_VERSION, profile:{name:'Sam',email:'',points:0,level:1,levelTitle:LEVELS[0],streak:0,longestStreak:0,lastActiveDate:''},
-           categories:DEFAULT_CATS.slice(), tasks:[], log:[], badges:{}, money:[], workouts:[], food:[], bodylog:[], dailylog:{}, dailyBonus:{}, missedLog:[], activeChallenge:null, vices:[], vicelog:{}, penalties:[], penaltyConfig:null, trainingPlan:null, trainCheck:{}, dayPenalty:{}, boss:null, bossWins:0, settings:{}, updatedAt:Date.now() };
+           categories:DEFAULT_CATS.slice(), tasks:[], log:[], badges:{}, money:[], workouts:[], food:[], bodylog:[], dailylog:{}, dailyBonus:{}, missedLog:[], activeChallenge:null, vices:[], vicelog:{}, penalties:[], penaltyConfig:null, trainingPlan:null, trainCheck:{}, dayPenalty:{}, penaltySkipLog:{}, boss:null, bossWins:0, settings:{}, updatedAt:Date.now() };
 }
 function loadDB(){
   try{ var raw=localStorage.getItem(LS_KEY); if(raw){ return migrate(JSON.parse(raw)); } }catch(e){}
@@ -1917,6 +2016,18 @@ function pad(n){return (n<10?'0':'')+n;}
 function todayStr(){var d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
 function addDays(ds,n){var p=ds.split('-');var d=new Date(+p[0],+p[1]-1,+p[2]);d.setDate(d.getDate()+n);return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
 function hhmmNow(){var d=new Date();return pad(d.getHours())+':'+pad(d.getMinutes());}
+/* ISO-week key like "2026-W40" — used for the once-a-week penalty skip limit */
+function weekKey(ds){
+  var d = ds ? new Date(ds+'T00:00:00') : new Date();
+  var t = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  var day = (t.getDay()+6)%7;            /* Mon=0..Sun=6 */
+  t.setDate(t.getDate()-day+3);          /* Thursday of this week */
+  var firstThu = new Date(t.getFullYear(),0,4);
+  var ft = (firstThu.getDay()+6)%7;
+  firstThu.setDate(firstThu.getDate()-ft+3);
+  var wk = 1 + Math.round((t-firstThu)/(7*864e5));
+  return t.getFullYear()+'-W'+pad(wk);
+}
 function nowMin(){var d=new Date();return d.getHours()*60+d.getMinutes();}
 function parseHHMM(s){var m=String(s||'').match(/^(\d{1,2}):(\d{2})$/);return m?(+m[1])*60+(+m[2]):null;}
 function fmtDateDisp(ymd){
@@ -2920,6 +3031,10 @@ function renderPenalty(){
     });
   }
 
+  /* day-penalty proof history — photo + reason + date for every cleared/skipped day penalty */
+  html+='<div class="sec" style="margin-top:22px"><div class="head"><h2>🧾 Proof history</h2><div class="cnt" id="proofCount"></div></div></div>';
+  html+='<div id="proofList"></div>';
+
   /* log */
   html+='<div class="sec" style="margin-top:22px"><div class="head"><h2>📜 Penalty log</h2><div class="cnt" id="plogCount"></div></div></div>';
   html+='<div class="plog-filters">'
@@ -2936,8 +3051,48 @@ function renderPenalty(){
 
   slot.innerHTML=html;
   renderPlog();
+  renderProofHistory();
   startPenTick();
 }
+/* day-penalty proof records: file (photo) + reason (note) + date */
+function renderProofHistory(){
+  var el=document.getElementById('proofList'); if(!el)return;
+  var recs=[];
+  for(var day in DB.dayPenalty){
+    var r=DB.dayPenalty[day];
+    if(r && (r.status==='done'||r.status==='skipped')) recs.push(r);
+  }
+  recs.sort(function(a,b){ return (b.doneAt||b.skippedAt||0)-(a.doneAt||a.skippedAt||0); });
+  var cnt=document.getElementById('proofCount'); if(cnt)cnt.textContent=recs.length;
+  if(!recs.length){ el.innerHTML='<div class="box" style="text-align:center;padding:18px;color:var(--muted);font-size:12.5px">No cleared penalties yet. Clear one with proof and it shows here.</div>'; return; }
+  var h='';
+  recs.forEach(function(r){
+    var when=r.doneAt||r.skippedAt||0;
+    var dateTxt=when?new Date(when).toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}):(r.forDay||'');
+    var skipped=r.status==='skipped';
+    var reason = skipped ? 'Skipped (emergency)' : ((r.proof&&r.proof.note)?r.proof.note:'—');
+    var photo = (!skipped && r.proof&&r.proof.photo)?r.proof.photo:'';
+    h+='<div class="proof-row">'
+      +(photo?'<img class="proof-thumb" src="'+photo+'" onclick="openProofImg(\''+r.forDay+'\')">':'<div class="proof-thumb noimg">'+(skipped?'⏭️':'📝')+'</div>')
+      +'<div class="proof-body">'
+        +'<div class="proof-top"><span class="proof-e">'+(r.e||'⚖️')+'</span><b>'+esc(r.t||'Penalty')+'</b>'
+        +'<span class="proof-badge '+(skipped?'sk':'dn')+'">'+(skipped?'SKIPPED':'CLEARED')+'</span></div>'
+        +'<div class="proof-reason">'+esc(reason)+'</div>'
+        +'<div class="proof-date">📅 '+esc(dateTxt)+' · for '+niceDay(r.forDay)+'</div>'
+      +'</div>'
+    +'</div>';
+  });
+  el.innerHTML=h;
+}
+function openProofImg(forDay){
+  var r=DB.dayPenalty[forDay]; if(!r||!r.proof||!r.proof.photo)return;
+  var ov=document.getElementById('proofImgOverlay');
+  document.getElementById('proofImgFull').src=r.proof.photo;
+  var when=r.doneAt||0;
+  document.getElementById('proofImgCap').textContent=(r.proof.note?r.proof.note+' · ':'')+(when?new Date(when).toLocaleString('en-IN'):'');
+  ov.classList.add('show');
+}
+function closeProofImg(){ document.getElementById('proofImgOverlay').classList.remove('show'); }
 
 var PLOG_FILTER='all';
 function setPlogFilter(f){ PLOG_FILTER=f; var b=document.querySelectorAll('.plog-f'); for(var i=0;i<b.length;i++)b[i].classList.toggle('on',b[i].getAttribute('data-f')===f); renderPlog(); }
@@ -3520,19 +3675,19 @@ function onBossDeath(){
 
 /* at day rollover: if boss survived, it strikes back → a penalty */
 function checkBossDefeat(){
-if(!DB.boss) return;
+  if(!DB.boss) return;
   var td=todayStr();
   if(DB.boss.date < td && DB.boss.status==='alive'){
+    /* boss survived yesterday → it deals a penalty (uses existing dayPenalty flow) */
     var y=DB.boss.date;
     DB.dayPenalty=DB.dayPenalty||{};
     if(!DB.dayPenalty['boss_'+y]){
       var p=(typeof PENALTIES!=='undefined')?PENALTIES[dateSeed(y)%PENALTIES.length]:{e:'⚠️',t:'Recovery',d:'Make up the missed work.'};
-      /* FIX: DB.boss.emoji undefined tha, uski jagah fixed icon '👹' aur p.e use kiya gaya hai */
       DB.dayPenalty['boss_'+y]={ forDay:y, e:'👹', t:DB.boss.name+' struck back', d:'The boss survived. '+p.t+': '+p.d, status:'pending', missedPct:Math.round(DB.boss.hp), fromBoss:true };
       saveDB();
     }
   }
-  }
+}
 
 /* ═══ RENDER ═══ */
 /* ── live preview in the task modal: how this task feeds the Monarch ── */
@@ -3795,39 +3950,37 @@ function renderDailyReport(timed,doneTimed,pct){
 
 /* ═══════════ DAILY PENALTY — own section, shows when < 80% ═══════════ */
 var PENALTIES = [
-{ e:'📵', t:'No Bandi Texting (12 Hrs)', d:'Bandi se koi texting ya calling nahi agle 12 ghante tak. Strictly focus on yourself.' },
+  { e:'🔒', t:'Deep Focus Block (3 Hrs)', d:'Agle 3 ghante sirf apne pending kaam par — no chatting, no calls, no distractions. Sirf aur sirf output.' },
   { e:'🚫', t:'Phone Vault (8 Hrs)', d:'Phone switch off karke drawer me daal do 8 ghante ke liye. Complete digital isolation.' },
-  { e:'🍗', t:'Raw Protein Day', d:'Strict diet today. Chicken, eggs, aur whey ke alawa koi junk nahi. Zero sugar.' },
-  { e:'🛌', t:'Floor Sleep', d:'Aaj raat bina mattress ke zameen par sona hai. No music, no podcasts. Just silence.' },
+  { e:'🍗', t:'Clean Protein Day', d:'Aaj clean, protein-focused eating. Chicken, eggs, dal, paneer, whey — zero junk, zero sugar. Khana skip mat karna.' },
+  { e:'🌙', t:'Early Lights Out', d:'Aaj raat 10 baje tak sab band. No screen, no scroll — seedha sona. Recovery is training.' },
   { e:'💸', t:'Heavy Deduction', d:'Seedha ₹1000 penalty box me dalo. No non-essential spending for the next 48 hours.' },
   { e:'🏢', t:'Business Deep Work', d:'SP Automobile ke CRM lists ya empanelment data par 3 ghante uninterrupted focus karo.' },
   { e:'💻', t:'Code Penalty', d:'Frontend par ek tough UI component (jaise pure CSS shimmer ya 3D element) bina kisi distraction ke 2 ghante me banao.' },
-  { e:'📚', t:'Real Reading', d:'20 pages of a hard self-improvement book. Koi Wattpad fiction ya tropes nahi, read for reality.' },
-  { e:'🏃', t:'5KM Hard Run', d:'Jute pehno aur 5km bhago abhi. Track it. Koi excuses nahi.' },
+  { e:'📚', t:'Real Reading', d:'20 pages of a hard self-improvement book. Koi fiction nahi, read for reality.' },
+  { e:'🏃', t:'Movement Reset (30 Min)', d:'30-min brisk walk ya easy home workout. Move your body — reset, punishment nahi. Injury ka risk mat lo.' },
   { e:'🎧', t:'Dopamine Detox (24 Hrs)', d:'Pure din koi music ya podcast nahi. Gym me bhi absolute silence.' },
-  { e:'🤝', t:'Cancel Plans', d:'Aaj ke sare social plans aur meetups cancel. Dost, bandi, sabse door. Sirf pending kaam.' },
-  { e:'💪', t:'100 Pushups Now', d:'Abhi zameen par aao aur 100 pushups pure karo. Dard mehsoos karo.' },
+  { e:'🎯', t:'Priority Focus Day', d:'Aaj sirf pending kaam. Sare social plans postpone. Full attention apne targets par.' },
+  { e:'✍️', t:'Comeback Journal', d:'Ek page likho: aaj kya slip hua, kyu hua, aur kal ek cheez kaise fix karoge.' },
   { e:'🤐', t:'Monk Silence (4 Hrs)', d:'Agle 4 ghante tak kisi se ek word nahi bolna hai. Isolate and work.' },
-  { e:'🚿', t:'Ice Cold Shower', d:'5 minute ka straight cold shower. Body aur mind dono ko shock do.' },
-  { e:'💧', t:'Water Gallon', d:'Aaj pure din me 4 litre pani peena mandatory hai. Flush out the weakness.' },
-  { e:'🛑', t:'No Junk (48 Hrs)', d:'Agle 48 ghante tak ek cheat meal bhi nahi. Sirf clean, hardcore meals.' },
+  { e:'🚿', t:'Refresh Shower', d:'Ek quick refreshing shower lo, phir seedha kaam par. Reset your state.' },
+  { e:'💧', t:'Water Gallon', d:'Aaj pure din me 4 litre pani peena mandatory hai. Hydrate properly.' },
+  { e:'🛑', t:'No Junk (48 Hrs)', d:'Agle 48 ghante tak ek cheat meal bhi nahi. Sirf clean, proper meals — khana skip nahi.' },
   { e:'🧘', t:'Wall Stare (30 Min)', d:'Bina phone ke 30 minute deewar ko dekhte hue baitho. Face your own thoughts.' },
-  { e:'💸', t:'Double Tax', d:'Aaj ki penalty amount double kardo. Jab tak dard nahi hoga, badlaav nahi aayega.' },
+  { e:'💸', t:'Double Tax', d:'Aaj ki penalty amount double kardo. Accountability ka weight badhao.' },
   { e:'🧹', t:'Space Reset', d:'Apna pura room aur working desk deeply clean karo agle 1 ghante me.' },
   { e:'📵', t:'App Block (12 Hrs)', d:'Sare social media aur distraction apps par 12 hours ka strict blocker laga do.' },
-  { e:'🏋️', t:'Leg Day Punishment', d:'Gym me aaj extra 100 bodyweight squats add karo apne current routine me.' },
-  { e:'🍽️', t:'Intermittent Fast (16 Hrs)', d:'Agle 16 ghante tak sirf pani. No calories. Build mental endurance.' },
+  { e:'🥗', t:'Clean Eating Day', d:'Aaj strict clean eating — proper meals, zero junk, zero sugar. Fuel the body, never starve it.' },
   { e:'🚶', t:'Night Walk Isolation', d:'Raat me 1 ghante ki akele walk bina kisi gadget ke. Plan your comeback.' },
-  { e:'📝', t:'Accountability Mirror', d:'Ek paper par likho ki tumne kyu fail kiya aur bandi ko batao ki aaj tumne apna target miss kiya hai.' },
+  { e:'📝', t:'Accountability Mirror', d:'Ek paper par likho ki tumne kyu fail kiya aur exactly 3 reasons ki tum kahan bhatke.' },
   { e:'🕰️', t:'Wake Up 5 AM', d:'Kal subah 5 baje uthna hai. Koi snooze button nahi. Seedha bed se bahar.' },
   { e:'⚖️', t:'Stand & Work (4 Hrs)', d:'Agle 4 ghante tak chair par nahi baithna hai. Khade hoke kaam karo.' },
   { e:'🚫', t:'No Sugar (72 Hrs)', d:'Agle 3 din tak direct sugar puri tarah se cut. Absolutely zero exceptions.' },
-  { e:'🔥', t:'Max Plank', d:'3 set max time plank hold karo abhi ke abhi. Core ko burn hone do.' },
   { e:'📵', t:'No Phone in Bed', d:'Raat me sone se 2 ghante pehle phone dusre room me rakh do. Lights out.' },
-  { e:'🧊', t:'Brain Freeze', d:'Bina AC/Fan ke 1 ghanta focus work karo garmi me. Seekho discomfort me jeena.' },
   { e:'🛠️', t:'Google Sheets Grind', d:'Apne Google Sheets automated scripts (Code.gs) par 2 ghante baith kar optimization karo.' },
-  { e:'📈', t:'Raw Assessment', d:'Apne pichle 7 din ke failed tasks ko review karo aur exactly 3 reasons likho ki tum kyu bhatak rahe ho.' }
-];
+  { e:'📈', t:'Raw Assessment', d:'Apne pichle 7 din ke failed tasks ko review karo aur exactly 3 reasons likho ki tum kyu bhatak rahe ho.' },
+  { e:'🎽', t:'Grooming Reset', d:'Full grooming + dress sharp aaj, chahe ghar par ho. Present yourself like the man you\'re building.' }
+]
 /* pick the deterministic penalty for a given date */
 function penaltyForDay(td){
   var seed=0; for(var i=0;i<td.length;i++) seed+=td.charCodeAt(i);
@@ -3880,28 +4033,80 @@ function evaluateDayPenalty(){
   }
 }
 
-/* any penalty still owed (pending / enduring / awaitingProof) */
+/* any penalty still owed. RESOLVED states are done/skipped/clean; anything
+   else (pending, enduring, awaitingProof, OR a malformed/old status) counts
+   as owed, and a bad status is normalized to 'pending' so it always renders. */
 function owedPenalties(){
-  var out=[];
-  for(var day in DB.dayPenalty){ var r=DB.dayPenalty[day]; if(r && (r.status==='pending'||r.status==='enduring'||r.status==='awaitingProof')) out.push(r); }
+  var out=[], dirty=false;
+  var LIVE={pending:1,enduring:1,awaitingProof:1};
+  var RESOLVED={done:1,skipped:1,clean:1};
+  for(var day in DB.dayPenalty){
+    var r=DB.dayPenalty[day]; if(!r) continue;
+    if(RESOLVED[r.status]) continue;            /* already cleared/skipped/clean */
+    if(!LIVE[r.status]){                         /* unknown/missing status on a real penalty */
+      if(r.t || r.e){ r.status='pending'; dirty=true; }  /* looks like an owed penalty -> revive it */
+      else continue;                             /* not a penalty record, ignore */
+    }
+    out.push(r);
+  }
+  if(dirty){ try{ saveDB(); }catch(e){} }
   out.sort(function(a,b){return a.forDay<b.forDay?-1:1;});
   return out;
 }
 function currentOwed(){ var o=owedPenalties(); return o.length?o[0]:null; }
 
-/* flash the overlay whenever something is owed */
+/* ── app lock: while a penalty is owed the whole app is blocked ── */
+function lockApp(){ document.body.classList.add('pen-locked'); }
+function unlockApp(){ document.body.classList.remove('pen-locked'); }
+
+/* flash the overlay whenever something is owed, and BLOCK the app until cleared */
 function maybeFlashDayPenalty(){
   var ov=document.getElementById('dayPenaltyOverlay'); if(!ov)return;
+  if(window._demoPenBackup!==undefined){ return; } /* demo controls its own overlay */
   var rec=currentOwed();
-  if(!rec){ ov.classList.remove('show'); return; }
-  renderDayPenaltyOverlay(rec);
+  if(!rec){ ov.classList.remove('show'); unlockApp(); return; }
+  /* don't wipe what the user is typing: if the overlay is already up and we're on
+     the proof step (textarea has focus / content, or a photo is staged), re-show
+     WITHOUT re-rendering the body. */
+  var alreadyUp = ov.classList.contains('show');
+  var onProof = rec.status==='awaitingProof';
+  var typing = onProof && (rec._pendingPhoto || (document.getElementById('dpNote') && document.getElementById('dpNote').value));
+  if(!(alreadyUp && typing)){
+    renderDayPenaltyOverlay(rec);
+  }
   ov.classList.add('show');
+  lockApp();
+  refreshSkipLink();
+  /* real-time countdown MUST resume on every flash — refresh / reopen / refocus.
+     endsAt is persisted, so time keeps counting even while app was closed. */
+  if(rec.status==='enduring') startDpTick();
+}
+/* reflect how many skips are left this week on the skip link */
+function refreshSkipLink(){
+  var a=document.querySelector('#dayPenaltyOverlay .dp-skip-link'); if(!a)return;
+  var note=document.getElementById('dpLockNote');
+  if(skipsLeftThisWeek()>0){
+    a.textContent='Emergency? Use your 1 skip this week';
+    a.classList.remove('locked');
+    if(note) note.textContent='';
+  } else {
+    a.textContent='No skips left this week';
+    a.classList.add('locked');
+    if(note) note.textContent='The app stays on this screen until you clear the penalty (do it + add proof) or its day passes.';
+  }
 }
 function renderDayPenaltyOverlay(rec){
   var owed=owedPenalties().length;
   var body=document.getElementById('dpDynamic');
   var sub=document.getElementById('dpSub');
   var whenTxt='Yesterday ('+niceDay(rec.forDay)+') ended at '+(rec.missedPct||0)+'%.';
+
+  /* FIX: an old/malformed record whose status isn't one of the live states
+     would render NOTHING (no timer buttons). Normalize it to 'pending' so the
+     time options always show and the countdown can be started. */
+  if(rec.status!=='pending' && rec.status!=='enduring' && rec.status!=='awaitingProof'){
+    rec.status='pending'; try{ saveDB(); }catch(e){}
+  }
 
   if(rec.status==='pending'){
     sub.textContent=whenTxt+' Own it today. Set how long you\'ll take, then do it.';
@@ -3911,7 +4116,10 @@ function renderDayPenaltyOverlay(rec){
       +'<div class="dp-time-opts">'
       +[15,20,30,45,60].map(function(m){return '<button class="dp-time-opt" onclick="startEndure(\''+rec.forDay+'\','+m+')">'+m+' min</button>';}).join('')
       +'</div>'
-      +'<button class="dp-done" onclick="startEndureCustom(\''+rec.forDay+'\')">Custom time</button>';
+      +'<div class="dp-custom-row">'
+      +'<input type="number" id="dpCustomMin" class="dp-custom-in" min="1" max="240" inputmode="numeric" pattern="[0-9]*" placeholder="custom min">'
+      +'<button class="dp-custom-go" onclick="startEndureCustom(\''+rec.forDay+'\')">Start</button>'
+      +'</div>';
   } else if(rec.status==='enduring'){
     var left=rec.endsAt-Date.now();
     sub.textContent='Timer running. Do the penalty now. When it hits zero, add your proof.';
@@ -3949,8 +4157,11 @@ function startEndure(forDay, mins){
   saveDB(); renderDayPenaltyOverlay(rec); startDpTick(); render();
 }
 function startEndureCustom(forDay){
-  var v=prompt('How many minutes will this penalty take?','30');
-  var m=parseInt(v); if(!m||m<1){ toast('Enter a number of minutes','err'); return; }
+  /* read from the in-app field — prompt() is blocked/unreliable on mobile Safari */
+  var inp=document.getElementById('dpCustomMin');
+  var v=inp?inp.value:'';
+  var m=parseInt(v,10);
+  if(!m||m<1){ toast('Type how many minutes, then Start','err'); if(inp)inp.focus(); return; }
   if(m>240)m=240;
   startEndure(forDay,m);
 }
@@ -3988,20 +4199,30 @@ function submitProof(forDay){
   saveDB();
   /* show next owed, or close */
   var next=currentOwed();
-  if(next){ renderDayPenaltyOverlay(next); toast('Cleared. Next penalty 👇','ok'); }
-  else{ document.getElementById('dayPenaltyOverlay').classList.remove('show'); toast('All penalties cleared. Respect. 💪','ok'); }
+  if(next){ renderDayPenaltyOverlay(next); refreshSkipLink(); toast('Cleared. Next penalty 👇','ok'); }
+  else{ document.getElementById('dayPenaltyOverlay').classList.remove('show'); unlockApp(); toast('All penalties cleared. Respect. 💪','ok'); }
   render();
 }
-/* skip — SEPARATE from complete */
+/* skip — SEPARATE from complete. ONE skip per calendar week. */
+function skipsLeftThisWeek(){
+  DB.penaltySkipLog=DB.penaltySkipLog||{};
+  return DB.penaltySkipLog[weekKey()] ? 0 : 1;
+}
 function skipDayPenalty(){
   var rec=currentOwed(); if(!rec)return;
   if(window._demoPenBackup!==undefined){ restoreDemoPen(); document.getElementById('dayPenaltyOverlay').classList.remove('show'); toast('Demo closed 🎬',''); return; }
-  confirmModal({icon:'🤝',title:'Skip this penalty?',msg:'Only for genuine sickness or an emergency. Recorded as skipped — don\'t make it a habit.',ok:'Yes, skip',danger:true,onOk:function(){
+  if(skipsLeftThisWeek()<=0){
+    confirmModal({icon:'🔒',title:'No skips left this week',msg:'You already used your one skip this week. This penalty can only be cleared now — do it and add your proof. It will keep showing until then.',ok:'OK, I\'ll clear it',danger:false,onOk:function(){ maybeFlashDayPenalty(); }});
+    return;
+  }
+  confirmModal({icon:'🤝',title:'Use your one skip this week?',msg:'This is your only skip until next week — for genuine sickness or an emergency. Recorded as skipped.',ok:'Yes, use my skip',danger:true,onOk:function(){
+    DB.penaltySkipLog=DB.penaltySkipLog||{};
+    DB.penaltySkipLog[weekKey()]={ day:rec.forDay, ts:Date.now() };
     rec.status='skipped'; rec.skippedAt=Date.now(); saveDB();
     var next=currentOwed();
     if(next){ renderDayPenaltyOverlay(next); }
-    else{ document.getElementById('dayPenaltyOverlay').classList.remove('show'); }
-    toast('Skipped. Come back stronger.','');
+    else{ document.getElementById('dayPenaltyOverlay').classList.remove('show'); unlockApp(); }
+    toast('Skip used. Come back stronger — none left till next week.','');
     render();
   }});
 }
@@ -4009,11 +4230,17 @@ function skipDayPenalty(){
 /* live countdown ticker for the overlay */
 var _dpTick=null;
 function startDpTick(){
-  if(_dpTick)clearInterval(_dpTick);
+  if(_dpTick){ clearInterval(_dpTick); _dpTick=null; }
   _dpTick=setInterval(function(){
     var el=document.getElementById('dpCountdown'); if(!el){ return; }
     var ends=+el.getAttribute('data-ends'); var left=ends-Date.now();
-    if(left<=0){ el.textContent='00:00'; el.classList.add('ready'); var rec=currentOwed(); if(rec&&rec.status==='enduring'){ renderDayPenaltyOverlay(rec); } clearInterval(_dpTick); }
+    if(left<=0){
+      el.textContent='00:00'; el.classList.add('ready');
+      clearInterval(_dpTick); _dpTick=null;
+      /* AUTO: timer zero -> move straight to proof step (no extra tap needed) */
+      var rec=currentOwed();
+      if(rec && rec.status==='enduring'){ rec.status='awaitingProof'; saveDB(); renderDayPenaltyOverlay(rec); toast('Time’s up — add your proof to clear it','ok'); }
+    }
     else el.textContent=fmtRemain(left);
   },1000);
 }
@@ -4227,6 +4454,7 @@ function refreshStatus(){
   var t=document.getElementById('stTasks'); if(t)t.textContent=DB.tasks.length;
   var last=localStorage.getItem('volts_last_backup');
   var el=document.getElementById('stLast'); if(el) el.textContent=last?new Date(+last).toLocaleString():'Never';
+  var pt=document.getElementById('perfToggle'); if(pt) pt.checked = PERF.on;
 }
 function updateBackupReminder(){
   var el=document.getElementById('bkReminder'); if(!el)return;
@@ -4380,6 +4608,102 @@ function renderMoney(){
   keys.forEach(function(k){ var w=Math.round(byCat[k]/totalOut*100); cb+='<div class="catbar"><div class="cr"><b>'+(TXN_ICON[k]||'📌')+' '+esc(k)+'</b><span>'+fmtMoney(byCat[k])+' · '+w+'%</span></div><div class="track"><i style="width:'+w+'%;background:linear-gradient(90deg,#ff5d6c,#ff8fab)"></i></div></div>'; });
   if(!cb)cb='<div class="empty" style="padding:16px"><p>No expenses logged this month.</p></div>';
   document.getElementById('mBreak').innerHTML=cb;
+
+  fillLedgerCats();
+  renderLedger();
+}
+
+/* ---------- LEDGER (filterable, running balance) ---------- */
+var LED_KIND='all';
+var MONEY_TAB='overview';
+function setMoneyTab(t){
+  MONEY_TAB=t; segSel('moneyTabs',t);
+  document.getElementById('moneyOverview').style.display = t==='overview'?'':'none';
+  document.getElementById('moneyLedger').style.display   = t==='ledger'?'':'none';
+  if(t==='ledger'){ fillLedgerCats(); renderLedger(); window.scrollTo(0,0); }
+}
+function exportMoneyCsv(){
+  try{
+    var rows=[['Date','Type','Category','Amount','Note']];
+    DB.money.slice().sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:(a.ts-b.ts);}).forEach(function(t){
+      rows.push([t.date, t.kind==='in'?'IN':'OUT', t.cat, t.amount, (t.note||'').replace(/"/g,'""')]);
+    });
+    var csv=rows.map(function(r){ return r.map(function(c){ return '"'+String(c)+'"'; }).join(','); }).join('\r\n');
+    var blob=new Blob([csv],{type:'text/csv'});
+    var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+    a.download='volts_money_'+todayStr()+'.csv'; a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
+    toast('Money CSV downloaded ⬇️','ok');
+  }catch(e){ toast('CSV export failed','err'); }
+}
+function setLedKind(k){ LED_KIND=k; segSel('ledKind',k); renderLedger(); }
+function fillLedgerCats(){
+  var sel=document.getElementById('ledCat'); if(!sel)return;
+  var cur=sel.value;
+  var seen={}; DB.money.forEach(function(t){ seen[t.cat]=1; });
+  var cats=Object.keys(seen).sort();
+  sel.innerHTML='<option value="all">All categories</option>'+
+    cats.map(function(c){ return '<option value="'+esc(c)+'">'+(TXN_ICON[c]||'📌')+' '+esc(c)+'</option>'; }).join('');
+  if(cur && (cur==='all'||seen[cur])) sel.value=cur;
+}
+function ledInRange(dateStr, range){
+  if(range==='all') return true;
+  var td=todayStr(), ym=td.slice(0,7), yr=td.slice(0,4);
+  if(range==='month')  return dateStr.slice(0,7)===ym;
+  if(range==='year')   return dateStr.slice(0,4)===yr;
+  if(range==='lastmonth'){
+    var d=new Date(td+'T00:00:00'); d.setDate(1); d.setMonth(d.getMonth()-1);
+    var lm=d.getFullYear()+'-'+pad(d.getMonth()+1);
+    return dateStr.slice(0,7)===lm;
+  }
+  return true;
+}
+function renderLedger(){
+  var listEl=document.getElementById('ledgerList'); if(!listEl)return;
+  var range=(document.getElementById('ledRange')||{}).value||'month';
+  var cat=(document.getElementById('ledCat')||{}).value||'all';
+  var q=((document.getElementById('ledSearch')||{}).value||'').trim().toLowerCase();
+
+  /* running balance needs FULL history oldest->newest */
+  var all=DB.money.slice().sort(function(a,b){ return a.date<b.date?-1:a.date>b.date?1:(a.ts-b.ts); });
+  var run=0, withBal=[];
+  all.forEach(function(t){ run += (t.kind==='in'? t.amount : -t.amount); withBal.push({t:t, bal:run}); });
+
+  /* apply filters */
+  var rows=withBal.filter(function(r){
+    var t=r.t;
+    if(LED_KIND!=='all' && t.kind!==LED_KIND) return false;
+    if(cat!=='all' && t.cat!==cat) return false;
+    if(!ledInRange(t.date, range)) return false;
+    if(q){ var hay=(t.cat+' '+(t.note||'')+' '+t.date).toLowerCase(); if(hay.indexOf(q)<0) return false; }
+    return true;
+  });
+
+  /* summary of filtered set */
+  var fIn=0,fOut=0; rows.forEach(function(r){ if(r.t.kind==='in')fIn+=r.t.amount; else fOut+=r.t.amount; });
+  var sum=document.getElementById('ledSummary');
+  if(sum) sum.innerHTML=
+    '<div class="ls inV"><div class="lsl">In</div><div class="lsv">'+fmtMoney(fIn)+'</div></div>'+
+    '<div class="ls outV"><div class="lsl">Out</div><div class="lsv">'+fmtMoney(fOut)+'</div></div>'+
+    '<div class="ls"><div class="lsl">Net</div><div class="lsv">'+fmtMoney(fIn-fOut)+'</div></div>';
+
+  document.getElementById('ledCount').textContent=rows.length+' entr'+(rows.length===1?'y':'ies');
+
+  /* newest first for display */
+  rows.reverse();
+  var h='', lastDay='';
+  if(!rows.length){ h='<div class="empty"><div class="em">📒</div><p>No entries match these filters.</p></div>'; }
+  else rows.forEach(function(r){
+    var t=r.t, isIn=t.kind==='in';
+    if(t.date!==lastDay){ lastDay=t.date; h+='<div class="led-date-sep">'+esc(fmtDateDisp(t.date)||t.date)+'</div>'; }
+    h+='<div class="txn"><div class="ti">'+(TXN_ICON[t.cat]||'📌')+'</div>'+
+       '<div class="tb"><div class="t">'+esc(t.cat)+'</div>'+
+       '<div class="s">'+(t.note?esc(t.note):'—')+'</div>'+
+       '<div class="bal">Balance: '+fmtMoney(r.bal)+'</div></div>'+
+       '<div class="amtv '+(isIn?'inA':'outA')+'" onclick="openTxn(\''+t.id+'\')">'+(isIn?'+':'-')+fmtMoney(t.amount).replace('-','')+'</div>'+
+       '<div class="x" onclick="delTxn(\''+t.id+'\')">✕</div></div>';
+  });
+  listEl.innerHTML=h;
 }
 
 /* ---------- WORKOUT ---------- */
@@ -4768,6 +5092,12 @@ function runBootAnimation(){
 }
 
 function init(){
+  /* install the performance watchdog first so every app function is monitored */
+  try{
+    DB.settings=DB.settings||{};
+    if(DB.settings.perfWatch===false) PERF.on=false;
+    installPerfWatchdog();
+  }catch(e){}
   var bootMs = runBootAnimation();
   setTimeout(function(){ document.getElementById('boot').classList.add('hide'); }, bootMs);
   checkExpiry();
@@ -4789,12 +5119,115 @@ function init(){
     }
   }, bootMs + 200);
   setInterval(function(){ if(CUR_PAGE==='Today') renderToday(); }, 30000);
+  /* BLOCKING: re-flash the owed penalty whenever the app is reopened / refocused,
+     and guard against it being dismissed while still owed */
+  document.addEventListener('visibilitychange', function(){
+    if(!document.hidden) maybeFlashDayPenalty();
+  });
+  window.addEventListener('focus', function(){ maybeFlashDayPenalty(); });
+  window.addEventListener('pageshow', function(){ maybeFlashDayPenalty(); });
+  /* NO ESCAPE: warn before a refresh / tab-close while a penalty is owed */
+  window.addEventListener('beforeunload', function(e){
+    if(window._demoPenBackup!==undefined) return;
+    if(currentOwed()){ e.preventDefault(); e.returnValue='Penalty still owed. Leaving won\'t clear it — it\'ll be here when you come back.'; return e.returnValue; }
+  });
+  /* watchdog: keep overlay up AND keep the real-time countdown alive while owed */
+  setInterval(function(){
+    if(window._demoPenBackup!==undefined) return;
+    var rec=currentOwed();
+    if(rec){
+      var ov=document.getElementById('dayPenaltyOverlay');
+      if(ov && !ov.classList.contains('show')) maybeFlashDayPenalty();
+      /* if enduring but the tick interval died (e.g. after refresh), restart it */
+      if(rec.status==='enduring' && !_dpTick && document.getElementById('dpCountdown')) startDpTick();
+    }
+  }, 1500);
   /* init sliding indicator on Today */
   setTimeout(function(){
     var activeBtn=document.querySelector('.bnav button.active');
     slideIndicator(activeBtn);
   }, 100);
 }
+/* ═══════════════════════════════════════════════════════════════
+   GLOBAL PERFORMANCE WATCHDOG
+   Wraps EVERY app function. Each one learns its own "usual" run time
+   from its first calls; after that, if a call runs noticeably longer
+   than usual (or past a hard ceiling), it raises a non-blocking alert
+   — an on-screen banner + a console warning — naming the function and
+   the slowdown. It never uses a blocking alert() box, because that
+   would itself freeze the app (and would be, ironically, the slowest
+   "function" of all). You can mute it from Settings.
+   ═══════════════════════════════════════════════════════════════ */
+var PERF = {
+  on:true,
+  stats:{},          /* name -> {n, avg, max} */
+  warmup:5,          /* calls before a baseline is trusted */
+  factor:4,          /* alert if a call > factor × usual */
+  floorMs:40,        /* ignore anything under this (noise) */
+  ceilMs:250,        /* hard ceiling: always alert over this, baseline or not */
+  cooldownMs:8000,   /* per-function alert throttle */
+  _last:{},          /* name -> last alert ts */
+  log:[]             /* recent slow events, for Settings */
+};
+/* functions we must NOT wrap (recursion / timing / alerting itself) */
+var PERF_SKIP = {
+  installPerfWatchdog:1, perfWrap:1, perfAlert:1, toast:1,
+  pad:1, esc:1, todayStr:1, weekKey:1, fmtRemain:1, niceDay:1
+};
+function perfAlert(name, ms, usual){
+  var now=Date.now();
+  if(PERF._last[name] && now-PERF._last[name]<PERF.cooldownMs) return;
+  PERF._last[name]=now;
+  var over = usual>0 ? (' (usual ~'+Math.round(usual)+'ms, '+(ms/usual).toFixed(1)+'× slower)') : '';
+  var msg='⚠️ Slow: '+name+'() took '+Math.round(ms)+'ms'+over;
+  PERF.log.unshift({ fn:name, ms:Math.round(ms), usual:Math.round(usual||0), ts:now });
+  if(PERF.log.length>50) PERF.log.length=50;
+  try{ console.warn('[PERF]', msg); }catch(e){}
+  try{ if(typeof toast==='function') toast(msg,'err'); }catch(e){}
+}
+function perfWrap(name, fn){
+  return function(){
+    if(!PERF.on) return fn.apply(this, arguments);
+    var t0 = (window.performance && performance.now) ? performance.now() : Date.now();
+    try{
+      return fn.apply(this, arguments);
+    } finally {
+      var t1 = (window.performance && performance.now) ? performance.now() : Date.now();
+      var ms = t1 - t0;
+      var s = PERF.stats[name] || (PERF.stats[name]={ n:0, avg:0, max:0 });
+      var warmed = s.n >= PERF.warmup;
+      var usual = s.avg;
+      /* decide BEFORE folding this sample in, so a spike doesn't hide itself */
+      if(ms >= PERF.floorMs){
+        if(ms >= PERF.ceilMs) perfAlert(name, ms, warmed?usual:0);
+        else if(warmed && usual>0 && ms > usual*PERF.factor && ms > usual+PERF.floorMs) perfAlert(name, ms, usual);
+      }
+      /* update rolling baseline (exponential moving average) */
+      s.n++;
+      s.avg = s.avg ? (s.avg*0.8 + ms*0.2) : ms;
+      if(ms>s.max) s.max=ms;
+    }
+  };
+}
+function installPerfWatchdog(){
+  if(window._perfInstalled) return; window._perfInstalled=true;
+  for(var k in window){
+    try{
+      if(PERF_SKIP[k]) continue;
+      if(k.indexOf('perf')===0 || k.indexOf('PERF')===0) continue;
+      var v = window[k];
+      if(typeof v!=='function') continue;
+      if(!/^[a-z]/.test(k)) continue;            /* app fns are lowerCamel; skips constructors/globals */
+      if(v.prototype && Object.getOwnPropertyNames(v.prototype).length>1) continue; /* skip class-like */
+      if(v._perfWrapped) continue;
+      var w = perfWrap(k, v);
+      w._perfWrapped = true;
+      window[k] = w;
+    }catch(e){}
+  }
+}
+function perfSetEnabled(on){ PERF.on=!!on; DB.settings=DB.settings||{}; DB.settings.perfWatch=PERF.on; saveDB(); toast(PERF.on?'Performance watchdog ON':'Performance watchdog muted',''); }
+
 document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
