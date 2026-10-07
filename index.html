@@ -1214,7 +1214,7 @@ html,body{font-weight:500}
 
     <div class="setrow">
       <h4>ℹ️ Status</h4>
-      <div class="krow"><span>App version</span><b id="stVer">1.6.0</b></div>
+      <div class="krow"><span>App version</span><b id="stVer">1.6.1</b></div>
       <div class="krow"><span>Storage</span><b>On this device</b></div>
       <div class="krow"><span>Last backup</span><b id="stLast">Never</b></div>
       <div class="krow"><span>Tasks</span><b id="stTasks">0</b></div>
@@ -1841,7 +1841,7 @@ html,body{font-weight:500}
    Built by Somnath Karmakar · v1.0.0
    Local-first · single device · manual file backup
 ============================================================ */
-var APP_NAME='Volts', APP_VERSION='1.6.0';
+var APP_NAME='Volts', APP_VERSION='1.6.1';
 var LS_KEY='ascend_db_v1';
 
 var LEVELS=['Seedling','Spark','Riser','Builder','Grinder','Momentum','Contender','Achiever','Sharpshooter','Vanguard','Trailblazer','Powerhouse','Elite','Maverick','Champion','Warlord','Titan','Legend','Mythic','Ascended'];
@@ -4064,23 +4064,26 @@ function maybeFlashDayPenalty(){
   var ov=document.getElementById('dayPenaltyOverlay'); if(!ov)return;
   if(window._demoPenBackup!==undefined){ return; } /* demo controls its own overlay */
   var rec=currentOwed();
-  if(!rec){ ov.classList.remove('show'); unlockApp(); return; }
-  /* don't wipe what the user is typing: if the overlay is already up and we're on
-     the proof step (textarea has focus / content, or a photo is staged), re-show
-     WITHOUT re-rendering the body. */
+  if(!rec){ ov.classList.remove('show'); unlockApp(); _dpSig=''; return; }
+  /* CRITICAL: only (re)render when the overlay is hidden OR the penalty state
+     actually changed. A blind re-render on every focus/visibility/resize event
+     wipes the custom-minutes input (mobile keyboard open = focus+resize churn)
+     and the proof textarea mid-typing — that's why the countdown option "didn't
+     work". We render once per state and leave the live DOM alone otherwise. */
   var alreadyUp = ov.classList.contains('show');
-  var onProof = rec.status==='awaitingProof';
-  var typing = onProof && (rec._pendingPhoto || (document.getElementById('dpNote') && document.getElementById('dpNote').value));
-  if(!(alreadyUp && typing)){
+  var sig = rec.forDay+'|'+rec.status;   /* identity of what's on screen */
+  if(!alreadyUp || sig!==_dpSig){
     renderDayPenaltyOverlay(rec);
+    _dpSig = sig;
   }
   ov.classList.add('show');
   lockApp();
   refreshSkipLink();
   /* real-time countdown MUST resume on every flash — refresh / reopen / refocus.
      endsAt is persisted, so time keeps counting even while app was closed. */
-  if(rec.status==='enduring') startDpTick();
+  if(rec.status==='enduring' && !_dpTick) startDpTick();
 }
+var _dpSig='';
 /* reflect how many skips are left this week on the skip link */
 function refreshSkipLink(){
   var a=document.querySelector('#dayPenaltyOverlay .dp-skip-link'); if(!a)return;
@@ -4146,6 +4149,9 @@ function renderDayPenaltyOverlay(rec){
 
   var multi=document.getElementById('dpMulti');
   if(multi) multi.textContent = owed>1 ? ('+'+(owed-1)+' more penalty'+(owed-1>1?'ies':'')+' after this') : '';
+  /* keep the flash-guard signature in sync with what we just drew, so a
+     following maybeFlashDayPenalty() won't needlessly re-render & wipe inputs */
+  _dpSig = rec.forDay+'|'+rec.status;
 }
 
 function niceDay(ds){ var d=new Date(ds+'T00:00:00'); var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return d.getDate()+' '+mo[d.getMonth()]; }
