@@ -188,6 +188,21 @@ a{color:var(--accent2);text-decoration:none}
 .dp-tt{font-size:16px;font-weight:800;margin-bottom:4px;color:#fff}
 .dp-td{font-size:12.5px;color:var(--muted);line-height:1.5}
 .dp-done{width:100%;background:linear-gradient(135deg,#37d399,#2bb583) !important;color:#04241a !important;font-weight:800 !important;box-shadow:0 12px 30px rgba(55,211,153,.4) !important}
+/* endure-state action buttons */
+.dp-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:9px;padding:15px 18px;border-radius:14px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;transition:transform .12s,box-shadow .2s,background .2s;border:1px solid transparent}
+.dp-btn .dp-btn-ic{font-size:17px;line-height:1}
+.dp-btn:active{transform:scale(.97)}
+/* time's up -> strong green CTA */
+.dp-btn-go{background:linear-gradient(135deg,#37d399,#2bb583);color:#04241a;box-shadow:0 12px 30px rgba(55,211,153,.42);animation:dpGoPulse 1.8s ease-in-out infinite}
+@keyframes dpGoPulse{0%,100%{box-shadow:0 12px 30px rgba(55,211,153,.42)}50%{box-shadow:0 12px 40px rgba(55,211,153,.65)}}
+/* done early -> clear secondary / outline, NOT dim-disabled */
+.dp-btn-early{background:rgba(108,92,231,.14);color:#cfc9ff;border:1.5px solid rgba(162,155,254,.55)}
+.dp-btn-early:hover{background:rgba(108,92,231,.24);border-color:var(--accent2);color:#fff}
+.dp-early-hint{font-size:11px;color:var(--muted);text-align:center;margin-top:9px;line-height:1.5}
+/* proof step */
+.dp-btn-photo{background:rgba(108,92,231,.1);color:var(--accent2);border:1.5px dashed rgba(162,155,254,.5)}
+.dp-btn-photo:hover{background:rgba(108,92,231,.2);border-color:var(--accent2);color:#fff}
+.dp-btn-submit{margin-top:4px}
 .dp-escape{margin-top:16px;font-size:11.5px;color:var(--muted);line-height:1.5}
 .dp-escape a{color:var(--accent2);text-decoration:underline;cursor:pointer;font-weight:600}
 
@@ -220,6 +235,9 @@ a{color:var(--accent2);text-decoration:none}
 body.pen-locked{overflow:hidden}
 body.pen-locked .wrap,body.pen-locked .bnav{filter:blur(2px) brightness(.5);pointer-events:none;user-select:none}
 body.pen-locked #dayPenaltyOverlay{pointer-events:auto}
+/* penalty overlay must sit ABOVE the boot splash (z 12000), else the fading
+   boot layer eats taps on the time-option buttons */
+#dayPenaltyOverlay{z-index:12500}
 
 /* ═══ REWARD CELEBRATION ═══ */
 #rewardOverlay .rw-card{position:relative;overflow:hidden;text-align:center;border:1px solid rgba(108,92,231,.4);box-shadow:0 30px 90px rgba(0,0,0,.75),0 0 80px rgba(108,92,231,.2)}
@@ -719,6 +737,12 @@ input[type=number]{-moz-appearance:textfield}
 .modal-card .mh{font-size:12.5px;color:var(--muted);margin-bottom:18px}
 .confirm .modal-card{width:min(360px,100%);text-align:center}
 .confirm{z-index:10000}
+/* full-width add forms (+ icon) — edge-to-edge bottom sheet on phones */
+@media(max-width:560px){
+  .modal.fullw{padding:0;align-items:flex-end}
+  .modal.fullw .modal-card{width:100vw;max-width:100vw;margin:0;border-radius:22px 22px 0 0;border-left:none;border-right:none;border-bottom:none;max-height:calc(100dvh - 24px);padding:22px 18px calc(22px + env(safe-area-inset-bottom));animation:sheetUp .3s cubic-bezier(.2,.85,.3,1)}
+}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .modal-ic{font-size:34px;margin-bottom:10px}
 .seg{display:flex;gap:8px;background:var(--inp);border:1px solid var(--brd);border-radius:12px;padding:5px;margin-bottom:14px}
 .seg button{flex:1;padding:9px 4px;border:none;background:none;color:var(--muted);font-size:12.5px;font-weight:600;border-radius:9px;cursor:pointer;transition:.2s;font-family:'Jost'}
@@ -1214,7 +1238,7 @@ html,body{font-weight:500}
 
     <div class="setrow">
       <h4>ℹ️ Status</h4>
-      <div class="krow"><span>App version</span><b id="stVer">1.6.1</b></div>
+      <div class="krow"><span>App version</span><b id="stVer">1.6.5</b></div>
       <div class="krow"><span>Storage</span><b>On this device</b></div>
       <div class="krow"><span>Last backup</span><b id="stLast">Never</b></div>
       <div class="krow"><span>Tasks</span><b id="stTasks">0</b></div>
@@ -1536,7 +1560,7 @@ html,body{font-weight:500}
 </div>
 
 <!-- task modal -->
-<div class="modal" id="taskModal" onclick="if(event.target===this)closeTask()">
+<div class="modal fullw" id="taskModal" onclick="if(event.target===this)closeTask()">
   <div class="modal-card">
     <h3 id="tmTitle">New Task</h3>
     <div class="mh">What do you want to level up?</div>
@@ -1582,7 +1606,7 @@ html,body{font-weight:500}
 </div>
 
 <!-- transaction modal -->
-<div class="modal" id="txnModal" onclick="if(event.target===this)closeTxn()">
+<div class="modal fullw" id="txnModal" onclick="if(event.target===this)closeTxn()">
   <div class="modal-card">
     <h3 id="txmTitle">Add Transaction</h3>
     <div class="mh">Track your money flow.</div>
@@ -1608,7 +1632,7 @@ html,body{font-weight:500}
 </div>
 
 <!-- workout modal -->
-<div class="modal" id="woModal" onclick="if(event.target===this)closeWorkout()">
+<div class="modal fullw" id="woModal" onclick="if(event.target===this)closeWorkout()">
   <div class="modal-card">
     <h3 id="womTitle">Log Workout</h3>
     <div class="mh">Every session = +15 XP. 💪</div>
@@ -1633,7 +1657,7 @@ html,body{font-weight:500}
 </div>
 
 <!-- food modal -->
-<div class="modal" id="foodModal" onclick="if(event.target===this)closeFood()">
+<div class="modal fullw" id="foodModal" onclick="if(event.target===this)closeFood()">
   <div class="modal-card">
     <h3 id="fmTitle">Add Food</h3>
     <div class="mh">Log a meal or snack.</div>
@@ -1673,7 +1697,7 @@ html,body{font-weight:500}
 </div>
 
 <!-- vice (bad habit) modal -->
-<div class="modal" id="viceModal" onclick="if(event.target===this)closeVice()">
+<div class="modal fullw" id="viceModal" onclick="if(event.target===this)closeVice()">
   <div class="modal-card">
     <h3 id="vmTitle">Add a habit to break</h3>
     <div class="mh">What do you want to quit or cut down?</div>
@@ -1841,7 +1865,7 @@ html,body{font-weight:500}
    Built by Somnath Karmakar · v1.0.0
    Local-first · single device · manual file backup
 ============================================================ */
-var APP_NAME='Volts', APP_VERSION='1.6.1';
+var APP_NAME='Volts', APP_VERSION='1.6.5';
 var LS_KEY='ascend_db_v1';
 
 var LEVELS=['Seedling','Spark','Riser','Builder','Grinder','Momentum','Contender','Achiever','Sharpshooter','Vanguard','Trailblazer','Powerhouse','Elite','Maverick','Champion','Warlord','Titan','Legend','Mythic','Ascended'];
@@ -4079,6 +4103,9 @@ function maybeFlashDayPenalty(){
   ov.classList.add('show');
   lockApp();
   refreshSkipLink();
+  /* make sure the boot splash isn't sitting on top eating taps */
+  var boot=document.getElementById('boot');
+  if(boot){ boot.classList.add('hide'); boot.style.display='none'; }
   /* real-time countdown MUST resume on every flash — refresh / reopen / refocus.
      endsAt is persisted, so time keeps counting even while app was closed. */
   if(rec.status==='enduring' && !_dpTick) startDpTick();
@@ -4130,8 +4157,9 @@ function renderDayPenaltyOverlay(rec){
       '<div class="dp-task"><span class="dp-te">'+rec.e+'</span><div class="dp-tb"><div class="dp-tt">'+esc(rec.t)+'</div><div class="dp-td">'+esc(rec.d)+'</div></div></div>'
       +'<div class="dp-countdown" id="dpCountdown" data-ends="'+rec.endsAt+'">'+fmtRemain(left>0?left:0)+'</div>'
       +(left<=0
-        ? '<button class="dp-done" onclick="toProof(\''+rec.forDay+'\')">⏱️ Time\'s up — add proof</button>'
-        : '<button class="dp-done dp-dim" onclick="toProof(\''+rec.forDay+'\')">I\'m done early — add proof</button>');
+        ? '<button class="dp-btn dp-btn-go" onclick="toProof(\''+rec.forDay+'\')"><span class="dp-btn-ic">⏱️</span> Time\'s up — add proof</button>'
+        : '<button class="dp-btn dp-btn-early" onclick="toProof(\''+rec.forDay+'\')"><span class="dp-btn-ic">✅</span> I\'m done early — add proof</button>'
+          +'<p class="dp-early-hint">Finished before the timer? Tap above to log your proof now.</p>');
   } else if(rec.status==='awaitingProof'){
     sub.textContent='Last step: add a photo or a note as your proof. Then it\'s cleared.';
     var pv = rec._pendingPhoto ? '<img class="dp-proof-prev" src="'+rec._pendingPhoto+'">' : '';
@@ -4140,11 +4168,11 @@ function renderDayPenaltyOverlay(rec){
       +'<div class="dp-time-lbl">Proof (for your own record)</div>'
       + pv
       +'<div class="dp-proof-row">'
-      +'<button class="dp-proof-btn" onclick="document.getElementById(\'dpPhoto\').click()">📷 Add photo</button>'
+      +'<button class="dp-btn dp-btn-photo" onclick="document.getElementById(\'dpPhoto\').click()"><span class="dp-btn-ic">📷</span> '+(rec._pendingPhoto?'Change photo':'Add photo')+'</button>'
       +'</div>'
       +'<input type="file" id="dpPhoto" accept="image/*" capture="environment" style="display:none" onchange="dpPhotoChosen(event,\''+rec.forDay+'\')">'
-      +'<textarea id="dpNote" class="dp-note" rows="2" placeholder="or write a quick note — what you did"></textarea>'
-      +'<button class="dp-done" onclick="submitProof(\''+rec.forDay+'\')">✅ Submit proof & clear</button>';
+      +'<textarea id="dpNote" class="dp-note" rows="2" placeholder="or write a quick note — what you did">'+esc(rec._pendingNote||'')+'</textarea>'
+      +'<button class="dp-btn dp-btn-go dp-btn-submit" onclick="submitProof(\''+rec.forDay+'\')"><span class="dp-btn-ic">✅</span> Submit proof &amp; clear</button>';
   }
 
   var multi=document.getElementById('dpMulti');
@@ -4158,9 +4186,13 @@ function niceDay(ds){ var d=new Date(ds+'T00:00:00'); var mo=['Jan','Feb','Mar',
 
 /* ── endure flow ── */
 function startEndure(forDay, mins){
-  var rec=DB.dayPenalty[forDay]; if(!rec)return;
+  var rec=DB.dayPenalty[forDay]||currentOwed(); if(!rec)return;
   rec.status='enduring'; rec.endMins=mins; rec.endsAt=Date.now()+mins*60000;
-  saveDB(); renderDayPenaltyOverlay(rec); startDpTick(); render();
+  try{ saveDB(); }catch(e){}
+  _dpSig='';                                  /* force the overlay to redraw into enduring */
+  try{ renderDayPenaltyOverlay(rec); }catch(e){}
+  startDpTick();                              /* ALWAYS start tick, even if render/ render() below throws */
+  try{ render(); }catch(e){}
 }
 function startEndureCustom(forDay){
   /* read from the in-app field — prompt() is blocked/unreliable on mobile Safari */
@@ -4172,8 +4204,12 @@ function startEndureCustom(forDay){
   startEndure(forDay,m);
 }
 function toProof(forDay){
-  var rec=DB.dayPenalty[forDay]; if(!rec)return;
-  rec.status='awaitingProof'; saveDB(); renderDayPenaltyOverlay(rec);
+  var rec=DB.dayPenalty[forDay]||currentOwed(); if(!rec)return;
+  if(_dpTick){ clearInterval(_dpTick); _dpTick=null; }   /* stop countdown — moving to proof */
+  rec.status='awaitingProof';
+  try{ saveDB(); }catch(e){}
+  _dpSig='';                                /* force redraw into proof step */
+  renderDayPenaltyOverlay(rec);
 }
 function dpPhotoChosen(ev,forDay){
   var f=ev.target.files[0]; if(!f)return;
@@ -4194,20 +4230,21 @@ function dpPhotoChosen(ev,forDay){
   r.readAsDataURL(f);
 }
 function submitProof(forDay){
-  var rec=DB.dayPenalty[forDay]; if(!rec)return;
+  var rec=DB.dayPenalty[forDay]||currentOwed(); if(!rec)return;
   var note=(document.getElementById('dpNote')||{}).value||'';
   note=note.trim();
   if(!rec._pendingPhoto && !note){ toast('Add a photo or a note as proof','err'); return; }
   rec.proof={ photo:rec._pendingPhoto||null, note:note, ts:Date.now() };
   delete rec._pendingPhoto;
   rec.status='done'; rec.doneAt=Date.now();
-  if(window._demoPenBackup!==undefined){ restoreDemoPen(); document.getElementById('dayPenaltyOverlay').classList.remove('show'); toast('Demo complete — nothing saved 🎬','ok'); return; }
-  saveDB();
+  if(window._demoPenBackup!==undefined){ restoreDemoPen(); document.getElementById('dayPenaltyOverlay').classList.remove('show'); _dpSig=''; toast('Demo complete — nothing saved 🎬','ok'); return; }
+  try{ saveDB(); }catch(e){}
+  _dpSig='';                                 /* force redraw of next owed / close */
   /* show next owed, or close */
   var next=currentOwed();
   if(next){ renderDayPenaltyOverlay(next); refreshSkipLink(); toast('Cleared. Next penalty 👇','ok'); }
   else{ document.getElementById('dayPenaltyOverlay').classList.remove('show'); unlockApp(); toast('All penalties cleared. Respect. 💪','ok'); }
-  render();
+  try{ render(); }catch(e){}
 }
 /* skip — SEPARATE from complete. ONE skip per calendar week. */
 function skipsLeftThisWeek(){
