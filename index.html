@@ -1346,7 +1346,7 @@ html,body{font-weight:500}
 
     <div class="setrow">
       <h4>ℹ️ Status</h4>
-      <div class="krow"><span>App version</span><b id="stVer">2.2.0</b></div>
+      <div class="krow"><span>App version</span><b id="stVer">2.3.0</b></div>
       <div class="krow"><span>Storage</span><b>On this device</b></div>
       <div class="krow"><span>Last backup</span><b id="stLast">Never</b></div>
       <div class="krow"><span>Tasks</span><b id="stTasks">0</b></div>
@@ -2030,7 +2030,7 @@ html,body{font-weight:500}
    Built by Somnath Karmakar · v1.0.0
    Local-first · single device · manual file backup
 ============================================================ */
-var APP_NAME='Volts', APP_VERSION='2.2.0';
+var APP_NAME='Volts', APP_VERSION='2.3.0';
 var LS_KEY='ascend_db_v1';
 
 var LEVELS=['Seedling','Spark','Riser','Builder','Grinder','Momentum','Contender','Achiever','Sharpshooter','Vanguard','Trailblazer','Powerhouse','Elite','Maverick','Champion','Warlord','Titan','Legend','Mythic','Ascended'];
@@ -2105,6 +2105,7 @@ function defaultDB(){
            trades:[], tradeMonths:{},
            plans:{}, proposals:[], planChk:{},
            workoutProg:{},
+           lastSeen:'',
            updatedAt:Date.now() };
 }
 function loadDB(){
@@ -2234,6 +2235,7 @@ function migrate(d){
   d.trades=d.trades||[]; d.tradeMonths=d.tradeMonths||{};
   d.plans=d.plans||{}; d.proposals=d.proposals||[]; d.planChk=d.planChk||{};
   d.workoutProg=d.workoutProg||{};
+  if(typeof d.lastSeen!=='string') d.lastSeen='';
   /* one-time import of legacy money[] into unified ledger (idempotent via ledgerSeen) */
   try{ migrateMoneyToLedger(d); }catch(e){}
   return d;
@@ -4330,22 +4332,23 @@ function pctForDay(day){
 /* On app open: look at YESTERDAY. If it ended below 80% and we haven't
    already locked a penalty for it, lock one now (you get all of today to
    clear it). Today's own tasks are still in progress — never penalised yet. */
-function evaluateDayPenalty(){
+/* evaluate ONE past day (default: yesterday). Safe to call for any missed day
+   during catch-up — idempotent (skips a day already recorded). */
+function evaluateDayPenalty(forDay){
   DB.dayPenalty=DB.dayPenalty||{};
   var td=todayStr();
-  var y=addDays(td,-1);
+  var y=forDay||addDays(td,-1);
+  if(y>=td) return;                               /* never judge today or future */
   if(!DB.dayPenalty[y] && DB.tasks.length){
     var timed=DB.tasks.filter(function(t){return t.type==='daily'||t.type==='sticky';});
     if(timed.length){
-      /* only judge yesterday if the user was actually USING the app by then:
-         a timed task must have been created on or before yesterday. New users
-         (or a task added today) are never penalised for a day they weren't here. */
-      var existedByYesterday = timed.some(function(t){
-        if(!t.createdAt) return true; /* legacy tasks with no createdAt: assume old */
+      /* only judge a day the user was actually USING the app by then */
+      var existedBy = timed.some(function(t){
+        if(!t.createdAt) return true;
         var c=new Date(t.createdAt); var cs=c.getFullYear()+'-'+pad(c.getMonth()+1)+'-'+pad(c.getDate());
         return cs<=y;
       });
-      if(!existedByYesterday){ return; } /* don't record anything — give it time */
+      if(!existedBy){ return; }
 
       var yp=pctForDay(y);
       if(yp<80){
@@ -6115,6 +6118,35 @@ function runBootAnimation(){
   return (progStart + 1.5 + 0.4)*1000;
 }
 
+/* ═══════════════ AUTO CATCH-UP ENGINE ═══════════════
+   Browsers can't run JS while closed — so instead of "background work", every
+   missed day is PROCESSED the moment the app reopens. Nothing stalls: if you
+   were away 5 days, all 5 days are evaluated now. Every step is isolated in
+   try/catch so one failure never stops the rest of the chain. */
+function safe(label, fn){ try{ fn(); }catch(e){ try{ console.warn('[catchUp] '+label+' failed:', e&&e.message); }catch(_){} } }
+function catchUp(){
+  var td=todayStr();
+  var last=(DB.lastSeen && /^\d{4}-\d{2}-\d{2}$/.test(DB.lastSeen)) ? DB.lastSeen : addDays(td,-1);
+  /* clamp: don't loop more than 60 days back (first-ever open / corrupt date) */
+  var guard=0, day=last;
+  /* 1) evaluate each MISSED day's penalty, oldest->newest, so none is skipped */
+  while(day < td && guard < 70){
+    safe('evaluateDayPenalty '+day, function(){ evaluateDayPenalty(day); });
+    day=addDays(day,1); guard++;
+  }
+  /* also make sure yesterday is covered even if lastSeen was today/missing */
+  safe('evaluateDayPenalty yesterday', function(){ evaluateDayPenalty(addDays(td,-1)); });
+  /* 2) one-time daily checks (idempotent, self-guarded) */
+  safe('checkExpiry', checkExpiry);
+  safe('checkTrainingMisses', checkTrainingMisses);
+  safe('checkBossDefeat', checkBossDefeat);
+  safe('ensureBoss', ensureBoss);
+  safe('ledgerSyncMoney', ledgerSyncMoney);
+  safe('plannerDueCheck', plannerDueCheck);
+  /* 3) stamp today's visit so tomorrow's gap is measured from here */
+  DB.lastSeen=td;
+  safe('saveLocal', saveLocal);
+}
 function init(){
   /* install the performance watchdog first so every app function is monitored */
   try{
@@ -6124,13 +6156,7 @@ function init(){
   }catch(e){}
   var bootMs = runBootAnimation();
   setTimeout(function(){ document.getElementById('boot').classList.add('hide'); }, bootMs);
-  checkExpiry();
-  checkTrainingMisses();
-  checkBossDefeat();
-  evaluateDayPenalty();
-  ensureBoss();
-  try{ ledgerSyncMoney(); }catch(e){}       /* keep unified ledger current */
-  try{ plannerDueCheck(); }catch(e){}       /* 06:00 due-time check on open */
+  catchUp();                                 /* process EVERY missed day since last open */
   recompute();
   saveLocal();
   render();
@@ -6148,10 +6174,10 @@ function init(){
   /* BLOCKING: re-flash the owed penalty whenever the app is reopened / refocused,
      and guard against it being dismissed while still owed */
   document.addEventListener('visibilitychange', function(){
-    if(!document.hidden) maybeFlashDayPenalty();
+    if(!document.hidden){ if(DB.lastSeen!==todayStr()){ safe('catchUp(refocus)',catchUp); render(); } maybeFlashDayPenalty(); }
   });
-  window.addEventListener('focus', function(){ maybeFlashDayPenalty(); });
-  window.addEventListener('pageshow', function(){ maybeFlashDayPenalty(); });
+  window.addEventListener('focus', function(){ if(DB.lastSeen!==todayStr()){ safe('catchUp(focus)',catchUp); render(); } maybeFlashDayPenalty(); });
+  window.addEventListener('pageshow', function(){ if(DB.lastSeen!==todayStr()){ safe('catchUp(pageshow)',catchUp); render(); } maybeFlashDayPenalty(); });
   /* NO ESCAPE: warn before a refresh / tab-close while a penalty is owed */
   window.addEventListener('beforeunload', function(e){
     if(window._demoPenBackup!==undefined) return;
