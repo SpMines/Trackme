@@ -1346,7 +1346,7 @@ html,body{font-weight:500}
 
     <div class="setrow">
       <h4>ℹ️ Status</h4>
-      <div class="krow"><span>App version</span><b id="stVer">2.3.0</b></div>
+      <div class="krow"><span>App version</span><b id="stVer">2.3.1</b></div>
       <div class="krow"><span>Storage</span><b>On this device</b></div>
       <div class="krow"><span>Last backup</span><b id="stLast">Never</b></div>
       <div class="krow"><span>Tasks</span><b id="stTasks">0</b></div>
@@ -2030,7 +2030,7 @@ html,body{font-weight:500}
    Built by Somnath Karmakar · v1.0.0
    Local-first · single device · manual file backup
 ============================================================ */
-var APP_NAME='Volts', APP_VERSION='2.3.0';
+var APP_NAME='Volts', APP_VERSION='2.3.1';
 var LS_KEY='ascend_db_v1';
 
 var LEVELS=['Seedling','Spark','Riser','Builder','Grinder','Momentum','Contender','Achiever','Sharpshooter','Vanguard','Trailblazer','Powerhouse','Elite','Maverick','Champion','Warlord','Titan','Legend','Mythic','Ascended'];
@@ -5849,9 +5849,10 @@ function approveSection(sec){
   var td=todayStr(); var p=DB.plans&&DB.plans[td]; if(!p)return;
   if(p.locked){ toast('Today\'s plan is locked','err'); return; }
   p.approvals=p.approvals||{}; p.approvals[sec]=Date.now();
-  /* if ALL sections approved, lock the whole day */
+  /* lock when every NON-DISMISSED section is approved */
   var secs=['tasks','workout','food','money','study'];
-  var all=secs.every(function(s){ return p.approvals[s]; });
+  var active=secs.filter(function(s){ return !(p.dismissed&&p.dismissed[s]); });
+  var all=active.length>0 && active.every(function(s){ return p.approvals[s]; });
   if(all){ p.locked=true; p.approvedAt=Date.now(); }
   saveDB();
   if(CUR_PAGE==='Planner') renderPlannerPage(); else render();  /* refresh wherever approved from */
@@ -5876,6 +5877,7 @@ function recoSummary(sec,p){
 }
 function recoBannerHtml(sec){
   var td=todayStr(); var p=planToday(); if(!p) return '';
+  if(p.dismissed&&p.dismissed[sec]) return '';   /* deleted today — no banner */
   var m=RECO_META[sec]; if(!m) return '';
   var appr=p.approvals&&p.approvals[sec];
   var sum=recoSummary(sec,p);
@@ -5894,6 +5896,21 @@ function rejectSection(sec){
   /* regenerate just this section from fresh data */
   var fresh=buildLocalPlan(td); p.sections[sec]=fresh[sec];
   saveDB(); renderPlannerPage(); toast('Section regenerated','');
+}
+function deleteSection(sec){
+  var td=todayStr(); var p=DB.plans&&DB.plans[td]; if(!p||p.locked)return;
+  confirmModal({icon:'🗑️',title:'Delete this recommendation?',msg:'Removes it for today. It won\'t count toward the day-lock and won\'t show on its page. A fresh one can appear tomorrow.',ok:'Delete',danger:true,onOk:function(){
+    p.dismissed=p.dismissed||{}; p.dismissed[sec]=Date.now();
+    if(p.approvals) delete p.approvals[sec];
+    /* if every remaining (non-dismissed) section is approved, lock the day */
+    var secs=['tasks','workout','food','money','study'];
+    var active=secs.filter(function(s){ return !(p.dismissed&&p.dismissed[s]); });
+    var allDone = active.length>0 && active.every(function(s){ return p.approvals&&p.approvals[s]; });
+    if(allDone){ p.locked=true; p.approvedAt=Date.now(); }
+    saveDB();
+    if(CUR_PAGE==='Planner') renderPlannerPage(); else render();
+    toast('Recommendation deleted for today','');
+  }});
 }
 function regenPlan(){
   var td=todayStr(); var p=DB.plans&&DB.plans[td];
@@ -5925,18 +5942,27 @@ function renderPlannerPage(){
     {k:'money',t:'💰 Money',fn:function(s){ return s.map(function(x){return '<div class="pl-item">'+esc(x.action)+'<span>month net '+fmtMoney(x.net)+'</span></div>';}).join(''); }},
     {k:'study',t:'📚 Study / Career',fn:function(s){ return s.map(function(x){return '<div class="pl-item">'+esc(x.block)+'<span>'+esc(x.why)+'</span></div>';}).join(''); }}
   ];
+  var anyDismissed=false;
   secs.forEach(function(S){
+    if(p.dismissed&&p.dismissed[S.k]){ anyDismissed=true; return; }   /* deleted today — skip */
     var appr=p.approvals&&p.approvals[S.k];
     h+='<div class="plan-sec"><div class="plan-sec-h"><b>'+S.t+'</b>'
       +(p.locked?'<span class="plan-ap">locked</span>':(appr?'<span class="plan-ap ok">✓ approved</span>':'<span class="plan-ap pend">pending</span>'))
       +'</div>'
       +'<div class="plan-body">'+S.fn(p.sections[S.k])+'</div>'
       +(p.locked?'':(appr
-        ? '<div class="btnrow"><button class="btn sm ghost" onclick="rejectSection(\''+S.k+'\')">Undo / regen</button></div>'
-        : '<div class="btnrow"><button class="btn sm ghost" onclick="rejectSection(\''+S.k+'\')">Regenerate</button><button class="btn sm" onclick="approveSection(\''+S.k+'\')">Approve</button></div>'))
+        ? '<div class="btnrow"><button class="btn sm ghost" onclick="rejectSection(\''+S.k+'\')">Undo / regen</button><button class="btn sm danger" onclick="deleteSection(\''+S.k+'\')">Delete</button></div>'
+        : '<div class="btnrow"><button class="btn sm ghost" onclick="rejectSection(\''+S.k+'\')">Regenerate</button><button class="btn sm danger" onclick="deleteSection(\''+S.k+'\')">Delete</button><button class="btn sm" onclick="approveSection(\''+S.k+'\')">Approve</button></div>'))
       +'</div>';
   });
+  if(anyDismissed && !p.locked){
+    h+='<div class="box" style="text-align:center;padding:12px;font-size:12px;color:var(--muted)">Some recommendations deleted for today. <a onclick="restoreDismissed()" style="color:var(--accent2);text-decoration:underline;cursor:pointer">Restore all</a></div>';
+  }
   el.innerHTML=h;
+}
+function restoreDismissed(){
+  var td=todayStr(); var p=DB.plans&&DB.plans[td]; if(!p||p.locked)return;
+  p.dismissed={}; saveDB(); renderPlannerPage(); toast('Recommendations restored','ok');
 }
 
 function renderWorkout(){
