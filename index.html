@@ -17,8 +17,10 @@
   --grad:linear-gradient(135deg,var(--accent),var(--accent2));
 }
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Jost',sans-serif;-webkit-tap-highlight-color:transparent}
-html,body{background:var(--bg);color:var(--txt);min-height:100dvh}
+html,body{background:var(--bg);color:var(--txt);min-height:100dvh;touch-action:pan-y;overscroll-behavior:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{overflow-x:hidden}
+/* kill pinch-zoom / double-tap-zoom; allow only vertical scroll */
+html{-ms-touch-action:pan-y;touch-action:pan-y}
 a{color:var(--accent2);text-decoration:none}
 
 /* glow blobs */
@@ -841,6 +843,81 @@ html,body{font-weight:500}
 .led-summary .ls .lsv{font-size:15px;font-weight:800;margin-top:3px}
 .led-summary .ls.inV .lsv{color:#7fe9c0}.led-summary .ls.outV .lsv{color:#ff97a2}
 .txn .bal{font-size:10.5px;color:var(--muted);margin-top:2px;font-variant-numeric:tabular-nums}
+.led-src{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--accent2);background:rgba(108,92,231,.16);border:1px solid rgba(162,155,254,.4);padding:1px 6px;border-radius:20px;margin-left:7px;vertical-align:middle}
+/* trading journal */
+.tr-kv{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px}
+.tr-kv:last-child{border-bottom:none}
+.tr-kv span{color:var(--muted)}
+.trade-row{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:12px 14px;margin-bottom:9px}
+.trade-row .tr-main{flex:1;min-width:0}
+.tr-top{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.tr-top b{font-size:14px;font-weight:800}
+.tr-dir{font-size:9px;font-weight:800;padding:1px 6px;border-radius:20px}
+.tr-dir.lo{color:#7fe9c0;background:rgba(55,211,153,.14);border:1px solid rgba(55,211,153,.35)}
+.tr-dir.sh{color:#ff97a2;background:rgba(255,93,108,.14);border:1px solid rgba(255,93,108,.35)}
+.tr-out{font-size:9px;font-weight:800;padding:1px 6px;border-radius:20px;margin-left:auto}
+.tr-out.tw{color:#6ee7b7;background:rgba(55,211,153,.16)}.tr-out.tl{color:#ff97a2;background:rgba(255,93,108,.16)}.tr-out.to{color:#ffc97a;background:rgba(255,183,71,.16)}.tr-out.tb{color:var(--muted);background:rgba(255,255,255,.06)}
+.tr-sub{font-size:11.5px;color:var(--muted);margin-top:3px}
+.tr-pl{font-size:15px;font-weight:800;white-space:nowrap}
+.tr-pl.p{color:#7fe9c0}.tr-pl.n{color:#ff97a2}
+.tr-acts{display:flex;flex-direction:column;gap:4px;font-size:13px}
+.tr-acts span{cursor:pointer;color:var(--muted);padding:2px 5px}
+.tr-acts span:active{color:var(--txt)}
+/* home bodyweight */
+.bw-ex{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.bw-ex:last-of-type{border-bottom:none}
+.bw-ex.done{opacity:.6}
+.bw-e{font-size:20px;width:30px;text-align:center}
+.bw-b{flex:1;min-width:0}
+.bw-nm{font-size:13.5px;font-weight:800}
+.bw-lvl{font-size:9px;font-weight:800;color:var(--accent2);background:rgba(108,92,231,.16);padding:1px 6px;border-radius:20px;margin-left:5px}
+.bw-tg{font-size:11.5px;color:var(--muted);margin-top:2px}
+.bw-tg b{color:var(--txt)}
+.bw-acts{display:flex;gap:6px}
+.bw-miss,.bw-hit{border:none;border-radius:10px;padding:8px 11px;font-size:12px;font-weight:800;font-family:inherit;cursor:pointer}
+.bw-miss{background:var(--inp);color:var(--muted);border:1px solid var(--brd)}
+.bw-hit{background:linear-gradient(135deg,#37d399,#2bb583);color:#04241a}
+.bw-hit:active,.bw-miss:active{transform:scale(.95)}
+.bw-doneb{width:30px;height:30px;border-radius:50%;background:rgba(55,211,153,.18);color:#6ee7b7;display:flex;align-items:center;justify-content:center;font-weight:800}
+/* planner */
+.plan-lock{background:rgba(55,211,153,.1);border:1px solid rgba(55,211,153,.4);color:#8af0c8;border-radius:12px;padding:12px 14px;font-size:12px;line-height:1.5;margin-bottom:14px;font-weight:600}
+.plan-sec{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:14px;margin-bottom:12px}
+.plan-sec-h{display:flex;align-items:center;margin-bottom:10px}
+.plan-sec-h b{font-size:14px;font-weight:800}
+.plan-ap{margin-left:auto;font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px}
+.plan-ap.ok{color:#6ee7b7;background:rgba(55,211,153,.16)}
+.plan-ap.pend{color:#ffc97a;background:rgba(255,183,71,.16)}
+.plan-ap.locked,.plan-ap:not(.ok):not(.pend){color:var(--muted);background:rgba(255,255,255,.06)}
+.plan-body{margin-bottom:10px}
+.pl-item{font-size:13px;font-weight:600;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.pl-item:last-child{border-bottom:none}
+.pl-item.hi{color:#fff}
+.pl-item span{display:block;font-size:11px;color:var(--muted);font-weight:400;margin-top:2px}
+.pl-item.hi span{color:#ffb0a0}
+.pl-empty{font-size:12.5px;color:var(--muted);padding:6px 0}
+.plan-sec .btnrow{margin:0}
+.plan-sec .btn.sm{padding:8px 14px;font-size:12.5px}
+/* recommendation distribution banner (on individual pages) */
+.reco-ban{background:rgba(108,92,231,.1);border:1.5px solid rgba(162,155,254,.45);border-radius:14px;padding:12px 14px;margin-bottom:14px}
+.reco-ban.ok{background:rgba(55,211,153,.08);border-color:rgba(55,211,153,.4);color:#9af0c8;font-size:12.5px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.reco-ban.ok b{color:#cdeede}
+.reco-tag{margin-left:auto;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;padding:2px 7px;border-radius:20px;background:rgba(55,211,153,.18)}
+.reco-top{display:flex;align-items:center;gap:7px;margin-bottom:6px}
+.reco-top b{font-size:13.5px}
+.reco-src{margin-left:auto;font-size:10px;color:var(--muted)}
+.reco-sum{font-size:13px;color:var(--txt);margin-bottom:10px;line-height:1.5}
+.reco-acts{display:flex;gap:8px;justify-content:flex-end}
+.reco-acts .btn.sm{padding:8px 15px;font-size:12.5px}
+/* unified report */
+.urep-sec{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:15px;margin-bottom:12px}
+.urep-h{display:flex;align-items:center;gap:8px;margin-bottom:11px}
+.urep-h .ic{font-size:17px}
+.urep-h b{font-size:14.5px;font-weight:800}
+.urep-kv{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.urep-kv:last-child{border-bottom:none}
+.urep-kv span{color:var(--muted)}
+.urep-kv b{font-weight:700}
+.urep-range{display:flex;gap:8px;margin-bottom:14px}
 .led-date-sep{font-size:10.5px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:700;margin:14px 2px 8px}
 /* proof history */
 .proof-row{display:flex;gap:12px;background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:12px;margin-bottom:10px}
@@ -856,6 +933,34 @@ html,body{font-weight:500}
 .proof-reason{font-size:13px;color:var(--txt);line-height:1.5;margin-bottom:4px;word-break:break-word}
 .proof-date{font-size:11px;color:var(--muted)}
 .proof-file{font-size:10.5px;color:var(--accent2);word-break:break-all;margin-bottom:3px;font-family:ui-monospace,monospace}
+/* daily notes */
+.notes-card{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:16px;margin-bottom:16px;cursor:pointer;transition:border-color .2s,transform .1s}
+.notes-card:active{transform:scale(.995)}
+.notes-card.empty{border:1.5px dashed rgba(162,155,254,.5);background:rgba(108,92,231,.07)}
+.notes-card.filled{border-color:rgba(162,155,254,.35)}
+.notes-card.editing{cursor:default}
+.notes-head{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.notes-head .notes-ic{font-size:17px}
+.notes-head b{font-size:14.5px;font-weight:800}
+.notes-edit{margin-left:auto;font-size:10.5px;color:var(--muted)}
+.notes-cta{font-size:13.5px;color:var(--accent2);font-weight:600}
+.notes-preview{font-size:13.5px;color:var(--txt);line-height:1.55;white-space:pre-wrap;word-break:break-word}
+.notes-meta{font-size:11px;color:var(--muted);margin-top:9px}
+.notes-meta a{color:var(--accent2);text-decoration:underline;cursor:pointer}
+.notes-ta{width:100%;background:var(--inp);border:1px solid var(--brd);border-radius:12px;padding:12px 14px;color:var(--txt);font-size:14px;font-family:inherit;line-height:1.55;resize:vertical;box-shadow:inset 0 1px 2px rgba(0,0,0,.2)}
+.notes-ta:focus{outline:none;border-color:var(--accent)}
+.notes-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
+.notes-actions .btn.sm{padding:9px 16px;font-size:13px}
+.notes-nav{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.nn-btn{background:var(--inp);border:1px solid var(--brd);color:var(--txt);border-radius:10px;padding:8px 12px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit}
+.nn-btn:disabled{opacity:.35;cursor:default}
+.nn-date{flex:1;text-align:center;font-size:13px;font-weight:700}
+.note-hist{background:var(--card);border:1px solid var(--brd);border-radius:12px;padding:11px 14px;margin-bottom:8px;cursor:pointer}
+.note-hist.on{border-color:var(--accent)}
+.note-hist .nh-date{font-size:12px;font-weight:800;color:var(--accent2);margin-bottom:3px}
+.note-hist .nh-prev{font-size:12.5px;color:var(--muted)}
+@media(prefers-reduced-motion:no-preference){ .notes-card.pulse{animation:notePulse 2.4s ease-in-out infinite} }
+@keyframes notePulse{0%,100%{box-shadow:0 0 0 0 rgba(108,92,231,0)}50%{box-shadow:0 0 0 4px rgba(108,92,231,.14)}}
 #proofImgOverlay .modal-card{padding:14px;max-width:92vw}
 #proofImgFull{width:100%;max-height:72vh;object-fit:contain;border-radius:12px;border:1px solid var(--brd)}
 #proofImgCap{font-size:12px;color:var(--muted);text-align:center;margin-top:10px;line-height:1.5}
@@ -1115,6 +1220,8 @@ html,body{font-weight:500}
     </div>
 
     <div id="perfectSlot"></div>
+    <div id="recoSlot"></div>
+    <div id="notesSlot"></div>
 
     <div class="ringwrap">
       <div class="ring">
@@ -1239,7 +1346,7 @@ html,body{font-weight:500}
 
     <div class="setrow">
       <h4>ℹ️ Status</h4>
-      <div class="krow"><span>App version</span><b id="stVer">1.7.0</b></div>
+      <div class="krow"><span>App version</span><b id="stVer">2.2.0</b></div>
       <div class="krow"><span>Storage</span><b>On this device</b></div>
       <div class="krow"><span>Last backup</span><b id="stLast">Never</b></div>
       <div class="krow"><span>Tasks</span><b id="stTasks">0</b></div>
@@ -1247,6 +1354,14 @@ html,body{font-weight:500}
         <div><span>Performance watchdog</span><p style="font-size:11px;color:var(--muted);margin-top:2px;max-width:220px">Warns on-screen when any part of the app runs slower than usual</p></div>
         <label class="switch"><input type="checkbox" id="perfToggle" onchange="perfSetEnabled(this.checked)"><span class="sw-slider"></span></label>
       </div>
+    </div>
+
+    <div class="setrow">
+      <h4>🤖 Smart Planner AI (optional)</h4>
+      <p style="font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:8px">By default the planner builds plans <b>on your device</b> from your own data — no AI, no cost, works offline.</p>
+      <p style="font-size:11.5px;color:#ffb0a0;line-height:1.55;margin-bottom:10px;background:rgba(255,93,108,.08);border:1px solid rgba(255,93,108,.3);border-radius:10px;padding:9px 11px">⚠️ <b>Security notice:</b> if you add a key it is saved in this browser's <b>localStorage in plain text</b> — <b>not encrypted</b>. Anyone with access to this device or browser can read it. This build makes <b>no AI network calls yet</b>, so the key is stored but never sent anywhere. Only add a key you're comfortable storing unprotected on this device.</p>
+      <div class="field"><label>Your AI API key (optional, plain-text on device)</label><input id="aiKeyIn" type="password" placeholder="sk-… (stored unencrypted on this device)"></div>
+      <button class="btn sm" onclick="saveAiKey()">Save key</button>
     </div>
 
     <div class="setrow">
@@ -1276,6 +1391,7 @@ html,body{font-weight:500}
 
     <!-- ===== OVERVIEW TAB ===== -->
     <div id="moneyOverview">
+      <div id="moRecoSlot"></div>
       <div class="moneyhead">
         <div class="mcard inC"><div class="lbl">This month · In</div><div class="amt" id="mIn">₹0</div></div>
         <div class="mcard outC"><div class="lbl">This month · Out</div><div class="amt" id="mOut">₹0</div></div>
@@ -1329,6 +1445,8 @@ html,body{font-weight:500}
     <div class="ptitle">Workout</div>
     <div class="psub">Log every session. Each one is XP toward your level.</div>
 
+    <div id="woRecoSlot"></div>
+    <div id="bwSlot"></div>
     <div id="trainBannerSlot"></div>
     <div id="trainWeekSlot"></div>
 
@@ -1351,6 +1469,7 @@ html,body{font-weight:500}
   <div class="page" id="pageFood">
     <div class="ptitle">Food &amp; Bulking</div>
     <div class="psub">Track what you eat. Hit your surplus. Grow. 🍗</div>
+    <div id="foodRecoSlot"></div>
 
     <!-- daily targets ring -->
     <div class="box" style="margin-bottom:16px;padding:18px">
@@ -1531,10 +1650,34 @@ html,body{font-weight:500}
     </div>
   </div>
 
+  <!-- ============ NOTES ============ -->
+  <div class="page" id="pageNotes">
+    <div class="ptitle">Daily Notes</div>
+    <div class="psub">One note per day. Your thoughts, wins, plans — kept forever.</div>
+    <div id="notesPage"></div>
+  </div>
+
+  <!-- ============ TRADING JOURNAL ============ -->
+  <div class="page" id="pageTrades">
+    <div class="ptitle">Trading Journal</div>
+    <div class="psub">Log trades, track P&amp;L, review setups. Record-keeping only — not advice. 📈</div>
+    <div id="tradesPage"></div>
+  </div>
+
+  <!-- ============ RECOMMENDATIONS ============ -->
+  <div class="page" id="pagePlanner">
+    <div class="ptitle">Recommendations</div>
+    <div class="psub">One place for every daily recommendation. Approve here → it appears on its own page. All approved = day locked. 🗺️</div>
+    <div id="plannerPage"></div>
+  </div>
+
   <!-- ============ MORE ============ -->
   <div class="page" id="pageMore">
     <div class="ptitle">More</div>
     <div class="psub">Everything else, one tap away.</div>
+    <div class="morebtn" onclick="go('Notes')"><div class="mi">📝</div><div class="mt"><b>Daily Notes</b><p>Write today's note, browse past days</p></div><div class="ar">›</div></div>
+    <div class="morebtn" onclick="go('Trades')"><div class="mi">📈</div><div class="mt"><b>Trading Journal</b><p>Trades, P&amp;L, win-rate, monthly capital</p></div><div class="ar">›</div></div>
+    <div class="morebtn" onclick="go('Planner')"><div class="mi">🗺️</div><div class="mt"><b>Recommendations</b><p>All daily recommendations — approve &amp; distribute</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Food')"><div class="mi">🍗</div><div class="mt"><b>Food &amp; Bulking</b><p>Track calories, protein &amp; hit your bulk goal</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Vices')"><div class="mi">🚭</div><div class="mt"><b>Break Bad Habits</b><p>Track slip-ups, build clean streaks, get warned early</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Penalty')"><div class="mi">⚖️</div><div class="mt"><b>Penalty &amp; Discipline</b><p>Failed tasks → auto penalties, boss fights &amp; recovery</p></div><div class="ar">›</div></div>
@@ -1558,6 +1701,27 @@ html,body{font-weight:500}
   <button data-p="Workout" onclick="go('Workout',this)"><span class="bi">💪</span>Workout</button>
   <button data-p="Rewards" onclick="go('Rewards',this)"><span class="bi">🏆</span>Rewards</button>
   <button data-p="More" onclick="go('More',this)"><span class="bi">☰</span>More</button>
+</div>
+
+<!-- trade modal -->
+<div class="modal fullw" id="tradeModal" onclick="if(event.target===this)closeTrade()">
+  <div class="modal-card">
+    <h3 id="trmTitle">New Trade</h3>
+    <div class="mh">Record-keeping only. No live prices, no execution.</div>
+    <div class="field"><label>Date</label><input type="date" id="trDate" onchange="syncDate('trDate','trDateDisp')"><div class="datedisp" id="trDateDisp"></div></div>
+    <div class="field"><label>Instrument / market</label><input id="trInstr" placeholder="e.g. NIFTY, BTC, RELIANCE"></div>
+    <div class="field"><label>Strategy / setup</label><input id="trSetup" placeholder="e.g. breakout, pullback"></div>
+    <label style="display:block;font-size:12.5px;color:var(--muted);margin-bottom:7px">Direction</label>
+    <div class="seg" id="trDir">
+      <button data-v="long" class="on" onclick="setTradeDir('long')">Long</button>
+      <button data-v="short" onclick="setTradeDir('short')">Short</button>
+    </div>
+    <div class="row2"><div class="field"><label>Entry price</label><input id="trEntry" type="number" inputmode="decimal"></div><div class="field"><label>Quantity</label><input id="trQty" type="number" inputmode="decimal"></div></div>
+    <div class="row2"><div class="field"><label>Stop-loss</label><input id="trSL" type="number" inputmode="decimal"></div><div class="field"><label>Target</label><input id="trTarget" type="number" inputmode="decimal"></div></div>
+    <div class="row2"><div class="field"><label>Exit price (blank = open)</label><input id="trExit" type="number" inputmode="decimal"></div><div class="field"><label>Fees / charges</label><input id="trFees" type="number" inputmode="decimal"></div></div>
+    <div class="field"><label>Notes / lesson</label><textarea id="trNote" rows="2" placeholder="What worked, what to improve"></textarea></div>
+    <div class="btnrow"><button class="btn ghost" onclick="closeTrade()">Cancel</button><button class="btn" onclick="saveTrade()">Save Trade</button></div>
+  </div>
 </div>
 
 <!-- task modal -->
@@ -1866,7 +2030,7 @@ html,body{font-weight:500}
    Built by Somnath Karmakar · v1.0.0
    Local-first · single device · manual file backup
 ============================================================ */
-var APP_NAME='Volts', APP_VERSION='1.7.0';
+var APP_NAME='Volts', APP_VERSION='2.2.0';
 var LS_KEY='ascend_db_v1';
 
 var LEVELS=['Seedling','Spark','Riser','Builder','Grinder','Momentum','Contender','Achiever','Sharpshooter','Vanguard','Trailblazer','Powerhouse','Elite','Maverick','Champion','Warlord','Titan','Legend','Mythic','Ascended'];
@@ -1934,7 +2098,14 @@ var EDIT_ID=null, T_TYPE='daily', T_PRI='Medium';
 /* ---------- storage ---------- */
 function defaultDB(){
   return { v:APP_VERSION, profile:{name:'Sam',email:'',points:0,level:1,levelTitle:LEVELS[0],streak:0,longestStreak:0,lastActiveDate:''},
-           categories:DEFAULT_CATS.slice(), tasks:[], log:[], badges:{}, money:[], workouts:[], food:[], bodylog:[], dailylog:{}, dailyBonus:{}, missedLog:[], activeChallenge:null, vices:[], vicelog:{}, penalties:[], penaltyConfig:null, trainingPlan:null, trainCheck:{}, dayPenalty:{}, penaltySkipLog:{}, boss:null, bossWins:0, settings:{}, updatedAt:Date.now() };
+           categories:DEFAULT_CATS.slice(), tasks:[], log:[], badges:{}, money:[], workouts:[], food:[], bodylog:[], dailylog:{}, dailyBonus:{}, missedLog:[], activeChallenge:null, vices:[], vicelog:{}, penalties:[], penaltyConfig:null, trainingPlan:null, trainCheck:{}, dayPenalty:{}, penaltySkipLog:{}, boss:null, bossWins:0, settings:{},
+           /* v2.0 modules */
+           ledger:[], ledgerSeen:{}, walletStart:0, walletStartSet:false,
+           notes:{},
+           trades:[], tradeMonths:{},
+           plans:{}, proposals:[], planChk:{},
+           workoutProg:{},
+           updatedAt:Date.now() };
 }
 function loadDB(){
   try{ var raw=localStorage.getItem(LS_KEY); if(raw){ return migrate(JSON.parse(raw)); } }catch(e){}
@@ -1966,7 +2137,16 @@ function mergeDB(local,cloud){
   var m={};
   // scalar/profile: take from the newer snapshot
   m.v=APP_VERSION;
+  /* profile: start from newer snapshot for name/email, but NEVER let progress
+     (points/streak/longest) drop on a merge — take the max across both so a
+     restore can only recover progress, not erase it. */
   m.profile=newer.profile||older.profile||{};
+  var pA=local.profile||{}, pB=cloud.profile||{};
+  m.profile.points=Math.max(pA.points||0, pB.points||0);
+  m.profile.longestStreak=Math.max(pA.longestStreak||0, pB.longestStreak||0);
+  m.profile.streak=Math.max(pA.streak||0, pB.streak||0);
+  m.profile.name=(m.profile.name)||pA.name||pB.name||'Sam';
+  m.profile.email=(m.profile.email)||pA.email||pB.email||'';
   m.categories=(newer.categories&&newer.categories.length)?newer.categories:older.categories;
   m.settings=newer.settings||older.settings||{};
   // arrays: union by id across BOTH so nothing is lost
@@ -2020,6 +2200,21 @@ function mergeDB(local,cloud){
   [local.dayPenalty,cloud.dayPenalty].forEach(function(dp){ if(!dp)return; for(var d in dp){ var ex=m.dayPenalty[d]; if(!ex){ m.dayPenalty[d]=dp[d]; } else if(ex.status==='active' && dp[d].status!=='active'){ m.dayPenalty[d]=dp[d]; } } });
   m.boss = (newer.boss && newer.boss.date) ? newer.boss : (older.boss||null);
   m.bossWins = Math.max(local.bossWins||0, cloud.bossWins||0);
+  // v2.0 modules
+  m.ledger=mergeArrById(local.ledger,cloud.ledger);
+  m.ledgerSeen={}; [local.ledgerSeen,cloud.ledgerSeen].forEach(function(s){ if(s) for(var k in s) m.ledgerSeen[k]=1; });
+  m.walletStart = newer.walletStartSet ? newer.walletStart : (older.walletStartSet? older.walletStart : 0);
+  m.walletStartSet = !!(newer.walletStartSet||older.walletStartSet);
+  m.trades=mergeArrById(local.trades,cloud.trades);
+  m.tradeMonths={}; [older.tradeMonths,newer.tradeMonths].forEach(function(t){ if(t) for(var k in t) m.tradeMonths[k]=t[k]; });
+  // notes: per-date; keep the newer-edited version
+  m.notes={}; [local.notes,cloud.notes].forEach(function(nn){ if(!nn)return; for(var dt in nn){ var ex=m.notes[dt]; if(!ex||((nn[dt]&&nn[dt].ts)||0)>=((ex&&ex.ts)||0)) m.notes[dt]=nn[dt]; } });
+  // plans: APPROVED+LOCKED plan for a date is immutable — never overwrite a locked one
+  m.plans={};
+  [local.plans,cloud.plans].forEach(function(pp){ if(!pp)return; for(var dt in pp){ var ex=m.plans[dt]; if(!ex){ m.plans[dt]=pp[dt]; } else if(!ex.locked && pp[dt] && pp[dt].locked){ m.plans[dt]=pp[dt]; } } });
+  m.proposals=mergeArrById(local.proposals,cloud.proposals);
+  m.planChk={}; [local.planChk,cloud.planChk].forEach(function(c){ if(c) for(var d in c) m.planChk[d]=c[d]; });
+  m.workoutProg={}; [older.workoutProg,newer.workoutProg].forEach(function(w){ if(w) for(var k in w) m.workoutProg[k]=w[k]; });
   m.updatedAt=Date.now();
   return migrate(m);
 }
@@ -2031,7 +2226,37 @@ function migrate(d){
   if(!d.categories||!d.categories.length) d.categories=DEFAULT_CATS.slice();
   d.tasks=d.tasks||[]; d.log=d.log||[]; d.badges=d.badges||{};
   d.money=d.money||[]; d.workouts=d.workouts||[]; d.food=d.food||[]; d.bodylog=d.bodylog||[]; d.dailylog=d.dailylog||{}; d.dailyBonus=d.dailyBonus||{}; d.missedLog=d.missedLog||[]; if(d.activeChallenge===undefined)d.activeChallenge=null; d.vices=d.vices||[]; d.vicelog=d.vicelog||{}; d.penalties=d.penalties||[]; if(!d.penaltyConfig)d.penaltyConfig=defaultPenaltyConfig(); if(d.trainingPlan===undefined)d.trainingPlan=null; d.trainCheck=d.trainCheck||{}; d.dayPenalty=d.dayPenalty||{}; if(d.boss===undefined)d.boss=null; d.bossWins=d.bossWins||0; d.settings=d.settings||{};
+  /* v2.0 modules — backward-compatible; absent => empty, never wipe existing */
+  d.ledger=d.ledger||[]; d.ledgerSeen=d.ledgerSeen||{};
+  if(typeof d.walletStart!=='number') d.walletStart=0;
+  if(typeof d.walletStartSet!=='boolean') d.walletStartSet=false;
+  d.notes=d.notes||{};
+  d.trades=d.trades||[]; d.tradeMonths=d.tradeMonths||{};
+  d.plans=d.plans||{}; d.proposals=d.proposals||[]; d.planChk=d.planChk||{};
+  d.workoutProg=d.workoutProg||{};
+  /* one-time import of legacy money[] into unified ledger (idempotent via ledgerSeen) */
+  try{ migrateMoneyToLedger(d); }catch(e){}
   return d;
+}
+/* bring existing DB.money[] rows into the unified ledger, once each */
+function migrateMoneyToLedger(d){
+  if(!d.money||!d.money.length) return;
+  d.ledger=d.ledger||[]; d.ledgerSeen=d.ledgerSeen||{};
+  for(var i=0;i<d.money.length;i++){
+    var m=d.money[i]; if(!m) continue;
+    var srcId='money:'+(m.id||(m.date+'_'+(m.ts||i)));
+    if(d.ledgerSeen[srcId]) continue;           /* already imported */
+    d.ledger.push({
+      id:'lg'+(m.ts||Date.now())+'_'+i,
+      srcId:srcId, src:'money',
+      amount:Math.abs(+m.amount||0),
+      dir:(m.kind==='in'?'in':'out'),
+      cat:m.cat||'Other', date:m.date||todayStr(),
+      note:m.note||'', ref:m.id||null,
+      status:'posted', ts:m.ts||Date.now(), cash:true
+    });
+    d.ledgerSeen[srcId]=1;
+  }
 }
 function saveLocal(){ if(typeof _demoBackup!=='undefined' && _demoBackup){ return; } DB.updatedAt=Date.now(); try{localStorage.setItem(LS_KEY,JSON.stringify(DB));}catch(e){} }
 function saveDB(){ saveLocal(); }
@@ -2219,7 +2444,7 @@ function go(page,el){
   for(var j=0;j<btns.length;j++) btns[j].classList.remove('active');
 
   /* which nav button owns this page? */
-  var morePages={Tasks:1,Stats:1,Settings:1,Food:1,Vices:1,Penalty:1,Report:1,Boss:1};
+  var morePages={Tasks:1,Stats:1,Settings:1,Food:1,Vices:1,Penalty:1,Report:1,Boss:1,Notes:1,Trades:1,Planner:1};
   var owner = morePages[page] ? 'More' : page;
   var activeBtn=null;
   for(var k=0;k<btns.length;k++){
@@ -2375,6 +2600,7 @@ function useDietPlan(i){
   go('Food');
 }
 function renderFood(){
+  var fr=document.getElementById('foodRecoSlot'); if(fr){ try{ fr.innerHTML=recoBannerHtml('food'); }catch(e){ fr.innerHTML=''; } }
   var g=foodGoal(); var items=todayFood();
   var tot={cal:0,pro:0,car:0,fat:0};
   items.forEach(function(f){ tot.cal+=f.cal; tot.pro+=f.pro; tot.car+=f.car; tot.fat+=f.fat; });
@@ -2974,18 +3200,18 @@ function saveReview(){
 /* time helpers */
 function fmtRemain(ms){ if(ms<0)ms=0; var s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60; return (h<10?'0':'')+h+':'+(m<10?'0':'')+m+':'+(ss<10?'0':'')+ss; }
 
-/* live countdown ticker for active locks */
+/* live countdown ticker for active locks — ONE shared interval, never
+   recreated per render (spec: no new timer on every render). */
 var _penTick=null;
 function startPenTick(){
-  if(_penTick) clearInterval(_penTick);
+  if(_penTick) return;                 /* already running — don't spawn another */
   _penTick=setInterval(function(){
     if(CUR_PAGE!=='Penalty'){ return; }
     var els=document.querySelectorAll('[data-ends]');
-    var changed=false;
     els.forEach(function(el){
       var ends=+el.getAttribute('data-ends');
       var left=ends-Date.now();
-      if(left<=0){ el.textContent='Ready to clear'; el.classList.add('ready'); changed=true; }
+      if(left<=0){ el.textContent='Ready to clear'; el.classList.add('ready'); }
       else el.textContent=fmtRemain(left);
     });
   },1000);
@@ -3463,7 +3689,84 @@ function renderReport(){
   h+=repCard('🚭', r.viceSlips, 'Habit slips', r.viceSlips===0?'spotless':'stay sharp');
   h+='</div>';
 
+  /* EVERYTHING report — every module summarized */
+  h+=unifiedReportHtml(REPORT_PERIOD);
+
   slot.innerHTML=h;
+}
+/* comprehensive cross-module report */
+function unifiedReportHtml(period){
+  var td=todayStr();
+  var from = period==='month' ? td.slice(0,7) : null;      /* month prefix, else last 7d */
+  function inScope(ds){ if(!ds) return false; if(period==='month') return ds.slice(0,7)===from; for(var i=0;i<7;i++){ if(ds===addDays(td,-i)) return true; } return false; }
+  var H='<div class="rep-section-lbl">📑 Full report — every module</div>';
+
+  /* Tasks */
+  var tDaily=DB.tasks.filter(function(t){return t.type==='daily'||t.type==='sticky';}).length;
+  var tOnce=DB.tasks.filter(function(t){return t.type==='once';}).length;
+  var doneCount=0; DB.tasks.forEach(function(t){ (t.history||[]).forEach(function(d){ if(inScope(d))doneCount++; }); });
+  H+='<div class="urep-sec"><div class="urep-h"><span class="ic">☑️</span><b>Tasks</b></div>'
+    +'<div class="urep-kv"><span>Habits / sticky</span><b>'+tDaily+'</b></div>'
+    +'<div class="urep-kv"><span>One-time tasks</span><b>'+tOnce+'</b></div>'
+    +'<div class="urep-kv"><span>Completions '+(period==='month'?'this month':'last 7d')+'</span><b>'+doneCount+'</b></div></div>';
+
+  /* Workout + bodyweight progression */
+  var woC=0,woM=0; DB.workouts.forEach(function(w){ if(inScope(w.date)){ woC++; woM+=(w.dur||0); } });
+  var bwLines=''; (BW_PLAN||[]).forEach(function(ex){ var s=(DB.workoutProg||{})[ex.k]; if(s) bwLines+='<div class="urep-kv"><span>'+ex.nm+'</span><b>Lv '+(s.level||1)+'</b></div>'; });
+  H+='<div class="urep-sec"><div class="urep-h"><span class="ic">💪</span><b>Workout</b></div>'
+    +'<div class="urep-kv"><span>Sessions</span><b>'+woC+'</b></div>'
+    +'<div class="urep-kv"><span>Minutes</span><b>'+woM+'</b></div>'+bwLines+'</div>';
+
+  /* Food */
+  var fCal=0,fPro=0,fDays={}; DB.food.forEach(function(f){ if(inScope(f.date)){ fCal+=(f.cal||0); fPro+=(f.pro||0); fDays[f.date]=1; } });
+  var fn=Object.keys(fDays).length||1;
+  H+='<div class="urep-sec"><div class="urep-h"><span class="ic">🍗</span><b>Food</b></div>'
+    +'<div class="urep-kv"><span>Logged days</span><b>'+Object.keys(fDays).length+'</b></div>'
+    +'<div class="urep-kv"><span>Avg calories/day</span><b>'+Math.round(fCal/fn)+'</b></div>'
+    +'<div class="urep-kv"><span>Avg protein/day</span><b>'+Math.round(fPro/fn)+'g</b></div></div>';
+
+  /* Money + wallet + ledger */
+  ledgerSyncMoney();
+  var mIn=0,mOut=0; (DB.ledger||[]).forEach(function(r){ if(r.cash!==false&&r.status==='posted'&&inScope(r.date)){ if(r.dir==='in')mIn+=r.amount; else mOut+=r.amount; } });
+  H+='<div class="urep-sec"><div class="urep-h"><span class="ic">💰</span><b>Money / Wallet</b></div>'
+    +'<div class="urep-kv"><span>Est. cash balance</span><b>'+fmtMoney(walletBalance())+'</b></div>'
+    +'<div class="urep-kv"><span>In '+(period==='month'?'(month)':'(7d)')+'</span><b style="color:#7fe9c0">'+fmtMoney(mIn)+'</b></div>'
+    +'<div class="urep-kv"><span>Out</span><b style="color:#ff97a2">'+fmtMoney(mOut)+'</b></div>'
+    +'<div class="urep-kv"><span>Ledger entries</span><b>'+(DB.ledger||[]).length+'</b></div></div>';
+
+  /* Trading */
+  var trS=tradeStats((DB.trades||[]).filter(function(t){return inScope(t.date);}));
+  H+='<div class="urep-sec"><div class="urep-h"><span class="ic">📈</span><b>Trading</b></div>'
+    +'<div class="urep-kv"><span>Net P&amp;L</span><b style="color:'+(trS.net>=0?'#7fe9c0':'#ff97a2')+'">'+fmtMoney(trS.net)+'</b></div>'
+    +'<div class="urep-kv"><span>Win / Loss</span><b>'+trS.wins+' / '+trS.losses+'</b></div>'
+    +'<div class="urep-kv"><span>Win rate</span><b>'+trS.winRate.toFixed(1)+'%</b></div>'
+    +'<div class="urep-kv"><span>Fees</span><b>'+fmtMoney(trS.fees)+'</b></div></div>';
+
+  /* Vices */
+  var slips=0; for(var day in (DB.vicelog||{})){ if(inScope(day)){ var dd=DB.vicelog[day]; for(var v in dd) slips+=(dd[v]||0); } }
+  H+='<div class="urep-sec"><div class="urep-h"><span class="ic">🚭</span><b>Habits / Vices</b></div>'
+    +'<div class="urep-kv"><span>Tracked habits</span><b>'+(DB.vices||[]).length+'</b></div>'
+    +'<div class="urep-kv"><span>Slip-ups</span><b>'+slips+'</b></div></div>';
+
+  /* Penalties */
+  var pCount=0,pOwed=0,pDone=0,pSkip=0;
+  for(var d2 in (DB.dayPenalty||{})){ var rp=DB.dayPenalty[d2]; if(!rp||!inScope(d2))continue; if(rp.status==='done')pDone++; else if(rp.status==='skipped')pSkip++; else if(rp.status!=='clean')pCount++; }
+  (DB.penalties||[]).forEach(function(p){ if(inScope(p.date)&&p.amount)pOwed+=p.amount; });
+  H+='<div class="urep-sec"><div class="urep-h"><span class="ic">⚖️</span><b>Penalties</b></div>'
+    +'<div class="urep-kv"><span>Owed / active</span><b>'+pCount+'</b></div>'
+    +'<div class="urep-kv"><span>Cleared</span><b>'+pDone+'</b></div>'
+    +'<div class="urep-kv"><span>Skipped</span><b>'+pSkip+'</b></div>'
+    +'<div class="urep-kv"><span>₹ in penalty box</span><b>'+fmtMoney(pOwed)+'</b></div></div>';
+
+  /* Notes + Plan */
+  var noteDays=0; for(var nd in (DB.notes||{})){ if(inScope(nd))noteDays++; }
+  var pl=planToday();
+  H+='<div class="urep-sec"><div class="urep-h"><span class="ic">📝</span><b>Notes &amp; Plan</b></div>'
+    +'<div class="urep-kv"><span>Notes written</span><b>'+noteDays+'</b></div>'
+    +'<div class="urep-kv"><span>Today\'s plan</span><b>'+(pl?(pl.locked?'🔒 locked':'pending approval'):'none')+'</b></div>'
+    +'<div class="urep-kv"><span>Boss wins (all-time)</span><b>'+(DB.bossWins||0)+'</b></div></div>';
+
+  return H;
 }
 
 /* build a standalone HTML report file and download it */
@@ -3879,10 +4182,15 @@ function render(){
   if(CUR_PAGE==='Report')renderReport();
   if(CUR_PAGE==='Boss')renderBoss();
   if(CUR_PAGE==='Settings')fillSettings();
+  if(CUR_PAGE==='Notes')renderNotesPage();
+  if(CUR_PAGE==='Trades')renderTradesPage();
+  if(CUR_PAGE==='Planner')renderPlannerPage();
 }
 
 function renderToday(){
   var hl=document.getElementById('hLine'); if(hl) hl.textContent=motivLine();
+  renderTodayNotes();
+  var rc=document.getElementById('recoSlot'); if(rc){ try{ rc.innerHTML=recoBannerHtml('tasks')+recoBannerHtml('study'); }catch(e){ rc.innerHTML=''; } }
   var td=todayStr();
   var timed=DB.tasks.filter(function(t){return t.type==='daily'||t.type==='sticky';});
   var doneTimed=timed.filter(isDoneToday).length;
@@ -4353,6 +4661,263 @@ function renderTodayPenalty(pct){
     +'</div>';
 }
 
+/* ═══════════════ DAILY NOTES ═══════════════
+   One editable note per local date. DB.notes[dateStr]={text,ts,created}.
+   Independent of the plan lock. Never silently loses text. */
+var _notesEditing=false, _notesViewDate=null;
+function getNote(ds){ return (DB.notes&&DB.notes[ds])?DB.notes[ds]:null; }
+function saveNote(ds,text){
+  DB.notes=DB.notes||{};
+  text=(text==null?'':String(text));
+  var existed=DB.notes[ds];
+  if(!text.trim()){ if(existed) delete DB.notes[ds]; }      /* empty = clear */
+  else DB.notes[ds]={ text:text, ts:Date.now(), created:(existed&&existed.created)||Date.now() };
+  var ok=true; try{ saveDB(); }catch(e){ ok=false; }
+  return ok;
+}
+/* ---- Today-screen card (prominent, subtle pulse) ---- */
+function renderTodayNotes(){
+  var slot=document.getElementById('notesSlot'); if(!slot)return;
+  var td=todayStr(); var n=getNote(td);
+  if(_notesEditing){
+    slot.innerHTML=
+      '<div class="notes-card editing">'
+      +'<div class="notes-head"><span class="notes-ic">📝</span><b>Today\'s Note</b></div>'
+      +'<textarea id="todayNoteTA" class="notes-ta" rows="4" placeholder="What\'s on your mind today? Wins, plans, thoughts…">'+esc(n?n.text:'')+'</textarea>'
+      +'<div class="notes-actions">'
+      +'<button class="btn ghost sm" onclick="cancelTodayNote()">Cancel</button>'
+      +'<button class="btn sm" onclick="commitTodayNote()">Save note</button>'
+      +'</div></div>';
+    setTimeout(function(){ var t=document.getElementById('todayNoteTA'); if(t){ t.focus(); t.setSelectionRange(t.value.length,t.value.length); } },100);
+  } else if(n){
+    slot.innerHTML=
+      '<div class="notes-card filled" onclick="editTodayNote()">'
+      +'<div class="notes-head"><span class="notes-ic">📝</span><b>Today\'s Note</b><span class="notes-edit">tap to edit ✎</span></div>'
+      +'<div class="notes-preview">'+esc(n.text).replace(/\n/g,'<br>')+'</div>'
+      +'<div class="notes-meta">Saved '+new Date(n.ts).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})+' · <a onclick="event.stopPropagation();go(\'Notes\')">all notes →</a></div>'
+      +'</div>';
+  } else {
+    slot.innerHTML=
+      '<div class="notes-card empty pulse" onclick="editTodayNote()">'
+      +'<div class="notes-head"><span class="notes-ic">📝</span><b>Daily Note</b></div>'
+      +'<div class="notes-cta">Tap to write today\'s note ✍️</div>'
+      +'</div>';
+  }
+}
+function editTodayNote(){ _notesEditing=true; renderTodayNotes(); }
+function cancelTodayNote(){ _notesEditing=false; renderTodayNotes(); }
+function commitTodayNote(){
+  var ta=document.getElementById('todayNoteTA'); var txt=ta?ta.value:'';
+  var ok=saveNote(todayStr(),txt);
+  if(!ok){ toast('Could not save — storage issue. Your text is still here.','err'); return; }
+  _notesEditing=false; renderTodayNotes();
+  toast(txt.trim()?'Note saved ✅':'Note cleared','ok');
+}
+/* ---- Notes page: date nav + history ---- */
+function renderNotesPage(){
+  var el=document.getElementById('notesPage'); if(!el)return;
+  if(!_notesViewDate) _notesViewDate=todayStr();
+  var ds=_notesViewDate; var n=getNote(ds);
+  var isToday=ds===todayStr();
+  var dates=Object.keys(DB.notes||{}).sort().reverse();
+  var h='';
+  /* editor for the viewed date */
+  h+='<div class="box" style="margin-bottom:16px">'
+    +'<div class="notes-nav">'
+    +'<button class="nn-btn" onclick="noteNav(-1)">‹ Prev</button>'
+    +'<div class="nn-date">'+esc(fmtDateDisp(ds))+(isToday?' · Today':'')+'</div>'
+    +'<button class="nn-btn" onclick="noteNav(1)"'+(isToday?' disabled':'')+'>Next ›</button>'
+    +'</div>'
+    +'<textarea id="pageNoteTA" class="notes-ta" rows="6" placeholder="Write your note for this day…">'+esc(n?n.text:'')+'</textarea>'
+    +'<div class="notes-actions">'
+    +'<button class="btn ghost sm" onclick="renderNotesPage()">Revert</button>'
+    +'<button class="btn sm" onclick="savePageNote()">Save</button>'
+    +'</div>'
+    +(n?'<div class="notes-meta" style="margin-top:8px">Last saved '+new Date(n.ts).toLocaleString('en-IN')+'</div>':'')
+    +'</div>';
+  /* history list */
+  h+='<div class="sec"><div class="head"><h2>🗂️ History</h2><div class="cnt">'+dates.length+' day'+(dates.length===1?'':'s')+'</div></div></div>';
+  if(!dates.length) h+='<div class="box" style="text-align:center;padding:18px;color:var(--muted);font-size:12.5px">No notes yet. Write one above.</div>';
+  else dates.forEach(function(d){
+    var nn=DB.notes[d]; var prev=(nn.text||'').replace(/\n/g,' ').slice(0,80);
+    h+='<div class="note-hist'+(d===ds?' on':'')+'" onclick="openNoteDate(\''+d+'\')">'
+      +'<div class="nh-date">'+esc(fmtDateDisp(d).replace('📅 ',''))+'</div>'
+      +'<div class="nh-prev">'+esc(prev)+(nn.text.length>80?'…':'')+'</div>'
+      +'</div>';
+  });
+  el.innerHTML=h;
+}
+function noteNav(dir){
+  /* save current edits first (non-destructive) */
+  var ta=document.getElementById('pageNoteTA'); if(ta) saveNote(_notesViewDate, ta.value);
+  var nd=addDays(_notesViewDate,dir);
+  if(nd>todayStr()) return;           /* no future notes */
+  _notesViewDate=nd; renderNotesPage();
+}
+function openNoteDate(d){
+  var ta=document.getElementById('pageNoteTA'); if(ta) saveNote(_notesViewDate, ta.value);
+  _notesViewDate=d; renderNotesPage();
+}
+function savePageNote(){
+  var ta=document.getElementById('pageNoteTA'); if(!ta)return;
+  var ok=saveNote(_notesViewDate, ta.value);
+  if(!ok){ toast('Could not save — storage issue. Text kept.','err'); return; }
+  renderNotesPage(); toast('Note saved ✅','ok');
+}
+
+/* ═══════════════ TRADING JOURNAL ═══════════════
+   Record-keeping + analytics only. Not advice, no live prices, no execution.
+   Realized P&L lives on the trade. Cash movements (deposits/withdrawals/fees)
+   post to the unified ledger so P&L is never double-counted as cash. */
+function tradeById(id){ for(var i=0;i<DB.trades.length;i++) if(DB.trades[i].id===id) return DB.trades[i]; return null; }
+function num(v){ var n=parseFloat(v); return isNaN(n)?null:n; }
+/* gross = (exit-entry)*qty for long, reversed for short; net = gross - fees */
+function tradePL(t){
+  var entry=num(t.entry), exit=num(t.exit), qty=num(t.qty)||0, fees=num(t.fees)||0;
+  if(entry==null||exit==null||!qty) return { gross:null, net:null, fees:fees };
+  var dirMul=(t.dir==='short')?-1:1;
+  var gross=(exit-entry)*qty*dirMul;
+  return { gross:gross, net:gross-fees, fees:fees };
+}
+function tradePlannedRR(t){
+  var entry=num(t.entry), sl=num(t.sl), tg=num(t.target);
+  if(entry==null||sl==null||tg==null) return null;
+  var risk=Math.abs(entry-sl), reward=Math.abs(tg-entry);
+  if(!risk) return null;
+  return reward/risk;
+}
+function tradeOutcome(t){
+  if(t.exit==null||t.exit==='') return 'open';
+  var pl=tradePL(t); if(pl.net==null) return 'open';
+  if(pl.net>0) return 'win'; if(pl.net<0) return 'loss'; return 'be';
+}
+function tradeStats(list){
+  var wins=0,losses=0,be=0,open=0,grossWin=0,grossLoss=0,net=0,fees=0;
+  list.forEach(function(t){
+    var o=tradeOutcome(t); var pl=tradePL(t);
+    if(o==='open'){ open++; return; }
+    fees+=pl.fees||0;
+    if(o==='win'){ wins++; grossWin+=pl.net; }
+    else if(o==='loss'){ losses++; grossLoss+=Math.abs(pl.net); }
+    else be++;
+    if(pl.net!=null) net+=pl.net;
+  });
+  var closed=wins+losses+be;
+  var winRate=closed?(wins/closed*100):0;
+  var avgWin=wins?grossWin/wins:0, avgLoss=losses?grossLoss/losses:0;
+  var pf=grossLoss>0?(grossWin/grossLoss):(grossWin>0?Infinity:0);
+  return { wins:wins,losses:losses,be:be,open:open,closed:closed,net:net,fees:fees,
+           winRate:winRate,avgWin:avgWin,avgLoss:avgLoss,profitFactor:pf,grossWin:grossWin,grossLoss:grossLoss };
+}
+var TRADE_EDIT=null, TRADE_DIR='long', TRADE_MONTH=null;
+function openTrade(id){
+  TRADE_EDIT=id||null;
+  var t=id?tradeById(id):null;
+  TRADE_DIR=(t&&t.dir)||'long';
+  document.getElementById('trmTitle').textContent=id?'Edit Trade':'New Trade';
+  initDateDisp('trDate','trDateDisp',(t&&t.date)||todayStr());
+  document.getElementById('trInstr').value=(t&&t.instrument)||'';
+  document.getElementById('trSetup').value=(t&&t.setup)||'';
+  segSel('trDir',TRADE_DIR);
+  ['trEntry','trSL','trTarget','trQty','trExit','trFees'].forEach(function(f){ document.getElementById(f).value=''; });
+  if(t){ document.getElementById('trEntry').value=t.entry||''; document.getElementById('trSL').value=t.sl||''; document.getElementById('trTarget').value=t.target||''; document.getElementById('trQty').value=t.qty||''; document.getElementById('trExit').value=(t.exit==null?'':t.exit); document.getElementById('trFees').value=t.fees||''; }
+  document.getElementById('trNote').value=(t&&t.note)||'';
+  document.getElementById('tradeModal').classList.add('show');
+}
+function closeTrade(){ document.getElementById('tradeModal').classList.remove('show'); }
+function setTradeDir(d){ TRADE_DIR=d; segSel('trDir',d); }
+function saveTrade(){
+  var entry=num(document.getElementById('trEntry').value);
+  var qty=num(document.getElementById('trQty').value);
+  var instr=document.getElementById('trInstr').value.trim();
+  if(!instr){ toast('Enter instrument/market','err'); return; }
+  if(entry==null||!qty){ toast('Entry price and quantity required','err'); return; }
+  var rec={
+    id:TRADE_EDIT||('tr'+Date.now().toString(36)+Math.random().toString(36).slice(2,5)),
+    date:document.getElementById('trDate').value||todayStr(),
+    instrument:instr, setup:document.getElementById('trSetup').value.trim(), dir:TRADE_DIR,
+    entry:entry, sl:num(document.getElementById('trSL').value), target:num(document.getElementById('trTarget').value),
+    qty:qty, exit:(document.getElementById('trExit').value===''?null:num(document.getElementById('trExit').value)),
+    fees:num(document.getElementById('trFees').value)||0, note:document.getElementById('trNote').value.trim(),
+    ts:Date.now()
+  };
+  if(TRADE_EDIT){ var i=DB.trades.map(function(x){return x.id;}).indexOf(TRADE_EDIT); if(i>=0)DB.trades[i]=rec; }
+  else DB.trades.push(rec);
+  /* fees -> ledger cash-out, idempotent per trade */
+  ledgerRemoveBySrc('tradefee:'+rec.id);
+  if(rec.fees>0) ledgerAdd({ srcId:'tradefee:'+rec.id, src:'trading', amount:rec.fees, dir:'out', cat:'Trading fees', date:rec.date, note:instr+' fees', ref:rec.id, cash:true });
+  saveDB(); closeTrade(); render(); toast('Trade saved','ok'); TRADE_EDIT=null;
+}
+function delTrade(id){
+  confirmModal({icon:'🗑️',title:'Delete trade?',msg:'This trade and its linked fee entry will be removed.',ok:'Delete',danger:true,onOk:function(){
+    DB.trades=DB.trades.filter(function(x){return x.id!==id;});
+    ledgerRemoveBySrc('tradefee:'+id);
+    saveDB(); render(); toast('Trade deleted','');
+  }});
+}
+/* explicit cash deposit / withdrawal to trading (real cash movement) */
+function tradeCashMove(dir){
+  openNumModal(dir==='in'?'Deposit to trading':'Withdraw from trading', dir==='in'?'Cash you added to your trading capital.':'Cash you took out of trading.', '', function(v){
+    var amt=num(v); if(!amt||amt<=0){ toast('Enter a valid amount','err'); return; }
+    ledgerAdd({ src:'trading', amount:amt, dir:dir, cat:dir==='in'?'Trading deposit':'Trading withdrawal', date:todayStr(), note:'Trading capital '+(dir==='in'?'deposit':'withdrawal'), cash:true });
+    saveDB(); render(); toast('Recorded','ok');
+  });
+}
+function renderTradesPage(){
+  var el=document.getElementById('tradesPage'); if(!el)return;
+  var all=DB.trades.slice().sort(function(a,b){ return a.date<b.date?1:a.date>b.date?-1:(b.ts-a.ts); });
+  var mk=(TRADE_MONTH||todayStr().slice(0,7));
+  var monthTrades=all.filter(function(t){ return t.date.slice(0,7)===mk; });
+  var ms=tradeStats(monthTrades), allS=tradeStats(all);
+
+  var h='';
+  /* capital: starting (first set) + net P&L all-time; cash moves tracked in ledger */
+  h+='<div class="balcard"><div class="l">Net P&amp;L (all trades)</div>'
+    +'<div class="v" style="color:'+(allS.net>=0?'#7fe9c0':'#ff97a2')+'">'+fmtMoney(allS.net)+'</div>'
+    +'<div class="sub">'+allS.wins+'W · '+allS.losses+'L · '+allS.be+'BE · '+allS.open+' open · win rate '+allS.winRate.toFixed(1)+'%</div></div>';
+
+  h+='<div class="btnrow" style="margin-bottom:14px">'
+    +'<button class="btn sm" onclick="openTrade()">+ New trade</button>'
+    +'<button class="btn sm ghost" onclick="tradeCashMove(\'in\')">+ Deposit</button>'
+    +'<button class="btn sm ghost" onclick="tradeCashMove(\'out\')">− Withdraw</button>'
+    +'</div>';
+
+  /* month picker */
+  var months={}; all.forEach(function(t){ months[t.date.slice(0,7)]=1; }); months[mk]=1;
+  var mkeys=Object.keys(months).sort().reverse();
+  h+='<div class="led-row" style="margin-bottom:14px"><select class="led-sel" onchange="TRADE_MONTH=this.value;renderTradesPage()">'
+    +mkeys.map(function(k){ return '<option value="'+k+'"'+(k===mk?' selected':'')+'>'+k+'</option>'; }).join('')+'</select></div>';
+
+  /* month stat grid */
+  h+='<div class="moneyhead" style="margin-bottom:14px">'
+    +'<div class="mcard inC"><div class="lbl">Month net</div><div class="amt" style="color:'+(ms.net>=0?'#7fe9c0':'#ff97a2')+'">'+fmtMoney(ms.net)+'</div></div>'
+    +'<div class="mcard"><div class="lbl">Win rate</div><div class="amt">'+ms.winRate.toFixed(0)+'%</div></div>'
+    +'<div class="mcard outC"><div class="lbl">Fees</div><div class="amt">'+fmtMoney(ms.fees)+'</div></div>'
+    +'</div>';
+  h+='<div class="box" style="margin-bottom:16px"><div class="tr-kv"><span>Avg win</span><b style="color:#7fe9c0">'+fmtMoney(ms.avgWin)+'</b></div>'
+    +'<div class="tr-kv"><span>Avg loss</span><b style="color:#ff97a2">'+fmtMoney(ms.avgLoss)+'</b></div>'
+    +'<div class="tr-kv"><span>Profit factor</span><b>'+(ms.profitFactor===Infinity?'∞':ms.profitFactor.toFixed(2))+'</b></div>'
+    +'<div class="tr-kv"><span>Closed trades</span><b>'+ms.closed+'</b></div></div>';
+
+  /* trade list */
+  h+='<div class="sec"><div class="head"><h2>📋 Trades · '+mk+'</h2><div class="cnt">'+monthTrades.length+'</div></div></div>';
+  if(!monthTrades.length) h+='<div class="box" style="text-align:center;padding:20px;color:var(--muted);font-size:13px">No trades this month. Tap + New trade.</div>';
+  else monthTrades.forEach(function(t){
+    var o=tradeOutcome(t), pl=tradePL(t), rr=tradePlannedRR(t);
+    var oCls=o==='win'?'tw':o==='loss'?'tl':o==='open'?'to':'tb';
+    var oLbl=o==='win'?'WIN':o==='loss'?'LOSS':o==='open'?'OPEN':'BE';
+    h+='<div class="trade-row">'
+      +'<div class="tr-main"><div class="tr-top"><b>'+esc(t.instrument)+'</b>'
+      +'<span class="tr-dir '+(t.dir==='short'?'sh':'lo')+'">'+(t.dir==='short'?'SHORT':'LONG')+'</span>'
+      +'<span class="tr-out '+oCls+'">'+oLbl+'</span></div>'
+      +'<div class="tr-sub">'+esc(t.date)+(t.setup?(' · '+esc(t.setup)):'')+(rr!=null?(' · R:R '+rr.toFixed(1)):'')+'</div></div>'
+      +'<div class="tr-pl '+(pl.net>0?'p':pl.net<0?'n':'')+'">'+(pl.net==null?'—':fmtMoney(pl.net))+'</div>'
+      +'<div class="tr-acts"><span onclick="openTrade(\''+t.id+'\')">✎</span><span onclick="delTrade(\''+t.id+'\')">✕</span></div>'
+      +'</div>';
+  });
+  el.innerHTML=h;
+}
+
 function section(title,list,isSticky){
   if(!list.length)return '';
   // sort: not-done first, sticky by time
@@ -4537,6 +5102,7 @@ function refreshStatus(){
   var last=localStorage.getItem('volts_last_backup');
   var el=document.getElementById('stLast'); if(el) el.textContent=last?new Date(+last).toLocaleString():'Never';
   var pt=document.getElementById('perfToggle'); if(pt) pt.checked = PERF.on;
+  var ak=document.getElementById('aiKeyIn'); if(ak) ak.value=(DB.settings&&DB.settings.aiKey)||'';
 }
 function updateBackupReminder(){
   var el=document.getElementById('bkReminder'); if(!el)return;
@@ -4566,17 +5132,42 @@ function exportJson(){
     toast('Backup downloaded \u2b07\ufe0f \u2014 keep it safe','ok');
   }catch(e){ toast('Backup failed','err'); }
 }
+/* does this parsed object look like a real Volts backup? */
+function looksLikeBackup(o){
+  if(!o || typeof o!=='object' || Array.isArray(o)) return false;
+  /* must carry at least one known Volts collection/field */
+  var markers=['tasks','money','profile','workouts','penalties','dayPenalty','ledger','notes','trades'];
+  for(var i=0;i<markers.length;i++){ if(o.hasOwnProperty(markers[i])) return true; }
+  return false;
+}
 function importJson(ev){
   var f=ev.target.files[0]; if(!f)return;
   var r=new FileReader();
+  r.onerror=function(){ toast('Could not read that file','err'); ev.target.value=''; };
   r.onload=function(){
-    try{
-      var d=migrate(JSON.parse(r.result));
-      confirmModal({icon:'\u2b06\ufe0f',title:'Restore this backup?',msg:'This merges the backup with your current data \u2014 newest of each item is kept, nothing is lost.',ok:'Restore & merge',danger:false,onOk:function(){
-        DB = isDbEmpty(DB) ? d : mergeDB(DB,d);
-        recompute(); saveDB(); render(); toast('Restored \u2705','ok');
+    var raw, parsed;
+    try{ parsed=JSON.parse(r.result); }
+    catch(e){ toast('Not a valid JSON backup file','err'); ev.target.value=''; return; }
+    if(!looksLikeBackup(parsed)){ toast('This file is not a Volts backup \u2014 nothing changed','err'); ev.target.value=''; return; }
+    var d;
+    try{ d=migrate(parsed); }
+    catch(e){ toast('Backup is malformed \u2014 nothing changed','err'); ev.target.value=''; return; }
+    var ver=parsed.v||'unknown';
+    var cnt=(d.tasks||[]).length+' tasks \u00b7 '+(d.money||[]).length+' money \u00b7 '+(d.trades||[]).length+' trades \u00b7 '+Object.keys(d.notes||{}).length+' notes';
+    confirmModal({icon:'\u2b06\ufe0f',title:'Restore this backup?',
+      msg:'Backup v'+ver+': '+cnt+'. Merged with your current data \u2014 newest of each item kept, nothing deleted.',
+      ok:'Restore & merge',danger:false,onOk:function(){
+        /* snapshot current DB so a failed merge leaves the live DB intact */
+        var snapshot=null; try{ snapshot=JSON.stringify(DB); }catch(e){}
+        try{
+          var merged = isDbEmpty(DB) ? d : mergeDB(DB,d);
+          if(!looksLikeBackup(merged)) throw new Error('merge produced invalid DB');
+          DB=merged; recompute(); saveDB(); render(); toast('Restored \u2705','ok');
+        }catch(e){
+          if(snapshot){ try{ DB=migrate(JSON.parse(snapshot)); saveLocal(); render(); }catch(e2){} }
+          toast('Restore failed \u2014 your data is unchanged','err');
+        }
       }});
-    }catch(e){ toast('Invalid backup file','err'); }
     ev.target.value='';
   };
   r.readAsText(f);
@@ -4657,20 +5248,76 @@ function saveTxn(){
   var cat=document.getElementById('txCat').value, date=document.getElementById('txDate').value||todayStr(), note=document.getElementById('txNote').value.trim();
   if(TXN_EDIT){ var t=txnById(TXN_EDIT); t.kind=TXN_KIND; t.amount=amt; t.cat=cat; t.date=date; t.note=note; }
   else { DB.money.push({id:uid(),kind:TXN_KIND,amount:amt,cat:cat,date:date,note:note,ts:Date.now()}); }
+  ledgerSyncMoney();                 /* keep unified ledger in step */
   saveDB(); closeTxn(); render(); toast((TXN_KIND==='in'?'Income':'Expense')+' saved','ok'); TXN_EDIT=null;
 }
-function delTxn(id){ var t=txnById(id); confirmModal({icon:'🗑️',title:'Delete entry?',msg:fmtMoney(t.amount)+' · '+t.cat+' will be removed.',ok:'Delete',danger:true,onOk:function(){ DB.money=DB.money.filter(function(x){return x.id!==id;}); saveDB(); render(); toast('Deleted',''); }}); }
+function delTxn(id){ var t=txnById(id); confirmModal({icon:'🗑️',title:'Delete entry?',msg:fmtMoney(t.amount)+' · '+t.cat+' will be removed.',ok:'Delete',danger:true,onOk:function(){ DB.money=DB.money.filter(function(x){return x.id!==id;}); ledgerRemoveBySrc('money:'+id); saveDB(); render(); toast('Deleted',''); }}); }
+
+/* ═══════════════ UNIFIED LEDGER ENGINE ═══════════════
+   Single source of truth across modules. Idempotent via srcId + ledgerSeen.
+   dir 'in'/'out'; cash=true means it moves real cash balance.
+   Manual Money rows mirror here; Trading posts cash deposits/withdrawals/fees
+   (NOT realized P&L — that lives in the trades, to avoid double-count). */
+function ledgerAdd(o){
+  DB.ledger=DB.ledger||[]; DB.ledgerSeen=DB.ledgerSeen||{};
+  if(o.srcId && DB.ledgerSeen[o.srcId]) return null;         /* idempotent */
+  var row={ id:o.id||('lg'+Date.now().toString(36)+Math.random().toString(36).slice(2,5)),
+            srcId:o.srcId||null, src:o.src||'manual',
+            amount:Math.abs(+o.amount||0), dir:(o.dir==='in'?'in':'out'),
+            cat:o.cat||'Other', date:o.date||todayStr(), note:o.note||'',
+            ref:o.ref||null, status:o.status||'posted',
+            cash:(o.cash!==false), ts:o.ts||Date.now() };
+  DB.ledger.push(row); if(row.srcId) DB.ledgerSeen[row.srcId]=1;
+  return row;
+}
+function ledgerRemoveBySrc(srcId){
+  if(!srcId) return;
+  DB.ledger=(DB.ledger||[]).filter(function(r){ return r.srcId!==srcId; });
+  if(DB.ledgerSeen) delete DB.ledgerSeen[srcId];
+}
+/* re-mirror DB.money into ledger (adds missing, removes orphaned money rows) */
+function ledgerSyncMoney(){
+  DB.ledger=DB.ledger||[]; DB.ledgerSeen=DB.ledgerSeen||{};
+  var liveIds={};
+  (DB.money||[]).forEach(function(m){
+    if(!m) return; var srcId='money:'+m.id; liveIds[srcId]=1;
+    var ex=null; for(var i=0;i<DB.ledger.length;i++){ if(DB.ledger[i].srcId===srcId){ ex=DB.ledger[i]; break; } }
+    if(ex){ ex.amount=Math.abs(+m.amount||0); ex.dir=(m.kind==='in'?'in':'out'); ex.cat=m.cat||'Other'; ex.date=m.date||ex.date; ex.note=m.note||''; }
+    else { ledgerAdd({ srcId:srcId, src:'money', amount:m.amount, dir:(m.kind==='in'?'in':'out'), cat:m.cat, date:m.date, note:m.note, ref:m.id, ts:m.ts }); }
+  });
+  /* drop ledger 'money' rows whose source txn was deleted */
+  DB.ledger=DB.ledger.filter(function(r){ if(r.src!=='money') return true; if(liveIds[r.srcId]) return true; if(DB.ledgerSeen)delete DB.ledgerSeen[r.srcId]; return false; });
+}
+/* estimated cash balance = starting balance + cash-in − cash-out (posted only) */
+function walletBalance(){
+  var bal=(DB.walletStartSet? (+DB.walletStart||0) : 0);
+  (DB.ledger||[]).forEach(function(r){ if(r.status!=='posted'||r.cash===false) return; bal += (r.dir==='in'? r.amount : -r.amount); });
+  return bal;
+}
+function setWalletStart(){
+  var cur=DB.walletStartSet?DB.walletStart:'';
+  openNumModal('Starting cash balance','Set your real cash-in-hand / account starting point. Everything after is calculated from your entries.', cur, function(v){
+    DB.walletStart=+v||0; DB.walletStartSet=true; saveDB(); render(); toast('Starting balance set','ok');
+  });
+}
 function renderMoney(){
+  ledgerSyncMoney();
+  var mr=document.getElementById('moRecoSlot'); if(mr){ try{ mr.innerHTML=recoBannerHtml('money'); }catch(e){ mr.innerHTML=''; } }
   var mk=todayStr().slice(0,7);
   var allIn=0, allOut=0, mIn=0, mOut=0;
   DB.money.forEach(function(t){ if(t.kind==='in'){allIn+=t.amount; if(t.date.slice(0,7)===mk)mIn+=t.amount;} else {allOut+=t.amount; if(t.date.slice(0,7)===mk)mOut+=t.amount;} });
-  var bal=allIn-allOut, mNet=mIn-mOut;
+  var mNet=mIn-mOut;
+  /* unified estimated cash balance (incl. starting balance + trading cash moves + fees) */
+  var bal=walletBalance();
   document.getElementById('mBal').textContent=fmtMoney(bal);
   document.getElementById('mIn').textContent=fmtMoney(mIn);
   document.getElementById('mOut').textContent=fmtMoney(mOut);
   document.getElementById('mNet').textContent=fmtMoney(mNet);
-  var rate=mIn>0?Math.round((mIn-mOut)/mIn*100):0;
-  document.getElementById('mSaveRate').textContent=mIn>0?('This month you kept '+rate+'% of income. '+(rate>=20?'Solid. 🟢':rate>=0?'Keep tightening. 🟡':'Overspending. 🔴')):'Log income & expenses to see your savings rate.';
+  var sr=document.getElementById('mSaveRate');
+  if(sr){
+    var startTxt = DB.walletStartSet ? ('Est. cash balance · from ₹'+(+DB.walletStart||0).toLocaleString('en-IN')+' start. ') : 'Estimate from your entries. ';
+    sr.innerHTML = esc(startTxt)+'<a onclick="setWalletStart()" style="color:var(--accent2);text-decoration:underline;cursor:pointer">'+(DB.walletStartSet?'Change start':'Set starting balance')+'</a>';
+  }
 
   var month=DB.money.filter(function(t){return t.date.slice(0,7)===mk;}).sort(function(a,b){ return a.date<b.date?1:a.date>b.date?-1:(b.ts-a.ts); });
   document.getElementById('mCount').textContent=month.length+' entr'+(month.length===1?'y':'ies');
@@ -4706,23 +5353,25 @@ function setMoneyTab(t){
 }
 function exportMoneyCsv(){
   try{
-    var rows=[['Date','Type','Category','Amount','Note']];
-    DB.money.slice().sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:(a.ts-b.ts);}).forEach(function(t){
-      rows.push([t.date, t.kind==='in'?'IN':'OUT', t.cat, t.amount, (t.note||'').replace(/"/g,'""')]);
+    ledgerSyncMoney();
+    var rows=[['Date','Direction','Source','Category','Amount','Cash','Note']];
+    (DB.ledger||[]).slice().sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:((a.ts||0)-(b.ts||0));}).forEach(function(t){
+      rows.push([t.date, t.dir==='in'?'IN':'OUT', t.src||'manual', t.cat, t.amount, (t.cash===false?'no':'yes'), (t.note||'').replace(/"/g,'""')]);
     });
     var csv=rows.map(function(r){ return r.map(function(c){ return '"'+String(c)+'"'; }).join(','); }).join('\r\n');
     var blob=new Blob([csv],{type:'text/csv'});
     var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
-    a.download='volts_money_'+todayStr()+'.csv'; a.click();
+    a.download='volts_ledger_'+todayStr()+'.csv'; a.click();
     setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
-    toast('Money CSV downloaded ⬇️','ok');
+    toast('Ledger CSV downloaded ⬇️','ok');
   }catch(e){ toast('CSV export failed','err'); }
 }
 function setLedKind(k){ LED_KIND=k; segSel('ledKind',k); renderLedger(); }
 function fillLedgerCats(){
   var sel=document.getElementById('ledCat'); if(!sel)return;
+  ledgerSyncMoney();
   var cur=sel.value;
-  var seen={}; DB.money.forEach(function(t){ seen[t.cat]=1; });
+  var seen={}; (DB.ledger||[]).forEach(function(t){ seen[t.cat]=1; });
   var cats=Object.keys(seen).sort();
   sel.innerHTML='<option value="all">All categories</option>'+
     cats.map(function(c){ return '<option value="'+esc(c)+'">'+(TXN_ICON[c]||'📌')+' '+esc(c)+'</option>'; }).join('');
@@ -4742,27 +5391,26 @@ function ledInRange(dateStr, range){
 }
 function renderLedger(){
   var listEl=document.getElementById('ledgerList'); if(!listEl)return;
+  ledgerSyncMoney();
   var range=(document.getElementById('ledRange')||{}).value||'month';
   var cat=(document.getElementById('ledCat')||{}).value||'all';
   var q=((document.getElementById('ledSearch')||{}).value||'').trim().toLowerCase();
 
-  /* running balance needs FULL history oldest->newest */
-  var all=DB.money.slice().sort(function(a,b){ return a.date<b.date?-1:a.date>b.date?1:(a.ts-b.ts); });
-  var run=0, withBal=[];
-  all.forEach(function(t){ run += (t.kind==='in'? t.amount : -t.amount); withBal.push({t:t, bal:run}); });
+  /* running CASH balance needs FULL history oldest->newest, starting from walletStart */
+  var all=(DB.ledger||[]).slice().sort(function(a,b){ return a.date<b.date?-1:a.date>b.date?1:((a.ts||0)-(b.ts||0)); });
+  var run=(DB.walletStartSet? (+DB.walletStart||0):0), withBal=[];
+  all.forEach(function(t){ if(t.cash!==false && t.status==='posted'){ run += (t.dir==='in'? t.amount : -t.amount); } withBal.push({t:t, bal:run}); });
 
-  /* apply filters */
   var rows=withBal.filter(function(r){
     var t=r.t;
-    if(LED_KIND!=='all' && t.kind!==LED_KIND) return false;
+    if(LED_KIND!=='all' && t.dir!==LED_KIND) return false;
     if(cat!=='all' && t.cat!==cat) return false;
     if(!ledInRange(t.date, range)) return false;
-    if(q){ var hay=(t.cat+' '+(t.note||'')+' '+t.date).toLowerCase(); if(hay.indexOf(q)<0) return false; }
+    if(q){ var hay=(t.cat+' '+(t.note||'')+' '+t.date+' '+(t.src||'')).toLowerCase(); if(hay.indexOf(q)<0) return false; }
     return true;
   });
 
-  /* summary of filtered set */
-  var fIn=0,fOut=0; rows.forEach(function(r){ if(r.t.kind==='in')fIn+=r.t.amount; else fOut+=r.t.amount; });
+  var fIn=0,fOut=0; rows.forEach(function(r){ if(r.t.dir==='in')fIn+=r.t.amount; else fOut+=r.t.amount; });
   var sum=document.getElementById('ledSummary');
   if(sum) sum.innerHTML=
     '<div class="ls inV"><div class="lsl">In</div><div class="lsv">'+fmtMoney(fIn)+'</div></div>'+
@@ -4771,19 +5419,20 @@ function renderLedger(){
 
   document.getElementById('ledCount').textContent=rows.length+' entr'+(rows.length===1?'y':'ies');
 
-  /* newest first for display */
   rows.reverse();
   var h='', lastDay='';
   if(!rows.length){ h='<div class="empty"><div class="em">📒</div><p>No entries match these filters.</p></div>'; }
   else rows.forEach(function(r){
-    var t=r.t, isIn=t.kind==='in';
+    var t=r.t, isIn=t.dir==='in';
     if(t.date!==lastDay){ lastDay=t.date; h+='<div class="led-date-sep">'+esc(fmtDateDisp(t.date)||t.date)+'</div>'; }
+    var srcTag = t.src && t.src!=='money' ? '<span class="led-src">'+esc(t.src)+'</span>' : '';
+    var canEdit = t.src==='money' && t.ref;
     h+='<div class="txn"><div class="ti">'+(TXN_ICON[t.cat]||'📌')+'</div>'+
-       '<div class="tb"><div class="t">'+esc(t.cat)+'</div>'+
+       '<div class="tb"><div class="t">'+esc(t.cat)+srcTag+'</div>'+
        '<div class="s">'+(t.note?esc(t.note):'—')+'</div>'+
-       '<div class="bal">Balance: '+fmtMoney(r.bal)+'</div></div>'+
-       '<div class="amtv '+(isIn?'inA':'outA')+'" onclick="openTxn(\''+t.id+'\')">'+(isIn?'+':'-')+fmtMoney(t.amount).replace('-','')+'</div>'+
-       '<div class="x" onclick="delTxn(\''+t.id+'\')">✕</div></div>';
+       '<div class="bal">'+(t.cash===false?'<i>non-cash</i>':'Balance: '+fmtMoney(r.bal))+'</div></div>'+
+       '<div class="amtv '+(isIn?'inA':'outA')+'"'+(canEdit?(' onclick="openTxn(\''+t.ref+'\')"'):'')+'>'+(isIn?'+':'-')+fmtMoney(t.amount).replace('-','')+'</div>'+
+       (canEdit?'<div class="x" onclick="delTxn(\''+t.ref+'\')">✕</div>':'<div class="x" style="opacity:.25">·</div>')+'</div>';
   });
   listEl.innerHTML=h;
 }
@@ -5009,8 +5658,288 @@ function trainWeekHtml(){
   return '<div class="sec"><div class="head"><h2>📅 This week\'s split</h2><div class="cnt">'+esc(p.name)+'</div></div></div><div class="tw-grid">'+cells+'</div>';
 }
 
+/* ═══════════════ HOME BODYWEIGHT PROGRESSION ═══════════════
+   Bodyweight-only, no gym. reps × sets = TOTAL volume (15×4 = 60 total).
+   Progression is performance-based: advance only after you MEET the target;
+   hold or reduce if you miss, skip, or report it was too hard. */
+var BW_PLAN=[
+  {k:'pushups', e:'🫷', nm:'Push-ups',        base:{reps:10,sets:3,rest:60}, timed:false},
+  {k:'squats',  e:'🦵', nm:'Bodyweight squats',base:{reps:15,sets:3,rest:60}, timed:false},
+  {k:'plank',   e:'🧱', nm:'Plank (hold)',    base:{secs:30,sets:3,rest:45}, timed:true},
+  {k:'lunges',  e:'🚶', nm:'Lunges (each leg)',base:{reps:10,sets:3,rest:60}, timed:false},
+  {k:'glute',   e:'🍑', nm:'Glute bridge',    base:{reps:15,sets:3,rest:45}, timed:false}
+];
+function bwState(k){ DB.workoutProg=DB.workoutProg||{}; return DB.workoutProg[k]||null; }
+function bwTarget(ex){
+  var st=bwState(ex.k);
+  if(!st){ return { reps:ex.base.reps, secs:ex.base.secs, sets:ex.base.sets, rest:ex.base.rest, level:1 }; }
+  return { reps:st.reps, secs:st.secs, sets:st.sets, rest:ex.base.rest, level:st.level||1 };
+}
+function bwLog(k, met){
+  /* met=true -> you hit the target; advance gently. met=false -> hold. */
+  DB.workoutProg=DB.workoutProg||{};
+  var ex=null; for(var i=0;i<BW_PLAN.length;i++) if(BW_PLAN[i].k===k) ex=BW_PLAN[i];
+  if(!ex) return;
+  var t=bwTarget(ex);
+  var st=DB.workoutProg[k]||{ reps:ex.base.reps, secs:ex.base.secs, sets:ex.base.sets, level:1, streak:0, lastDate:'' };
+  if(met){
+    st.streak=(st.streak||0)+1;
+    /* advance only every 2 successful sessions, in small steps (not daily blind +) */
+    if(st.streak>=2){
+      st.streak=0; st.level=(st.level||1)+1;
+      if(ex.timed){ st.secs=Math.min((st.secs||ex.base.secs)+10, 180); }
+      else { st.reps=(st.reps||ex.base.reps)+2; if(st.reps>25 && (st.sets||ex.base.sets)<5){ st.reps=ex.base.reps+2; st.sets=(st.sets||ex.base.sets)+1; } }
+    }
+  } else {
+    st.streak=0;  /* missed/too hard -> hold (never auto-reduce harshly) */
+  }
+  st.lastDate=todayStr();
+  DB.workoutProg[k]=st;
+  saveDB(); renderWorkout();
+  toast(met?'Logged ✅ progression on track':'Held at current level — no shame','ok');
+}
+function bwHint(k, dir){
+  /* manual ease-down if a user reports pain/too hard */
+  DB.workoutProg=DB.workoutProg||{};
+  var ex=null; for(var i=0;i<BW_PLAN.length;i++) if(BW_PLAN[i].k===k) ex=BW_PLAN[i];
+  if(!ex) return;
+  var st=DB.workoutProg[k]||{ reps:ex.base.reps, secs:ex.base.secs, sets:ex.base.sets, level:1, streak:0 };
+  if(dir<0){
+    if(ex.timed){ st.secs=Math.max((st.secs||ex.base.secs)-10, 10); }
+    else { st.reps=Math.max((st.reps||ex.base.reps)-2, 5); }
+    st.level=Math.max((st.level||1)-1,1); st.streak=0;
+  }
+  DB.workoutProg[k]=st; saveDB(); renderWorkout(); toast('Eased down — recover, then build again','');
+}
+function bwCardHtml(){
+  var h='<div class="box" style="margin-bottom:16px">'
+    +'<div class="head" style="margin-bottom:12px"><h2 style="font-size:15px">🏠 Home workout — today</h2><div class="cnt">bodyweight</div></div>';
+  BW_PLAN.forEach(function(ex){
+    var t=bwTarget(ex);
+    var doneToday = bwState(ex.k) && bwState(ex.k).lastDate===todayStr();
+    var per = ex.timed ? (t.secs+'s hold') : (t.reps+' reps');
+    var total = ex.timed ? (t.secs*t.sets+'s total') : (t.reps*t.sets+' total reps');
+    h+='<div class="bw-ex'+(doneToday?' done':'')+'">'
+      +'<div class="bw-e">'+ex.e+'</div>'
+      +'<div class="bw-b"><div class="bw-nm">'+ex.nm+' <span class="bw-lvl">Lv '+t.level+'</span></div>'
+      +'<div class="bw-tg">'+per+' × '+t.sets+' sets · rest '+t.rest+'s · <b>'+total+'</b></div></div>'
+      +(doneToday
+        ? '<div class="bw-doneb">✓</div>'
+        : '<div class="bw-acts"><button class="bw-miss" onclick="bwLog(\''+ex.k+'\',false)">Held</button><button class="bw-hit" onclick="bwLog(\''+ex.k+'\',true)">Hit ✓</button></div>')
+      +'</div>';
+  });
+  h+='<p style="font-size:10.5px;color:var(--muted);margin-top:10px;line-height:1.5">Progression advances only after 2 sessions where you hit the target — never blind daily increases. Pain or too hard? <a onclick="bwEaseMenu()" style="color:var(--accent2);text-decoration:underline;cursor:pointer">ease down</a>. Never push through sharp pain.</p>';
+  h+='</div>';
+  return h;
+}
+function bwEaseMenu(){
+  var opts=BW_PLAN.map(function(ex){ return ex.nm; }).join(', ');
+  confirmModal({icon:'🧘',title:'Ease down a level',msg:'Tap an exercise below in the card and use "Held" to stay put. To reduce the target, it will drop reps/time one step. This protects recovery — it is not failure.',ok:'Got it',onOk:function(){}});
+}
+/* ═══════════════ SMART PLANNER + IMMUTABLE DAILY LOCK ═══════════════
+   HONEST: default planner is a LOCAL rule engine (deterministic), labeled
+   "Smart Plan" — NOT claimed as AI. Real AI runs only if the user pastes
+   their own API key in Settings (key stays on device; we never ship one,
+   never expose a shared secret). Browsers can't run JS while fully closed,
+   so the 06:00 schedule is a DUE-TIME check processed on next app open.
+   Once a date's plan is APPROVED it is LOCKED and immutable. */
+
+/* due-time check — run on app open; generates a proposal set once per date */
+function plannerDueCheck(){
+  var td=todayStr();
+  DB.planChk=DB.planChk||{};
+  if(DB.plans && DB.plans[td] && DB.plans[td].locked) return;  /* already locked today */
+  if(DB.planChk[td]) return;                                   /* already generated today */
+  /* build proposal, store as pending (NOT applied, NOT locked) */
+  var prop=buildLocalPlan(td);
+  DB.plans=DB.plans||{};
+  if(!DB.plans[td]) DB.plans[td]={ date:td, locked:false, approvedAt:0, sections:prop, source:'local', approvals:{} };
+  DB.planChk[td]=Date.now();
+  DB.proposals=DB.proposals||[];
+  DB.proposals.unshift({ id:'pp'+Date.now(), date:td, source:'local', ts:Date.now(), decided:false });
+  if(DB.proposals.length>120) DB.proposals.length=120;
+  try{ saveDB(); }catch(e){}
+}
+/* LOCAL deterministic planner — uses real VOLTS data, no external call */
+/* recommendations DERIVED FROM the user's own past data (last N days).
+   Every item carries a "based on <real number>" reason, not a generic tip. */
+function buildLocalPlan(td){
+  var y=addDays(td,-1);
+  var WIN=14;                                   /* look-back window (days) */
+  function lastNDates(n){ var a=[]; for(var i=0;i<n;i++)a.push(addDays(td,-i-1)); return a; } /* excludes today */
+  var win=lastNDates(WIN);
+
+  /* ---- TASKS: rank by each task's OWN recent completion rate ---- */
+  var openTasks=[];
+  DB.tasks.forEach(function(t){
+    if(t.type==='daily'||t.type==='sticky'){
+      var hist=t.history||[];
+      var hit=0; win.forEach(function(d){ if(hist.indexOf(d)!==-1)hit++; });
+      var rate=Math.round(hit/WIN*100);
+      var doneY=hist.indexOf(y)!==-1;
+      var pr, reason;
+      if(rate<40){ pr='high'; reason='weak habit — only '+rate+'% done last '+WIN+'d'; }
+      else if(!doneY){ pr='high'; reason='missed yesterday ('+rate+'% recent)'; }
+      else { pr='normal'; reason='strong — '+rate+'% last '+WIN+'d, keep it'; }
+      openTasks.push({ title:t.title, cat:t.cat, priority:pr, reason:reason, rate:rate });
+    } else if(t.type==='once' && !t.done){
+      openTasks.push({ title:t.title, cat:t.cat, priority:'high', reason:'one-time, still open' });
+    }
+  });
+  /* worst habits first */
+  openTasks.sort(function(a,b){ var ap=a.priority==='high'?0:1, bp=b.priority==='high'?0:1; if(ap!==bp)return ap-bp; return (a.rate==null?999:a.rate)-(b.rate==null?999:b.rate); });
+
+  /* ---- WORKOUT: bodyweight targets + flag exercises you keep skipping ---- */
+  var woDates={}; (DB.workouts||[]).forEach(function(w){ if(win.indexOf(w.date)!==-1)woDates[w.date]=1; });
+  var woDays=Object.keys(woDates).length;
+  var wplan=BW_PLAN.map(function(ex){
+    var t=bwTarget(ex);
+    var st=(DB.workoutProg||{})[ex.k];
+    var last= st&&st.lastDate ? st.lastDate : null;
+    var stale = !last || (win.indexOf(last)===-1 && last<y);
+    return { name:ex.nm,
+             target: ex.timed?(t.secs+'s × '+t.sets):(t.reps+' × '+t.sets),
+             level:t.level,
+             note: stale? 'not logged recently — restart easy' : ('at Lv '+t.level) };
+  });
+  wplan._meta={ days:woDays, note: woDays<3 ? ('only '+woDays+' sessions in '+WIN+'d — aim for consistency') : (woDays+' sessions in '+WIN+'d — solid') };
+
+  /* ---- FOOD: compare recent avg intake vs goal, recommend the gap ---- */
+  var goal=foodGoal();
+  var fCal=0,fPro=0,fd={}; (DB.food||[]).forEach(function(f){ if(win.indexOf(f.date)!==-1){ fCal+=(f.cal||0); fPro+=(f.pro||0); fd[f.date]=1; } });
+  var fdays=Object.keys(fd).length||0;
+  var avgCal=fdays?Math.round(fCal/fdays):0, avgPro=fdays?Math.round(fPro/fdays):0;
+  var fnote;
+  if(!fdays) fnote='No food logged in '+WIN+'d — start logging to tune targets.';
+  else if(avgPro < goal.pro*0.85) fnote='Protein low: avg '+avgPro+'g vs '+goal.pro+'g goal. Add a protein source.';
+  else if(avgCal < goal.cal*0.9) fnote='Calories under goal (avg '+avgCal+' vs '+goal.cal+'). Eat more to bulk.';
+  else fnote='On target: avg '+avgCal+' kcal / '+avgPro+'g protein. Hold it.';
+  var fplan={ cal:goal.cal, pro:goal.pro, note:fnote, avgCal:avgCal, avgPro:avgPro };
+
+  /* ---- MONEY: recent spend trend + biggest leak category ---- */
+  ledgerSyncMoney();
+  var inC=0,outC=0,byCat={}; (DB.ledger||[]).forEach(function(r){
+    if(r.cash===false||r.status!=='posted') return;
+    if(win.indexOf(r.date)===-1 && r.date<y) return;         /* window */
+    if(win.indexOf(r.date)===-1) return;
+    if(r.dir==='in') inC+=r.amount; else { outC+=r.amount; byCat[r.cat]=(byCat[r.cat]||0)+r.amount; }
+  });
+  var topCat=null,topAmt=0; for(var c in byCat){ if(byCat[c]>topAmt){topAmt=byCat[c];topCat=c;} }
+  var mAction;
+  if(outC>inC && inC>0) mAction='Last '+WIN+'d you spent '+fmtMoney(outC)+' vs '+fmtMoney(inC)+' in — tighten up.';
+  else if(topCat) mAction='Biggest spend: '+topCat+' ('+fmtMoney(topAmt)+' in '+WIN+'d). Watch it today.';
+  else mAction='Few expenses logged — log every spend today for real numbers.';
+  var mplan=[{ action:mAction, net:inC-outC }];
+
+  /* ---- STUDY/CAREER: nudge tuned to how consistent you've been ---- */
+  var learnTasks=DB.tasks.filter(function(t){ return t.cat==='learn'; });
+  var learnHit=0; learnTasks.forEach(function(t){ win.forEach(function(d){ if((t.history||[]).indexOf(d)!==-1)learnHit++; }); });
+  var sWhy = learnTasks.length
+    ? (learnHit< WIN*0.3 ? 'learning slipped — only '+learnHit+' sessions in '+WIN+'d' : 'good learning streak — '+learnHit+' sessions in '+WIN+'d')
+    : 'no learning task tracked — add one for your freelancing goal';
+  var splan=[{ block:'1 focused learning block (45 min)', why:sWhy }];
+
+  return { tasks:openTasks, workout:wplan, food:fplan, money:mplan, study:splan };
+}
+function planToday(){ return (DB.plans&&DB.plans[todayStr()])?DB.plans[todayStr()]:null; }
+function approveSection(sec){
+  var td=todayStr(); var p=DB.plans&&DB.plans[td]; if(!p)return;
+  if(p.locked){ toast('Today\'s plan is locked','err'); return; }
+  p.approvals=p.approvals||{}; p.approvals[sec]=Date.now();
+  /* if ALL sections approved, lock the whole day */
+  var secs=['tasks','workout','food','money','study'];
+  var all=secs.every(function(s){ return p.approvals[s]; });
+  if(all){ p.locked=true; p.approvedAt=Date.now(); }
+  saveDB();
+  if(CUR_PAGE==='Planner') renderPlannerPage(); else render();  /* refresh wherever approved from */
+  toast(all?'Full plan approved & LOCKED for today 🔒':'Approved — now live on its page','ok');
+}
+/* ---- recommendation banner shown on an individual page (distribution) ---- */
+var RECO_META={
+  tasks:{pg:'Today', ic:'✅', nm:'Priorities'},
+  workout:{pg:'Workout', ic:'🏠', nm:'Workout'},
+  food:{pg:'Food', ic:'🍗', nm:'Food targets'},
+  money:{pg:'Money', ic:'💰', nm:'Money'},
+  study:{pg:'Today', ic:'📚', nm:'Study block'}
+};
+function recoSummary(sec,p){
+  var s=p.sections[sec];
+  if(sec==='tasks') return (s&&s.length?s.length+' priority task'+(s.length>1?'s':''):'No open tasks');
+  if(sec==='workout') return (s&&s.length?s.length+' bodyweight exercises':'—');
+  if(sec==='food') return s? (s.cal+' kcal · '+s.pro+'g protein'):'—';
+  if(sec==='money') return (s&&s.length? esc(s[0].action):'—');
+  if(sec==='study') return (s&&s.length? esc(s[0].block):'—');
+  return '—';
+}
+function recoBannerHtml(sec){
+  var td=todayStr(); var p=planToday(); if(!p) return '';
+  var m=RECO_META[sec]; if(!m) return '';
+  var appr=p.approvals&&p.approvals[sec];
+  var sum=recoSummary(sec,p);
+  if(appr || p.locked){
+    return '<div class="reco-ban ok">'+m.ic+' <b>Approved recommendation:</b> '+sum
+      +'<span class="reco-tag">'+(p.locked?'locked':'live')+'</span></div>';
+  }
+  return '<div class="reco-ban"><div class="reco-top">'+m.ic+' <b>Recommendation</b><span class="reco-src">from Recommendations</span></div>'
+    +'<div class="reco-sum">'+sum+'</div>'
+    +'<div class="reco-acts"><button class="btn sm ghost" onclick="go(\'Planner\')">View all</button>'
+    +'<button class="btn sm" onclick="approveSection(\''+sec+'\')">Approve</button></div></div>';
+}
+function rejectSection(sec){
+  var td=todayStr(); var p=DB.plans&&DB.plans[td]; if(!p||p.locked)return;
+  p.approvals=p.approvals||{}; delete p.approvals[sec];
+  /* regenerate just this section from fresh data */
+  var fresh=buildLocalPlan(td); p.sections[sec]=fresh[sec];
+  saveDB(); renderPlannerPage(); toast('Section regenerated','');
+}
+function regenPlan(){
+  var td=todayStr(); var p=DB.plans&&DB.plans[td];
+  if(p && p.locked){ toast('Plan is locked for today — can\'t regenerate','err'); return; }
+  DB.planChk[td]=0; DB.plans[td]=null; plannerDueCheck(); renderPlannerPage(); toast('Fresh plan generated','ok');
+}
+function renderPlannerPage(){
+  var el=document.getElementById('plannerPage'); if(!el)return;
+  plannerDueCheck();
+  var td=todayStr(); var p=planToday();
+  var h='';
+  var hasKey=!!(DB.settings&&DB.settings.aiKey);
+  h+='<div class="box" style="margin-bottom:14px;font-size:12px;color:var(--muted);line-height:1.6">'
+    +'<b style="color:var(--txt)">🧮 Smart Plan (from your history)</b><br>'
+    +'Each recommendation is built from <b>your last 14 days of real data</b> — completion rates, workout consistency, food vs goal, spending, trading. Not a generic tip, <b>not an AI claim</b>. No AI network calls'
+    +(hasKey?' yet, even though a key is saved.':'; add your own key in Settings when AI calling ships.')
+    +'<br>Scheduled 06:00 check runs on next app open (browsers can\'t run while closed).</div>';
+  if(!p){ el.innerHTML=h+'<div class="box">No plan yet.</div>'; return; }
+
+  if(p.locked){
+    h+='<div class="plan-lock">🔒 Locked for '+esc(fmtDateDisp(td).replace('📅 ',''))+' · approved '+new Date(p.approvedAt).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})+'. Today\'s plan is immutable. Tomorrow\'s plan uses today\'s results.</div>';
+  } else {
+    h+='<div class="btnrow" style="margin-bottom:14px"><button class="btn sm ghost" onclick="regenPlan()">↻ Regenerate</button></div>';
+  }
+  var secs=[
+    {k:'tasks',t:'✅ Priorities',fn:function(s){ return s.length?s.map(function(x){return '<div class="pl-item'+(x.priority==='high'?' hi':'')+'">'+esc(x.title)+'<span>'+esc(x.reason)+'</span></div>';}).join(''):'<div class="pl-empty">No open tasks.</div>'; }},
+    {k:'workout',t:'🏠 Workout',fn:function(s){ var meta=s._meta?('<div class="pl-item hi">Consistency<span>'+esc(s._meta.note)+'</span></div>'):''; return meta+s.map(function(x){return '<div class="pl-item">'+esc(x.name)+'<span>'+esc(x.target)+' · '+esc(x.note||('Lv '+x.level))+'</span></div>';}).join(''); }},
+    {k:'food',t:'🍗 Food',fn:function(s){ return '<div class="pl-item">'+s.cal+' kcal · '+s.pro+'g protein<span>'+esc(s.note)+'</span></div>'; }},
+    {k:'money',t:'💰 Money',fn:function(s){ return s.map(function(x){return '<div class="pl-item">'+esc(x.action)+'<span>month net '+fmtMoney(x.net)+'</span></div>';}).join(''); }},
+    {k:'study',t:'📚 Study / Career',fn:function(s){ return s.map(function(x){return '<div class="pl-item">'+esc(x.block)+'<span>'+esc(x.why)+'</span></div>';}).join(''); }}
+  ];
+  secs.forEach(function(S){
+    var appr=p.approvals&&p.approvals[S.k];
+    h+='<div class="plan-sec"><div class="plan-sec-h"><b>'+S.t+'</b>'
+      +(p.locked?'<span class="plan-ap">locked</span>':(appr?'<span class="plan-ap ok">✓ approved</span>':'<span class="plan-ap pend">pending</span>'))
+      +'</div>'
+      +'<div class="plan-body">'+S.fn(p.sections[S.k])+'</div>'
+      +(p.locked?'':(appr
+        ? '<div class="btnrow"><button class="btn sm ghost" onclick="rejectSection(\''+S.k+'\')">Undo / regen</button></div>'
+        : '<div class="btnrow"><button class="btn sm ghost" onclick="rejectSection(\''+S.k+'\')">Regenerate</button><button class="btn sm" onclick="approveSection(\''+S.k+'\')">Approve</button></div>'))
+      +'</div>';
+  });
+  el.innerHTML=h;
+}
+
 function renderWorkout(){
   var td=todayStr();
+  var wr=document.getElementById('woRecoSlot'); if(wr){ try{ wr.innerHTML=recoBannerHtml('workout'); }catch(e){ wr.innerHTML=''; } }
+  var bw=document.getElementById('bwSlot'); if(bw) bw.innerHTML=bwCardHtml();
   /* training split banner + week strip */
   var tb=document.getElementById('trainBannerSlot'); if(tb) tb.innerHTML=trainingBannerHtml();
   var twk=document.getElementById('trainWeekSlot'); if(twk) twk.innerHTML=trainWeekHtml();
@@ -5046,6 +5975,19 @@ function confirmModal(o){
   document.getElementById('confirm').classList.add('show');
 }
 function closeConfirm(){ document.getElementById('confirm').classList.remove('show'); }
+/* in-app numeric prompt (no native prompt() — blocked on mobile) */
+function openNumModal(title,msg,val,onOk){
+  document.getElementById('cIc').textContent='🔢';
+  document.getElementById('cTitle').textContent=title||'Enter a number';
+  document.getElementById('cMsg').innerHTML=esc(msg||'')+'<input id="numModalIn" type="number" inputmode="decimal" style="width:100%;margin-top:12px;background:var(--inp);border:1px solid var(--brd);border-radius:12px;padding:12px 14px;color:var(--txt);font-size:16px;font-weight:700;font-family:inherit;text-align:center" value="'+(val===''||val==null?'':(+val))+'">';
+  var acts=document.getElementById('cActs'); acts.innerHTML='';
+  var cancel=document.createElement('button'); cancel.className='btn ghost'; cancel.textContent='Cancel'; cancel.onclick=closeConfirm;
+  var ok=document.createElement('button'); ok.className='btn'; ok.textContent='Save';
+  ok.onclick=function(){ var v=(document.getElementById('numModalIn')||{}).value; closeConfirm(); if(onOk)onOk(v); };
+  acts.appendChild(cancel); acts.appendChild(ok);
+  document.getElementById('confirm').classList.add('show');
+  setTimeout(function(){ var i=document.getElementById('numModalIn'); if(i)i.focus(); },120);
+}
 
 /* ---------- misc ---------- */
 function toast(msg,type){ var t=document.getElementById('toast'); t.textContent=msg; t.className='toast show '+(type||''); clearTimeout(t._h); t._h=setTimeout(function(){t.className='toast '+(type||'');},3000); }
@@ -5187,6 +6129,8 @@ function init(){
   checkBossDefeat();
   evaluateDayPenalty();
   ensureBoss();
+  try{ ledgerSyncMoney(); }catch(e){}       /* keep unified ledger current */
+  try{ plannerDueCheck(); }catch(e){}       /* 06:00 due-time check on open */
   recompute();
   saveLocal();
   render();
@@ -5316,7 +6260,29 @@ function installPerfWatchdog(){
   }
 }
 function perfSetEnabled(on){ PERF.on=!!on; DB.settings=DB.settings||{}; DB.settings.perfWatch=PERF.on; saveDB(); toast(PERF.on?'Performance watchdog ON':'Performance watchdog muted',''); }
+function saveAiKey(){
+  var v=(document.getElementById('aiKeyIn')||{}).value||'';
+  DB.settings=DB.settings||{};
+  if(v.trim()){ DB.settings.aiKey=v.trim(); toast('AI key saved on this device','ok'); }
+  else { delete DB.settings.aiKey; toast('AI key cleared — planner stays local','ok'); }
+  saveDB();
+}
 
+/* hard block pinch-zoom + double-tap-zoom (iOS Safari ignores user-scalable sometimes) */
+(function(){
+  document.addEventListener('gesturestart', function(e){ e.preventDefault(); }, {passive:false});
+  document.addEventListener('gesturechange', function(e){ e.preventDefault(); }, {passive:false});
+  document.addEventListener('dblclick', function(e){ e.preventDefault(); }, {passive:false});
+  var lastTouch=0;
+  document.addEventListener('touchend', function(e){
+    var now=Date.now();
+    if(now-lastTouch<=300){ e.preventDefault(); }   /* double-tap */
+    lastTouch=now;
+  }, {passive:false});
+  document.addEventListener('touchmove', function(e){
+    if(e.touches && e.touches.length>1){ e.preventDefault(); }   /* multi-finger pinch */
+  }, {passive:false});
+})();
 document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
