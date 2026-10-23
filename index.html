@@ -754,7 +754,10 @@ input[type=number]{-moz-appearance:textfield}
 .modal-card h3{font-size:18px;font-weight:700;margin-bottom:4px}
 .modal-card .mh{font-size:12.5px;color:var(--muted);margin-bottom:18px}
 .confirm .modal-card{width:min(360px,100%);text-align:center}
-.confirm{z-index:10000}
+/* confirm/skip dialog must sit ABOVE the penalty overlay (12500) & boot (12000),
+   and center on screen so it never hides below the countdown */
+.confirm{z-index:13000;align-items:center}
+.confirm .modal-card{margin:auto}
 /* full-width add forms (+ icon) — edge-to-edge bottom sheet on phones */
 @media(max-width:560px){
   .modal.fullw{padding:0;align-items:flex-end}
@@ -1367,7 +1370,7 @@ html,body{font-weight:500}
 
     <div class="setrow">
       <h4>ℹ️ Status</h4>
-      <div class="krow"><span>App version</span><b id="stVer">2.4.1</b></div>
+      <div class="krow"><span>App version</span><b id="stVer">2.4.3</b></div>
       <div class="krow"><span>Storage</span><b>On this device</b></div>
       <div class="krow"><span>Last backup</span><b id="stLast">Never</b></div>
       <div class="krow"><span>Tasks</span><b id="stTasks">0</b></div>
@@ -2051,7 +2054,7 @@ html,body{font-weight:500}
    Built by Somnath Karmakar · v1.0.0
    Local-first · single device · manual file backup
 ============================================================ */
-var APP_NAME='Volts', APP_VERSION='2.4.1';
+var APP_NAME='Volts', APP_VERSION='2.4.3';
 var LS_KEY='ascend_db_v1';
 
 var LEVELS=['Seedling','Spark','Riser','Builder','Grinder','Momentum','Contender','Achiever','Sharpshooter','Vanguard','Trailblazer','Powerhouse','Elite','Maverick','Champion','Warlord','Titan','Legend','Mythic','Ascended'];
@@ -4699,12 +4702,15 @@ function skipDayPenalty(){
   confirmModal({icon:'🤝',title:'Use your one skip this week?',msg:'This is your only skip until next week — for genuine sickness or an emergency. Recorded as skipped.',ok:'Yes, use my skip',danger:true,onOk:function(){
     DB.penaltySkipLog=DB.penaltySkipLog||{};
     DB.penaltySkipLog[weekKey()]={ day:rec.forDay, ts:Date.now() };
-    rec.status='skipped'; rec.skippedAt=Date.now(); saveDB();
+    rec.status='skipped'; rec.skippedAt=Date.now();
+    if(_dpTick){ clearInterval(_dpTick); _dpTick=null; }   /* stop the countdown */
+    _dpSig='';                                             /* clear overlay signature */
+    try{ saveDB(); }catch(e){}
     var next=currentOwed();
-    if(next){ renderDayPenaltyOverlay(next); }
-    else{ document.getElementById('dayPenaltyOverlay').classList.remove('show'); unlockApp(); }
+    if(next){ renderDayPenaltyOverlay(next); refreshSkipLink(); }   /* another penalty -> show it */
+    else{ document.getElementById('dayPenaltyOverlay').classList.remove('show'); unlockApp(); }  /* none left -> close + unlock */
     toast('Skip used. Come back stronger — none left till next week.','');
-    render();
+    try{ render(); }catch(e){}
   }});
 }
 
