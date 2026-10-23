@@ -901,6 +901,7 @@ html,body{font-weight:500}
 .bw-split{font-size:12.5px;font-weight:700;color:#cfc9ff;background:rgba(108,92,231,.12);border:1px solid rgba(162,155,254,.4);border-radius:10px;padding:9px 12px;margin-bottom:12px;line-height:1.4}
 .bw-split b{color:#fff}
 .bw-split.rest{color:var(--muted);background:rgba(255,255,255,.04);border-color:var(--brd)}
+.bw-extra-lbl{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:700;margin:14px 0 6px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06)}
 /* planner */
 .plan-lock{background:rgba(55,211,153,.1);border:1px solid rgba(55,211,153,.4);color:#8af0c8;border-radius:12px;padding:12px 14px;font-size:12px;line-height:1.5;margin-bottom:14px;font-weight:600}
 .plan-sec{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:14px;margin-bottom:12px}
@@ -1370,7 +1371,7 @@ html,body{font-weight:500}
 
     <div class="setrow">
       <h4>ℹ️ Status</h4>
-      <div class="krow"><span>App version</span><b id="stVer">2.4.3</b></div>
+      <div class="krow"><span>App version</span><b id="stVer">2.5.0</b></div>
       <div class="krow"><span>Storage</span><b>On this device</b></div>
       <div class="krow"><span>Last backup</span><b id="stLast">Never</b></div>
       <div class="krow"><span>Tasks</span><b id="stTasks">0</b></div>
@@ -2054,7 +2055,7 @@ html,body{font-weight:500}
    Built by Somnath Karmakar · v1.0.0
    Local-first · single device · manual file backup
 ============================================================ */
-var APP_NAME='Volts', APP_VERSION='2.4.3';
+var APP_NAME='Volts', APP_VERSION='2.5.0';
 var LS_KEY='ascend_db_v1';
 
 var LEVELS=['Seedling','Spark','Riser','Builder','Grinder','Momentum','Contender','Achiever','Sharpshooter','Vanguard','Trailblazer','Powerhouse','Elite','Maverick','Champion','Warlord','Titan','Legend','Mythic','Ascended'];
@@ -5764,8 +5765,42 @@ var BW_PLAN=[
   {k:'squats',  e:'🦵', nm:'Bodyweight squats',base:{reps:15,sets:3,rest:60}, timed:false},
   {k:'plank',   e:'🧱', nm:'Plank (hold)',    base:{secs:30,sets:3,rest:45}, timed:true},
   {k:'lunges',  e:'🚶', nm:'Lunges (each leg)',base:{reps:10,sets:3,rest:60}, timed:false},
-  {k:'glute',   e:'🍑', nm:'Glute bridge',    base:{reps:15,sets:3,rest:45}, timed:false}
+  {k:'glute',   e:'🍑', nm:'Glute bridge',    base:{reps:15,sets:3,rest:45}, timed:false},
+  {k:'pike',    e:'🔺', nm:'Pike push-ups',   base:{reps:8,sets:3,rest:60}, timed:false},
+  {k:'superman',e:'🦸', nm:'Superman hold',   base:{secs:20,sets:3,rest:45}, timed:true},
+  {k:'dips',    e:'💪', nm:'Chair dips',      base:{reps:10,sets:3,rest:60}, timed:false},
+  {k:'calf',    e:'🦶', nm:'Calf raises',     base:{reps:20,sets:3,rest:30}, timed:false}
 ];
+/* which bodyweight exercises match each split muscle group — SYNCS the two
+   systems: the old split decides WHICH new-system exercises show today. */
+var MUSCLE_BW={
+  'Push':['pushups','pike','dips','plank'],
+  'Chest':['pushups','dips','plank'],
+  'Pull':['superman','plank','pike'],
+  'Back':['superman','plank'],
+  'Legs':['squats','lunges','glute','calf'],
+  'Shoulders':['pike','dips','plank'],
+  'Arms':['dips','pushups','plank'],
+  'Biceps':['dips','pushups'],
+  'Triceps':['dips','pushups'],
+  'Abs':['plank','superman','glute'],
+  'Core':['plank','superman','glute'],
+  'Full Body':['pushups','squats','plank','lunges'],
+  'Cardio':['squats','lunges','calf'],
+  'Upper':['pushups','pike','dips','plank'],
+  'Lower':['squats','lunges','glute','calf']
+};
+function bwForMuscle(muscle){
+  if(!muscle) return BW_PLAN.map(function(e){return e.k;});           /* no split -> all */
+  var keys=MUSCLE_BW[muscle];
+  if(!keys){ /* unknown label -> fuzzy match on name, else full body */
+    var low=muscle.toLowerCase();
+    for(var m in MUSCLE_BW){ if(low.indexOf(m.toLowerCase())>=0) return MUSCLE_BW[m]; }
+    return MUSCLE_BW['Full Body'];
+  }
+  return keys;
+}
+function bwExByKey(k){ for(var i=0;i<BW_PLAN.length;i++) if(BW_PLAN[i].k===k) return BW_PLAN[i]; return null; }
 function bwState(k){ DB.workoutProg=DB.workoutProg||{}; return DB.workoutProg[k]||null; }
 function bwTarget(ex){
   var st=bwState(ex.k);
@@ -5775,25 +5810,47 @@ function bwTarget(ex){
 function bwLog(k, met){
   /* met=true -> you hit the target; advance gently. met=false -> hold. */
   DB.workoutProg=DB.workoutProg||{};
-  var ex=null; for(var i=0;i<BW_PLAN.length;i++) if(BW_PLAN[i].k===k) ex=BW_PLAN[i];
+  var ex=bwExByKey(k);
   if(!ex) return;
   var t=bwTarget(ex);
   var st=DB.workoutProg[k]||{ reps:ex.base.reps, secs:ex.base.secs, sets:ex.base.sets, level:1, streak:0, lastDate:'' };
   if(met){
     st.streak=(st.streak||0)+1;
-    /* advance only every 2 successful sessions, in small steps (not daily blind +) */
     if(st.streak>=2){
       st.streak=0; st.level=(st.level||1)+1;
       if(ex.timed){ st.secs=Math.min((st.secs||ex.base.secs)+10, 180); }
       else { st.reps=(st.reps||ex.base.reps)+2; if(st.reps>25 && (st.sets||ex.base.sets)<5){ st.reps=ex.base.reps+2; st.sets=(st.sets||ex.base.sets)+1; } }
     }
   } else {
-    st.streak=0;  /* missed/too hard -> hold (never auto-reduce harshly) */
+    st.streak=0;
   }
   st.lastDate=todayStr();
   DB.workoutProg[k]=st;
+  /* ── SYNC: a logged bodyweight 'hit' counts as today's session for the
+     split system, so a planned training day is marked DONE and never penalised. */
+  if(met) syncBwToSession(ex);
   saveDB(); renderWorkout();
-  toast(met?'Logged ✅ progression on track':'Held at current level — no shame','ok');
+  toast(met?'Logged ✅ counts toward today\'s session':'Held at current level — no shame','ok');
+}
+/* record/update a lightweight workout session from bodyweight logging */
+function syncBwToSession(ex){
+  var td=todayStr();
+  DB.workouts=DB.workouts||[];
+  var split=null; try{ split=todayTraining(); }catch(e){}
+  var type = split || 'Bodyweight';
+  /* one auto session per day; append exercise names so it reflects what was done */
+  var sess=null;
+  for(var i=0;i<DB.workouts.length;i++){ if(DB.workouts[i].date===td && DB.workouts[i].auto){ sess=DB.workouts[i]; break; } }
+  if(!sess){
+    sess={ id:'bw_'+td, date:td, type:type, dur:15, note:'Bodyweight: '+ex.nm, auto:true, ts:Date.now() };
+    DB.workouts.push(sess);
+  } else {
+    sess.type=type;
+    if(sess.note.indexOf(ex.nm)<0) sess.note += ', '+ex.nm;
+    sess.dur=Math.min((sess.dur||0)+5, 60);   /* rough +5 min per exercise */
+  }
+  /* mark the split day handled so checkTrainingMisses never penalises it */
+  if(split){ DB.trainCheck=DB.trainCheck||{}; DB.trainCheck[td]=true; }
 }
 function bwHint(k, dir){
   /* manual ease-down if a user reports pain/too hard */
@@ -5808,25 +5865,50 @@ function bwHint(k, dir){
   }
   DB.workoutProg[k]=st; saveDB(); renderWorkout(); toast('Eased down — recover, then build again','');
 }
+function bwExRow(ex){
+  var t=bwTarget(ex);
+  var doneToday = bwState(ex.k) && bwState(ex.k).lastDate===todayStr();
+  var per = ex.timed ? (t.secs+'s hold') : (t.reps+' reps');
+  var total = ex.timed ? (t.secs*t.sets+'s total') : (t.reps*t.sets+' total reps');
+  return '<div class="bw-ex'+(doneToday?' done':'')+'">'
+    +'<div class="bw-e">'+ex.e+'</div>'
+    +'<div class="bw-b"><div class="bw-nm">'+ex.nm+' <span class="bw-lvl">Lv '+t.level+'</span></div>'
+    +'<div class="bw-tg">'+per+' × '+t.sets+' sets · rest '+t.rest+'s · <b>'+total+'</b></div></div>'
+    +(doneToday
+      ? '<div class="bw-doneb">✓</div>'
+      : '<div class="bw-acts"><button class="bw-miss" onclick="bwLog(\''+ex.k+'\',false)">Held</button><button class="bw-hit" onclick="bwLog(\''+ex.k+'\',true)">Hit ✓</button></div>')
+    +'</div>';
+}
 function bwCardHtml(){
   var split=null; try{ split=todayTraining(); }catch(e){}
+  var hasPlan=!!trainPlan();
+  /* which exercises match today's split muscle */
+  var focusKeys = split ? bwForMuscle(split) : BW_PLAN.map(function(e){return e.k;});
+  var focusSet={}; focusKeys.forEach(function(k){ focusSet[k]=1; });
+  var td=todayStr();
+  var sessionLogged = (DB.workouts||[]).some(function(w){ return w.date===td; });
+
+  var title = split ? ('🏋️ '+esc(split)+' — today') : '🏠 Home workout — today';
   var h='<div class="box" style="margin-bottom:16px">'
-    +'<div class="head" style="margin-bottom:12px"><h2 style="font-size:15px">🏠 Home workout — today</h2><div class="cnt">bodyweight</div></div>'
-    +(split?('<div class="bw-split">💪 Split today: <b>'+esc(split)+'</b> — do your split, then these as accessories</div>'):(trainPlan()?'<div class="bw-split rest">🛌 Rest day in your split — these are optional</div>':''));
-  BW_PLAN.forEach(function(ex){
-    var t=bwTarget(ex);
-    var doneToday = bwState(ex.k) && bwState(ex.k).lastDate===todayStr();
-    var per = ex.timed ? (t.secs+'s hold') : (t.reps+' reps');
-    var total = ex.timed ? (t.secs*t.sets+'s total') : (t.reps*t.sets+' total reps');
-    h+='<div class="bw-ex'+(doneToday?' done':'')+'">'
-      +'<div class="bw-e">'+ex.e+'</div>'
-      +'<div class="bw-b"><div class="bw-nm">'+ex.nm+' <span class="bw-lvl">Lv '+t.level+'</span></div>'
-      +'<div class="bw-tg">'+per+' × '+t.sets+' sets · rest '+t.rest+'s · <b>'+total+'</b></div></div>'
-      +(doneToday
-        ? '<div class="bw-doneb">✓</div>'
-        : '<div class="bw-acts"><button class="bw-miss" onclick="bwLog(\''+ex.k+'\',false)">Held</button><button class="bw-hit" onclick="bwLog(\''+ex.k+'\',true)">Hit ✓</button></div>')
-      +'</div>';
-  });
+    +'<div class="head" style="margin-bottom:12px"><h2 style="font-size:15px">'+title+'</h2><div class="cnt">'+(split?'split + bodyweight':'bodyweight')+'</div></div>';
+
+  if(split){
+    h+='<div class="bw-split">💪 Your split sets today = <b>'+esc(split)+'</b>. These bodyweight moves match it — logging any one counts as today\'s session'
+      +(sessionLogged?' <span style="color:#6ee7b7">✓ session logged</span>':'')+'.</div>';
+  } else if(hasPlan){
+    h+='<div class="bw-split rest">🛌 Rest day in your split — these are optional, no penalty today.</div>';
+  }
+
+  /* focus exercises (match the split) */
+  BW_PLAN.forEach(function(ex){ if(focusSet[ex.k]) h+=bwExRow(ex); });
+
+  /* the rest, collapsed as accessories/extra */
+  var extras=BW_PLAN.filter(function(ex){ return !focusSet[ex.k]; });
+  if(split && extras.length){
+    h+='<div class="bw-extra-lbl">➕ Other exercises (optional)</div>';
+    extras.forEach(function(ex){ h+=bwExRow(ex); });
+  }
+
   h+='<p style="font-size:10.5px;color:var(--muted);margin-top:10px;line-height:1.5">Progression advances only after 2 sessions where you hit the target — never blind daily increases. Pain or too hard? <a onclick="bwEaseMenu()" style="color:var(--accent2);text-decoration:underline;cursor:pointer">ease down</a>. Never push through sharp pain.</p>';
   h+='</div>';
   return h;
