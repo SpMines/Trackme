@@ -232,6 +232,22 @@ a{color:var(--accent2);text-decoration:none}
 .dp-skip-link{font-size:11.5px;color:var(--muted);text-decoration:underline;cursor:pointer}
 .dp-skip-link:hover{color:var(--accent2)}
 .dp-skip-link.locked{color:#ff8da0;cursor:default;text-decoration:none;opacity:.75}
+.dp-skip-btn{width:100%;padding:12px;border-radius:12px;border:1.5px solid rgba(255,183,71,.5);background:rgba(255,183,71,.1);color:#ffc97a;font-size:13.5px;font-weight:800;font-family:inherit;cursor:pointer}
+.dp-skip-btn:active{transform:scale(.97)}
+.dp-skip-sub{font-size:10.5px;color:var(--muted);text-align:center;margin-top:7px}
+.dp-skip-used{width:100%;padding:11px;border-radius:12px;border:1px solid rgba(255,93,108,.4);background:rgba(255,93,108,.1);color:#ff8da0;font-size:12.5px;font-weight:700;text-align:center;line-height:1.4}
+/* app-wide active-restriction banner */
+#activeRestrictSlot{margin-bottom:12px}
+.ar-ban{display:flex;align-items:center;gap:11px;background:rgba(255,93,108,.12);border:1.5px solid rgba(255,93,108,.5);border-radius:14px;padding:11px 14px;margin-bottom:8px;cursor:pointer}
+.ar-ban .ar-ic{font-size:18px}
+.ar-ban .ar-b{flex:1;min-width:0}
+.ar-nm{font-size:13.5px;font-weight:800;color:#ff9aa8}
+.ar-sub{font-size:11px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ar-time{font-size:12.5px;font-weight:800;color:#ffb0a0;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ar-ban.done{border-color:rgba(55,211,153,.5);background:rgba(55,211,153,.1)}
+.ar-ban.done .ar-nm{color:#8af0c8}.ar-ban.done .ar-time{color:#6ee7b7}
+@media(prefers-reduced-motion:no-preference){ .ar-ban:not(.done){animation:arBlink 1.6s ease-in-out infinite} }
+@keyframes arBlink{0%,100%{border-color:rgba(255,93,108,.5);box-shadow:0 0 0 0 rgba(255,93,108,0)}50%{border-color:rgba(255,93,108,.9);box-shadow:0 0 0 3px rgba(255,93,108,.18)}}
 .dp-lock-note{font-size:11px;color:#ffb0a0;text-align:center;margin-top:8px;font-weight:600;line-height:1.4}
 /* when a penalty is blocking, the page behind is frozen & unreachable */
 body.pen-locked{overflow:hidden}
@@ -879,6 +895,9 @@ html,body{font-weight:500}
 .bw-hit{background:linear-gradient(135deg,#37d399,#2bb583);color:#04241a}
 .bw-hit:active,.bw-miss:active{transform:scale(.95)}
 .bw-doneb{width:30px;height:30px;border-radius:50%;background:rgba(55,211,153,.18);color:#6ee7b7;display:flex;align-items:center;justify-content:center;font-weight:800}
+.bw-split{font-size:12.5px;font-weight:700;color:#cfc9ff;background:rgba(108,92,231,.12);border:1px solid rgba(162,155,254,.4);border-radius:10px;padding:9px 12px;margin-bottom:12px;line-height:1.4}
+.bw-split b{color:#fff}
+.bw-split.rest{color:var(--muted);background:rgba(255,255,255,.04);border-color:var(--brd)}
 /* planner */
 .plan-lock{background:rgba(55,211,153,.1);border:1px solid rgba(55,211,153,.4);color:#8af0c8;border-radius:12px;padding:12px 14px;font-size:12px;line-height:1.5;margin-bottom:14px;font-weight:600}
 .plan-sec{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:14px;margin-bottom:12px}
@@ -1203,6 +1222,8 @@ html,body{font-weight:500}
 </div>
 
 <div class="wrap">
+  <!-- app-wide active-restriction reminder (time penalties running) -->
+  <div id="activeRestrictSlot"></div>
   <!-- ============ TODAY ============ -->
   <div class="page active" id="pageToday">
     <div class="ptitle" id="hello">Today</div>
@@ -1346,7 +1367,7 @@ html,body{font-weight:500}
 
     <div class="setrow">
       <h4>ℹ️ Status</h4>
-      <div class="krow"><span>App version</span><b id="stVer">2.3.1</b></div>
+      <div class="krow"><span>App version</span><b id="stVer">2.4.1</b></div>
       <div class="krow"><span>Storage</span><b>On this device</b></div>
       <div class="krow"><span>Last backup</span><b id="stLast">Never</b></div>
       <div class="krow"><span>Tasks</span><b id="stTasks">0</b></div>
@@ -1905,7 +1926,7 @@ html,body{font-weight:500}
     <div class="dp-sub" id="dpSub"></div>
     <div id="dpDynamic"></div>
     <div class="dp-multi" id="dpMulti"></div>
-    <div class="dp-skip-row"><a class="dp-skip-link" onclick="skipDayPenalty()">Emergency? Use your 1 skip this week</a></div>
+    <div class="dp-skip-row" id="dpSkipRow"></div>
     <div class="dp-lock-note" id="dpLockNote"></div>
   </div>
 </div>
@@ -2030,7 +2051,7 @@ html,body{font-weight:500}
    Built by Somnath Karmakar · v1.0.0
    Local-first · single device · manual file backup
 ============================================================ */
-var APP_NAME='Volts', APP_VERSION='2.3.1';
+var APP_NAME='Volts', APP_VERSION='2.4.1';
 var LS_KEY='ascend_db_v1';
 
 var LEVELS=['Seedling','Spark','Riser','Builder','Grinder','Momentum','Contender','Achiever','Sharpshooter','Vanguard','Trailblazer','Powerhouse','Elite','Maverick','Champion','Warlord','Titan','Legend','Mythic','Ascended'];
@@ -3061,6 +3082,71 @@ function penTotals(){
   return t;
 }
 function activePenalties(){ return (DB.penalties||[]).filter(function(p){return p.status==='active';}); }
+/* ═══════════ SMART TIME-PENALTY REMINDER (app-wide) ═══════════
+   Any running hrs-based consequence (e.g. "1d no social media") shows a
+   persistent blinking banner on EVERY page with a live countdown. Auto-marks
+   done when time crosses — processed on every open (catch-up) too. */
+function activeRestrictions(){
+  var out=[], now=Date.now();
+  activePenalties().forEach(function(p){
+    (p.consequences||[]).forEach(function(c){
+      if(c.hrs && !c.done && c.endsAt){
+        out.push({ penId:p.id, name:c.name, desc:c.desc, endsAt:c.endsAt, left:c.endsAt-now, over:c.endsAt<=now });
+      }
+    });
+  });
+  out.sort(function(a,b){ return a.endsAt-b.endsAt; });
+  return out;
+}
+/* catch-up: mark time-consequences whose window passed as auto-done */
+function sweepRestrictions(){
+  var now=Date.now(), changed=false;
+  activePenalties().forEach(function(p){
+    (p.consequences||[]).forEach(function(c){
+      if(c.hrs && !c.done && c.endsAt && c.endsAt<=now){ /* window served while away/closed */ }
+    });
+  });
+  return changed;
+}
+var _arSig='';
+function renderActiveRestrict(){
+  var slot=document.getElementById('activeRestrictSlot'); if(!slot)return;
+  var list=activeRestrictions();
+  /* signature = which restrictions + their over-state. Only rebuild the DOM
+     when that changes — the 1s ticker updates the time text in place, so a
+     plain render() never thrashes this (was a 139ms watchdog spike). */
+  var sig = list.map(function(r){ return r.penId+':'+r.endsAt+':'+(r.over?1:0); }).join('|');
+  if(sig===_arSig){ if(list.length) startRestrictTick(); return; }
+  _arSig=sig;
+  if(!list.length){ slot.innerHTML=''; return; }
+  var h='';
+  list.forEach(function(r){
+    var cls = r.over ? 'ar-ban done' : 'ar-ban';
+    var timeTxt = r.over ? 'window over — tap to clear' : fmtRemain(r.left>0?r.left:0)+' left';
+    h+='<div class="'+cls+'" onclick="go(\'Penalty\')">'
+      +'<span class="ar-ic">🚫</span>'
+      +'<div class="ar-b"><div class="ar-nm">'+esc(r.name)+'</div><div class="ar-sub">'+esc(r.desc||'')+'</div></div>'
+      +'<div class="ar-time" data-ends="'+r.endsAt+'">'+timeTxt+'</div>'
+      +'</div>';
+  });
+  slot.innerHTML=h;
+  startRestrictTick();
+}
+var _arTick=null;
+function startRestrictTick(){
+  if(_arTick) return;                        /* one shared interval */
+  _arTick=setInterval(function(){
+    var els=document.querySelectorAll('#activeRestrictSlot .ar-time');
+    if(!els.length) return;
+    var now=Date.now(), anyFlip=false;
+    for(var i=0;i<els.length;i++){
+      var ends=+els[i].getAttribute('data-ends'); var left=ends-now;
+      if(left<=0){ anyFlip=true; }
+      else els[i].textContent=fmtRemain(left)+' left';
+    }
+    if(anyFlip) renderActiveRestrict();      /* re-render to flip over ones */
+  },1000);
+}
 
 /* ── mark a task failed (manual) ── */
 function failTask(id, level){
@@ -4172,6 +4258,7 @@ function render(){
   var greet=hh<12?'Good morning':hh<17?'Good afternoon':'Good evening';
   document.getElementById('hello').textContent=greet+', '+(p.name||'Sam').split(' ')[0];
 
+  try{ renderActiveRestrict(); }catch(e){}   /* app-wide time-penalty reminder on every page */
   if(CUR_PAGE==='Today')  renderToday();
   if(CUR_PAGE==='Tasks')  renderManage();
   if(CUR_PAGE==='Rewards')renderRewards();
@@ -4419,16 +4506,17 @@ function maybeFlashDayPenalty(){
 var _dpSig='';
 /* reflect how many skips are left this week on the skip link */
 function refreshSkipLink(){
-  var a=document.querySelector('#dayPenaltyOverlay .dp-skip-link'); if(!a)return;
+  var row=document.getElementById('dpSkipRow'); if(!row)return;
   var note=document.getElementById('dpLockNote');
   if(skipsLeftThisWeek()>0){
-    a.textContent='Emergency? Use your 1 skip this week';
-    a.classList.remove('locked');
+    row.innerHTML='<button class="dp-skip-btn" onclick="skipDayPenalty()">🤝 Use my 1 skip this week</button>'
+      +'<div class="dp-skip-sub">1 skip left this week · for real sickness / emergency only</div>';
     if(note) note.textContent='';
   } else {
-    a.textContent='No skips left this week';
-    a.classList.add('locked');
-    if(note) note.textContent='The app stays on this screen until you clear the penalty (do it + add proof) or its day passes.';
+    var wk=DB.penaltySkipLog&&DB.penaltySkipLog[weekKey()];
+    var when=wk&&wk.ts? (' ('+new Date(wk.ts).toLocaleDateString('en-IN',{day:'2-digit',month:'short'})+')'):'';
+    row.innerHTML='<div class="dp-skip-used">🔒 This week\'s skip already used'+when+' — no skip now</div>';
+    if(note) note.textContent='Clear this penalty (do it + add proof) or wait for its day to pass. Next skip unlocks next week.';
   }
 }
 function renderDayPenaltyOverlay(rec){
@@ -5715,8 +5803,10 @@ function bwHint(k, dir){
   DB.workoutProg[k]=st; saveDB(); renderWorkout(); toast('Eased down — recover, then build again','');
 }
 function bwCardHtml(){
+  var split=null; try{ split=todayTraining(); }catch(e){}
   var h='<div class="box" style="margin-bottom:16px">'
-    +'<div class="head" style="margin-bottom:12px"><h2 style="font-size:15px">🏠 Home workout — today</h2><div class="cnt">bodyweight</div></div>';
+    +'<div class="head" style="margin-bottom:12px"><h2 style="font-size:15px">🏠 Home workout — today</h2><div class="cnt">bodyweight</div></div>'
+    +(split?('<div class="bw-split">💪 Split today: <b>'+esc(split)+'</b> — do your split, then these as accessories</div>'):(trainPlan()?'<div class="bw-split rest">🛌 Rest day in your split — these are optional</div>':''));
   BW_PLAN.forEach(function(ex){
     var t=bwTarget(ex);
     var doneToday = bwState(ex.k) && bwState(ex.k).lastDate===todayStr();
@@ -5805,7 +5895,11 @@ function buildLocalPlan(td){
              level:t.level,
              note: stale? 'not logged recently — restart easy' : ('at Lv '+t.level) };
   });
-  wplan._meta={ days:woDays, note: woDays<3 ? ('only '+woDays+' sessions in '+WIN+'d — aim for consistency') : (woDays+' sessions in '+WIN+'d — solid') };
+  /* SYNC with the training-split system: if today is a planned day, lead with it */
+  var split=null; try{ split=todayTraining(); }catch(e){}
+  var splitNote = split ? ('Split today: '+split+' — plus bodyweight below') : (trainPlan()? 'Rest day in your split — light bodyweight optional' : 'No split set — bodyweight plan below');
+  wplan._meta={ days:woDays, split:split, splitNote:splitNote,
+    note: woDays<3 ? ('only '+woDays+' sessions in '+WIN+'d — aim for consistency') : (woDays+' sessions in '+WIN+'d — solid') };
 
   /* ---- FOOD: compare recent avg intake vs goal, recommend the gap ---- */
   var goal=foodGoal();
@@ -5937,7 +6031,7 @@ function renderPlannerPage(){
   }
   var secs=[
     {k:'tasks',t:'✅ Priorities',fn:function(s){ return s.length?s.map(function(x){return '<div class="pl-item'+(x.priority==='high'?' hi':'')+'">'+esc(x.title)+'<span>'+esc(x.reason)+'</span></div>';}).join(''):'<div class="pl-empty">No open tasks.</div>'; }},
-    {k:'workout',t:'🏠 Workout',fn:function(s){ var meta=s._meta?('<div class="pl-item hi">Consistency<span>'+esc(s._meta.note)+'</span></div>'):''; return meta+s.map(function(x){return '<div class="pl-item">'+esc(x.name)+'<span>'+esc(x.target)+' · '+esc(x.note||('Lv '+x.level))+'</span></div>';}).join(''); }},
+    {k:'workout',t:'🏠 Workout',fn:function(s){ var split=s._meta&&s._meta.splitNote?('<div class="pl-item hi">'+(s._meta.split?'💪 '+esc(s._meta.split)+' day':'🛌 Split')+'<span>'+esc(s._meta.splitNote)+'</span></div>'):''; var meta=s._meta?('<div class="pl-item">Consistency<span>'+esc(s._meta.note)+'</span></div>'):''; return split+meta+s.map(function(x){return '<div class="pl-item">'+esc(x.name)+'<span>'+esc(x.target)+' · '+esc(x.note||('Lv '+x.level))+'</span></div>';}).join(''); }},
     {k:'food',t:'🍗 Food',fn:function(s){ return '<div class="pl-item">'+s.cal+' kcal · '+s.pro+'g protein<span>'+esc(s.note)+'</span></div>'; }},
     {k:'money',t:'💰 Money',fn:function(s){ return s.map(function(x){return '<div class="pl-item">'+esc(x.action)+'<span>month net '+fmtMoney(x.net)+'</span></div>';}).join(''); }},
     {k:'study',t:'📚 Study / Career',fn:function(s){ return s.map(function(x){return '<div class="pl-item">'+esc(x.block)+'<span>'+esc(x.why)+'</span></div>';}).join(''); }}
@@ -6169,6 +6263,7 @@ function catchUp(){
   safe('ensureBoss', ensureBoss);
   safe('ledgerSyncMoney', ledgerSyncMoney);
   safe('plannerDueCheck', plannerDueCheck);
+  safe('renderActiveRestrict', renderActiveRestrict);   /* resurface running time-penalties */
   /* 3) stamp today's visit so tomorrow's gap is measured from here */
   DB.lastSeen=td;
   safe('saveLocal', saveLocal);
@@ -6257,7 +6352,11 @@ var PERF_SKIP = {
   submitProof:1, dpPhotoChosen:1, renderDayPenaltyOverlay:1,
   maybeFlashDayPenalty:1, currentOwed:1, owedPenalties:1,
   lockApp:1, unlockApp:1, refreshSkipLink:1, skipDayPenalty:1,
-  saveDB:1, saveLocal:1, render:1
+  saveDB:1, saveLocal:1, render:1,
+  /* app-wide live reminder — runs on every render + its own 1s ticker;
+     measuring it just creates noisy false "slow" alerts (first paint = layout) */
+  renderActiveRestrict:1, startRestrictTick:1, activeRestrictions:1, activePenalties:1,
+  renderActiveRestrictTick:1, fmtRemain:1
 };
 function perfAlert(name, ms, usual){
   var now=Date.now();
