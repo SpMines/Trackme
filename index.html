@@ -85,6 +85,64 @@ a{color:var(--accent2);text-decoration:none}
 /* stat strip */
 .strip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
 .mini{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:14px 12px;text-align:center}
+/* ═══ REAL LIFE RPG ═══ */
+.rpg-hero{position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(108,92,231,.18),rgba(20,20,40,.5));border:1px solid rgba(162,155,254,.35);border-radius:20px;padding:18px;margin-bottom:16px}
+.rpg-hero-glow{position:absolute;top:-60px;right:-40px;width:180px;height:180px;background:radial-gradient(circle,rgba(108,92,231,.4),transparent 70%);pointer-events:none}
+.rpg-player{display:flex;align-items:center;gap:14px;position:relative;z-index:1;margin-bottom:14px}
+.rpg-av{width:58px;height:58px;border-radius:16px;background:linear-gradient(135deg,var(--rc,#6C5CE7),#2a2a4a);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:#fff;border:2px solid var(--rc,#6C5CE7);box-shadow:0 0 20px rgba(108,92,231,.4);flex-shrink:0}
+.rpg-name{font-size:19px;font-weight:800;letter-spacing:.5px}
+.rpg-rankrow{display:flex;gap:9px;align-items:center;margin-top:3px;flex-wrap:wrap}
+.rpg-rank{font-size:13px;font-weight:800}
+.rpg-lvl{font-size:11px;color:var(--muted);font-weight:700}
+.rpg-xpwrap{position:relative;z-index:1}
+.rpg-xptop{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-weight:700;margin-bottom:5px}
+.rpg-xpbar{height:10px;border-radius:20px;background:rgba(0,0,0,.35);overflow:hidden;border:1px solid rgba(162,155,254,.3)}
+.rpg-xpfill{height:100%;background:linear-gradient(90deg,#6C5CE7,#a29bfe,#67e8f9);border-radius:20px;transition:width .6s cubic-bezier(.2,.9,.3,1);box-shadow:0 0 12px rgba(108,92,231,.6)}
+.rpg-nextrank{font-size:11px;color:var(--muted);margin-top:9px;text-align:center;position:relative;z-index:1}
+.rpg-attrs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.rpg-attr{background:var(--card);border:1px solid var(--brd);border-radius:12px;padding:10px 12px}
+.rpg-attr-top{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:800;margin-bottom:6px}
+.rpg-attr-top span{color:var(--muted);letter-spacing:.3px}
+.rpg-attr-top b{font-size:13px}
+.rpg-attr-bar{height:6px;border-radius:20px;background:rgba(0,0,0,.3);overflow:hidden}
+.rpg-attr-fill{height:100%;border-radius:20px;transition:width .5s ease}
+.rpg-zones{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+.rpg-zone{position:relative;background:linear-gradient(145deg,rgba(255,255,255,.04),rgba(0,0,0,.2));border:1px solid var(--brd);border-left:3px solid var(--zc,#6C5CE7);border-radius:16px;padding:14px;cursor:pointer;transition:transform .15s,border-color .2s}
+.rpg-zone:active{transform:scale(.97)}
+.rpg-zone:hover{border-color:var(--zc,#6C5CE7)}
+.rpg-zone-e{font-size:24px}
+.rpg-zone-k{font-size:14px;font-weight:800;margin-top:4px}
+.rpg-zone-lv{position:absolute;top:12px;right:12px;font-size:9px;font-weight:800;color:var(--zc,#a29bfe);background:rgba(108,92,231,.14);padding:2px 7px;border-radius:20px}
+.rpg-zone-bar{height:6px;border-radius:20px;background:rgba(0,0,0,.3);overflow:hidden;margin:9px 0 5px}
+.rpg-zone-fill{height:100%;border-radius:20px;background:var(--zc,#6C5CE7);transition:width .5s ease}
+.rpg-zone-pct{font-size:16px;font-weight:800;color:var(--zc,#fff)}
+.rpg-zone-sub{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.3}
+.rpg-zone-goal{width:100%;margin-top:10px;border:1px solid var(--zc,#6C5CE7);background:transparent;color:var(--zc,#a29bfe);border-radius:10px;padding:7px;font-size:11.5px;font-weight:800;font-family:inherit;cursor:pointer}
+.rpg-zone-goal:active{transform:scale(.96)}
+.rpg-token{margin-left:auto;background:linear-gradient(135deg,rgba(255,212,59,.18),rgba(255,146,43,.12));border:1px solid rgba(255,212,59,.5);color:#ffd43b;font-size:13px;font-weight:800;padding:7px 12px;border-radius:12px;cursor:pointer;white-space:nowrap;align-self:flex-start}
+.rpg-token:active{transform:scale(.95)}
+/* zone / mission / achievement pages */
+.rpg-page-hero{background:linear-gradient(145deg,rgba(108,92,231,.16),rgba(20,20,40,.4));border:1px solid rgba(162,155,254,.3);border-radius:18px;padding:16px;margin-bottom:16px}
+.ach-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ach-card{background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:13px;text-align:center;opacity:.45;transition:opacity .3s}
+.ach-card.on{opacity:1;border-color:rgba(162,155,254,.5);box-shadow:0 0 16px rgba(108,92,231,.18)}
+.ach-e{font-size:28px}
+.ach-t{font-size:12.5px;font-weight:800;margin-top:5px}
+.ach-d{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.35}
+.ach-on-date{font-size:9px;color:#6ee7b7;margin-top:5px;font-weight:700}
+.mission-card{background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:14px;margin-bottom:10px;border-left:3px solid var(--mc,#6C5CE7)}
+.mission-top{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.mission-t{font-size:14px;font-weight:800;flex:1}
+.mission-xp{font-size:11px;font-weight:800;color:#ffd43b;background:rgba(255,212,59,.12);padding:2px 8px;border-radius:20px}
+.mission-d{font-size:12px;color:var(--muted);line-height:1.45;margin-bottom:10px}
+.mission-done{display:flex;align-items:center;gap:6px;color:#6ee7b7;font-size:12.5px;font-weight:800}
+.rwd-card{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:13px;margin-bottom:10px}
+.rwd-e{font-size:26px}
+.rwd-b{flex:1}
+.rwd-t{font-size:13.5px;font-weight:800}
+.rwd-cost{font-size:11px;color:#ffd43b;font-weight:700;margin-top:2px}
+.rwd-redeemed{font-size:11px;color:#6ee7b7;font-weight:700}
+@media(min-width:620px){ .rpg-attrs{grid-template-columns:repeat(3,1fr)} .rpg-zones{grid-template-columns:repeat(4,1fr)} .ach-grid{grid-template-columns:repeat(3,1fr)} }
 .mini .n{font-size:22px;font-weight:800;line-height:1}
 .mini .l{font-size:11px;color:var(--muted);margin-top:5px;letter-spacing:.5px}
 .mini .lv{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -238,6 +296,19 @@ a{color:var(--accent2);text-decoration:none}
 .dp-skip-used{width:100%;padding:11px;border-radius:12px;border:1px solid rgba(255,93,108,.4);background:rgba(255,93,108,.1);color:#ff8da0;font-size:12.5px;font-weight:700;text-align:center;line-height:1.4}
 /* app-wide active-restriction banner */
 #activeRestrictSlot{margin-bottom:12px}
+#goalRemindSlot{margin-bottom:12px}
+.gr-ban{display:flex;align-items:center;gap:11px;background:rgba(108,92,231,.1);border:1px solid rgba(162,155,254,.4);border-radius:14px;padding:11px 14px;margin-bottom:8px;cursor:pointer}
+.gr-ban.urgent{background:rgba(255,183,71,.1);border-color:rgba(255,183,71,.5)}
+.gr-ban .gr-ic{font-size:18px}
+.gr-b{flex:1;min-width:0}
+.gr-nm{font-size:13px;font-weight:800}
+.gr-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.gr-ban.urgent .gr-sub{color:#ffc97a}
+.gr-arrow{font-size:18px;color:var(--muted)}
+.gr-credit{flex-shrink:0;border:none;border-radius:10px;padding:7px 11px;font-size:11.5px;font-weight:800;font-family:inherit;cursor:pointer;background:linear-gradient(135deg,#37d399,#2bb583);color:#04241a}
+.gr-credit:active{transform:scale(.95)}
+@media(prefers-reduced-motion:no-preference){ .gr-ban.urgent{animation:grPulse 2s ease-in-out infinite} }
+@keyframes grPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,183,71,0)}50%{box-shadow:0 0 0 3px rgba(255,183,71,.16)}}
 .ar-ban{display:flex;align-items:center;gap:11px;background:rgba(255,93,108,.12);border:1.5px solid rgba(255,93,108,.5);border-radius:14px;padding:11px 14px;margin-bottom:8px;cursor:pointer}
 .ar-ban .ar-ic{font-size:18px}
 .ar-ban .ar-b{flex:1;min-width:0}
@@ -833,6 +904,8 @@ html,body{font-weight:500}
 .balcard .l{font-size:12px;letter-spacing:1.5px;opacity:.92;font-weight:700;text-transform:uppercase}
 .balcard .v{font-size:36px;font-weight:800;margin-top:6px;line-height:1}
 .balcard .sub{font-size:12.5px;opacity:.92;margin-top:8px;font-weight:600}
+.startbtn{position:relative;z-index:2;margin-top:12px;width:100%;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:12px;padding:11px;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.startbtn:active{transform:scale(.97);background:rgba(255,255,255,.28)}
 .moneyhead{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
 .mcard{border-radius:16px;padding:15px;border:1px solid var(--brd);background:var(--card)}
 .mcard.inC{background:rgba(55,211,153,.1);border-color:rgba(55,211,153,.35)}
@@ -1228,6 +1301,8 @@ html,body{font-weight:500}
 <div class="wrap">
   <!-- app-wide active-restriction reminder (time penalties running) -->
   <div id="activeRestrictSlot"></div>
+  <!-- app-wide goal reminders (due date near / wallet short) -->
+  <div id="goalRemindSlot"></div>
   <!-- ============ TODAY ============ -->
   <div class="page active" id="pageToday">
     <div class="ptitle" id="hello">Today</div>
@@ -1244,6 +1319,7 @@ html,body{font-weight:500}
       <div class="mini"><div class="n" id="sStreak">0</div><div class="l">DAY STREAK</div></div>
     </div>
 
+    <div id="rpgHeroSlot"></div>
     <div id="perfectSlot"></div>
     <div id="recoSlot"></div>
     <div id="notesSlot"></div>
@@ -1371,7 +1447,7 @@ html,body{font-weight:500}
 
     <div class="setrow">
       <h4>ℹ️ Status</h4>
-      <div class="krow"><span>App version</span><b id="stVer">2.5.0</b></div>
+      <div class="krow"><span>App version</span><b id="stVer">3.3.2</b></div>
       <div class="krow"><span>Storage</span><b>On this device</b></div>
       <div class="krow"><span>Last backup</span><b id="stLast">Never</b></div>
       <div class="krow"><span>Tasks</span><b id="stTasks">0</b></div>
@@ -1406,6 +1482,7 @@ html,body{font-weight:500}
       <div class="l">Net Balance Tracked</div>
       <div class="v" id="mBal">₹0</div>
       <div class="sub" id="mSaveRate">Log income &amp; expenses to see your savings rate.</div>
+      <button class="startbtn" id="mStartBtn" onclick="setWalletStart()">💰 Set starting balance</button>
     </div>
 
     <!-- tab switch: Overview vs full Ledger -->
@@ -1696,10 +1773,66 @@ html,body{font-weight:500}
     <div id="plannerPage"></div>
   </div>
 
+  <!-- ============ GOALS ============ -->
+  <div class="page" id="pageGoals">
+    <div class="ptitle">Goals &amp; Spends</div>
+    <div class="psub">Set a goal with a cost. Mark done → wallet pays. No balance → denied. 🎯</div>
+    <div id="goalsPage"></div>
+  </div>
+
+  <!-- ============ FASHION ============ -->
+  <div class="page" id="pageFashion">
+    <div class="ptitle">Fashion — Style</div>
+    <div class="psub">Build your wardrobe, plan outfits, upgrade smart. 🧥</div>
+    <div id="fashionPage"></div>
+  </div>
+
+  <!-- ============ CAREER ============ -->
+  <div class="page" id="pageCareer">
+    <div class="ptitle">Career — Growth</div>
+    <div class="psub">Trading, skills &amp; money — your path to independence. 💼</div>
+    <div id="careerPage"></div>
+  </div>
+
+  <!-- ============ FACE ============ -->
+  <div class="page" id="pageFace">
+    <div class="ptitle">Face — Grooming</div>
+    <div class="psub">Grooming routine &amp; progress photos. Private by default. 🧖</div>
+    <div id="facePage"></div>
+  </div>
+
+  <!-- ============ MISSIONS ============ -->
+  <div class="page" id="pageMissions">
+    <div class="ptitle">Mission Control</div>
+    <div class="psub">Daily, weekly &amp; monthly missions. Complete → earn XP. 🎯</div>
+    <div id="missionsPage"></div>
+  </div>
+
+  <!-- ============ ACHIEVEMENTS ============ -->
+  <div class="page" id="pageAch">
+    <div class="ptitle">Achievements</div>
+    <div class="psub">Unlocked automatically as you hit real milestones. 🏆</div>
+    <div id="achPage"></div>
+  </div>
+
+  <!-- ============ REWARD STORE ============ -->
+  <div class="page" id="pageRewardStore">
+    <div class="ptitle">Reward Store</div>
+    <div class="psub">Spend XP on real-life rewards you set. XP is virtual. 🎁</div>
+    <div id="rewardStorePage"></div>
+  </div>
+
   <!-- ============ MORE ============ -->
   <div class="page" id="pageMore">
     <div class="ptitle">More</div>
     <div class="psub">Everything else, one tap away.</div>
+    <div class="morebtn" onclick="go('Goals')"><div class="mi">🎯</div><div class="mt"><b>Goals &amp; Spends</b><p>Plan a spend → wallet pays when you mark it done</p></div><div class="ar">›</div></div>
+    <div class="morebtn" onclick="go('Missions')"><div class="mi">🎮</div><div class="mt"><b>Mission Control</b><p>Daily / weekly / monthly missions → XP</p></div><div class="ar">›</div></div>
+    <div class="morebtn" onclick="go('Ach')"><div class="mi">🏆</div><div class="mt"><b>Achievements</b><p>Auto-unlocked milestones</p></div><div class="ar">›</div></div>
+    <div class="morebtn" onclick="go('RewardStore')"><div class="mi">🎁</div><div class="mt"><b>Reward Store</b><p>Spend XP on real rewards</p></div><div class="ar">›</div></div>
+    <div class="morebtn" onclick="go('Fashion')"><div class="mi">🧥</div><div class="mt"><b>Fashion</b><p>Wardrobe, outfits, wishlist</p></div><div class="ar">›</div></div>
+    <div class="morebtn" onclick="go('Career')"><div class="mi">💼</div><div class="mt"><b>Career</b><p>Trading, skills, financial growth</p></div><div class="ar">›</div></div>
+    <div class="morebtn" onclick="go('Face')"><div class="mi">🧖</div><div class="mt"><b>Face</b><p>Grooming routine &amp; photos</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Notes')"><div class="mi">📝</div><div class="mt"><b>Daily Notes</b><p>Write today's note, browse past days</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Trades')"><div class="mi">📈</div><div class="mt"><b>Trading Journal</b><p>Trades, P&amp;L, win-rate, monthly capital</p></div><div class="ar">›</div></div>
     <div class="morebtn" onclick="go('Planner')"><div class="mi">🗺️</div><div class="mt"><b>Recommendations</b><p>All daily recommendations — approve &amp; distribute</p></div><div class="ar">›</div></div>
@@ -2055,7 +2188,7 @@ html,body{font-weight:500}
    Built by Somnath Karmakar · v1.0.0
    Local-first · single device · manual file backup
 ============================================================ */
-var APP_NAME='Volts', APP_VERSION='2.5.0';
+var APP_NAME='Volts', APP_VERSION='3.3.2';
 var LS_KEY='ascend_db_v1';
 
 var LEVELS=['Seedling','Spark','Riser','Builder','Grinder','Momentum','Contender','Achiever','Sharpshooter','Vanguard','Trailblazer','Powerhouse','Elite','Maverick','Champion','Warlord','Titan','Legend','Mythic','Ascended'];
@@ -2131,6 +2264,11 @@ function defaultDB(){
            plans:{}, proposals:[], planChk:{},
            workoutProg:{},
            lastSeen:'',
+           /* v3.0 RPG layer */
+           rpg:{ achievements:{}, missionsDone:{}, rewardsRedeemed:[], customMissions:[], customRewards:[], rankUpSeen:'', tokens:0, tokenLog:[] },
+           wardrobe:[], wishlist:[], outfits:[],
+           grooming:{}, facePhotos:[],
+           goals:[],
            updatedAt:Date.now() };
 }
 function loadDB(){
@@ -2241,6 +2379,18 @@ function mergeDB(local,cloud){
   m.proposals=mergeArrById(local.proposals,cloud.proposals);
   m.planChk={}; [local.planChk,cloud.planChk].forEach(function(c){ if(c) for(var d in c) m.planChk[d]=c[d]; });
   m.workoutProg={}; [older.workoutProg,newer.workoutProg].forEach(function(w){ if(w) for(var k in w) m.workoutProg[k]=w[k]; });
+  /* v3.0 RPG: union achievements/missions/redemptions; newer for collections */
+  m.rpg=newer.rpg||older.rpg||{};
+  m.rpg.achievements={}; [local.rpg&&local.rpg.achievements,cloud.rpg&&cloud.rpg.achievements].forEach(function(a){ if(a) for(var k in a) m.rpg.achievements[k]=a[k]; });
+  m.rpg.missionsDone={}; [local.rpg&&local.rpg.missionsDone,cloud.rpg&&cloud.rpg.missionsDone].forEach(function(a){ if(a) for(var k in a) m.rpg.missionsDone[k]=a[k]; });
+  m.rpg.tokens=Math.max((local.rpg&&local.rpg.tokens)||0,(cloud.rpg&&cloud.rpg.tokens)||0);
+  m.rpg.tokenLog=((newer.rpg&&newer.rpg.tokenLog)||(older.rpg&&older.rpg.tokenLog)||[]);
+  m.wardrobe=mergeArrById(local.wardrobe,cloud.wardrobe);
+  m.wishlist=mergeArrById(local.wishlist,cloud.wishlist);
+  m.outfits=mergeArrById(local.outfits,cloud.outfits);
+  m.facePhotos=mergeArrById(local.facePhotos,cloud.facePhotos);
+  m.goals=mergeArrById(local.goals,cloud.goals);
+  m.grooming={}; [older.grooming,newer.grooming].forEach(function(g){ if(g) for(var k in g) m.grooming[k]=g[k]; });
   m.updatedAt=Date.now();
   return migrate(m);
 }
@@ -2261,6 +2411,15 @@ function migrate(d){
   d.plans=d.plans||{}; d.proposals=d.proposals||[]; d.planChk=d.planChk||{};
   d.workoutProg=d.workoutProg||{};
   if(typeof d.lastSeen!=='string') d.lastSeen='';
+  /* v3.0 RPG layer — backward-compatible */
+  d.rpg=d.rpg||{};
+  d.rpg.achievements=d.rpg.achievements||{}; d.rpg.missionsDone=d.rpg.missionsDone||{};
+  d.rpg.rewardsRedeemed=d.rpg.rewardsRedeemed||[]; d.rpg.customMissions=d.rpg.customMissions||[];
+  if(typeof d.rpg.tokens!=='number')d.rpg.tokens=0; d.rpg.tokenLog=d.rpg.tokenLog||[];
+  d.rpg.customRewards=d.rpg.customRewards||[]; if(typeof d.rpg.rankUpSeen!=='string')d.rpg.rankUpSeen='';
+  d.wardrobe=d.wardrobe||[]; d.wishlist=d.wishlist||[]; d.outfits=d.outfits||[];
+  d.grooming=d.grooming||{}; d.facePhotos=d.facePhotos||[];
+  d.goals=d.goals||[];
   /* one-time import of legacy money[] into unified ledger (idempotent via ledgerSeen) */
   try{ migrateMoneyToLedger(d); }catch(e){}
   return d;
@@ -2471,7 +2630,7 @@ function go(page,el){
   for(var j=0;j<btns.length;j++) btns[j].classList.remove('active');
 
   /* which nav button owns this page? */
-  var morePages={Tasks:1,Stats:1,Settings:1,Food:1,Vices:1,Penalty:1,Report:1,Boss:1,Notes:1,Trades:1,Planner:1};
+  var morePages={Tasks:1,Stats:1,Settings:1,Food:1,Vices:1,Penalty:1,Report:1,Boss:1,Notes:1,Trades:1,Planner:1,Fashion:1,Career:1,Face:1,Missions:1,Ach:1,RewardStore:1,Goals:1};
   var owner = morePages[page] ? 'More' : page;
   var activeBtn=null;
   for(var k=0;k<btns.length;k++){
@@ -3113,6 +3272,54 @@ function sweepRestrictions(){
   return changed;
 }
 var _arSig='';
+/* ═══════════════ GOAL REMINDERS (date near / wallet short) ═══════════════ */
+function daysBetween(a,b){ var d1=new Date(a+'T00:00:00'), d2=new Date(b+'T00:00:00'); return Math.round((d2-d1)/864e5); }
+function goalReminders(){
+  var td=todayStr(); var out=[];
+  var bal=null;
+  (DB.goals||[]).forEach(function(g){
+    if(g.done) return;
+    var dleft = g.date ? daysBetween(td,g.date) : null;
+    var dueSoon = (dleft!==null && dleft<=7);         /* within a week (or overdue) */
+    if(bal===null){ try{ bal=walletBalance(); }catch(e){ bal=0; } }
+    var short = (g.amount||0) - (bal||0);              /* >0 means wallet can't cover it */
+    if(!dueSoon && short<=0) return;                   /* nothing to nag about */
+    out.push({ id:g.id, name:g.name, amount:g.amount||0, dleft:dleft, dueSoon:dueSoon, short:(short>0?short:0) });
+  });
+  /* soonest / biggest shortfall first */
+  out.sort(function(a,b){ var ad=a.dleft===null?999:a.dleft, bd=b.dleft===null?999:b.dleft; if(ad!==bd)return ad-bd; return b.short-a.short; });
+  return out;
+}
+var _grSig='';
+function renderGoalReminders(){
+  var slot=document.getElementById('goalRemindSlot'); if(!slot)return;
+  var list=goalReminders();
+  var sig=list.length?list.map(function(r){return r.id+':'+r.dleft+':'+(r.short>0?1:0);}).join('|'):'__empty__';
+  if(sig===_grSig) return; _grSig=sig;
+  if(!list.length){ slot.innerHTML=''; return; }
+  var h='';
+  list.slice(0,4).forEach(function(r){
+    var dtTxt = r.dleft===null ? '' : (r.dleft<0 ? ('⚠️ '+Math.abs(r.dleft)+'d overdue') : (r.dleft===0?'📅 Today!':(r.dleft===1?'📅 Tomorrow':'📅 in '+r.dleft+' days')));
+    var moneyTxt = r.short>0 ? ('💰 Wallet short '+fmtMoney(r.short)+' — credit it') : '';
+    var cls = (r.short>0 || (r.dleft!==null&&r.dleft<=1)) ? 'gr-ban urgent' : 'gr-ban';
+    h+='<div class="'+cls+'" onclick="go(\'Goals\')">'
+      +'<span class="gr-ic">🎯</span>'
+      +'<div class="gr-b"><div class="gr-nm">'+esc(r.name)+' · '+fmtMoney(r.amount)+'</div>'
+      +'<div class="gr-sub">'+[dtTxt,moneyTxt].filter(Boolean).join(' · ')+'</div></div>'
+      +(r.short>0?'<button class="gr-credit" onclick="event.stopPropagation();creditWallet('+r.short+')">+ Credit</button>':'<span class="gr-arrow">›</span>')
+      +'</div>';
+  });
+  slot.innerHTML=h;
+}
+/* quick wallet top-up (records income into ledger so balance rises) */
+function creditWallet(suggest){
+  openNumModal('Credit wallet','Add money to your wallet (records as income). This is your own tracking — no real transfer.', (suggest||'').toString(), function(v){
+    var amt=Math.max(0,parseFloat(v)||0); if(amt<=0){ toast('Enter an amount','err'); return; }
+    ledgerAdd({ src:'manual', amount:amt, dir:'in', cat:'Wallet credit', date:todayStr(), note:'Wallet top-up', cash:true });
+    saveDB(); _grSig=''; render(); toast('Credited '+fmtMoney(amt)+' · balance '+fmtMoney(walletBalance()),'ok');
+  });
+}
+
 function renderActiveRestrict(){
   var slot=document.getElementById('activeRestrictSlot'); if(!slot)return;
   var list=activeRestrictions();
@@ -4263,6 +4470,7 @@ function render(){
   document.getElementById('hello').textContent=greet+', '+(p.name||'Sam').split(' ')[0];
 
   try{ renderActiveRestrict(); }catch(e){}   /* app-wide time-penalty reminder on every page */
+  try{ renderGoalReminders(); }catch(e){}    /* goal due-date / wallet-short reminders */
   if(CUR_PAGE==='Today')  renderToday();
   if(CUR_PAGE==='Tasks')  renderManage();
   if(CUR_PAGE==='Rewards')renderRewards();
@@ -4278,10 +4486,18 @@ function render(){
   if(CUR_PAGE==='Notes')renderNotesPage();
   if(CUR_PAGE==='Trades')renderTradesPage();
   if(CUR_PAGE==='Planner')renderPlannerPage();
+  if(CUR_PAGE==='Fashion')renderFashionPage();
+  if(CUR_PAGE==='Career')renderCareerPage();
+  if(CUR_PAGE==='Face')renderFacePage();
+  if(CUR_PAGE==='Missions')renderMissionsPage();
+  if(CUR_PAGE==='Ach')renderAchPage();
+  if(CUR_PAGE==='RewardStore')renderRewardStorePage();
+  if(CUR_PAGE==='Goals')renderGoalsPage();
 }
 
 function renderToday(){
   var hl=document.getElementById('hLine'); if(hl) hl.textContent=motivLine();
+  try{ renderRpgHero(); }catch(e){}
   renderTodayNotes();
   var rc=document.getElementById('recoSlot'); if(rc){ try{ rc.innerHTML=recoBannerHtml('tasks')+recoBannerHtml('study'); }catch(e){ rc.innerHTML=''; } }
   var td=todayStr();
@@ -5398,6 +5614,43 @@ function setWalletStart(){
     DB.walletStart=+v||0; DB.walletStartSet=true; saveDB(); render(); toast('Starting balance set','ok');
   });
 }
+/* ═══════════════ UNIVERSAL WALLET SPEND GATEWAY ═══════════════
+   EVERY money-out action across the app routes through this. It asks the
+   wallet for approval: enough balance → confirm → deduct (cash-out ledger
+   row) → show updated balance. Not enough → DENIED, no deduction.
+   srcId makes it idempotent (same action can't double-charge). */
+function walletSpend(opts){
+  /* opts: {amount, cat, note, srcId, icon, title, onOk, onDeny} */
+  ledgerSyncMoney();
+  var amt=Math.abs(+opts.amount||0);
+  if(amt<=0){ if(opts.onOk)opts.onOk(); return; }
+  var bal=walletBalance();
+  var ic=opts.icon||'💳';
+  /* already charged? (idempotent) */
+  if(opts.srcId && DB.ledgerSeen && DB.ledgerSeen[opts.srcId]){ if(opts.onOk)opts.onOk(); return; }
+  if(bal < amt){
+    confirmModal({icon:'🚫',title:'Wallet declined',danger:false,
+      msg:'This needs '+fmtMoney(amt)+' but your wallet balance is '+fmtMoney(bal)+'. Add income first, or set a higher starting balance. Nothing was deducted.',
+      ok:'OK', onOk:function(){ if(opts.onDeny)opts.onDeny(); }});
+    return;
+  }
+  confirmModal({icon:ic,title:opts.title||'Approve payment?',danger:true,
+    msg:'Deduct '+fmtMoney(amt)+' from your wallet for '+esc(opts.note||opts.cat||'this')+'?<br><br>Balance now: <b>'+fmtMoney(bal)+'</b> → after: <b>'+fmtMoney(bal-amt)+'</b>',
+    ok:'Pay '+fmtMoney(amt), onOk:function(){
+      ledgerAdd({ srcId:opts.srcId||null, src:opts.src||'goal', amount:amt, dir:'out', cat:opts.cat||'Spend', date:todayStr(), note:opts.note||'', cash:true });
+      try{ saveDB(); }catch(e){}
+      var nb=walletBalance();
+      if(opts.onOk)opts.onOk();
+      render();
+      toast('Paid '+fmtMoney(amt)+' · balance '+fmtMoney(nb),'ok');
+    }});
+}
+/* reverse a wallet spend (e.g. un-mark done / delete) */
+function walletRefund(srcId){
+  if(!srcId)return;
+  if(!(DB.ledgerSeen&&DB.ledgerSeen[srcId]))return;
+  ledgerRemoveBySrc(srcId); saveDB();
+}
 function renderMoney(){
   ledgerSyncMoney();
   var mr=document.getElementById('moRecoSlot'); if(mr){ try{ mr.innerHTML=recoBannerHtml('money'); }catch(e){ mr.innerHTML=''; } }
@@ -5413,9 +5666,11 @@ function renderMoney(){
   document.getElementById('mNet').textContent=fmtMoney(mNet);
   var sr=document.getElementById('mSaveRate');
   if(sr){
-    var startTxt = DB.walletStartSet ? ('Est. cash balance · from ₹'+(+DB.walletStart||0).toLocaleString('en-IN')+' start. ') : 'Estimate from your entries. ';
-    sr.innerHTML = esc(startTxt)+'<a onclick="setWalletStart()" style="color:var(--accent2);text-decoration:underline;cursor:pointer">'+(DB.walletStartSet?'Change start':'Set starting balance')+'</a>';
+    var startTxt = DB.walletStartSet ? ('Est. cash balance · from ₹'+(+DB.walletStart||0).toLocaleString('en-IN')+' start.') : 'Estimate from your entries.';
+    sr.textContent = startTxt;
   }
+  var sb=document.getElementById('mStartBtn');
+  if(sb) sb.innerHTML = DB.walletStartSet ? ('💰 Starting: '+fmtMoney(+DB.walletStart||0)+' · Change') : '💰 Set starting balance';
 
   var month=DB.money.filter(function(t){return t.date.slice(0,7)===mk;}).sort(function(a,b){ return a.date<b.date?1:a.date>b.date?-1:(b.ts-a.ts); });
   document.getElementById('mCount').textContent=month.length+' entr'+(month.length===1?'y':'ies');
@@ -6177,12 +6432,20 @@ function renderWorkout(){
 function confirmModal(o){
   document.getElementById('cIc').textContent=o.icon||'⚠️';
   document.getElementById('cTitle').textContent=o.title||'Are you sure?';
-  document.getElementById('cMsg').textContent=o.msg||'';
+  /* allow basic HTML in the message (br/b) */
+  var mEl=document.getElementById('cMsg');
+  if(/[<]/.test(o.msg||'')) mEl.innerHTML=o.msg||''; else mEl.textContent=o.msg||'';
   var acts=document.getElementById('cActs'); acts.innerHTML='';
   var cancel=document.createElement('button'); cancel.className='btn ghost'; cancel.textContent='Cancel'; cancel.onclick=closeConfirm;
   var ok=document.createElement('button'); ok.className='btn'+(o.danger?' danger':''); ok.textContent=o.ok||'Confirm';
   ok.onclick=function(){ closeConfirm(); if(o.onOk)o.onOk(); };
   acts.appendChild(cancel); acts.appendChild(ok);
+  /* optional second action button (e.g. Earn vs Spend) */
+  if(o.okAlt){
+    var alt=document.createElement('button'); alt.className='btn'; alt.textContent=o.okAlt;
+    alt.onclick=function(){ closeConfirm(); if(o.onAlt)o.onAlt(); };
+    acts.appendChild(alt);
+  }
   document.getElementById('confirm').classList.add('show');
 }
 function closeConfirm(){ document.getElementById('confirm').classList.remove('show'); }
@@ -6198,6 +6461,31 @@ function openNumModal(title,msg,val,onOk){
   acts.appendChild(cancel); acts.appendChild(ok);
   document.getElementById('confirm').classList.add('show');
   setTimeout(function(){ var i=document.getElementById('numModalIn'); if(i)i.focus(); },120);
+}
+/* in-app text prompt (no native prompt) */
+function openPromptModal(title,msg,val,onOk){
+  document.getElementById('cIc').textContent='✏️';
+  document.getElementById('cTitle').textContent=title||'Enter';
+  document.getElementById('cMsg').innerHTML=esc(msg||'')+'<input id="txtModalIn" type="text" style="width:100%;margin-top:12px;background:var(--inp);border:1px solid var(--brd);border-radius:12px;padding:12px 14px;color:var(--txt);font-size:16px;font-weight:600;font-family:inherit" value="'+esc(val||'')+'">';
+  var acts=document.getElementById('cActs'); acts.innerHTML='';
+  var cancel=document.createElement('button'); cancel.className='btn ghost'; cancel.textContent='Cancel'; cancel.onclick=closeConfirm;
+  var ok=document.createElement('button'); ok.className='btn'; ok.textContent='Save';
+  ok.onclick=function(){ var v=(document.getElementById('txtModalIn')||{}).value; closeConfirm(); if(onOk)onOk(v); };
+  acts.appendChild(cancel); acts.appendChild(ok);
+  document.getElementById('confirm').classList.add('show');
+  setTimeout(function(){ var i=document.getElementById('txtModalIn'); if(i)i.focus(); },120);
+}
+/* in-app date prompt. onOk gets 'YYYY-MM-DD' or '' if skipped */
+function openDateModal(title,msg,val,onOk){
+  document.getElementById('cIc').textContent='📅';
+  document.getElementById('cTitle').textContent=title||'Pick a date';
+  document.getElementById('cMsg').innerHTML=esc(msg||'')+'<input id="dateModalIn" type="date" style="width:100%;margin-top:12px;background:var(--inp);border:1px solid var(--brd);border-radius:12px;padding:12px 14px;color:var(--txt);font-size:16px;font-weight:600;font-family:inherit" value="'+(val||'')+'">';
+  var acts=document.getElementById('cActs'); acts.innerHTML='';
+  var skip=document.createElement('button'); skip.className='btn ghost'; skip.textContent='No date'; skip.onclick=function(){ closeConfirm(); if(onOk)onOk(''); };
+  var ok=document.createElement('button'); ok.className='btn'; ok.textContent='Set';
+  ok.onclick=function(){ var v=(document.getElementById('dateModalIn')||{}).value||''; closeConfirm(); if(onOk)onOk(v); };
+  acts.appendChild(skip); acts.appendChild(ok);
+  document.getElementById('confirm').classList.add('show');
 }
 
 /* ---------- misc ---------- */
@@ -6332,6 +6620,608 @@ function runBootAnimation(){
    were away 5 days, all 5 days are evaluated now. Every step is isolated in
    try/catch so one failure never stops the rest of the chain. */
 function safe(label, fn){ try{ fn(); }catch(e){ try{ console.warn('[catchUp] '+label+' failed:', e&&e.message); }catch(_){} } }
+/* ═══════════════════════════════════════════════════════════════
+   REAL LIFE RPG ENGINE (v3.0)
+   A game layer OVER Volts. XP = profile.points (the real, existing XP from
+   tasks/workouts) — the RPG READS it, never double-awards. Ranks, 6
+   attributes and 4 zone %s are all DERIVED from real activity counts.
+   ═══════════════════════════════════════════════════════════════ */
+var RPG_RANKS=[
+  {n:'Rookie',   min:1,  e:'🪨', c:'#8a93a6'},
+  {n:'Bronze',   min:3,  e:'🥉', c:'#cd7f32'},
+  {n:'Silver',   min:6,  e:'🥈', c:'#c0c8d4'},
+  {n:'Gold',     min:9,  e:'🥇', c:'#ffcf5c'},
+  {n:'Platinum', min:12, e:'💠', c:'#67e8f9'},
+  {n:'Diamond',  min:15, e:'💎', c:'#7dd3fc'},
+  {n:'Elite',    min:18, e:'⚡', c:'#a78bfa'},
+  {n:'Legend',   min:20, e:'👑', c:'#f0abfc'}
+];
+function rpgRank(){
+  var lvl=DB.profile.level||1, r=RPG_RANKS[0];
+  for(var i=0;i<RPG_RANKS.length;i++){ if(lvl>=RPG_RANKS[i].min) r=RPG_RANKS[i]; }
+  return r;
+}
+function rpgNextRank(){
+  var lvl=DB.profile.level||1;
+  for(var i=0;i<RPG_RANKS.length;i++){ if(RPG_RANKS[i].min>lvl) return RPG_RANKS[i]; }
+  return null;
+}
+/* count helpers over real data (last Nd window where relevant) */
+function _inLastDays(ds,n){ var td=todayStr(); for(var i=0;i<n;i++){ if(ds===addDays(td,-i))return true; } return false; }
+function rpgCounts(){
+  var td=todayStr();
+  var workouts30=(DB.workouts||[]).filter(function(w){return _inLastDays(w.date,30);}).length;
+  var taskDone30=0; (DB.tasks||[]).forEach(function(t){ (t.history||[]).forEach(function(d){ if(_inLastDays(d,30))taskDone30++; }); });
+  var learn30=0; (DB.tasks||[]).forEach(function(t){ if(t.cat==='learn'){ (t.history||[]).forEach(function(d){ if(_inLastDays(d,30))learn30++; }); } });
+  var trades=(DB.trades||[]).length;
+  var ledgerN=(DB.ledger||[]).length;
+  var wardrobe=(DB.wardrobe||[]).length, outfits=(DB.outfits||[]).length;
+  var groomDays=Object.keys(DB.grooming||{}).length;
+  var facePhotos=(DB.facePhotos||[]).length;
+  var bwLevels=0; for(var k in (DB.workoutProg||{})){ bwLevels+=((DB.workoutProg[k].level||1)-1); }
+  var streak=DB.profile.streak||0, longest=DB.profile.longestStreak||0;
+  var missionsDone=Object.keys((DB.rpg&&DB.rpg.missionsDone)||{}).length;
+  return { workouts30:workouts30, taskDone30:taskDone30, learn30:learn30, trades:trades, ledgerN:ledgerN,
+           wardrobe:wardrobe, outfits:outfits, groomDays:groomDays, facePhotos:facePhotos, bwLevels:bwLevels,
+           streak:streak, longest:longest, missionsDone:missionsDone };
+}
+/* 6 attributes, 0-100, from real signals (capped, smooth) */
+function rpgAttrs(){
+  var c=rpgCounts();
+  function cap(x){ return Math.max(0,Math.min(100,Math.round(x))); }
+  return {
+    STRENGTH:     cap(c.workouts30*6 + c.bwLevels*5),
+    INTELLIGENCE: cap(c.learn30*8 + c.trades*2),
+    DISCIPLINE:   cap(c.streak*4 + c.longest*2 + c.taskDone30*1.5),
+    STYLE:        cap(c.wardrobe*5 + c.outfits*8),
+    FINANCE:      cap(c.ledgerN*2 + c.trades*4 + ((DB.walletStartSet)?15:0)),
+    CONFIDENCE:   cap(c.groomDays*5 + c.facePhotos*6 + c.missionsDone*4)
+  };
+}
+var RPG_ATTR_META=[
+  {k:'STRENGTH',e:'💪',c:'#ff6b6b'},{k:'INTELLIGENCE',e:'🧠',c:'#4dabf7'},
+  {k:'DISCIPLINE',e:'🎯',c:'#a78bfa'},{k:'STYLE',e:'✨',c:'#f783ac'},
+  {k:'FINANCE',e:'💰',c:'#ffd43b'},{k:'CONFIDENCE',e:'🔥',c:'#ff922b'}
+];
+/* 4 zones with % progress derived from real data + their live level */
+function rpgZones(){
+  var a=rpgAttrs(); var c=rpgCounts();
+  function lvl(pct){ return Math.max(1,Math.floor(pct/10)+1); }
+  var fashion=Math.round((a.STYLE)*1.0);
+  var career=Math.round((a.INTELLIGENCE*0.5 + a.FINANCE*0.5));
+  var face=Math.round((a.CONFIDENCE*0.6 + Math.min(100,c.groomDays*7)*0.4));
+  var body=Math.round((a.STRENGTH*0.7 + Math.min(100,c.workouts30*6)*0.3));
+  return [
+    {k:'Fashion',e:'🧥',pg:'Fashion',pct:fashion,lvl:lvl(fashion),c:'#f783ac',
+      sub:(c.wardrobe)+' items · '+(c.outfits)+' outfits', mission:'Add 3 wardrobe items'},
+    {k:'Career',e:'💼',pg:'Career',pct:career,lvl:lvl(career),c:'#4dabf7',
+      sub:(c.trades)+' trades · '+(c.learn30)+' learning sessions', mission:'1 skill session today'},
+    {k:'Face',e:'🧖',pg:'Face',pct:face,lvl:lvl(face),c:'#63e6be',
+      sub:(c.groomDays)+' grooming days · '+(c.facePhotos)+' photos', mission:'Log grooming routine'},
+    {k:'Body',e:'🏋️',pg:'Workout',pct:body,lvl:lvl(body),c:'#ff6b6b',
+      sub:(c.workouts30)+' workouts (30d) · '+(c.streak)+'d streak', mission:'Complete today’s workout'}
+  ];
+}
+
+/* ═══════════════ TOKENS (game currency, separate from XP) ═══════════════
+   Earn tokens by COMPLETING goals/zone objectives. Spend tokens in the Reward
+   Store. XP (profile.points) measures progress; tokens are the spendable
+   game currency you cash in for real-life rewards. */
+function tokens(){ DB.rpg=DB.rpg||{}; if(typeof DB.rpg.tokens!=='number')DB.rpg.tokens=0; return DB.rpg.tokens; }
+function awardTokens(n,reason){
+  DB.rpg=DB.rpg||{}; DB.rpg.tokens=(DB.rpg.tokens||0)+n; DB.rpg.tokenLog=DB.rpg.tokenLog||[];
+  DB.rpg.tokenLog.unshift({ n:n, reason:reason||'', ts:Date.now() }); if(DB.rpg.tokenLog.length>100)DB.rpg.tokenLog.length=100;
+}
+function spendTokens(n){ DB.rpg=DB.rpg||{}; if((DB.rpg.tokens||0)<n)return false; DB.rpg.tokens-=n; return true; }
+
+/* ═══════════════ GOALS & SPENDS (wallet-connected) ═══════════════
+   Two goal kinds:
+   • EARN goal — a thing to DO. Complete → earn tokens (game currency).
+   • SPEND goal — a planned real purchase. Done → wallet pays (or denies).
+   Tokens are spent in the Reward Store. */
+var GOAL_ZONE=null;   /* preset zone when adding from a zone card */
+function addGoal(zone){
+  GOAL_ZONE=zone||null;
+  /* pick kind first */
+  confirmModal({icon:'🎯',title:'New goal',msg:'Pick a type:<br><br><b>🏅 Earn</b> — a thing to DO. Completing it gives you tokens.<br><b>💸 Spend</b> — a real purchase. Done pays from your wallet.',
+    ok:'🏅 Earn goal', okAlt:'💸 Spend goal', danger:false,
+    onOk:function(){ addGoalFlow('earn'); }, onAlt:function(){ addGoalFlow('spend'); }});
+}
+function addGoalFlow(kind){
+  openPromptModal('New '+kind+' goal', kind==='earn'?'What will you achieve? (e.g. Finish a course)':'What is it? (e.g. Manbi’s birthday)','', function(name){
+    if(!name||!name.trim())return;
+    if(kind==='earn'){
+      openNumModal('Token reward','How many tokens for completing it? (10–200)','50', function(v){
+        var tk=Math.max(1,parseInt(v,10)||50);
+        openDateModal('Target date','When by? You’ll get reminders as it nears.','', function(dt){
+          DB.goals=DB.goals||[];
+          DB.goals.push({ id:'gl'+Date.now(), name:name.trim(), kind:'earn', tokens:tk, zone:GOAL_ZONE||'', date:(dt||''), done:false, ts:Date.now() });
+          saveDB(); render(); toast('Earn goal added 🏅','ok'); GOAL_ZONE=null;
+        });
+      });
+    } else {
+      openNumModal('Budget','How much will it cost? (₹)','5000', function(v){
+        var amt=Math.max(0,parseFloat(v)||0);
+        openDateModal('Target date','When is it due? You’ll get reminders as it nears.','', function(dt){
+          DB.goals=DB.goals||[];
+          DB.goals.push({ id:'gl'+Date.now(), name:name.trim(), kind:'spend', amount:amt, cat:'Goal', zone:GOAL_ZONE||'', date:(dt||''), done:false, ts:Date.now() });
+          saveDB(); render(); toast('Spend goal added 💸','ok'); GOAL_ZONE=null;
+        });
+      });
+    }
+  });
+}
+function doneGoal(id){
+  var g=(DB.goals||[]).filter(function(x){return x.id===id;})[0]; if(!g||g.done)return;
+  if(g.kind==='earn'){
+    confirmModal({icon:'🏅',title:'Complete '+g.name+'?',msg:'You’ll earn <b>'+(g.tokens||0)+' tokens</b> to spend in the Reward Store.',ok:'Complete · +'+(g.tokens||0)+' tokens',danger:false,onOk:function(){
+      g.done=true; g.doneAt=Date.now(); awardTokens(g.tokens||0,'Goal: '+g.name);
+      saveDB(); checkAchievements(); render(); toast('+'+(g.tokens||0)+' tokens 🏅 · '+tokens()+' total','ok');
+    }});
+    return;
+  }
+  /* spend goal -> wallet */
+  walletSpend({ amount:g.amount, cat:g.cat||'Goal', note:g.name, src:'goal', srcId:'goal:'+g.id, icon:'🎯', title:'Spend on '+g.name+'?',
+    onOk:function(){ g.done=true; g.doneAt=Date.now(); saveDB(); checkAchievements(); render(); }
+  });
+}
+function undoGoal(id){
+  var g=(DB.goals||[]).filter(function(x){return x.id===id;})[0]; if(!g||!g.done)return;
+  if(g.kind==='earn'){
+    confirmModal({icon:'↩️',title:'Undo completion?',msg:'Takes back '+(g.tokens||0)+' tokens.',ok:'Undo',danger:false,onOk:function(){
+      DB.rpg.tokens=Math.max(0,(DB.rpg.tokens||0)-(g.tokens||0)); g.done=false; delete g.doneAt; saveDB(); render(); toast('Reverted','');
+    }});
+    return;
+  }
+  confirmModal({icon:'↩️',title:'Undo this spend?',msg:'Refunds '+fmtMoney(g.amount)+' back to your wallet.',ok:'Undo & refund',danger:false,onOk:function(){
+    walletRefund('goal:'+g.id); g.done=false; delete g.doneAt; saveDB(); render(); toast('Refunded '+fmtMoney(g.amount)+' to wallet','ok');
+  }});
+}
+function delGoal(id){
+  var g=(DB.goals||[]).filter(function(x){return x.id===id;})[0];
+  var msg='Remove this goal.';
+  if(g&&g.done&&g.kind==='earn')msg='This gave '+(g.tokens||0)+' tokens — deleting takes them back.';
+  else if(g&&g.done)msg='This was paid — deleting also refunds '+fmtMoney(g.amount)+'.';
+  confirmModal({icon:'🗑️',title:'Delete goal?',msg:msg,ok:'Delete',danger:true,onOk:function(){
+    if(g&&g.done&&g.kind==='earn')DB.rpg.tokens=Math.max(0,(DB.rpg.tokens||0)-(g.tokens||0));
+    else if(g&&g.done)walletRefund('goal:'+g.id);
+    DB.goals=(DB.goals||[]).filter(function(x){return x.id!==id;}); saveDB(); render(); toast('Deleted','');
+  }});
+}
+function renderGoalsPage(){
+  var el=document.getElementById('goalsPage'); if(!el)return;
+  ledgerSyncMoney();
+  var bal=walletBalance();
+  var goals=(DB.goals||[]);
+  var pending=goals.filter(function(g){return !g.done;});
+  var totalPlanned=pending.filter(function(g){return g.kind!=='earn';}).reduce(function(a,g){return a+(g.amount||0);},0);
+  var h='<div class="rpg-page-hero"><div style="display:flex;gap:10px">'
+    +'<div style="flex:1;text-align:center"><div style="font-size:10px;color:var(--muted);letter-spacing:1px;font-weight:700">WALLET</div><div style="font-size:22px;font-weight:800;color:'+(bal>=0?'#7fe9c0':'#ff97a2')+'">'+fmtMoney(bal)+'</div></div>'
+    +'<div style="flex:1;text-align:center"><div style="font-size:10px;color:var(--muted);letter-spacing:1px;font-weight:700">TOKENS</div><div style="font-size:22px;font-weight:800;color:#ffd43b">🪙 '+tokens()+'</div></div>'
+    +'</div>'
+    +'<div style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center">'+fmtMoney(totalPlanned)+' spend planned'+(totalPlanned>bal?' · <span style="color:#ff97a2">over budget</span>':'')+'</div>'
+    +'<div class="btnrow" style="margin-top:12px;justify-content:center"><button class="btn sm ghost" onclick="setWalletStart()">Set balance</button><button class="btn sm" onclick="addGoal()">+ New goal</button></div></div>';
+  if(!goals.length){ el.innerHTML=h+'<div class="box" style="text-align:center;padding:20px;color:var(--muted);font-size:13px">No goals yet. 🏅 <b>Earn goals</b> give tokens when you complete them → spend in Reward Store. 💸 <b>Spend goals</b> pay from your wallet.</div>'; return; }
+  /* pending */
+  h+='<div class="sec"><div class="head"><h2>🎯 Active</h2><div class="cnt">'+pending.length+'</div></div></div>';
+  if(!pending.length) h+='<div class="box" style="text-align:center;padding:14px;color:var(--muted);font-size:12.5px">All done 🎉</div>';
+  pending.forEach(function(g){
+    var dtTxt='';
+    if(g.date){ var dl=daysBetween(todayStr(),g.date); dtTxt=' · 📅 '+(dl<0?(Math.abs(dl)+'d overdue'):dl===0?'today':dl===1?'tomorrow':('in '+dl+'d')); }
+    if(g.kind==='earn'){
+      h+='<div class="rwd-card"><div class="rwd-e">🏅</div><div class="rwd-b"><div class="rwd-t">'+esc(g.name)+(g.zone?' <span style="font-size:10px;color:var(--muted)">· '+esc(g.zone)+'</span>':'')+'</div>'
+        +'<div class="rwd-cost">🪙 '+(g.tokens||0)+' tokens'+dtTxt+'</div></div>'
+        +'<button class="btn sm" onclick="doneGoal(\''+g.id+'\')">Complete</button>'
+        +'<div class="x" onclick="delGoal(\''+g.id+'\')">✕</div></div>';
+    } else {
+      var afford=bal>=g.amount; var shortAmt=g.amount-bal;
+      h+='<div class="rwd-card"><div class="rwd-e">💸</div><div class="rwd-b"><div class="rwd-t">'+esc(g.name)+(g.zone?' <span style="font-size:10px;color:var(--muted)">· '+esc(g.zone)+'</span>':'')+'</div>'
+        +'<div class="rwd-cost">'+fmtMoney(g.amount)+dtTxt+(afford?'':' · <span style="color:#ff97a2">short '+fmtMoney(shortAmt)+'</span>')+'</div></div>'
+        +(afford
+          ? '<button class="btn sm" onclick="doneGoal(\''+g.id+'\')">Done · pay</button>'
+          : '<button class="gr-credit" onclick="creditWallet('+shortAmt+')">+ Credit</button>')
+        +'<div class="x" onclick="delGoal(\''+g.id+'\')">✕</div></div>';
+    }
+  });
+  /* done */
+  var paid=goals.filter(function(g){return g.done;});
+  if(paid.length){
+    h+='<div class="sec" style="margin-top:18px"><div class="head"><h2>✅ Completed</h2><div class="cnt">'+paid.length+'</div></div></div>';
+    paid.slice().reverse().forEach(function(g){
+      var val=(g.kind==='earn')?('🪙 '+(g.tokens||0)):fmtMoney(g.amount);
+      h+='<div class="rwd-card"><div class="rwd-e">✅</div><div class="rwd-b"><div class="rwd-t">'+esc(g.name)+'</div>'
+        +'<div class="rwd-redeemed">'+val+' · '+(g.doneAt?new Date(g.doneAt).toLocaleDateString('en-IN'):'')+'</div></div>'
+        +'<button class="btn sm ghost" onclick="undoGoal(\''+g.id+'\')">Undo</button>'
+        +'<div class="x" onclick="delGoal(\''+g.id+'\')">✕</div></div>';
+    });
+  }
+  el.innerHTML=h;
+}
+
+/* ═══════════════ FASHION ZONE ═══════════════ */
+function renderFashionPage(){
+  var el=document.getElementById('fashionPage'); if(!el)return;
+  var z=rpgZones()[0];
+  var w=(DB.wardrobe||[]), o=(DB.outfits||[]), wl=(DB.wishlist||[]);
+  var h='<div class="rpg-page-hero"><div class="rpg-player" style="margin-bottom:10px"><div class="rpg-av" style="--rc:#f783ac">🧥</div><div class="rpg-pinfo"><div class="rpg-name">Style Lv '+z.lvl+'</div><div class="rpg-rankrow"><span class="rpg-lvl">'+z.pct+'% developed</span></div></div></div>'
+    +'<div class="rpg-xpbar"><div class="rpg-xpfill" style="width:'+z.pct+'%"></div></div></div>';
+  /* wardrobe */
+  h+='<div class="sec"><div class="head"><h2>👕 Wardrobe</h2><div class="cnt">'+w.length+'</div></div></div>';
+  h+='<div class="btnrow" style="margin-bottom:12px"><button class="btn sm" onclick="addWardrobe()">+ Add item</button></div>';
+  if(!w.length) h+='<div class="box" style="text-align:center;padding:18px;color:var(--muted);font-size:12.5px">No items yet. Add your clothes to track your collection.</div>';
+  else w.slice().reverse().forEach(function(it){
+    var sub=esc(it.cat||'')+(it.color?' · '+esc(it.color):'')+(it.price?' · '+fmtMoney(it.price):'')+(it.bought?' · ✅ paid':'');
+    h+='<div class="rwd-card"><div class="rwd-e">'+(it.bought?'✅':(it.e||'👕'))+'</div><div class="rwd-b"><div class="rwd-t">'+esc(it.name)+'</div><div class="rwd-cost" style="color:var(--muted)">'+sub+'</div></div>'
+      +((it.price>0 && !it.bought)?'<button class="btn sm" onclick="doneWardrobe(\''+it.id+'\')">Done · pay</button>':'')
+      +'<div class="x" onclick="delWardrobe(\''+it.id+'\')">✕</div></div>';
+  });
+  /* wishlist */
+  h+='<div class="sec" style="margin-top:18px"><div class="head"><h2>🛍️ Shopping wishlist</h2><div class="cnt">'+wl.length+'</div></div></div>';
+  h+='<div class="btnrow" style="margin-bottom:12px"><button class="btn sm ghost" onclick="addWish()">+ Add wishlist item</button></div>';
+  if(wl.length) wl.slice().reverse().forEach(function(it){
+    h+='<div class="rwd-card"><div class="rwd-e">'+(it.bought?'✅':'🎯')+'</div><div class="rwd-b"><div class="rwd-t">'+esc(it.name)+'</div><div class="rwd-cost">'+(it.price?fmtMoney(it.price):'')+' · '+(it.bought?'bought':esc(it.priority||'normal')+' priority')+'</div></div>'
+      +(it.bought?'':'<button class="btn sm ghost" onclick="buyWish(\''+it.id+'\')">Bought</button>')
+      +'<div class="x" onclick="delWish(\''+it.id+'\')">✕</div></div>';
+  });
+  h+='<p style="font-size:11px;color:var(--muted);margin-top:14px;text-align:center;line-height:1.5">💡 Smart upgrades beat spending. Fill real wardrobe gaps, not impulse buys.</p>';
+  el.innerHTML=h;
+}
+function addWardrobe(){
+  openPromptModal('Add clothing item','Name (e.g. Navy blazer)','', function(name){
+    if(!name||!name.trim())return;
+    openPromptModal('Details','Category · color · ₹price (e.g. Formal · navy · 2500)','', function(d){
+      var parts=(d||'').split('·').map(function(s){return s.trim();});
+      DB.wardrobe=DB.wardrobe||[];
+      DB.wardrobe.push({ id:'wd'+Date.now(), name:name.trim(), cat:parts[0]||'', color:parts[1]||'', price:parseFloat(parts[2])||0, e:'👕', ts:Date.now() });
+      saveDB(); checkAchievements(); render(); toast('Item added 👕','ok');
+    });
+  });
+}
+function delWardrobe(id){ DB.wardrobe=(DB.wardrobe||[]).filter(function(x){return x.id!==id;}); saveDB(); render(); }
+function doneWardrobe(id){
+  var it=(DB.wardrobe||[]).filter(function(x){return x.id===id;})[0]; if(!it)return;
+  if(it.bought){ toast('Already paid','warn'); return; }
+  /* wallet gateway: ask, check balance, deduct or deny */
+  walletSpend({ amount:it.price||0, cat:'Clothing', note:it.name, src:'fashion', srcId:'ward:'+it.id, icon:'🧥', title:'Buy '+it.name+'?',
+    onOk:function(){ it.bought=true; it.boughtAt=Date.now(); saveDB(); checkAchievements(); render(); }
+  });
+}
+function addWish(){
+  openPromptModal('Wishlist item','What do you want? (e.g. White sneakers)','', function(name){
+    if(!name||!name.trim())return;
+    openNumModal('Budget','Approx ₹ price?','1000', function(v){
+      DB.wishlist=DB.wishlist||[];
+      DB.wishlist.push({ id:'wl'+Date.now(), name:name.trim(), price:parseFloat(v)||0, priority:'normal', bought:false, ts:Date.now() });
+      saveDB(); render(); toast('Added to wishlist','ok');
+    });
+  });
+}
+function buyWish(id){
+  var it=(DB.wishlist||[]).filter(function(x){return x.id===id;})[0]; if(!it)return;
+  /* wallet gateway: ask, check balance, deduct or deny */
+  walletSpend({ amount:it.price||0, cat:'Clothing', note:it.name, src:'fashion', srcId:'fashion:'+it.id, icon:'🧥', title:'Buy '+it.name+'?',
+    onOk:function(){
+      it.bought=true; it.boughtAt=Date.now();
+      DB.wardrobe=DB.wardrobe||[]; DB.wardrobe.push({ id:'wd'+Date.now(), name:it.name, cat:'', color:'', price:it.price||0, e:'🛍️', bought:true, ts:Date.now() });
+      saveDB(); checkAchievements(); render();
+    }
+  });
+}
+function delWish(id){ DB.wishlist=(DB.wishlist||[]).filter(function(x){return x.id!==id;}); saveDB(); render(); }
+
+/* ═══════════════ FACE ZONE (grooming + private photos) ═══════════════ */
+var GROOM_ITEMS=[
+  {k:'skincare',e:'🧴',t:'Skincare'},{k:'hair',e:'💇',t:'Hair groomed'},
+  {k:'beard',e:'🧔',t:'Beard trimmed'},{k:'teeth',e:'🦷',t:'Dental care'},
+  {k:'brows',e:'👁️',t:'Eyebrows'},{k:'hygiene',e:'🚿',t:'Hygiene'}
+];
+function renderFacePage(){
+  var el=document.getElementById('facePage'); if(!el)return;
+  var td=todayStr(); var g=(DB.grooming&&DB.grooming[td])||{};
+  var z=rpgZones()[2];
+  var doneCount=GROOM_ITEMS.filter(function(i){return g[i.k];}).length;
+  var h='<div class="rpg-page-hero"><div class="rpg-player" style="margin-bottom:10px"><div class="rpg-av" style="--rc:#63e6be">🧖</div><div class="rpg-pinfo"><div class="rpg-name">Grooming Lv '+z.lvl+'</div><div class="rpg-rankrow"><span class="rpg-lvl">'+z.pct+'% · '+Object.keys(DB.grooming||{}).length+' days logged</span></div></div></div>'
+    +'<div class="rpg-xpbar"><div class="rpg-xpfill" style="width:'+z.pct+'%"></div></div></div>';
+  h+='<div class="box" style="margin-bottom:14px"><div class="head" style="margin-bottom:10px"><h2 style="font-size:15px">✅ Today’s grooming</h2><div class="cnt">'+doneCount+'/'+GROOM_ITEMS.length+'</div></div>';
+  GROOM_ITEMS.forEach(function(i){
+    var on=!!g[i.k];
+    h+='<div class="bw-ex"><div class="bw-e">'+i.e+'</div><div class="bw-b"><div class="bw-nm">'+i.t+'</div></div>'
+      +(on?'<div class="bw-doneb">✓</div>':'<button class="bw-hit" onclick="toggleGroom(\''+i.k+'\')">Done</button>')+'</div>';
+  });
+  h+='</div>';
+  /* photos */
+  var ph=(DB.facePhotos||[]);
+  h+='<div class="sec"><div class="head"><h2>📸 Progress photos</h2><div class="cnt">'+ph.length+'</div></div></div>';
+  h+='<div class="btnrow" style="margin-bottom:10px"><button class="btn sm ghost" onclick="document.getElementById(\'facePhotoIn\').click()">+ Add weekly photo (saved to device)</button></div>'
+    +'<input type="file" id="facePhotoIn" accept="image/*" capture="user" style="display:none" onchange="addFacePhoto(event)">';
+  h+='<p style="font-size:11px;color:var(--muted);margin-bottom:10px">🔒 Photos save to your device folder, not inside the app. Only the date + your note is kept here.</p>';
+  if(ph.length) ph.slice().reverse().forEach(function(p){
+    h+='<div class="rwd-card"><div class="rwd-e">📷</div><div class="rwd-b"><div class="rwd-t">'+esc(p.file||'photo')+'</div><div class="rwd-cost" style="color:var(--muted)">'+new Date(p.ts).toLocaleDateString("en-IN")+(p.note?' · '+esc(p.note):'')+'</div></div></div>';
+  });
+  h+='<p style="font-size:11px;color:var(--muted);margin-top:14px;text-align:center;line-height:1.5">Progress score is from your real routine consistency — no attractiveness judgments. Grooming techniques only; no unsupported structural claims.</p>';
+  el.innerHTML=h;
+}
+function toggleGroom(k){
+  var td=todayStr(); DB.grooming=DB.grooming||{}; DB.grooming[td]=DB.grooming[td]||{};
+  DB.grooming[td][k]=!DB.grooming[td][k];
+  saveDB(); checkAchievements(); render();
+}
+function addFacePhoto(ev){
+  var f=ev.target.files[0]; if(!f){ return; }
+  var r=new FileReader();
+  r.onload=function(){
+    try{
+      var img=new Image();
+      img.onload=function(){
+        try{
+          var max=900, sc=Math.min(1,max/Math.max(img.width,img.height));
+          var c=document.createElement('canvas'); c.width=Math.round(img.width*sc); c.height=Math.round(img.height*sc);
+          c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+          var data=c.toDataURL('image/jpeg',0.85);
+          var fname='volts_face_'+todayStr()+'_'+Date.now()+'.jpg';
+          saveProofToDevice(data,fname);   /* to device, not localStorage */
+          DB.facePhotos=DB.facePhotos||[];
+          DB.facePhotos.push({ id:'fp'+Date.now(), file:fname, note:'', ts:Date.now() });
+          saveDB(); checkAchievements(); render();
+          toast('Photo saved to your device 📁','ok');
+        }catch(e){ toast('Photo failed','err'); }
+      };
+      img.src=r.result;
+    }catch(e){ toast('Read failed','err'); }
+  };
+  r.readAsDataURL(f);
+}
+
+/* ═══════════════ CAREER ZONE (reuses Trades + Money + learn tasks) ═══════════════ */
+function renderCareerPage(){
+  var el=document.getElementById('careerPage'); if(!el)return;
+  var ts=tradeStats((DB.trades||[]));
+  var bal=walletBalance();
+  var learn=(DB.tasks||[]).filter(function(t){return t.cat==='learn';}).length;
+  var z=rpgZones()[1];
+  var h='<div class="rpg-page-hero"><div class="rpg-player" style="margin-bottom:10px"><div class="rpg-av" style="--rc:#4dabf7">💼</div><div class="rpg-pinfo"><div class="rpg-name">Career Lv '+z.lvl+'</div><div class="rpg-rankrow"><span class="rpg-lvl">'+z.pct+'% developed</span></div></div></div>'
+    +'<div class="rpg-xpbar"><div class="rpg-xpfill" style="width:'+z.pct+'%"></div></div></div>';
+  h+='<div class="rpg-attrs" style="grid-template-columns:1fr 1fr 1fr">'
+    +'<div class="rpg-attr"><div class="rpg-attr-top"><span>📈 Trades</span><b>'+(DB.trades||[]).length+'</b></div></div>'
+    +'<div class="rpg-attr"><div class="rpg-attr-top"><span>💰 Balance</span><b style="font-size:11px">'+fmtMoney(bal)+'</b></div></div>'
+    +'<div class="rpg-attr"><div class="rpg-attr-top"><span>🧠 Skills</span><b>'+learn+'</b></div></div></div>';
+  h+='<div class="box" style="margin-bottom:12px"><div class="tr-kv"><span>Net P&amp;L</span><b style="color:'+(ts.net>=0?"#7fe9c0":"#ff97a2")+'">'+fmtMoney(ts.net)+'</b></div>'
+    +'<div class="tr-kv"><span>Win rate</span><b>'+ts.winRate.toFixed(1)+'%</b></div>'
+    +'<div class="tr-kv"><span>Est. cash balance</span><b>'+fmtMoney(bal)+'</b></div></div>';
+  h+='<div class="morebtn" onclick="go(\'Trades\')"><div class="mi">📈</div><div class="mt"><b>Trading Journal</b><p>Log trades, P&amp;L, win-rate</p></div><div class="ar">›</div></div>'
+    +'<div class="morebtn" onclick="go(\'Money\')"><div class="mi">💰</div><div class="mt"><b>Money &amp; Ledger</b><p>Income, expenses, wallet</p></div><div class="ar">›</div></div>'
+    +'<div class="morebtn" onclick="go(\'Tasks\')"><div class="mi">🧠</div><div class="mt"><b>Skill tasks</b><p>Add learning tasks (category: Learn)</p></div><div class="ar">›</div></div>';
+  el.innerHTML=h;
+}
+
+/* ═══════════════ MISSIONS ═══════════════
+   Missions map to REAL actions. "Done" is detected from real data (or an
+   explicit tick that writes a real record), and claiming is locked once/period
+   so XP can't be farmed. XP here is awarded through the same profile.points. */
+function _missionKey(id,period){
+  var td=todayStr();
+  if(period==='daily')  return id+'|'+td;
+  if(period==='weekly') return id+'|'+weekKey();
+  if(period==='monthly')return id+'|'+td.slice(0,7);
+  return id;
+}
+function missionClaimed(id,period){ DB.rpg=DB.rpg||{}; DB.rpg.missionsDone=DB.rpg.missionsDone||{}; return !!DB.rpg.missionsDone[_missionKey(id,period)]; }
+/* mission catalog — each has a live `done(c)` from real data */
+function rpgMissions(){
+  var c=rpgCounts(), td=todayStr();
+  var workedToday=(DB.workouts||[]).some(function(w){return w.date===td;});
+  var taskToday=(DB.tasks||[]).some(function(t){return (t.history||[]).indexOf(td)!==-1;});
+  var groomToday=!!(DB.grooming&&DB.grooming[td]);
+  var noteToday=!!(DB.notes&&DB.notes[td]);
+  var tradeToday=(DB.trades||[]).some(function(t){return t.date===td;});
+  return {
+    daily:[
+      {id:'d_workout',e:'🏋️',t:'Complete today’s workout',d:'Log any workout session today',xp:25,done:workedToday},
+      {id:'d_task',   e:'✅',t:'Finish a daily task',   d:'Complete at least one task today',xp:20,done:taskToday},
+      {id:'d_groom',  e:'🧖',t:'Grooming routine',      d:'Tick today’s grooming on the Face page',xp:15,done:groomToday},
+      {id:'d_note',   e:'📝',t:'Daily reflection',      d:'Write today’s note',xp:10,done:noteToday},
+      {id:'d_trade',  e:'📈',t:'Trading journal',       d:'Log a trade (only if you traded)',xp:20,done:tradeToday}
+    ],
+    weekly:[
+      {id:'w_body',  e:'💪',t:'3 workouts this week',   d:'Log 3 sessions in the current week',xp:100,done:(DB.workouts||[]).filter(function(w){return weekKey(w.date)===weekKey();}).length>=3},
+      {id:'w_outfit',e:'🧥',t:'Build an outfit',        d:'Create 1 outfit in Fashion',xp:60, done:(DB.outfits||[]).some(function(o){return weekKey(o.date||todayStr())===weekKey();})},
+      {id:'w_review',e:'📊',t:'Weekly review',          d:'Open your Report this week',xp:40, done:!!(DB.rpg&&DB.rpg.missionsDone&&DB.rpg.missionsDone['w_review|'+weekKey()])}
+    ],
+    monthly:[
+      {id:'m_body',  e:'🏆',t:'12 workouts this month', d:'Build the habit',xp:250,done:(DB.workouts||[]).filter(function(w){return w.date.slice(0,7)===todayStr().slice(0,7);}).length>=12},
+      {id:'m_wardrobe',e:'🧥',t:'Add 3 wardrobe items',d:'Upgrade your wardrobe',xp:150,done:(DB.wardrobe||[]).length>=3},
+      {id:'m_streak',e:'🔥',t:'Keep a 15-day streak',  d:'Discipline compounds',xp:200,done:(DB.profile.longestStreak||0)>=15}
+    ]
+  };
+}
+function claimMission(id,period,xp){
+  if(missionClaimed(id,period)){ toast('Already claimed','err'); return; }
+  /* verify it's actually done right now */
+  var all=rpgMissions(); var list=all[period]||[]; var m=null;
+  for(var i=0;i<list.length;i++) if(list[i].id===id) m=list[i];
+  if(!m){ return; }
+  /* w_review is a manual tick (opening report) — allow claim as the action */
+  if(!m.done && id!=='w_review'){ toast('Do it first, then claim ✓','err'); return; }
+  DB.rpg=DB.rpg||{}; DB.rpg.missionsDone=DB.rpg.missionsDone||{};
+  DB.rpg.missionsDone[_missionKey(id,period)]={ xp:xp, ts:Date.now() };
+  DB.profile.points=(DB.profile.points||0)+xp;   /* XP = progress */
+  var tk=Math.max(1,Math.round(xp/5));           /* tokens = spendable reward currency */
+  awardTokens(tk,'Mission: '+m.t);
+  recompute();
+  checkAchievements();
+  saveDB(); render();
+  toast('+'+xp+' XP · +'+tk+' 🪙 · '+m.t,'ok');
+}
+function renderMissionsPage(){
+  var el=document.getElementById('missionsPage'); if(!el)return;
+  var all=rpgMissions();
+  var L=levelFrom(DB.profile.points||0);
+  var h='<div class="rpg-page-hero"><div class="rpg-xptop"><span>'+(DB.profile.points||0)+' XP</span><span>LVL '+L.level+'</span></div>'
+    +'<div class="rpg-xpbar"><div class="rpg-xpfill" style="width:'+L.pct+'%"></div></div></div>';
+  [['daily','🔆 Daily Missions','#6C5CE7'],['weekly','📅 Weekly Missions','#4dabf7'],['monthly','🗓️ Monthly Missions','#ffd43b']].forEach(function(grp){
+    var period=grp[0];
+    h+='<div class="sec"><div class="head"><h2>'+grp[1]+'</h2></div></div>';
+    (all[period]||[]).forEach(function(m){
+      var claimed=missionClaimed(m.id,period);
+      h+='<div class="mission-card" style="--mc:'+grp[2]+'">'
+        +'<div class="mission-top"><span style="font-size:17px">'+m.e+'</span><span class="mission-t">'+esc(m.t)+'</span><span class="mission-xp">+'+m.xp+' XP</span></div>'
+        +'<div class="mission-d">'+esc(m.d)+'</div>'
+        +(claimed
+          ? '<div class="mission-done">✓ Claimed</div>'
+          : (m.done || m.id==='w_review'
+            ? '<button class="btn sm" onclick="claimMission(\''+m.id+'\',\''+period+'\','+m.xp+')">'+(m.done?'Claim reward':'Mark done & claim')+'</button>'
+            : '<div style="font-size:11.5px;color:var(--muted)">⏳ Not done yet — complete it to claim</div>'))
+        +'</div>';
+    });
+  });
+  el.innerHTML=h;
+}
+
+/* ═══════════════ REWARD STORE ═══════════════
+   Spend TOKENS (earned by completing goals & missions) on real-life rewards
+   you define. Tokens are the game currency — separate from XP. No real money. */
+var RPG_REWARDS=[
+  {id:'r1',e:'🍕',t:'Favourite meal',cost:20},
+  {id:'r2',e:'🎬',t:'Movie night',cost:50},
+  {id:'r3',e:'🎮',t:'2 hrs gaming',cost:50},
+  {id:'r4',e:'🛍️',t:'Shopping day',cost:100},
+  {id:'r5',e:'🌟',t:'Special experience',cost:200}
+];
+function allRewards(){ return RPG_REWARDS.concat((DB.rpg&&DB.rpg.customRewards)||[]); }
+function redeemReward(id){
+  var r=null; allRewards().forEach(function(x){ if(x.id===id)r=x; }); if(!r)return;
+  if(tokens() < r.cost){ toast('Need '+r.cost+' 🪙 — complete goals to earn','err'); return; }
+  confirmModal({icon:r.e,title:'Claim '+r.t+'?',msg:'Spends '+r.cost+' tokens 🪙. Go enjoy it in real life — no real money is touched.',ok:'Claim ('+r.cost+' 🪙)',danger:false,onOk:function(){
+    if(!spendTokens(r.cost)){ toast('Not enough tokens','err'); return; }
+    DB.rpg.rewardsRedeemed=DB.rpg.rewardsRedeemed||[];
+    DB.rpg.rewardsRedeemed.unshift({ id:r.id,t:r.t,cost:r.cost,ts:Date.now() });
+    saveDB(); render();
+    toast('Claimed '+r.t+' 🎉 Enjoy it!','ok');
+  }});
+}
+function addCustomReward(){
+  openPromptModal('New reward','What’s the reward?','', function(t){
+    if(!t||!t.trim())return;
+    openNumModal('Token cost','How many tokens to claim it?','50', function(v){
+      var cost=Math.max(1,parseInt(v,10)||50);
+      DB.rpg=DB.rpg||{}; DB.rpg.customRewards=DB.rpg.customRewards||[];
+      DB.rpg.customRewards.push({ id:'rc'+Date.now(), e:'🎁', t:t.trim(), cost:cost });
+      saveDB(); render(); toast('Reward added','ok');
+    });
+  });
+}
+function renderRewardStorePage(){
+  var el=document.getElementById('rewardStorePage'); if(!el)return;
+  var tk=tokens();
+  var h='<div class="rpg-page-hero" style="text-align:center"><div style="font-size:11px;color:var(--muted);font-weight:700;letter-spacing:1px">YOUR TOKENS</div><div style="font-size:34px;font-weight:800;color:#ffd43b">🪙 '+tk+'</div>'
+    +'<div style="font-size:11px;color:var(--muted);margin-top:4px">Earn tokens by completing goals &amp; missions</div></div>';
+  h+='<div class="btnrow" style="margin-bottom:14px"><button class="btn sm ghost" onclick="go(\'Goals\')">🎯 Earn more</button><button class="btn sm ghost" onclick="addCustomReward()">+ Add reward</button></div>';
+  allRewards().forEach(function(r){
+    var afford=tk>=r.cost;
+    h+='<div class="rwd-card"><div class="rwd-e">'+r.e+'</div>'
+      +'<div class="rwd-b"><div class="rwd-t">'+esc(r.t)+'</div><div class="rwd-cost">🪙 '+r.cost+' tokens</div></div>'
+      +'<button class="btn sm'+(afford?'':' ghost')+'"'+(afford?'':' style="opacity:.5"')+' onclick="redeemReward(\''+r.id+'\')">'+(afford?'Claim':'Locked')+'</button></div>';
+  });
+  var red=(DB.rpg&&DB.rpg.rewardsRedeemed)||[];
+  if(red.length){
+    h+='<div class="sec" style="margin-top:18px"><div class="head"><h2>🧾 Claimed</h2></div></div>';
+    red.slice(0,20).forEach(function(x){ h+='<div class="rwd-card"><div class="rwd-e">✅</div><div class="rwd-b"><div class="rwd-t">'+esc(x.t)+'</div><div class="rwd-redeemed">'+new Date(x.ts).toLocaleDateString('en-IN')+' · 🪙 '+x.cost+'</div></div></div>'; });
+  }
+  el.innerHTML=h;
+}
+
+/* ═══════════════ ACHIEVEMENTS PAGE ═══════════════ */
+function renderAchPage(){
+  var el=document.getElementById('achPage'); if(!el)return;
+  checkAchievements();
+  var unlocked=Object.keys((DB.rpg&&DB.rpg.achievements)||{}).length;
+  var h='<div class="rpg-page-hero" style="text-align:center"><div style="font-size:30px;font-weight:800">'+unlocked+' / '+RPG_ACH.length+'</div><div style="font-size:11px;color:var(--muted);letter-spacing:1px">ACHIEVEMENTS UNLOCKED</div></div>';
+  h+='<div class="ach-grid">';
+  RPG_ACH.forEach(function(a){
+    var on=DB.rpg&&DB.rpg.achievements&&DB.rpg.achievements[a.id];
+    h+='<div class="ach-card'+(on?' on':'')+'"><div class="ach-e">'+(on?a.e:'🔒')+'</div><div class="ach-t">'+esc(a.t)+'</div><div class="ach-d">'+esc(a.d)+'</div>'+(on?'<div class="ach-on-date">'+on+'</div>':'')+'</div>';
+  });
+  h+='</div>';
+  el.innerHTML=h;
+}
+
+/* ─────────── ACHIEVEMENTS (auto-unlock from real data, no dup) ─────────── */
+var RPG_ACH=[
+  {id:'first_mission', e:'🎯', t:'First Steps',       d:'Complete your first mission',      test:function(c){return c.missionsDone>=1;}},
+  {id:'streak7',       e:'🔥', t:'7-Day Streak',      d:'Keep a 7-day streak',              test:function(c){return (DB.profile.longestStreak||0)>=7;}},
+  {id:'streak30',      e:'💎', t:'30-Day Discipline',  d:'Reach a 30-day streak',            test:function(c){return (DB.profile.longestStreak||0)>=30;}},
+  {id:'body10',        e:'🏋️', t:'Body Builder',       d:'Log 10 workouts',                  test:function(c){return (DB.workouts||[]).length>=10;}},
+  {id:'fashion5',      e:'🧥', t:'Fashion Upgrade',    d:'Add 5 wardrobe items',             test:function(c){return (DB.wardrobe||[]).length>=5;}},
+  {id:'trade_disc',    e:'📈', t:'Trading Discipline', d:'Log 20 trades',                    test:function(c){return (DB.trades||[]).length>=20;}},
+  {id:'face30',        e:'🧖', t:'Grooming Master',    d:'30 grooming days',                 test:function(c){return Object.keys(DB.grooming||{}).length>=30;}},
+  {id:'career5',       e:'💼', t:'Career Breakthrough',d:'5 learning sessions logged',       test:function(c){return c.learn30>=5;}},
+  {id:'lvl10',         e:'⚡', t:'Rising Player',      d:'Reach Level 10',                   test:function(c){return (DB.profile.level||1)>=10;}},
+  {id:'rich',          e:'💰', t:'Money Mover',        d:'50 ledger entries',                test:function(c){return (DB.ledger||[]).length>=50;}},
+  {id:'perfect_week',  e:'🏆', t:'Perfect Week',       d:'7 straight active days',           test:function(c){return (DB.profile.streak||0)>=7;}},
+  {id:'all_zones',     e:'🌟', t:'Renaissance',        d:'Every zone above 20%',             test:function(c){return rpgZones().every(function(z){return z.pct>=20;});}}
+];
+function checkAchievements(){
+  DB.rpg=DB.rpg||{}; DB.rpg.achievements=DB.rpg.achievements||{};
+  var c=rpgCounts(), newly=[];
+  RPG_ACH.forEach(function(a){
+    if(!DB.rpg.achievements[a.id]){ var ok=false; try{ ok=a.test(c); }catch(e){} if(ok){ DB.rpg.achievements[a.id]=todayStr(); newly.push(a); } }
+  });
+  if(newly.length){ try{ saveDB(); }catch(e){} newly.forEach(function(a){ toast(a.e+' Achievement: '+a.t,'ok'); }); }
+  return newly;
+}
+
+/* ─────────── RPG DASHBOARD HERO (on Today) ─────────── */
+function renderRpgHero(){
+  var slot=document.getElementById('rpgHeroSlot'); if(!slot)return;
+  var L=levelFrom(DB.profile.points||0);
+  var rank=rpgRank(), nextR=rpgNextRank();
+  var name=(DB.profile.name||'Player');
+  var av=(name.trim()[0]||'P').toUpperCase();
+  var attrs=rpgAttrs(), zones=rpgZones();
+
+  var h='<div class="rpg-hero">'
+    +'<div class="rpg-hero-glow"></div>'
+    +'<div class="rpg-player">'
+      +'<div class="rpg-av" style="--rc:'+rank.c+'">'+av+'</div>'
+      +'<div class="rpg-pinfo">'
+        +'<div class="rpg-name">'+esc(name)+'</div>'
+        +'<div class="rpg-rankrow"><span class="rpg-rank" style="color:'+rank.c+'">'+rank.e+' '+rank.n+'</span><span class="rpg-lvl">LVL '+L.level+'</span></div>'
+      +'</div>'
+      +'<div class="rpg-token" onclick="go(\'RewardStore\')" title="Tokens — spend in Reward Store">🪙 '+tokens()+'</div>'
+    +'</div>'
+    +'<div class="rpg-xpwrap"><div class="rpg-xptop"><span>'+(DB.profile.points||0)+' XP</span><span>'+(L.reqNext?(L.left+' to next'):'MAX')+'</span></div>'
+      +'<div class="rpg-xpbar"><div class="rpg-xpfill" style="width:'+L.pct+'%"></div></div></div>'
+    +(nextR?'<div class="rpg-nextrank">Next rank: <b style="color:'+nextR.c+'">'+nextR.e+' '+nextR.n+'</b> at LVL '+nextR.min+'</div>':'<div class="rpg-nextrank">👑 Max rank reached — Legend</div>')
+    +'</div>';
+
+  /* attributes */
+  h+='<div class="rpg-attrs">';
+  RPG_ATTR_META.forEach(function(m){
+    var v=attrs[m.k];
+    h+='<div class="rpg-attr"><div class="rpg-attr-top"><span>'+m.e+' '+m.k+'</span><b>'+v+'</b></div>'
+      +'<div class="rpg-attr-bar"><div class="rpg-attr-fill" style="width:'+v+'%;background:'+m.c+'"></div></div></div>';
+  });
+  h+='</div>';
+
+  /* 4 zone cards */
+  h+='<div class="rpg-zones">';
+  zones.forEach(function(z){
+    /* count active earn-goals for this zone */
+    var zg=(DB.goals||[]).filter(function(g){return g.zone===z.k && !g.done;}).length;
+    h+='<div class="rpg-zone" style="--zc:'+z.c+'" onclick="go(\''+z.pg+'\')">'
+        +'<div class="rpg-zone-e">'+z.e+'</div>'
+        +'<div class="rpg-zone-k">'+z.k+'</div>'
+        +'<div class="rpg-zone-lv">Lv '+z.lvl+'</div>'
+        +'<div class="rpg-zone-bar"><div class="rpg-zone-fill" style="width:'+z.pct+'%"></div></div>'
+        +'<div class="rpg-zone-pct">'+z.pct+'%</div>'
+        +'<div class="rpg-zone-sub">'+esc(z.sub)+(zg?' · '+zg+' goal'+(zg>1?'s':''):'')+'</div>'
+      +'</div>';
+  });
+  h+='</div>';
+  slot.innerHTML=h;
+  checkAchievements();   /* auto-unlock on view */
+}
+
 function catchUp(){
   var td=todayStr();
   var last=(DB.lastSeen && /^\d{4}-\d{2}-\d{2}$/.test(DB.lastSeen)) ? DB.lastSeen : addDays(td,-1);
@@ -6352,6 +7242,7 @@ function catchUp(){
   safe('ledgerSyncMoney', ledgerSyncMoney);
   safe('plannerDueCheck', plannerDueCheck);
   safe('renderActiveRestrict', renderActiveRestrict);   /* resurface running time-penalties */
+  safe('renderGoalReminders', renderGoalReminders);     /* resurface goal reminders on reopen */
   /* 3) stamp today's visit so tomorrow's gap is measured from here */
   DB.lastSeen=td;
   safe('saveLocal', saveLocal);
