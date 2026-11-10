@@ -288,12 +288,71 @@ html:has(.overlay.show),html:has(.drawer.show){overflow:hidden}
 @media(pointer:coarse){
   @supports selector(::-webkit-scrollbar){ ::-webkit-scrollbar{width:6px;height:6px} ::-webkit-scrollbar-thumb{border-width:1px} }
 }
+
+/* ============================================================
+   v2.2  ICONS + PAIRED BUTTONS (always one line, equal size)
+   ============================================================ */
+.ic{width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none;display:block;pointer-events:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;line-height:1.2}
+.btn.mini .ic{width:15px;height:15px}
+.btn.icon .ic{width:17px;height:17px}
+.btn.icon.mini .ic{width:16px;height:16px}
+.iconbtn .ic{width:20px;height:20px}
+.chk .ic{width:14px;height:14px;stroke-width:3;color:#fff}
+.pill{display:inline-flex;align-items:center;gap:4px}
+.pill .ic{width:12px;height:12px;stroke-width:2.4}
+.txn-ic .ic{width:18px;height:18px;stroke-width:2.4}
+.notif-item .row>span:first-child{display:inline-flex;color:var(--accent);margin-top:1px}
+.notif-item .row>span:first-child .ic{width:18px;height:18px}
+#themeBtn .ic-sun{display:none}
+[data-theme="dark"] #themeBtn .ic-sun{display:block}
+[data-theme="dark"] #themeBtn .ic-moon{display:none}
+.iconbtn:active,.btn:active{transform:scale(.96)}
+
+/* two opposite actions: same row, same height, same width */
+.btn-pair{display:inline-grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);align-items:stretch;gap:8px;flex:none;max-width:100%}
+.btn-pair>.btn{width:100%;min-width:0;min-height:34px;white-space:normal;text-align:center;line-height:1.15}
+.btn-pair.block{display:grid;width:100%}
+.monthbar>.btn-pair,.datebar>.btn-pair{margin-left:auto}
+
+/* segmented group: stepper (- +), move (up down), edit/delete, week/month/year */
+.seg{display:inline-flex;align-items:stretch;flex-wrap:nowrap;flex:none;gap:0;max-width:100%;border:1px solid var(--border);border-radius:999px;overflow:hidden;background:var(--card)}
+.seg>.btn{border:0;border-radius:0;background:transparent;box-shadow:none;min-height:34px;transform:none}
+.seg>.btn+.btn{border-left:1px solid var(--border)}
+.seg>.btn.icon{width:38px;height:auto;min-height:34px}
+.seg>.btn.mini{padding:6px 14px}
+.seg>.btn.ghost{background:transparent}
+.seg>.btn.primary{background:var(--accent);color:#fff}
+.seg>.btn.danger{color:var(--danger)}
+.seg>.btn:hover{background:var(--accent-soft)}
+.seg>.btn.primary:hover{background:var(--accent);filter:brightness(1.06)}
+.seg>.btn:disabled{opacity:.35;background:transparent}
+.step-actions.seg{gap:0}
+
+/* prev | field | next never splits across two lines */
+.navgrp{display:inline-flex;align-items:center;flex-wrap:nowrap;gap:8px;min-width:0;flex:0 1 auto;max-width:100%}
+.navgrp>input{flex:1 1 auto;min-width:0;width:auto}
+.navgrp>.btn,.navgrp>.pill{flex:none}
+
+.task-actions{gap:8px;align-items:center}
+.step-meta{align-items:center}
+.modal-actions{gap:10px;justify-content:stretch}
+.modal-actions .btn{flex:1 1 0;min-width:0}
+.cal-head .btn.icon{flex:none}
+@media(max-width:520px){
+  .monthbar>.btn-pair{flex:1 1 100%;display:grid;width:100%;margin-left:0}
+  .monthbar>.btn-pair>.btn.mini{min-height:40px;font-size:14px}
+}
+@media(max-width:380px){
+  .btn-pair{gap:6px}
+  .seg>.btn.mini{padding:6px 10px}
+}
 </style>
 </head>
 <body>
 <div class="topbar">
   <div class="topbar-inner">
-    <button class="iconbtn hamb" onclick="APP.openDrawer()" aria-label="Menu">&#9776;</button>
+    <button class="iconbtn hamb" onclick="APP.openDrawer()" aria-label="Menu"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
     <span class="logo" onclick="APP.showApp('roadmap')"><img class="logo-img" src="data:image/png;base64,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" alt="SAMM"><span class="lv">2.0</span></span>
     <div class="spacer"></div>
     <div class="pagelinks" id="pagelinks">
@@ -303,8 +362,8 @@ html:has(.overlay.show),html:has(.drawer.show){overflow:hidden}
       <button class="plink" onclick="APP.go('goals','daily')">✅ Daily</button>
       <button class="plink" data-app="wallet" onclick="APP.showApp('wallet')">👛 Wallet</button>
     </div>
-    <button class="iconbtn" id="bellBtn" onclick="APP.toggleNotifs()" title="Notifications">🔔<span class="nbadge" id="notifBadge"></span></button>
-    <button class="iconbtn" id="themeBtn" title="Toggle theme" aria-label="Toggle theme" onclick="APP.toggleTheme()">&#9680;</button>
+    <button class="iconbtn" id="bellBtn" onclick="APP.toggleNotifs()" title="Notifications" aria-label="Notifications"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="nbadge" id="notifBadge"></span></button>
+    <button class="iconbtn" id="themeBtn" title="Toggle theme" aria-label="Toggle theme" onclick="APP.toggleTheme()"><svg class="ic ic-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg><svg class="ic ic-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></button>
   </div>
   <nav class="tabs" id="tabs"></nav>
 </div>
@@ -369,7 +428,7 @@ html:has(.overlay.show),html:has(.drawer.show){overflow:hidden}
   <section id="rm-milestones">
     <h1 class="page-h">Milestones</h1>
     <p class="sub">Mark the big moments along the way.</p>
-    <h2 class="sec-h">Upcoming <div class="spacer"></div><button class="btn primary mini" onclick="RM.openMilestone()">+ Add milestone</button></h2>
+    <h2 class="sec-h">Upcoming <div class="spacer"></div><button class="btn primary mini" onclick="RM.openMilestone()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Add milestone</button></h2>
     <div id="rmMlUpcoming"></div>
     <h2 class="sec-h">Completed</h2>
     <div id="rmMlDone"></div>
@@ -377,7 +436,7 @@ html:has(.overlay.show),html:has(.drawer.show){overflow:hidden}
   <section id="rm-notes">
     <h1 class="page-h">Notes</h1>
     <p class="sub">A quiet place for thoughts and reminders.</p>
-    <h2 class="sec-h"><div class="spacer"></div><button class="btn primary mini" onclick="RM.openNote()">+ Add note</button></h2>
+    <h2 class="sec-h"><div class="spacer"></div><button class="btn primary mini" onclick="RM.openNote()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Add note</button></h2>
     <div id="rmNoteList"></div>
   </section>
 </div>
@@ -392,7 +451,7 @@ html:has(.overlay.show),html:has(.drawer.show){overflow:hidden}
       <div class="card"><div class="stat-big sm" id="glDone">0</div><div class="stat-lbl">Completed tasks</div></div>
       <div class="card"><div class="stat-big sm" id="glLeft">0</div><div class="stat-lbl">Remaining tasks</div></div>
     </div>
-    <h2 class="sec-h">Today's tasks <div class="spacer"></div><button class="btn primary mini" onclick="GL.openDaily(null,STORE.today())">+ Add task</button></h2>
+    <h2 class="sec-h">Today's tasks <div class="spacer"></div><button class="btn primary mini" onclick="GL.openDaily(null,STORE.today())"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Add task</button></h2>
     <div id="glTodayList"></div>
     <h2 class="sec-h">Progress summary</h2>
     <div class="grid cols2">
@@ -405,18 +464,18 @@ html:has(.overlay.show),html:has(.drawer.show){overflow:hidden}
     <h1 class="page-h">Daily Goals</h1>
     <p class="sub">Pick any day. Old days stay exactly as you left them.</p>
     <div class="datebar sticky-sub">
-      <button class="btn icon" onclick="GL.shiftDay(-1)">&#8592;</button>
+      <div class="navgrp"><button class="btn icon" onclick="GL.shiftDay(-1)" aria-label="Previous day"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
       <input type="date" id="glDayPicker" onchange="GL.pickDay(this.value)">
-      <button class="btn icon" onclick="GL.shiftDay(1)">&#8594;</button>
+      <button class="btn icon" onclick="GL.shiftDay(1)" aria-label="Next day"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button></div>
       <button class="btn mini ghost" onclick="GL.pickDay(STORE.today())">Today</button>
       <div class="spacer"></div>
-      <button class="btn primary mini" onclick="GL.addForSel()">+ Add task</button>
+      <button class="btn primary mini" onclick="GL.addForSel()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Add task</button>
     </div>
     <div id="glDailyList"></div>
   </section>
   <section id="gl-monthly">
     <h1 class="page-h">Goals</h1>
-    <p class="sub">Set what to do this week, month or year \u2014 then track progress.</p>
+    <p class="sub">Set what to do this week, month or year &mdash; then track progress.</p>
     <div class="monthbar sticky-sub" id="glGoalBar"></div>
     <div id="glMonthlyList"></div>
   </section>
@@ -424,7 +483,7 @@ html:has(.overlay.show),html:has(.drawer.show){overflow:hidden}
     <h1 class="page-h">Calendar</h1>
     <p class="sub">Dots mark days with tasks. Green = all done. Tap a day to see it.</p>
     <div class="card">
-      <div class="cal-head"><button class="btn icon" onclick="GL.calShift(-1)">&#8592;</button><div class="cal-title" id="glCalTitle"></div><button class="btn icon" onclick="GL.calShift(1)">&#8594;</button></div>
+      <div class="cal-head"><button class="btn icon" onclick="GL.calShift(-1)" aria-label="Previous month"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><div class="cal-title" id="glCalTitle"></div><button class="btn icon" onclick="GL.calShift(1)" aria-label="Next month"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button></div>
       <div class="cal-grid" id="glCalGrid"></div>
     </div>
     <div id="glCalDay" style="margin-top:20px"></div>
@@ -432,13 +491,13 @@ html:has(.overlay.show),html:has(.drawer.show){overflow:hidden}
   <section id="gl-notes">
     <h1 class="page-h">Notes</h1>
     <p class="sub">Tie a thought to a day, a category, or a monthly goal.</p>
-    <h2 class="sec-h"><div class="spacer"></div><button class="btn primary mini" onclick="GL.openNote()">+ Add note</button></h2>
+    <h2 class="sec-h"><div class="spacer"></div><button class="btn primary mini" onclick="GL.openNote()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Add note</button></h2>
     <div id="glNoteList"></div>
   </section>
   <section id="gl-monitor">
     <h1 class="page-h">Monitor</h1>
     <p class="sub">Your repeated tasks, and how the week is going.</p>
-    <h2 class="sec-h">Today's habits <div class="spacer"></div><button class="btn primary mini" onclick="GL.openHabit()">+ Add habit</button></h2>
+    <h2 class="sec-h">Today's habits <div class="spacer"></div><button class="btn primary mini" onclick="GL.openHabit()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Add habit</button></h2>
     <div id="glHabits"></div>
     <h2 class="sec-h">Weekly report</h2>
     <div id="glReport"></div>
@@ -451,12 +510,11 @@ html:has(.overlay.show),html:has(.drawer.show){overflow:hidden}
     <h1 class="page-h">Wallet</h1>
     <p class="sub">Simple money in, money out. Per month.</p>
     <div class="monthbar sticky-sub">
-      <button class="btn icon" onclick="WL.wShift(-1)" aria-label="Previous month">&#8592;</button>
+      <div class="navgrp"><button class="btn icon" onclick="WL.wShift(-1)" aria-label="Previous month"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
       <input type="month" id="wlMonth" onchange="WL.wPick(this.value)">
-      <button class="btn icon" onclick="WL.wShift(1)" aria-label="Next month">&#8594;</button>
+      <button class="btn icon" onclick="WL.wShift(1)" aria-label="Next month"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button></div>
       <div class="spacer"></div>
-      <button class="btn in mini" onclick="WL.openTxn(null,'income')">+ Income</button>
-      <button class="btn primary mini" onclick="WL.openTxn(null,'expense')">+ Expense</button>
+      <div class="btn-pair"><button class="btn in mini" onclick="WL.openTxn(null,'income')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 7 7 17"/><path d="M17 17H7V7"/></svg> Income</button><button class="btn primary mini" onclick="WL.openTxn(null,'expense')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg> Expense</button></div>
     </div>
     <div class="grid cols3">
       <div class="card"><div class="stat-big sm in" id="wlIn">0</div><div class="stat-lbl">Income this month</div></div>
@@ -473,12 +531,11 @@ html:has(.overlay.show),html:has(.drawer.show){overflow:hidden}
     <h1 class="page-h">Transactions</h1>
     <p class="sub">Every entry for the chosen month. Newest first.</p>
     <div class="monthbar sticky-sub">
-      <button class="btn icon" onclick="WL.wShift(-1)" aria-label="Previous month">&#8592;</button>
+      <div class="navgrp"><button class="btn icon" onclick="WL.wShift(-1)" aria-label="Previous month"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
       <input type="month" id="wlMonth2" onchange="WL.wPick(this.value)">
-      <button class="btn icon" onclick="WL.wShift(1)" aria-label="Next month">&#8594;</button>
+      <button class="btn icon" onclick="WL.wShift(1)" aria-label="Next month"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button></div>
       <div class="spacer"></div>
-      <button class="btn in mini" onclick="WL.openTxn(null,'income')">+ Income</button>
-      <button class="btn primary mini" onclick="WL.openTxn(null,'expense')">+ Expense</button>
+      <div class="btn-pair"><button class="btn in mini" onclick="WL.openTxn(null,'income')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 7 7 17"/><path d="M17 17H7V7"/></svg> Income</button><button class="btn primary mini" onclick="WL.openTxn(null,'expense')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg> Expense</button></div>
     </div>
     <div id="wlTxnList"></div>
   </section>
@@ -498,8 +555,7 @@ html:has(.overlay.show),html:has(.drawer.show){overflow:hidden}
       <h2 class="sec-h" style="margin-top:0">Backup &amp; restore</h2>
       <p class="sub" style="margin-bottom:16px">One backup covers all three apps. Local only, <b>not</b> cloud sync.</p>
       <div class="row">
-        <button class="btn" onclick="APP.exportBackup()">&#8595; Export backup (.json)</button>
-        <button class="btn" onclick="document.getElementById('stImport').click()">&#8593; Import backup</button>
+        <div class="btn-pair block"><button class="btn" onclick="APP.exportBackup()" title="Download .json"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg> Export backup</button><button class="btn" onclick="document.getElementById('stImport').click()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg> Import backup</button></div>
         <input type="file" id="stImport" accept="application/json,.json" style="display:none" onchange="APP.importBackup(this)">
       </div>
     </div>
@@ -515,6 +571,33 @@ html:has(.overlay.show),html:has(.drawer.show){overflow:hidden}
 <div id="toast"></div>
 
 <script>
+/* ---------- ICON SET (inline SVG, stroke = currentColor) ---------- */
+var ICP={
+  'plus':'<path d="M12 5v14M5 12h14"/>',
+  'minus':'<path d="M5 12h14"/>',
+  'check':'<path d="M20 6 9 17l-5-5"/>',
+  'x':'<path d="M18 6 6 18M6 6l12 12"/>',
+  'edit':'<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+  'trash':'<path d="M3 6h18"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/>',
+  'up':'<path d="m18 15-6-6-6 6"/>',
+  'down':'<path d="m6 9 6 6 6-6"/>',
+  'left':'<path d="m15 18-6-6 6-6"/>',
+  'right':'<path d="m9 18 6-6-6-6"/>',
+  'income':'<path d="M17 7 7 17"/><path d="M17 17H7V7"/>',
+  'expense':'<path d="M7 17 17 7"/><path d="M7 7h10v10"/>',
+  'undo':'<path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-15-6.7L3 13"/>',
+  'play':'<path d="M7 4.5v15l12-7.5z"/>',
+  'bell':'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+  'sun':'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>',
+  'moon':'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+  'menu':'<path d="M4 6h16M4 12h16M4 18h16"/>',
+  'link':'<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+  'wallet':'<rect x="2.5" y="6" width="19" height="14" rx="3"/><path d="M2.5 10h19"/><circle cx="17" cy="15" r="1"/>',
+  'flag':'<path d="M5 21V4"/><path d="M5 4h12l-2 4 2 4H5"/>',
+  'download':'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/>',
+  'upload':'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/>'
+};
+function IC(n,c){ return '<svg class="ic'+(c?' '+c:'')+'" viewBox="0 0 24 24" aria-hidden="true">'+(ICP[n]||'')+'</svg>'; }
 /* ============================================================
    JOURNEY SHARED DATA ENGINE  (single copy, shared by all three apps)
    localStorage key: JOURNEY_DB_V1  — ES5, vanilla JS
@@ -834,7 +917,8 @@ var APP=(function(){
   var _tt;
   function toast(msg,err){ var el=$('toast'); el.textContent=msg; el.className='show'+(err?' err':''); clearTimeout(_tt); _tt=setTimeout(function(){ el.className=err?'err':''; },2200); }
 
-  function openOverlay(html){ $('modal').innerHTML=html; $('overlay').className='overlay show'; }
+  function decorateActions(root){ var bs=root.querySelectorAll('.modal-actions .btn'),i,t,n; for(i=0;i<bs.length;i++){ if(bs[i].querySelector('.ic')) continue; t=(bs[i].textContent||'').replace(/\s+/g,' ').trim(); n=(t==='Cancel')?'x':((t==='Save')?'check':((t==='Delete')?'trash':'')); if(n) bs[i].insertAdjacentHTML('afterbegin',IC(n)); } }
+  function openOverlay(html){ $('modal').innerHTML=html; decorateActions($('modal')); $('overlay').className='overlay show'; }
   function closeModal(){ $('overlay').className='overlay'; }
   function confirmBox(msg,onYes,yesLabel){
     openOverlay('<h3>Please confirm</h3><p class="sub" style="margin-bottom:0;white-space:pre-wrap">'+esc(msg)+'</p>'
@@ -917,7 +1001,7 @@ var APP=(function(){
   function toggleNotifs(){ var p=$('notifPop'); if(p.className.indexOf('show')>-1) closeNotifs(); else { p.className='notif-pop show'; $('notifOv').className='notif-ov show'; renderNotifs(); } }
   function closeNotifs(){ $('notifPop').className='notif-pop'; $('notifOv').className='notif-ov'; }
   function timeAgo(iso){ var s=Math.floor((Date.now()-new Date(iso).getTime())/1000); if(s<60)return 'just now'; var mm=Math.floor(s/60); if(mm<60)return mm+'m ago'; var hh=Math.floor(mm/60); if(hh<24)return hh+'h ago'; var d=Math.floor(hh/24); return d+'d ago'; }
-  function notifIcon(t){ return t==='money'?'\uD83D\uDCB0':(t==='goal'?'\u2705':(t==='milestone'?'\uD83D\uDEA9':'\uD83D\uDD14')); }
+  function notifIcon(t){ return IC(t==='money'?'wallet':(t==='goal'?'check':(t==='milestone'?'flag':'bell'))); }
   function markAllRead(){ STORE.markAllRead(); }
   function renderNotifs(){
     var db=STORE.read(),list=db.notifications||[];
@@ -926,8 +1010,8 @@ var APP=(function(){
     if(!list.length){ $('notifList').innerHTML='<div class="notif-empty">No notifications yet.</div>'; return; }
     var html='',i;
     for(i=0;i<list.length;i++){ var n=list[i];
-      html+='<div class="notif-item'+(n.read?'':' unread')+'"><div class="row" style="gap:8px"><span>'+notifIcon(n.type)+'</span><div style="flex:1"><div class="nt">'+esc(n.title)+'</div><div class="nb">'+esc(n.body)+'</div><div class="ntime">'+timeAgo(n.date)+'</div></div><button class="btn icon mini ghost" title="Dismiss" onclick="STORE.deleteNotif(\''+n.id+'\')">&times;</button></div>';
-      if(n.action && n.action.kind==='approval'){ if(n.action.status==='pending'){ html+='<div class="row" style="gap:8px;margin-top:8px"><button class="btn mini in" onclick="STORE.respondApproval(\''+n.id+'\',true)">Approve</button><button class="btn mini danger" onclick="STORE.respondApproval(\''+n.id+'\',false)">Reject</button></div>'; } else { html+='<div style="margin-top:8px"><span class="pill '+(n.action.status==='approved'?'ok':'out')+'">'+n.action.status+'</span></div>'; } }
+      html+='<div class="notif-item'+(n.read?'':' unread')+'"><div class="row" style="gap:8px"><span>'+notifIcon(n.type)+'</span><div style="flex:1"><div class="nt">'+esc(n.title)+'</div><div class="nb">'+esc(n.body)+'</div><div class="ntime">'+timeAgo(n.date)+'</div></div><button class="btn icon mini ghost" title="Dismiss" aria-label="Dismiss" onclick="STORE.deleteNotif(\''+n.id+'\')">'+IC('x')+'</button></div>';
+      if(n.action && n.action.kind==='approval'){ if(n.action.status==='pending'){ html+='<div class="btn-pair block" style="margin-top:8px"><button class="btn mini in" onclick="STORE.respondApproval(\''+n.id+'\',true)">'+IC('check')+' Approve</button><button class="btn mini danger" onclick="STORE.respondApproval(\''+n.id+'\',false)">'+IC('x')+' Reject</button></div>'; } else { html+='<div style="margin-top:8px"><span class="pill '+(n.action.status==='approved'?'ok':'out')+'">'+n.action.status+'</span></div>'; } }
       html+='</div>';
     }
     $('notifList').innerHTML=html;
@@ -978,11 +1062,11 @@ var RM=(function(){
     if(!focus.length){ for(i=0;i<db.roadmapSteps.length;i++){ if(db.roadmapSteps[i].status==='not-started'){ focus.push(db.roadmapSteps[i]); if(focus.length>=3) break; } } }
     focus=focus.slice(0,4);
     if(!focus.length){ $('rmOvFocus').innerHTML=emptyBox('No active steps yet','Open Roadmap and add your first step.'); }
-    else{ var fh=''; for(i=0;i<focus.length;i++){ var s=focus[i],cc=catById(db,s.categoryId),ck=cc?cc.key:'general'; fh+='<div class="accent-row '+ck+'" style="margin-bottom:10px"><div class="row" style="gap:8px"><span class="catdot '+ck+'"></span><span style="flex:1;cursor:pointer" title="Open category" onclick="RM.goCat(\''+s.categoryId+'\')">'+esc(s.title)+'</span><span class="pill '+(s.status==='in-progress'?'warn':'')+'">'+(s.status==='in-progress'?'In progress':'Next')+'</span><button class="btn mini primary" title="Mark complete" onclick="STORE.setStepStatus(\''+s.id+'\',\'completed\')">&#10003;</button></div></div>'; } $('rmOvFocus').innerHTML=fh; }
+    else{ var fh=''; for(i=0;i<focus.length;i++){ var s=focus[i],cc=catById(db,s.categoryId),ck=cc?cc.key:'general'; fh+='<div class="accent-row '+ck+'" style="margin-bottom:10px"><div class="row" style="gap:8px"><span class="catdot '+ck+'"></span><span style="flex:1;cursor:pointer" title="Open category" onclick="RM.goCat(\''+s.categoryId+'\')">'+esc(s.title)+'</span><span class="pill '+(s.status==='in-progress'?'warn':'')+'">'+(s.status==='in-progress'?'In progress':'Next')+'</span><button class="btn mini primary" title="Mark complete" onclick="STORE.setStepStatus(\''+s.id+'\',\'completed\')">'+IC('check')+'</button></div></div>'; } $('rmOvFocus').innerHTML=fh; }
     var up=[]; for(i=0;i<db.milestones.length;i++){ if(!db.milestones[i].done) up.push(db.milestones[i]); }
     up.sort(function(a,b){ return (a.targetDate||'9999')>(b.targetDate||'9999')?1:-1; }); up=up.slice(0,4);
     if(!up.length){ $('rmOvMiles').innerHTML=emptyBox('No upcoming milestones','Add one in the Milestones tab.'); }
-    else{ var mh=''; for(i=0;i<up.length;i++){ var m=up[i],mk=m.categoryKey||'general'; mh+='<div class="accent-row '+mk+'" style="margin-bottom:10px"><div class="row" style="gap:8px"><span class="catdot '+mk+'"></span><span style="flex:1;cursor:pointer" title="Open milestones" onclick="APP.go(\'roadmap\',\'milestones\')">'+esc(m.title)+'</span>'+(m.targetDate?'<span class="pill">'+fmtDate(m.targetDate)+'</span>':'')+'<button class="btn mini primary" title="Mark complete" onclick="RM.askCompleteMile(\''+m.id+'\')">&#10003;</button></div></div>'; } $('rmOvMiles').innerHTML=mh; }
+    else{ var mh=''; for(i=0;i<up.length;i++){ var m=up[i],mk=m.categoryKey||'general'; mh+='<div class="accent-row '+mk+'" style="margin-bottom:10px"><div class="row" style="gap:8px"><span class="catdot '+mk+'"></span><span style="flex:1;cursor:pointer" title="Open milestones" onclick="APP.go(\'roadmap\',\'milestones\')">'+esc(m.title)+'</span>'+(m.targetDate?'<span class="pill">'+fmtDate(m.targetDate)+'</span>':'')+'<button class="btn mini primary" title="Mark complete" onclick="RM.askCompleteMile(\''+m.id+'\')">'+IC('check')+'</button></div></div>'; } $('rmOvMiles').innerHTML=mh; }
   }
   function goCat(id){ _activeCat=id; APP.go('roadmap','roadmap'); }
 
@@ -998,11 +1082,11 @@ var RM=(function(){
   function renderCatDetail(db){
     var c=catById(db,_activeCat); if(!c){ $('rmDetail').innerHTML=''; return; }
     var steps=STORE.stepsOf(db,c.id);
-    var h='<div class="card" style="margin-top:16px"><h2 class="sec-h" style="margin-top:0">'+esc(c.name)+'<div class="spacer"></div><button class="btn mini" onclick="RM.openCatEdit(\''+c.id+'\')">Edit category</button><button class="btn primary mini" onclick="RM.openStep(\''+c.id+'\')">+ Add step</button></h2><p class="sub" style="margin-bottom:6px">'+esc(c.description)+'</p>'+(c.deadline?'<div class="row" style="margin-bottom:10px"><span class="pill">Target: '+fmtDate(c.deadline)+'</span></div>':'');
+    var h='<div class="card" style="margin-top:16px"><h2 class="sec-h" style="margin-top:0">'+esc(c.name)+'<div class="spacer"></div><button class="btn mini" onclick="RM.openCatEdit(\''+c.id+'\')">Edit category</button><button class="btn primary mini" onclick="RM.openStep(\''+c.id+'\')">'+IC('plus')+' Add step</button></h2><p class="sub" style="margin-bottom:6px">'+esc(c.description)+'</p>'+(c.deadline?'<div class="row" style="margin-bottom:10px"><span class="pill">Target: '+fmtDate(c.deadline)+'</span></div>':'');
     if(!steps.length){ h+=emptyBox('No steps yet','Break this goal into small steps. Add your first one above.'); }
     else{ h+='<div class="timeline">';
       for(var i=0;i<steps.length;i++){ var s=steps[i],cls=s.status==='completed'?'done':(s.status==='in-progress'?'inprogress':'');
-        h+='<div class="step '+cls+'"><div class="step-head"><span class="step-title">'+esc(s.title)+'</span><span class="step-actions"><button class="btn icon mini" title="Move up" onclick="RM.mv(\''+s.id+'\',-1)"'+(i===0?' disabled':'')+'>&#8593;</button><button class="btn icon mini" title="Move down" onclick="RM.mv(\''+s.id+'\',1)"'+(i===steps.length-1?' disabled':'')+'>&#8595;</button></span></div><div class="step-meta">'+statusPill(s.status)+priPill(s.priority)+(s.targetDate?'<span class="pill">'+fmtDate(s.targetDate)+'</span>':'')+'</div>'+(s.note?'<div class="step-note">'+esc(s.note)+'</div>':'')+'<div class="step-meta">'+(s.status!=='completed'?'<button class="btn mini" onclick="STORE.setStepStatus(\''+s.id+'\',\'completed\')">&#10003; Complete</button>':'<button class="btn mini" onclick="STORE.setStepStatus(\''+s.id+'\',\'not-started\')">Undo</button>')+(s.status==='not-started'?'<button class="btn mini ghost" onclick="STORE.setStepStatus(\''+s.id+'\',\'in-progress\')">Start</button>':'')+'<button class="btn mini ghost" onclick="RM.openStep(\''+c.id+'\',\''+s.id+'\')">Edit</button><button class="btn mini danger" onclick="RM.askDelStep(\''+s.id+'\')">Delete</button></div></div>'; }
+        h+='<div class="step '+cls+'"><div class="step-head"><span class="step-title">'+esc(s.title)+'</span><span class="step-actions seg"><button class="btn icon mini" title="Move up" onclick="RM.mv(\''+s.id+'\',-1)"'+(i===0?' disabled':'')+'>'+IC('up')+'</button><button class="btn icon mini" title="Move down" onclick="RM.mv(\''+s.id+'\',1)"'+(i===steps.length-1?' disabled':'')+'>'+IC('down')+'</button></span></div><div class="step-meta">'+statusPill(s.status)+priPill(s.priority)+(s.targetDate?'<span class="pill">'+fmtDate(s.targetDate)+'</span>':'')+'</div>'+(s.note?'<div class="step-note">'+esc(s.note)+'</div>':'')+'<div class="step-meta">'+(s.status!=='completed'?'<button class="btn mini" onclick="STORE.setStepStatus(\''+s.id+'\',\'completed\')">'+IC('check')+' Complete</button>':'<button class="btn mini" onclick="STORE.setStepStatus(\''+s.id+'\',\'not-started\')">'+IC('undo')+' Undo</button>')+(s.status==='not-started'?'<button class="btn mini ghost" onclick="STORE.setStepStatus(\''+s.id+'\',\'in-progress\')">'+IC('play')+' Start</button>':'')+'<span class="btn-pair"><button class="btn mini ghost" onclick="RM.openStep(\''+c.id+'\',\''+s.id+'\')">'+IC('edit')+' Edit</button><button class="btn mini danger" onclick="RM.askDelStep(\''+s.id+'\')">'+IC('trash')+' Delete</button></span></div></div>'; }
       h+='</div>'; }
     h+='</div>'; $('rmDetail').innerHTML=h;
   }
@@ -1015,12 +1099,12 @@ var RM=(function(){
     $('rmMlDone').innerHTML = dn.length?dn.map(function(m){return mileCard(m,true);}).join(''):'<p class="sub">None completed yet.</p>';
   }
   function mileCard(m,done){
-    return '<div class="card" style="margin-bottom:12px"><div class="row"><div style="flex:1"><div class="cat-name" style="font-size:16px">'+esc(m.title)+'</div><div class="step-meta"><span class="pill">'+esc(CATL[m.categoryKey]||'General')+'</span>'+(m.targetDate?'<span class="pill">'+(done?'Done ':'Target ')+fmtDate(done?m.completedDate:m.targetDate)+'</span>':'')+'</div>'+(done&&m.completedNote?'<div class="step-note">'+esc(m.completedNote)+'</div>':'')+'</div></div><div class="step-meta">'+(done?'<button class="btn mini" onclick="STORE.toggleMilestone(\''+m.id+'\',false)">Reopen</button>':'<button class="btn mini primary" onclick="RM.askCompleteMile(\''+m.id+'\')">&#10003; Complete</button>')+'<button class="btn mini ghost" onclick="RM.openMilestone(\''+m.id+'\')">Edit</button><button class="btn mini danger" onclick="RM.askDelMile(\''+m.id+'\')">Delete</button></div></div>';
+    return '<div class="card" style="margin-bottom:12px"><div class="row"><div style="flex:1"><div class="cat-name" style="font-size:16px">'+esc(m.title)+'</div><div class="step-meta"><span class="pill">'+esc(CATL[m.categoryKey]||'General')+'</span>'+(m.targetDate?'<span class="pill">'+(done?'Done ':'Target ')+fmtDate(done?m.completedDate:m.targetDate)+'</span>':'')+'</div>'+(done&&m.completedNote?'<div class="step-note">'+esc(m.completedNote)+'</div>':'')+'</div></div><div class="step-meta">'+(done?'<button class="btn mini" onclick="STORE.toggleMilestone(\''+m.id+'\',false)">'+IC('undo')+' Reopen</button>':'<button class="btn mini primary" onclick="RM.askCompleteMile(\''+m.id+'\')">'+IC('check')+' Complete</button>')+'<span class="btn-pair"><button class="btn mini ghost" onclick="RM.openMilestone(\''+m.id+'\')">'+IC('edit')+' Edit</button><button class="btn mini danger" onclick="RM.askDelMile(\''+m.id+'\')">'+IC('trash')+' Delete</button></span></div></div>';
   }
 
   function renderNotes(db){
     var list=db.notes.slice().sort(function(a,b){return a.date<b.date?1:-1;});
-    $('rmNoteList').innerHTML = list.length?list.map(function(n){ return '<div class="note-card"><div class="note-text">'+esc(n.text)+'</div><div class="note-meta"><span class="pill">'+esc(CATL[n.categoryKey]||'General')+'</span> &nbsp;'+fmtDate(n.date)+'</div><div class="step-meta"><button class="btn mini ghost" onclick="RM.openNote(\''+n.id+'\')">Edit</button><button class="btn mini danger" onclick="RM.askDelNote(\''+n.id+'\')">Delete</button></div></div>'; }).join(''):emptyBox('No notes yet','Jot down a thought, a reminder, an idea.');
+    $('rmNoteList').innerHTML = list.length?list.map(function(n){ return '<div class="note-card"><div class="note-text">'+esc(n.text)+'</div><div class="note-meta"><span class="pill">'+esc(CATL[n.categoryKey]||'General')+'</span> &nbsp;'+fmtDate(n.date)+'</div><div class="step-meta"><span class="btn-pair"><button class="btn mini ghost" onclick="RM.openNote(\''+n.id+'\')">'+IC('edit')+' Edit</button><button class="btn mini danger" onclick="RM.askDelNote(\''+n.id+'\')">'+IC('trash')+' Delete</button></span></div></div>'; }).join(''):emptyBox('No notes yet','Jot down a thought, a reminder, an idea.');
   }
 
   function catOptions(db,sel){ var o='',i; for(i=0;i<db.categories.length;i++){ var c=db.categories[i]; o+='<option value="'+c.key+'"'+(c.key===sel?' selected':'')+'>'+esc(c.name)+'</option>'; } o+='<option value="general"'+('general'===sel?' selected':'')+'>General</option>'; return o; }
@@ -1037,7 +1121,7 @@ var RM=(function(){
   function openMilestone(id){ var db=STORE.read(),m=id?STORE.find(db.milestones,id):null;
     APP.openOverlay('<h3>'+(m?'Edit milestone':'Add milestone')+'</h3><div class="field"><label>Title *</label><input id="f_mtitle" value="'+esc(m?m.title:'')+'" placeholder="e.g. First profitable trading month"></div><div class="field"><label>Category</label><select id="f_mcat">'+catOptions(db,m?m.categoryKey:'general')+'</select></div><div class="field"><label>Target date</label><input type="date" id="f_mdate" value="'+esc(m?m.targetDate:'')+'"></div><div class="modal-actions"><button class="btn ghost" onclick="APP.closeModal()">Cancel</button><button class="btn primary" onclick="RM.saveMile('+(id?'\''+id+'\'':'null')+')">Save</button></div>'); }
   function saveMile(id){ var t=$('f_mtitle').value.trim(); if(!t){ APP.toast('Title required',true); return; } var d={title:t,categoryKey:$('f_mcat').value,targetDate:$('f_mdate').value}; if(id) STORE.updateMilestone(id,d); else STORE.addMilestone(d); APP.closeModal(); APP.toast(id?'Milestone updated':'Milestone added'); }
-  function askCompleteMile(id){ APP.openOverlay('<h3>Complete milestone</h3><div class="field"><label>Completion note (optional)</label><textarea id="f_cnote" placeholder="How did it go?"></textarea></div><div class="modal-actions"><button class="btn ghost" onclick="APP.closeModal()">Cancel</button><button class="btn primary" onclick="RM.doCompleteMile(\''+id+'\')">&#10003; Mark complete</button></div>'); }
+  function askCompleteMile(id){ APP.openOverlay('<h3>Complete milestone</h3><div class="field"><label>Completion note (optional)</label><textarea id="f_cnote" placeholder="How did it go?"></textarea></div><div class="modal-actions"><button class="btn ghost" onclick="APP.closeModal()">Cancel</button><button class="btn primary" onclick="RM.doCompleteMile(\''+id+'\')">'+IC('check')+' Mark complete</button></div>'); }
   function doCompleteMile(id){ STORE.toggleMilestone(id,true,$('f_cnote').value.trim()); APP.closeModal(); APP.toast('Milestone completed'); }
 
   function openNote(id){ var db=STORE.read(),n=id?STORE.find(db.notes,id):null;
@@ -1049,7 +1133,7 @@ var RM=(function(){
   function askDelNote(id){ APP.confirmBox('Delete this note?',function(){ STORE.deleteNote(id); APP.toast('Note deleted'); }); }
 
   APP.register({id:ID,def:'goals',tabs:tabs,show:show,render:render});
-  var RT='rmToday',NT='No tasks for today',AD='Add one above \u2014 it shows here with a tick to complete.',GEN='general',GENL='General',F='false',T='true',CHK='&#10003;',EMPT='',ONC=' on',STR=';text-decoration:line-through;color:var(--text2)';
+  var RT='rmToday',NT='No tasks for today',AD='Add one above \u2014 it shows here with a tick to complete.',GEN='general',GENL='General',F='false',T='true',CHK=IC('check'),EMPT='',ONC=' on',STR=';text-decoration:line-through;color:var(--text2)';
   var P1='<p class="sub" style="margin:-8px 0 12px">',P2=' of ',P3=' done today</p>';
   var ROWA='<div class="accent-row ',ROWB='" style="margin-bottom:10px"><div class="row" style="gap:10px"><div class="chk',ROWC='" title="Mark done" onclick="STORE.toggleDaily(\'',ROWD='\',',ROWE=')">',ROWF='</div><span style="flex:1',ROWG='">',ROWH='</span><span class="catdot ',ROWI='"></span><span class="pill">',ROWJ='</span></div></div>';
   function renderTodayGoals(db){
@@ -1065,11 +1149,11 @@ var RM=(function(){
   function renderGoalsRM(db){
     var key=STORE.thisMonth(),list=[],i;
     for(i=0;i<db.monthlyGoals.length;i++){ var g=db.monthlyGoals[i]; if((g.period||'month')==='month' && (g.periodKey||g.month)===key) list.push(g); }
-    $('rmGoalBar').innerHTML='<span class="pill">'+rmMonthName(key)+'</span><div class="spacer"></div><button class="btn primary mini" onclick="GL.openMonthly()">+ Add goal</button>';
+    $('rmGoalBar').innerHTML='<span class="pill">'+rmMonthName(key)+'</span><div class="spacer"></div><button class="btn primary mini" onclick="GL.openMonthly()">'+IC('plus')+' Add goal</button>';
     if(!list.length){ $('rmGoalsList').innerHTML=emptyBox('No monthly goals yet','Add one \u2014 progress fills from daily tasks you link to it.'); return; }
     var hh='';
     for(i=0;i<list.length;i++){ var m=list[i],p=STORE.monthlyPct(m),lk=0,ld=0,j; for(j=0;j<db.dailyGoals.length;j++){ if(db.dailyGoals[j].linkedMonthlyId===m.id){ lk++; if(db.dailyGoals[j].done) ld++; } }
-      hh+='<div class="card mon-card"><div class="mon-top"><span class="mon-title">'+esc(m.title)+'</span><span class="mon-frac">'+m.current+' / '+m.target+'</span></div><div class="task-meta" style="margin-top:10px"><span class="catdot '+(m.categoryKey||'general')+'"></span><span class="pill">'+(CATL[m.categoryKey]||'General')+'</span><span class="pill">'+p+'%</span>'+(lk?'<span class="pill link">&#128279; '+ld+'/'+lk+' tasks</span>':'')+'</div><div class="bar"><i style="width:'+p+'%"></i></div><div class="task-actions" style="margin-top:14px"><button class="btn icon mini" title="+1" onclick="STORE.setMonthlyProgress(\''+m.id+'\','+(m.current+1)+')">+</button><button class="btn icon mini ghost" title="-1" onclick="STORE.setMonthlyProgress(\''+m.id+'\','+Math.max(0,m.current-1)+')">&minus;</button><button class="btn icon mini ghost" title="Edit" onclick="GL.openMonthly(\''+m.id+'\')">&#9998;</button><button class="btn icon mini danger" title="Delete" onclick="GL.askDelMonthly(\''+m.id+'\')">&times;</button></div></div>'; }
+      hh+='<div class="card mon-card"><div class="mon-top"><span class="mon-title">'+esc(m.title)+'</span><span class="mon-frac">'+m.current+' / '+m.target+'</span></div><div class="task-meta" style="margin-top:10px"><span class="catdot '+(m.categoryKey||'general')+'"></span><span class="pill">'+(CATL[m.categoryKey]||'General')+'</span><span class="pill">'+p+'%</span>'+(lk?'<span class="pill link">'+IC('link')+' '+ld+'/'+lk+' tasks</span>':'')+'</div><div class="bar"><i style="width:'+p+'%"></i></div><div class="task-actions" style="margin-top:14px"><span class="seg"><button class="btn icon mini" title="-1" onclick="STORE.setMonthlyProgress(\''+m.id+'\','+Math.max(0,m.current-1)+')">'+IC('minus')+'</button><button class="btn icon mini" title="+1" onclick="STORE.setMonthlyProgress(\''+m.id+'\','+(m.current+1)+')">'+IC('plus')+'</button></span><span class="seg"><button class="btn icon mini ghost" title="Edit" onclick="GL.openMonthly(\''+m.id+'\')">'+IC('edit')+'</button><button class="btn icon mini danger" title="Delete" onclick="GL.askDelMonthly(\''+m.id+'\')">'+IC('trash')+'</button></span></div></div>'; }
     $('rmGoalsList').innerHTML=hh;
   }
   return {show:show,render:render,goCat:goCat,selCat:selCat,mv:mv,openCatEdit:openCatEdit,saveCat:saveCat,openStep:openStep,saveStep:saveStep,openMilestone:openMilestone,saveMile:saveMile,askCompleteMile:askCompleteMile,doCompleteMile:doCompleteMile,openNote:openNote,saveNote:saveNote,askDelStep:askDelStep,askDelMile:askDelMile,askDelNote:askDelNote};
@@ -1116,11 +1200,11 @@ var GL=(function(){
     for(var k=0;k<keys.length;k++){ var ct=t.filter(function(x){return x.categoryKey===keys[k];}); if(!ct.length) continue; any=true; var cd=ct.filter(function(x){return x.done;}).length;var cp=Math.round(cd/ct.length*100); ch+='<div style="margin-bottom:12px"><div class="row"><span style="flex:1;font-size:14.5px">'+CATL[keys[k]]+'</span><span class="pill">'+cd+'/'+ct.length+'</span></div><div class="bar sm"><i style="width:'+cp+'%"></i></div></div>'; }
     $('glSumCats').innerHTML=any?ch:'<p class="sub" style="margin:0">No tasks today yet.</p>';
     var comp=db.dailyGoals.filter(function(x){return x.done;}).sort(function(a,b){return a.date<b.date?1:-1;}).slice(0,6);
-    $('glSumRecent').innerHTML = comp.length?comp.map(function(x){return '<div class="row" style="margin-bottom:9px"><span class="pill ok">&#10003;</span><span style="flex:1;font-size:14.5px">'+esc(x.title)+'</span><span class="pill">'+fmtDate(x.date)+'</span></div>';}).join(''):'<p class="sub" style="margin:0">Nothing completed yet.</p>';
+    $('glSumRecent').innerHTML = comp.length?comp.map(function(x){return '<div class="row" style="margin-bottom:9px"><span class="pill ok">'+IC('check')+'</span><span style="flex:1;font-size:14.5px">'+esc(x.title)+'</span><span class="pill">'+fmtDate(x.date)+'</span></div>';}).join(''):'<p class="sub" style="margin:0">Nothing completed yet.</p>';
   }
   function taskRow(db,t){
     var linked=t.linkedMonthlyId?STORE.find(db.monthlyGoals,t.linkedMonthlyId):null; var ck=t.categoryKey||'general';
-    return '<div class="task'+(t.done?' done':'')+'"><div class="chk'+(t.done?' on':'')+'" onclick="STORE.toggleDaily(\''+t.id+'\','+(t.done?'false':'true')+')">'+(t.done?'&#10003;':'')+'</div><div class="task-main"><div class="task-title">'+esc(t.title)+'</div><div class="task-meta">'+priPill(t.priority)+(linked?'<span class="pill link">&#128279; '+linked.current+'/'+linked.target+'</span>':'')+'</div></div><span class="catdot '+ck+'" title="'+(CATL[ck]||'General')+'"></span><button class="btn icon mini ghost" title="Edit" onclick="GL.openDaily(\''+t.id+'\',\''+t.date+'\')">&#9998;</button><button class="btn icon mini danger" title="Delete" onclick="GL.askDelDaily(\''+t.id+'\')">&times;</button></div>';
+    return '<div class="task'+(t.done?' done':'')+'"><div class="chk'+(t.done?' on':'')+'" onclick="STORE.toggleDaily(\''+t.id+'\','+(t.done?'false':'true')+')">'+(t.done?IC('check'):'')+'</div><div class="task-main"><div class="task-title">'+esc(t.title)+'</div><div class="task-meta">'+priPill(t.priority)+(linked?'<span class="pill link">'+IC('link')+' '+linked.current+'/'+linked.target+'</span>':'')+'</div></div><span class="catdot '+ck+'" title="'+(CATL[ck]||'General')+'"></span><span class="seg"><button class="btn icon mini ghost" title="Edit" onclick="GL.openDaily(\''+t.id+'\',\''+t.date+'\')">'+IC('edit')+'</button><button class="btn icon mini danger" title="Delete" onclick="GL.askDelDaily(\''+t.id+'\')">'+IC('trash')+'</button></span></div>';
   }
 
   function renderDaily(db){
@@ -1141,12 +1225,12 @@ var GL=(function(){
   function segBtn(p,lbl){ return '<button class="btn mini'+(_gPeriod===p?' primary':' ghost')+'" onclick="GL.setGPeriod(\''+p+'\')">'+lbl+'</button>'; }
   function renderMonthly(db){
     var key=keyFor(_gPeriod,_gRef);
-    $('glGoalBar').innerHTML='<div class="row" style="gap:6px">'+segBtn('week','Week')+segBtn('month','Month')+segBtn('year','Year')+'</div><div class="row" style="gap:8px;margin-left:auto"><button class="btn icon" onclick="GL.gShift(-1)">&#8592;</button><span class="pill">'+periodLabel(_gPeriod,_gRef)+'</span><button class="btn icon" onclick="GL.gShift(1)">&#8594;</button><button class="btn primary mini" onclick="GL.openMonthly()">+ Add goal</button></div>';
+    $('glGoalBar').innerHTML='<div class="seg">'+segBtn('week','Week')+segBtn('month','Month')+segBtn('year','Year')+'</div><div class="spacer"></div><div class="navgrp"><button class="btn icon" onclick="GL.gShift(-1)" aria-label="Previous">'+IC('left')+'</button><span class="pill">'+periodLabel(_gPeriod,_gRef)+'</span><button class="btn icon" onclick="GL.gShift(1)" aria-label="Next">'+IC('right')+'</button></div><button class="btn primary mini" onclick="GL.openMonthly()">'+IC('plus')+' Add goal</button>';
     var list=[],i; for(i=0;i<db.monthlyGoals.length;i++){ var g=db.monthlyGoals[i]; if((g.period||'month')===_gPeriod && (g.periodKey||g.month)===key) list.push(g); }
     if(!list.length){ $('glMonthlyList').innerHTML=emptyBox('No '+_gPeriod+' goals for this '+_gPeriod,'Hit + Add goal \u2014 set what to do this '+_gPeriod+'.'); return; }
     var h='';
     for(i=0;i<list.length;i++){ var m=list[i],p=STORE.monthlyPct(m);
-      h+='<div class="card mon-card"><div class="mon-top"><span class="mon-title">'+esc(m.title)+'</span><span class="mon-frac">'+m.current+' / '+m.target+'</span></div>'+(m.description?'<p class="sub" style="margin:6px 0 0">'+esc(m.description)+'</p>':'')+'<div class="task-meta" style="margin-top:10px"><span class="pill">'+esc(CATL[m.categoryKey]||'General')+'</span><span class="pill '+(m.status==='completed'?'ok':(m.status==='in-progress'?'warn':''))+'">'+statusLabel(m.status)+'</span>'+(m.deadline?'<span class="pill">Due '+fmtDate(m.deadline)+'</span>':'')+'<span class="pill">'+p+'%</span></div><div class="bar"><i style="width:'+p+'%"></i></div><div class="task-actions" style="margin-top:14px"><button class="btn mini" onclick="STORE.setMonthlyProgress(\''+m.id+'\','+(m.current+1)+')">+1</button><button class="btn mini ghost" onclick="STORE.setMonthlyProgress(\''+m.id+'\','+Math.max(0,m.current-1)+')">-1</button><button class="btn mini ghost" onclick="GL.openProgress(\''+m.id+'\')">Set value</button>'+(m.status!=='completed'?'<button class="btn mini primary" onclick="STORE.completeMonthly(\''+m.id+'\')">Mark done</button>':'')+'<button class="btn mini ghost" onclick="GL.openMonthly(\''+m.id+'\')">Edit</button><button class="btn mini danger" onclick="GL.askDelMonthly(\''+m.id+'\')">Delete</button></div></div>'; }
+      h+='<div class="card mon-card"><div class="mon-top"><span class="mon-title">'+esc(m.title)+'</span><span class="mon-frac">'+m.current+' / '+m.target+'</span></div>'+(m.description?'<p class="sub" style="margin:6px 0 0">'+esc(m.description)+'</p>':'')+'<div class="task-meta" style="margin-top:10px"><span class="pill">'+esc(CATL[m.categoryKey]||'General')+'</span><span class="pill '+(m.status==='completed'?'ok':(m.status==='in-progress'?'warn':''))+'">'+statusLabel(m.status)+'</span>'+(m.deadline?'<span class="pill">Due '+fmtDate(m.deadline)+'</span>':'')+'<span class="pill">'+p+'%</span></div><div class="bar"><i style="width:'+p+'%"></i></div><div class="task-actions" style="margin-top:14px"><span class="seg"><button class="btn mini ghost" onclick="STORE.setMonthlyProgress(\''+m.id+'\','+Math.max(0,m.current-1)+')">'+IC('minus')+' 1</button><button class="btn mini" onclick="STORE.setMonthlyProgress(\''+m.id+'\','+(m.current+1)+')">'+IC('plus')+' 1</button></span><button class="btn mini ghost" onclick="GL.openProgress(\''+m.id+'\')">Set value</button>'+(m.status!=='completed'?'<button class="btn mini primary" onclick="STORE.completeMonthly(\''+m.id+'\')">'+IC('check')+' Mark done</button>':'')+'<span class="btn-pair"><button class="btn mini ghost" onclick="GL.openMonthly(\''+m.id+'\')">'+IC('edit')+' Edit</button><button class="btn mini danger" onclick="GL.askDelMonthly(\''+m.id+'\')">'+IC('trash')+' Delete</button></span></div></div>'; }
     $('glMonthlyList').innerHTML=h;
   }
   function statusLabel(s){ return s==='completed'?'Completed':(s==='in-progress'?'In progress':'Not started'); }
@@ -1162,14 +1246,14 @@ var GL=(function(){
     for(i=1;i<=days;i++){ var ds=y+'-'+pad2(mo+1)+'-'+pad2(i); var t=tasksOn(db,ds),cls='cal-cell'; if(ds===todayStr) cls+=' today'; if(ds===_selDate) cls+=' sel'; var dot=''; if(t.length){ var allDone=t.every(function(x){return x.done;}); dot='<div class="cal-dot"><i class="'+(allDone?'done':'')+'"></i></div>'; } h+='<div class="'+cls+'" onclick="GL.calPick(\''+ds+'\')"><span>'+i+'</span>'+dot+'</div>'; }
     $('glCalGrid').innerHTML=h;
     var t2=tasksOn(db,_selDate);
-    $('glCalDay').innerHTML='<div class="card"><h2 class="sec-h" style="margin-top:0">'+fmtDate(_selDate)+'<div class="spacer"></div><button class="btn primary mini" onclick="GL.openDaily(null,\''+_selDate+'\')">+ Add task</button></h2>'+(t2.length?t2.map(function(x){return taskRow(db,x);}).join(''):'<p class="sub" style="margin:0">No tasks on this day.</p>')+'</div>';
+    $('glCalDay').innerHTML='<div class="card"><h2 class="sec-h" style="margin-top:0">'+fmtDate(_selDate)+'<div class="spacer"></div><button class="btn primary mini" onclick="GL.openDaily(null,\''+_selDate+'\')">'+IC('plus')+' Add task</button></h2>'+(t2.length?t2.map(function(x){return taskRow(db,x);}).join(''):'<p class="sub" style="margin:0">No tasks on this day.</p>')+'</div>';
   }
   function calShift(n){ _calRef=new Date(_calRef.getFullYear(),_calRef.getMonth()+n,1); renderCalendar(STORE.read()); }
   function calPick(ds){ _selDate=ds; renderCalendar(STORE.read()); renderDaily(STORE.read()); }
 
   function renderNotes(db){
     var list=db.notes.slice().sort(function(a,b){return a.date<b.date?1:-1;});
-    $('glNoteList').innerHTML = list.length?list.map(function(n){ var m=n.monthlyId?STORE.find(db.monthlyGoals,n.monthlyId):null; return '<div class="note-card"><div class="note-text">'+esc(n.text)+'</div><div class="note-meta"><span class="pill">'+esc(CATL[n.categoryKey]||'General')+'</span> '+(m?'<span class="pill link">&#8599; '+esc(m.title)+'</span> ':'')+' '+fmtDate(n.date)+'</div><div class="task-actions"><button class="btn mini ghost" onclick="GL.openNote(\''+n.id+'\')">Edit</button><button class="btn mini danger" onclick="GL.askDelNote(\''+n.id+'\')">Delete</button></div></div>'; }).join(''):emptyBox('No notes yet','Tie a thought to a day, a category, or a monthly goal.');
+    $('glNoteList').innerHTML = list.length?list.map(function(n){ var m=n.monthlyId?STORE.find(db.monthlyGoals,n.monthlyId):null; return '<div class="note-card"><div class="note-text">'+esc(n.text)+'</div><div class="note-meta"><span class="pill">'+esc(CATL[n.categoryKey]||'General')+'</span> '+(m?'<span class="pill link">'+IC('link')+' '+esc(m.title)+'</span> ':'')+' '+fmtDate(n.date)+'</div><div class="task-actions"><span class="btn-pair"><button class="btn mini ghost" onclick="GL.openNote(\''+n.id+'\')">'+IC('edit')+' Edit</button><button class="btn mini danger" onclick="GL.askDelNote(\''+n.id+'\')">'+IC('trash')+' Delete</button></span></div></div>'; }).join(''):emptyBox('No notes yet','Tie a thought to a day, a category, or a monthly goal.');
   }
 
   function openDaily(id,date){ var db=STORE.read(),t=id?STORE.find(db.dailyGoals,id):null;
@@ -1204,7 +1288,7 @@ var GL=(function(){
     if(!db.habits.length){ hh=emptyBox('No habits yet','Add a repeated task you want to keep doing.'); }
     else if(!hs.length){ hh='<p class="sub" style="margin:0">No habits scheduled today.</p>'; }
     else{ for(i=0;i<hs.length;i++){ var hb=hs[i],done=STORE.habitDone(db,hb.id,t),st=habitStreak(db,hb);
-      hh+='<div class="task'+(done?' done':'')+'"><div class="chk'+(done?' on':'')+'" onclick="STORE.toggleHabit(\''+hb.id+'\',\''+t+'\','+(done?'false':'true')+')">'+(done?'&#10003;':'')+'</div><div class="task-main"><div class="task-title">'+esc(hb.title)+'</div><div class="task-meta"><span class="catdot '+hb.categoryKey+'"></span><span class="pill">'+(CATL[hb.categoryKey]||'General')+'</span><span class="pill">'+freqLabel(hb)+'</span>'+(st>0?'<span class="pill ok">&#128293; '+st+'d streak</span>':'')+'</div><div class="task-meta">'+last7Dots(db,hb)+'</div><div class="task-actions"><button class="btn mini ghost" onclick="GL.openHabit(\''+hb.id+'\')">Edit</button><button class="btn mini danger" onclick="GL.askDelHabit(\''+hb.id+'\')">Delete</button></div></div></div>'; } }
+      hh+='<div class="task'+(done?' done':'')+'"><div class="chk'+(done?' on':'')+'" onclick="STORE.toggleHabit(\''+hb.id+'\',\''+t+'\','+(done?'false':'true')+')">'+(done?IC('check'):'')+'</div><div class="task-main"><div class="task-title">'+esc(hb.title)+'</div><div class="task-meta"><span class="catdot '+hb.categoryKey+'"></span><span class="pill">'+(CATL[hb.categoryKey]||'General')+'</span><span class="pill">'+freqLabel(hb)+'</span>'+(st>0?'<span class="pill ok">&#128293; '+st+'d streak</span>':'')+'</div><div class="task-meta">'+last7Dots(db,hb)+'</div><div class="task-actions"><span class="btn-pair"><button class="btn mini ghost" onclick="GL.openHabit(\''+hb.id+'\')">'+IC('edit')+' Edit</button><button class="btn mini danger" onclick="GL.askDelHabit(\''+hb.id+'\')">'+IC('trash')+' Delete</button></span></div></div></div>'; } }
     $('glHabits').innerHTML=hh;
     $('glReport').innerHTML=weeklyReport(db);
   }
@@ -1277,7 +1361,7 @@ var WL=(function(){
     var rec=tx.slice(0,6); $('wlRecent').innerHTML=rec.length?rec.map(txnRow).join(''):emptyBox('Nothing yet','Add income or an expense above.');
   }
   function renderTxns(db){ var tx=txnsIn(db,_wMonth); $('wlTxnList').innerHTML='<h2 class="sec-h" style="margin-top:6px">'+monthLabel(_wMonth)+'</h2>'+(tx.length?tx.map(txnRow).join(''):emptyBox('No transactions this month','Use + Income or + Expense.')); }
-  function txnRow(t){ var isIn=t.type==='income'; return '<div class="txn"><div class="txn-ic '+(isIn?'in':'out')+'">'+(isIn?'&#8599;':'&#8600;')+'</div><div class="txn-main"><div class="txn-top">'+(t.note?esc(t.note):(isIn?'Income':'Expense'))+'</div><div class="txn-meta">'+esc(CATL[t.categoryKey]||'General')+' &middot; '+fmtDate(t.date)+'</div></div><div class="txn-amt '+(isIn?'in':'out')+'">'+(isIn?'+':'-')+money(t.amount)+'</div><div class="row" style="gap:4px"><button class="btn icon mini ghost" onclick="WL.openTxn(\''+t.id+'\')" aria-label="Edit">&#9998;</button><button class="btn icon mini danger" onclick="WL.askDelTxn(\''+t.id+'\')" aria-label="Delete">&times;</button></div></div>'; }
+  function txnRow(t){ var isIn=t.type==='income'; return '<div class="txn"><div class="txn-ic '+(isIn?'in':'out')+'">'+(isIn?IC('income'):IC('expense'))+'</div><div class="txn-main"><div class="txn-top">'+(t.note?esc(t.note):(isIn?'Income':'Expense'))+'</div><div class="txn-meta">'+esc(CATL[t.categoryKey]||'General')+' &middot; '+fmtDate(t.date)+'</div></div><div class="txn-amt '+(isIn?'in':'out')+'">'+(isIn?'+':'-')+money(t.amount)+'</div><div class="row" style="gap:4px"><span class="seg"><button class="btn icon mini ghost" onclick="WL.openTxn(\''+t.id+'\')" aria-label="Edit">'+IC('edit')+'</button><button class="btn icon mini danger" onclick="WL.askDelTxn(\''+t.id+'\')" aria-label="Delete">'+IC('trash')+'</button></span></div></div>'; }
 
   function wPick(v){ if(!v) return; _wMonth=v; render(); }
   function wShift(n){ var p=_wMonth.split('-'); var d=new Date(parseInt(p[0],10),parseInt(p[1],10)-1+n,1); _wMonth=d.getFullYear()+'-'+(d.getMonth()+1<10?'0':'')+(d.getMonth()+1); render(); }
