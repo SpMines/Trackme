@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Samm 2.0</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,7 +11,8 @@
 :root{--bg:#F5F2EC;--card:#FFFFFF;--text:#29251F;--text2:#81796D;--accent:#A67C52;--border:#EAE6DE;--accent-soft:rgba(166,124,82,.10);--radius:16px;--radius-sm:10px;--shadow:0 1px 3px rgba(41,37,31,.05);--ok:#5B8C5A;--warn:#C08A3E;--danger:#B4544B}
 [data-theme="dark"]{--bg:#17191D;--card:#22252B;--text:#F2F0EA;--text2:#A3A5AA;--accent:#BFA27D;--border:#35383F;--accent-soft:rgba(191,162,125,.12);--shadow:0 1px 3px rgba(0,0,0,.25);--ok:#7CA876;--warn:#D1A35A;--danger:#D07A70}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{overflow-x:hidden}
+html{overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:var(--navh,96px)}
+body{overflow-x:clip}
 body{font-family:'Jost',system-ui,sans-serif;background:var(--bg);color:var(--text);font-weight:400;line-height:1.55;-webkit-font-smoothing:antialiased;transition:background .4s ease,color .4s ease}
 .wrap{max-width:960px;margin:0 auto;padding:0 20px 80px}
 .topbar{position:sticky;top:0;z-index:40;background:var(--bg);border-bottom:1px solid var(--border);transition:background .4s ease,border-color .4s ease}
@@ -60,12 +61,12 @@ h2.sec-h{font-weight:700;font-size:19px;margin:30px 0 14px;display:flex;align-it
 h2.sec-h .spacer{flex:1}
 .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);transition:background .4s ease,border-color .4s ease,transform .2s ease;animation:cardIn .5s ease both}
 .grid{display:grid;gap:16px}
-.grid.cols4{grid-template-columns:repeat(4,1fr)}
-.grid.cols3{grid-template-columns:repeat(3,1fr)}
-.grid.cols2{grid-template-columns:repeat(2,1fr)}
-@media(max-width:760px){.grid.cols4{grid-template-columns:repeat(2,1fr)}.grid.cols3{grid-template-columns:1fr}}
-@media(max-width:620px){.grid.cols3{grid-template-columns:1fr}}
-@media(max-width:520px){.grid.cols4,.grid.cols2{grid-template-columns:1fr}}
+.grid.cols4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.grid.cols3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.grid.cols2{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:760px){.grid.cols4{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.cols3{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:620px){.grid.cols3{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:520px){.grid.cols4,.grid.cols2{grid-template-columns:minmax(0,1fr)}}
 .stat-big{font-weight:800;font-size:40px;line-height:1;letter-spacing:-.02em}
 .stat-big.sm{font-size:34px}
 .stat-big.in{color:var(--ok)}.stat-big.out{color:var(--danger)}
@@ -127,7 +128,7 @@ h2.sec-h .spacer{flex:1}
 .mon-frac{font-weight:700;font-size:16px;color:var(--accent)}
 .cal-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .cal-title{font-weight:700;font-size:18px;flex:1;text-align:center}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
 .cal-dow{text-align:center;font-size:12px;color:var(--text2);font-weight:500;padding:4px 0}
 .cal-cell{aspect-ratio:1;border:1px solid var(--border);border-radius:var(--radius-sm);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:14.5px;transition:border-color .2s ease,background .2s ease;min-height:42px}
 .cal-cell:hover{border-color:var(--accent)}
@@ -139,7 +140,7 @@ h2.sec-h .spacer{flex:1}
 .cal-dot i.done{background:var(--ok)}
 .cal-cell.sel .cal-dot i{background:#fff}
 .datebar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
-.datebar input,.monthbar input{font-family:inherit;font-size:15px;color:var(--text);background:var(--card);border:1px solid var(--border);border-radius:999px;padding:9px 14px}
+.datebar input,.monthbar input{font-family:inherit;font-size:16px;color:var(--text);background:var(--card);border:1px solid var(--border);border-radius:999px;padding:9px 14px}
 .monthbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 0}
 .txn{display:flex;align-items:center;gap:13px;padding:14px 16px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);margin-bottom:10px;animation:cardIn .4s ease both}
 .txn-ic{flex:none;width:38px;height:38px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:17px;font-weight:700}
@@ -160,7 +161,7 @@ h2.sec-h .spacer{flex:1}
 .modal h3{font-weight:700;font-size:19px;margin-bottom:18px}
 .field{margin-bottom:15px}
 .field label{display:block;font-size:13px;color:var(--text2);margin-bottom:6px;font-weight:500}
-.field input,.field textarea,.field select{width:100%;font-family:inherit;font-size:15px;color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 13px;transition:border-color .2s ease}
+.field input,.field textarea,.field select{width:100%;font-family:inherit;font-size:16px;color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 13px;transition:border-color .2s ease}
 .field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--accent)}
 .field textarea{resize:vertical;min-height:60px}
 .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:22px}
@@ -203,6 +204,90 @@ h2.sec-h .spacer{flex:1}
 .gbar>i{position:absolute;left:0;right:0;bottom:0;background:var(--accent);display:block;transition:height .6s ease}
 .gcol .gl{font-size:10px;color:var(--text2)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ============================================================
+   v2.1  ZOOM LOCK + OVERLAP GUARD + MODERN SCROLLBAR
+   ============================================================ */
+:root{--sb-thumb:rgba(166,124,82,.42);--sb-thumb-h:rgba(166,124,82,.72);--sb-track:transparent;color-scheme:light}
+[data-theme="dark"]{--sb-thumb:rgba(191,162,125,.36);--sb-thumb-h:rgba(191,162,125,.70);color-scheme:dark}
+
+/* --- zoom lock (pinch / double-tap) --- */
+html,body{touch-action:pan-x pan-y;overscroll-behavior-x:none}
+html{scrollbar-gutter:stable}
+input,select,textarea,button{touch-action:manipulation}
+button,.chk,.cal-cell,.tab,.plink,.drawer-link,.drawer-sec{-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+input,textarea{user-select:text;-webkit-user-select:text}
+
+/* --- nothing may push past the screen edge --- */
+.wrap,.topbar-inner{min-width:0}
+.app-view,section{min-width:0;max-width:100%}
+.grid>*,.card,.task,.txn,.note-card,.step,.accent-row,.notif-item{min-width:0;max-width:100%}
+.task-main,.txn-main,.step-title,.mon-title,.cat-name,.cal-title{min-width:0}
+.task-title,.task-desc,.step-title,.step-note,.note-text,.txn-top,.txn-meta,.mon-title,.cat-name,.cat-desc,
+.notif-item .nt,.notif-item .nb,.sub,h1.page-h,h2.sec-h,.pill{overflow-wrap:anywhere;word-break:normal}
+.pill{max-width:100%}
+.stat-big{font-size:clamp(28px,6.4vw,40px);overflow-wrap:anywhere}
+.stat-big.sm{font-size:clamp(22px,5.6vw,34px)}
+.stat-lbl{overflow-wrap:anywhere}
+.row,.task-meta,.step-meta,.task-actions{min-width:0}
+.row>*,.task-meta>*,.step-meta>*{min-width:0}
+.row>span:not(.pill):not(.catdot):not(.chk),.row>div:not(.chk):not(.txn-ic):not(.spacer){overflow-wrap:anywhere}
+.row>.btn,.row>button,.row>.chk,.row>.catdot,.txn-ic,.chk{flex:none}
+.row>.pill{flex:0 1 auto}
+img,svg,video{max-width:100%}
+.step-head{min-width:0}
+.step-head .step-title{flex:1 1 0}
+.topbar-inner{min-width:0}
+.pagelinks{min-width:0}
+
+/* --- fixed layers sized to the real visible screen --- */
+.modal{max-height:calc(100vh - 40px);max-height:calc(100dvh - 40px);overscroll-behavior:contain}
+.overlay{padding:16px}
+.drawer{overscroll-behavior:contain;max-width:84vw}
+.notif-pop{top:70px;right:12px;width:min(340px,calc(100vw - 24px));max-height:calc(100vh - 92px);max-height:calc(100dvh - 92px);overscroll-behavior:contain}
+#toast{max-width:calc(100vw - 32px);text-align:center;overflow-wrap:anywhere}
+html:has(.overlay.show),html:has(.drawer.show){overflow:hidden}
+
+@media(max-width:520px){
+  .txn{flex-wrap:wrap}
+  .txn-main{flex:1 1 120px}
+  .txn-amt{margin-left:51px}
+  .modal{padding:20px 18px}
+  .modal-actions .btn{flex:1}
+  .task{gap:10px;padding:13px 12px}
+  .card{padding:18px}
+  h1.page-h{font-size:26px}
+}
+@media(max-width:420px){
+  .cal-grid{gap:4px}
+  .cal-cell{font-size:13px;min-height:36px}
+  .cal-dot{bottom:4px}
+  .datebar,.monthbar{gap:8px}
+}
+@media(max-width:380px){
+  .topbar-inner{padding:12px;gap:8px}
+  .iconbtn{width:42px;height:42px;font-size:18px}
+  .wrap{padding-left:12px;padding-right:12px}
+  nav.tabs{padding-left:12px;padding-right:12px}
+}
+
+/* --- modern scrollbar --- */
+@supports not selector(::-webkit-scrollbar){
+  *{scrollbar-width:thin;scrollbar-color:var(--sb-thumb) transparent}
+  html{scrollbar-color:var(--sb-thumb) var(--bg)}
+}
+@supports selector(::-webkit-scrollbar){
+  ::-webkit-scrollbar{width:12px;height:12px;background:transparent}
+  ::-webkit-scrollbar-track{background:var(--sb-track);border-radius:999px}
+  ::-webkit-scrollbar-thumb{background-color:var(--sb-thumb);border:3px solid transparent;background-clip:content-box;border-radius:999px;transition:background-color .2s}
+  ::-webkit-scrollbar-thumb:hover{background-color:var(--sb-thumb-h)}
+  ::-webkit-scrollbar-thumb:active{background-color:var(--accent)}
+  ::-webkit-scrollbar-corner{background:transparent}
+  .modal::-webkit-scrollbar,.notif-pop::-webkit-scrollbar,.drawer::-webkit-scrollbar{width:10px}
+}
+@media(pointer:coarse){
+  @supports selector(::-webkit-scrollbar){ ::-webkit-scrollbar{width:6px;height:6px} ::-webkit-scrollbar-thumb{border-width:1px} }
+}
 </style>
 </head>
 <body>
@@ -764,6 +849,7 @@ var APP=(function(){
   function closeDrawer(){ $('drawer').className='drawer'; $('drawerOv').className='drawer-overlay'; }
 
   function setNavH(){ var tb=document.querySelector('.topbar'); if(tb) document.documentElement.style.setProperty('--navh',(tb.offsetHeight-1)+'px'); }
+  function watchNavH(){ if(window.ResizeObserver){ try{ var tb=document.querySelector('.topbar'); if(tb) new ResizeObserver(function(){ setNavH(); }).observe(tb); }catch(e){} } if(document.fonts&&document.fonts.ready){ document.fonts.ready.then(setNavH); } window.addEventListener('load',setNavH); window.addEventListener('orientationchange',function(){ setTimeout(setNavH,200); }); }
 
   function register(mod){ MODS[mod.id]=mod; }
 
@@ -792,6 +878,7 @@ var APP=(function(){
     for(i=0;i<v.length;i++){ v[i].className='app-view'+(v[i].id==='app-'+name?' active':''); }
     markActiveLinks(name);
     buildTabs(name);
+    setNavH(); if(window.requestAnimationFrame) requestAnimationFrame(setNavH);
   }
   function showApp(name){ if(!MODS[name]) return; switchView(name); MODS[name].show(MODS[name].def); window.scrollTo(0,0); }
   function go(name,sec){ if(cur!==name) switchView(name); MODS[name].show(sec); window.scrollTo(0,0); }
@@ -846,7 +933,7 @@ var APP=(function(){
     $('notifList').innerHTML=html;
   }
   function init(){
-    initTheme(); wireOverlay(); setNavH();
+    initTheme(); wireOverlay(); setNavH(); watchNavH();
     window.addEventListener('resize',setNavH);
     window.addEventListener('storage',function(e){ if(e.key===STORE.KEY){ initTheme(); renderCurrent(); renderNotifs(); fillSettings(); toast('Synced from another tab'); } });
     STORE.onChange(function(){ renderCurrent(); renderNotifs(); });
@@ -1263,6 +1350,21 @@ var HM=(function(){
   return {show:show,render:render};
 })();
 
+
+/* ---- zoom lock: pinch, ctrl+wheel, ctrl +/- stay disabled ---- */
+(function(){
+  var NP={passive:false};
+  function stop(e){ if(e.cancelable) e.preventDefault(); }
+  var g=['gesturestart','gesturechange','gestureend'],i;
+  for(i=0;i<g.length;i++) document.addEventListener(g[i],stop,NP);
+  document.addEventListener('touchmove',function(e){ if(e.touches && e.touches.length>1 && e.cancelable) e.preventDefault(); },NP);
+  document.addEventListener('wheel',function(e){ if(e.ctrlKey && e.cancelable) e.preventDefault(); },NP);
+  document.addEventListener('keydown',function(e){
+    if(!(e.ctrlKey||e.metaKey)) return;
+    var k=e.key,c=e.keyCode;
+    if(k==='+'||k==='='||k==='-'||k==='_'||c===187||c===189||c===107||c===109) e.preventDefault();
+  });
+})();
 
 /* boot */
 APP.init();
