@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Samm 2.0</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,6 +12,8 @@
 [data-theme="dark"]{--bg:#17191D;--card:#22252B;--text:#F2F0EA;--text2:#A3A5AA;--accent:#BFA27D;--border:#35383F;--accent-soft:rgba(191,162,125,.12);--shadow:0 1px 3px rgba(0,0,0,.25);--ok:#7CA876;--warn:#D1A35A;--danger:#D07A70}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{overflow-x:hidden}
+html{touch-action:manipulation;-webkit-text-size-adjust:100%}
+body.modal-open{overflow:hidden;position:relative}
 body{font-family:'Jost',system-ui,sans-serif;background:var(--bg);color:var(--text);font-weight:400;line-height:1.55;-webkit-font-smoothing:antialiased;transition:background .4s ease,color .4s ease}
 .wrap{max-width:960px;margin:0 auto;padding:0 20px 80px}
 .topbar{position:sticky;top:0;z-index:40;background:var(--bg);border-bottom:1px solid var(--border);transition:background .4s ease,border-color .4s ease}
@@ -163,7 +165,8 @@ h2.sec-h .spacer{flex:1}
 .field input,.field textarea,.field select{width:100%;font-family:inherit;font-size:16px;color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 13px;transition:border-color .2s ease}
 .field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--accent)}
 .field textarea{resize:vertical;min-height:60px}
-input[type="date"],input[type="month"]{text-align:center}
+input[type="date"],input[type="month"]{text-align:center;-webkit-appearance:none;appearance:none;min-height:46px;line-height:1.2}
+.field input[type="date"],.field input[type="month"]{display:block;width:100%}
 .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:22px}
 #toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:var(--text);color:var(--bg);padding:12px 20px;border-radius:999px;font-size:14px;font-weight:500;z-index:120;opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s ease;max-width:90vw}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -764,8 +767,8 @@ var APP=(function(){
   var _tt;
   function toast(msg,err){ var el=$('toast'); el.textContent=msg; el.className='show'+(err?' err':''); clearTimeout(_tt); _tt=setTimeout(function(){ el.className=err?'err':''; },2200); }
 
-  function openOverlay(html){ $('modal').innerHTML=html; $('overlay').className='overlay show'; }
-  function closeModal(){ $('overlay').className='overlay'; }
+  function openOverlay(html){ $('modal').innerHTML=html; $('overlay').className='overlay show'; document.body.classList.add('modal-open'); }
+  function closeModal(){ $('overlay').className='overlay'; document.body.classList.remove('modal-open'); }
   function confirmBox(msg,onYes,yesLabel){
     openOverlay('<h3>Please confirm</h3><p class="sub" style="margin-bottom:0;white-space:pre-wrap">'+esc(msg)+'</p>'
       +'<div class="modal-actions"><button class="btn ghost" onclick="APP.closeModal()">Cancel</button>'
