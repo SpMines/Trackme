@@ -441,7 +441,7 @@ input[type="date"],input[type="month"]{text-align:center;-webkit-appearance:none
 </div>
 
 <div class="notif-ov" id="notifOv" onclick="APP.closeNotifs()"></div>
-<div class="notif-pop" id="notifPop"><div class="notif-head"><b>Notifications</b><div class="spacer"></div><button class="btn mini ghost" onclick="APP.markAllRead()">Read all</button></div><div id="notifList"></div></div>
+<div class="notif-pop" id="notifPop"><div class="notif-head"><b>Notifications</b><div class="spacer"></div><button class="btn mini ghost" id="arcToggle" onclick="APP.toggleArchived()">Archived</button><button class="btn mini ghost" onclick="APP.markAllRead()">Read all</button></div><div id="notifList"></div></div>
 
 <div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
 <div id="toast"></div>
@@ -718,6 +718,25 @@ var STORE=(function(){
   function habitDone(db,id,date){ for(var i=0;i<db.habitChecks.length;i++){ if(db.habitChecks[i].habitId===id && db.habitChecks[i].date===date) return true; } return false; }
   function toggleHabit(id,date,on){ commit(function(db){ var has=-1,i; for(i=0;i<db.habitChecks.length;i++){ if(db.habitChecks[i].habitId===id && db.habitChecks[i].date===date){ has=i; break; } } if(on && has<0) db.habitChecks.push({habitId:id,date:date}); else if(!on && has>-1) db.habitChecks.splice(has,1); }); }
 
+  /* ---------- MIDNIGHT ROLLOVER + SUMMARIES ---------- */
+  function isoWeekE(ds){ var p=ds.split('-'); var d=new Date(Date.UTC(parseInt(p[0],10),parseInt(p[1],10)-1,parseInt(p[2],10))); var day=d.getUTCDay()||7; d.setUTCDate(d.getUTCDate()+4-day); var ys=new Date(Date.UTC(d.getUTCFullYear(),0,1)); var wk=Math.ceil((((d-ys)/86400000)+1)/7); return d.getUTCFullYear()+'-W'+(wk<10?'0':'')+wk; }
+  function addDaysISO(ds,n){ var p=ds.split('-'); var d=new Date(parseInt(p[0],10),parseInt(p[1],10)-1,parseInt(p[2],10)); d.setDate(d.getDate()+n); return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+  function curKey(period,t){ if(period==='year') return t.slice(0,4); if(period==='week') return isoWeekE(t); return t.slice(0,7); }
+  function periodName(period,key){ if(period==='year'||period==='week') return key; var p=(''+key).split('-'); var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return (mo[parseInt(p[1],10)-1]||'')+' '+(p[0]||''); }
+  function summarizeDay(db,d){ var items=[],done=0,i; for(i=0;i<db.dailyGoals.length;i++){ if(db.dailyGoals[i].date===d){ items.push({title:db.dailyGoals[i].title,done:!!db.dailyGoals[i].done}); if(db.dailyGoals[i].done) done++; } } if(!items.length) return false; var total=items.length,allGood=(done===total); pushNotif(db,{type:'summary',title:(allGood?'Daily all done':'Daily summary')+' — '+d,body:done+' / '+total+' done'+(allGood?' — all good!':' — '+(total-done)+' missed'),action:{kind:'summary',scope:'daily',date:d,ok:allGood,done:done,total:total,items:items}}); return true; }
+  function doRollover(db){
+    var changed=false,t=today(),i,k;
+    if(!db.settings||typeof db.settings!=='object') db.settings={};
+    if(!db.settings.summarizedDays||typeof db.settings.summarizedDays!=='object') db.settings.summarizedDays={};
+    var sd=db.settings.summarizedDays;
+    var dates={}; for(i=0;i<db.dailyGoals.length;i++){ var dd=db.dailyGoals[i].date; if(dd<t && !sd[dd]) dates[dd]=1; }
+    var arr=[]; for(k in dates) arr.push(k); arr.sort();
+    for(i=0;i<arr.length;i++){ if(summarizeDay(db,arr[i])){ sd[arr[i]]=1; changed=true; } }
+    for(i=0;i<db.monthlyGoals.length;i++){ var g=db.monthlyGoals[i]; var gk=g.periodKey||g.month||''; if(!g._periodClosed && gk && gk<curKey(g.period||'month',t)){ g._periodClosed=true; changed=true; var ok=(g.status==='completed'); pushNotif(db,{type:'summary',title:(ok?'Goal done':'Goal missed'),body:periodName(g.period||'month',gk)+': '+g.title+(ok?' — completed':' — NOT completed'),action:{kind:'summary',scope:'goal',ok:ok,title:g.title,period:periodName(g.period||'month',gk)}}); } }
+    for(i=0;i<db.milestones.length;i++){ var mm=db.milestones[i]; if(!mm._closed && mm.targetDate && mm.targetDate<t){ mm._closed=true; changed=true; if(!mm.done){ pushNotif(db,{type:'summary',title:'Milestone missed',body:mm.title+' — due '+mm.targetDate,action:{kind:'summary',scope:'milestone',ok:false,title:mm.title}}); } } }
+    return changed;
+  }
+  function rollover(){ var db=read(); if(doRollover(db)){ db=normalize(db); var ok=write(db); if(ok) emit(db); } }
   function replaceAll(d){ var ok=write(normalize(d)); if(ok) emit(read()); return ok; }
   /* ---------- NOTIFICATIONS ---------- */
   function pushNotif(db,n){ db.notifications.unshift({id:genId('ntf'),date:(new Date()).toISOString(),read:false,type:n.type||'info',title:n.title||'',body:n.body||'',action:n.action||null}); if(db.notifications.length>120) db.notifications.length=120; }
@@ -727,8 +746,9 @@ var STORE=(function(){
   function notify(type,title,body){ commit(function(db){ pushNotif(db,{type:type,title:title,body:body}); }); }
   function markAllRead(){ commit(function(db){ for(var i=0;i<db.notifications.length;i++) db.notifications[i].read=true; }); }
   function markRead(id){ commit(function(db){ var n=find(db.notifications,id); if(n) n.read=true; }); }
+  function archiveNotif(id,val){ commit(function(db){ var n=find(db.notifications,id); if(n){ n.archived=(val!==false); n.read=true; } }); }
   function deleteNotif(id){ commit(function(db){ var i=idx(db.notifications,id); if(i>-1) db.notifications.splice(i,1); }); }
-  function unreadCount(db){ var c=0,i; for(i=0;i<db.notifications.length;i++) if(!db.notifications[i].read) c++; return c; }
+  function unreadCount(db){ var c=0,i; for(i=0;i<db.notifications.length;i++) if(!db.notifications[i].read && !db.notifications[i].archived) c++; return c; }
   function respondApproval(id,approve){ commit(function(db){ var n=find(db.notifications,id); if(!n||!n.action||n.action.kind!=='approval'||n.action.status!=='pending') return; n.action.status=approve?'approved':'rejected'; n.read=true; var g=find(db.monthlyGoals,n.action.goalId); if(approve){ db.wallet.transactions.unshift({id:genId('txn'),type:'expense',amount:n.action.amount,categoryKey:(g?g.categoryKey:'general'),note:'Goal: '+(g?g.title:n.title),date:today()}); pushNotif(db,{type:'money',title:'Approved \u2014 added to Wallet',body:'\u20b9'+n.action.amount+' expense logged'}); } else { pushNotif(db,{type:'money',title:'Request rejected',body:'\u20b9'+n.action.amount+' not added'}); } }); }
 
   return {
@@ -743,7 +763,7 @@ var STORE=(function(){
     setProfile:setProfile,exportObj:exportObj,validImport:validImport,doImport:doImport,replaceAll:replaceAll,
     addTxn:addTxn,updateTxn:updateTxn,deleteTxn:deleteTxn,walletTotals:walletTotals,
     addHabit:addHabit,updateHabit:updateHabit,deleteHabit:deleteHabit,habitDone:habitDone,toggleHabit:toggleHabit,
-    notify:notify,markAllRead:markAllRead,markRead:markRead,deleteNotif:deleteNotif,unreadCount:unreadCount,respondApproval:respondApproval,
+    notify:notify,markAllRead:markAllRead,markRead:markRead,archiveNotif:archiveNotif,deleteNotif:deleteNotif,unreadCount:unreadCount,respondApproval:respondApproval,rollover:rollover,
     today:today,thisMonth:thisMonth
   };
 })();
@@ -755,7 +775,7 @@ function toastGlobal(msg,err){ try{ APP.toast(msg,err); }catch(e){ } }
    No per-app UI function lives here, so nothing collides.
    ============================================================ */
 var APP=(function(){
-  var MODS={}, order=['roadmap','goals','wallet','settings'], cur=null, _curSec=null;
+  var MODS={}, order=['roadmap','goals','wallet','settings'], cur=null, _curSec=null, _showArchived=false, _swipeWired=false;
   function $(id){ return document.getElementById(id); }
   function esc(s){ s=(s==null?'':''+s); return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
   function fmtDate(s){ if(!s) return ''; var p=(''+s).split('-'); if(p.length<3) return s; var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return parseInt(p[2],10)+' '+mo[parseInt(p[1],10)-1]+' '+p[0]; }
@@ -851,33 +871,38 @@ var APP=(function(){
   function toggleNotifs(){ var p=$('notifPop'); if(p.className.indexOf('show')>-1) closeNotifs(); else { p.className='notif-pop show'; $('notifOv').className='notif-ov show'; renderNotifs(); } }
   function closeNotifs(){ $('notifPop').className='notif-pop'; $('notifOv').className='notif-ov'; }
   function timeAgo(iso){ var s=Math.floor((Date.now()-new Date(iso).getTime())/1000); if(s<60)return 'just now'; var mm=Math.floor(s/60); if(mm<60)return mm+'m ago'; var hh=Math.floor(mm/60); if(hh<24)return hh+'h ago'; var d=Math.floor(hh/24); return d+'d ago'; }
-  function notifIcon(t){ return t==='money'?'\uD83D\uDCB0':(t==='goal'?'\u2705':(t==='milestone'?'\uD83D\uDEA9':'\uD83D\uDD14')); }
+  function notifIcon(t){ return t==='money'?'\uD83D\uDCB0':(t==='goal'?'\u2705':(t==='milestone'?'\uD83D\uDEA9':(t==='summary'?'\uD83D\uDCCB':'\uD83D\uDD14'))); }
   function markAllRead(){ STORE.markAllRead(); }
   function renderNotifs(){
-    var db=STORE.read(),list=db.notifications||[];
+    var db=STORE.read(),all=db.notifications||[];
     var uc=STORE.unreadCount(db),b=$('notifBadge'); if(b){ b.textContent=uc>9?'9+':uc; b.className='nbadge'+(uc>0?' show':''); }
     if($('notifPop').className.indexOf('show')===-1) return;
-    if(!list.length){ $('notifList').innerHTML='<div class="notif-empty">No notifications yet.</div>'; return; }
-    var html='',i;
+    var at=$('arcToggle'); if(at) at.textContent=_showArchived?'\u2190 Back':'Archived';
+    var list=[],i; for(i=0;i<all.length;i++){ if(_showArchived? all[i].archived : !all[i].archived) list.push(all[i]); }
+    if(!list.length){ $('notifList').innerHTML='<div class="notif-empty">'+(_showArchived?'No archived notifications.':'No notifications.')+'</div>'; return; }
+    var html='';
     for(i=0;i<list.length;i++){ var n=list[i];
-      html+='<div class="notif-item'+(n.read?'':' unread')+'"><div class="row" style="gap:8px"><span>'+notifIcon(n.type)+'</span><div style="flex:1"><div class="nt">'+esc(n.title)+'</div><div class="nb">'+esc(n.body)+'</div><div class="ntime">'+timeAgo(n.date)+'</div></div><button class="btn icon mini ghost" title="Dismiss" onclick="STORE.deleteNotif(\''+n.id+'\')">&times;</button></div>';
-      if(n.action && n.action.kind==='approval'){ if(n.action.status==='pending'){ html+='<div class="row" style="gap:8px;margin-top:8px"><button class="btn mini in" onclick="STORE.respondApproval(\''+n.id+'\',true)">Approve</button><button class="btn mini danger" onclick="STORE.respondApproval(\''+n.id+'\',false)">Reject</button></div>'; } else { html+='<div style="margin-top:8px"><span class="pill '+(n.action.status==='approved'?'ok':'out')+'">'+n.action.status+'</span></div>'; } }
+      html+='<div class="notif-item'+(n.read?'':' unread')+'" data-id="'+n.id+'"><div class="row" style="gap:8px"><span>'+notifIcon(n.type)+'</span><div style="flex:1"><div class="nt">'+esc(n.title)+'</div><div class="nb">'+esc(n.body)+'</div><div class="ntime">'+timeAgo(n.date)+'</div></div>'+(n.read?'':'<button class="btn icon mini ghost" title="Mark read" onclick="STORE.markRead(\''+n.id+'\')">&#10003;</button>')+(n.archived?'<button class="btn icon mini ghost" title="Unarchive" onclick="STORE.archiveNotif(\''+n.id+'\',false)">&#8617;</button>':'<button class="btn icon mini ghost" title="Archive" onclick="STORE.archiveNotif(\''+n.id+'\',true)">&#128451;</button>')+'<button class="btn icon mini danger" title="Delete" onclick="STORE.deleteNotif(\''+n.id+'\')">&times;</button></div>';
+      if(n.action && n.action.kind==='approval'){ if(n.action.status==='pending'){ html+='<div class="row" style="gap:8px;margin-top:8px"><button class="btn mini in" onclick="STORE.respondApproval(\''+n.id+'\',true)">Approve</button><button class="btn mini danger" onclick="STORE.respondApproval(\''+n.id+'\',false)">Reject</button></div>'; } else { html+='<div style="margin-top:8px"><span class="pill '+(n.action.status==='approved'?'ok':'out')+'">'+n.action.status+'</span></div>'; } } else if(n.action && n.action.kind==='summary'){ html+='<div class="row" style="margin-top:8px"><button class="btn mini" onclick="APP.downloadSummary(\''+n.id+'\')">&#8595; Download</button></div>'; }
       html+='</div>';
     }
     $('notifList').innerHTML=html;
   }
+  function toggleArchived(){ _showArchived=!_showArchived; renderNotifs(); }
+  function wireNotifSwipe(){ if(_swipeWired)return; var nl=$('notifList'); if(!nl)return; _swipeWired=true; var sx=0,sid=null; nl.addEventListener('touchstart',function(e){ var el=e.target; while(el&&el!==nl&&!(el.className&&(''+el.className).indexOf('notif-item')>-1)) el=el.parentNode; if(!el||el===nl)return; sx=e.touches[0].clientX; sid=el.getAttribute('data-id'); },{passive:true}); nl.addEventListener('touchend',function(e){ if(!sid)return; var dx=e.changedTouches[0].clientX-sx; if(dx<-55){ STORE.archiveNotif(sid,true); toast('Archived'); } else if(dx>55){ STORE.markRead(sid); } sid=null; }); }
+  function downloadSummary(id){ var db=STORE.read(),n=null,i; for(i=0;i<db.notifications.length;i++){ if(db.notifications[i].id===id) n=db.notifications[i]; } if(!n||!n.action) return; var a=n.action,txt='',name='summary'; if(a.scope==='daily'){ txt='Daily Summary \u2014 '+a.date+'\n'+a.done+' / '+a.total+' done\n\n'; for(i=0;i<a.items.length;i++){ txt+=(a.items[i].done?'[x] ':'[ ] ')+a.items[i].title+'\n'; } name='daily-'+a.date; } else { txt=n.title+'\n'+n.body; name=a.scope||'summary'; } var blob=new Blob([txt],{type:'text/plain'}); var el=document.createElement('a'); el.href=URL.createObjectURL(blob); el.download='Samm-'+name+'.txt'; document.body.appendChild(el); el.click(); setTimeout(function(){ URL.revokeObjectURL(el.href); el.remove(); },100); toast('Downloaded'); }
   function init(){
-    initTheme(); wireOverlay(); setNavH();
+    initTheme(); wireOverlay(); setNavH(); wireNotifSwipe();
     window.addEventListener('resize',setNavH);
     window.addEventListener('storage',function(e){ if(e.key===STORE.KEY){ initTheme(); renderCurrent(); renderNotifs(); fillSettings(); toast('Synced from another tab'); } });
     STORE.onChange(function(){ renderCurrent(); renderNotifs(); });
-    showApp('home'); renderNotifs();
+    showApp('home'); STORE.rollover(); renderNotifs(); setInterval(function(){ STORE.rollover(); },300000);
   }
 
   return {register:register,showApp:showApp,go:go,markTabs:markTabs,toast:toast,esc:esc,fmtDate:fmtDate,
     openOverlay:openOverlay,closeModal:closeModal,confirmBox:confirmBox,openDrawer:openDrawer,closeDrawer:closeDrawer,
     toggleTheme:toggleTheme,applyTheme:applyTheme,exportBackup:exportBackup,importBackup:importBackup,saveSettings:saveSettings,
-    renderCurrent:renderCurrent,setNavH:setNavH,toggleNotifs:toggleNotifs,closeNotifs:closeNotifs,renderNotifs:renderNotifs,markAllRead:markAllRead,init:init};
+    renderCurrent:renderCurrent,setNavH:setNavH,toggleNotifs:toggleNotifs,closeNotifs:closeNotifs,renderNotifs:renderNotifs,markAllRead:markAllRead,toggleArchived:toggleArchived,downloadSummary:downloadSummary,init:init};
 })();
 
 /* ============================================================
