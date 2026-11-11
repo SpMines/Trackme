@@ -43,7 +43,7 @@ body{font-family:'Jost',system-ui,sans-serif;background:var(--bg);color:var(--te
 .drawer-sec{display:block;width:100%;text-align:left;border:none;background:transparent;color:var(--text2);font-family:inherit;font-weight:500;font-size:15px;padding:10px 14px;border-radius:var(--radius-sm);cursor:pointer;transition:background .2s,color .2s}
 .drawer-sec:hover,.drawer-sec.active{background:var(--accent-soft);color:var(--text)}
 .sticky-sub{position:sticky;top:var(--navh,96px);z-index:25;background:var(--bg)}
-nav.tabs{max-width:960px;margin:0 auto;padding:12px 20px 0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+nav.tabs{max-width:960px;margin:0 auto;padding:12px 20px 12px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
 nav.tabs::-webkit-scrollbar{display:none}
 .tab{border:none;background:transparent;color:var(--text2);font-family:inherit;font-weight:500;font-size:14.5px;padding:9px 15px;border-radius:999px;cursor:pointer;white-space:nowrap;transition:color .2s ease,background .2s ease}
 .tab:hover{color:var(--text)}
@@ -202,6 +202,8 @@ h2.sec-h .spacer{flex:1}
 .gbar{width:100%;background:var(--border);border-radius:5px 5px 0 0;position:relative;overflow:hidden;min-height:4px;transition:height .5s ease}
 .gbar>i{position:absolute;left:0;right:0;bottom:0;background:var(--accent);display:block;transition:height .6s ease}
 .gcol .gl{font-size:10px;color:var(--text2)}
+@media(max-width:720px){.field input,.field textarea,.field select,.datebar input,.monthbar input,#syKey{font-size:16px}}
+@media print{.topbar,.drawer,.drawer-overlay,.notif-pop,.notif-ov,#toast,.overlay,.btn,.tab,.iconbtn{display:none!important}.app-view{display:none!important}.app-view.active{display:block!important}body{background:#fff}.card{break-inside:avoid;box-shadow:none}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -217,7 +219,7 @@ h2.sec-h .spacer{flex:1}
       <button class="plink" data-app="home" onclick="APP.showApp('home')">🏠 Home</button>
       <button class="plink" data-app="roadmap" onclick="APP.showApp('roadmap')">🧭 Roadmap</button>
       <button class="plink" data-app="goals" onclick="APP.showApp('goals')">🎯 Goals</button>
-      <button class="plink" onclick="APP.go('goals','daily')">✅ Daily</button>
+      <button class="plink" data-app="goals" data-sec="daily" onclick="APP.go('goals','daily')">✅ Daily</button>
       <button class="plink" data-app="wallet" onclick="APP.showApp('wallet')">👛 Wallet</button>
     </div>
     <button class="iconbtn" id="bellBtn" onclick="APP.toggleNotifs()" title="Notifications">🔔<span class="nbadge" id="notifBadge"></span></button>
@@ -234,7 +236,7 @@ h2.sec-h .spacer{flex:1}
   <button class="drawer-link" data-app="home" onclick="APP.showApp('home');APP.closeDrawer()">🏠 Home</button>
   <button class="drawer-link" data-app="roadmap" onclick="APP.showApp('roadmap');APP.closeDrawer()">🧭 Roadmap</button>
   <button class="drawer-link" data-app="goals" onclick="APP.showApp('goals');APP.closeDrawer()">🎯 Goals</button>
-  <button class="drawer-link" onclick="APP.go('goals','daily');APP.closeDrawer()">✅ Daily goals</button>
+  <button class="drawer-link" data-app="goals" data-sec="daily" onclick="APP.go('goals','daily');APP.closeDrawer()">✅ Daily goals</button>
   <button class="drawer-link" data-app="wallet" onclick="APP.showApp('wallet');APP.closeDrawer()">👛 Wallet</button>
   <div class="drawer-group">Sections</div>
   <div id="drawerSections"></div>
@@ -417,6 +419,7 @@ h2.sec-h .spacer{flex:1}
       <p class="sub" style="margin-bottom:16px">One backup covers all three apps. Local only, <b>not</b> cloud sync.</p>
       <div class="row">
         <button class="btn" onclick="APP.exportBackup()">&#8595; Export backup (.json)</button>
+        <button class="btn" onclick="window.print()">&#128424; Download PDF</button>
         <button class="btn" onclick="document.getElementById('stImport').click()">&#8593; Import backup</button>
         <input type="file" id="stImport" accept="application/json,.json" style="display:none" onchange="APP.importBackup(this)">
       </div>
@@ -748,7 +751,7 @@ function toastGlobal(msg,err){ try{ APP.toast(msg,err); }catch(e){ } }
    No per-app UI function lives here, so nothing collides.
    ============================================================ */
 var APP=(function(){
-  var MODS={}, order=['roadmap','goals','wallet','settings'], cur=null;
+  var MODS={}, order=['roadmap','goals','wallet','settings'], cur=null, _curSec=null;
   function $(id){ return document.getElementById(id); }
   function esc(s){ s=(s==null?'':''+s); return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
   function fmtDate(s){ if(!s) return ''; var p=(''+s).split('-'); if(p.length<3) return s; var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return parseInt(p[2],10)+' '+mo[parseInt(p[1],10)-1]+' '+p[0]; }
@@ -778,9 +781,11 @@ var APP=(function(){
 
   function register(mod){ MODS[mod.id]=mod; }
 
-  function markActiveLinks(name){
-    var i,el,ls=document.querySelectorAll('[data-app]');
-    for(i=0;i<ls.length;i++){ el=ls[i]; if(el.getAttribute('data-app')===name) el.classList.add('active'); else el.classList.remove('active'); }
+  function markActiveLinks(){
+    var i,el,a,s,on,ls=document.querySelectorAll('[data-app]');
+    for(i=0;i<ls.length;i++){ el=ls[i]; a=el.getAttribute('data-app'); s=el.getAttribute('data-sec');
+      if(s){ on=(a===cur && s===_curSec); } else if(a==='goals'){ on=(cur==='goals' && _curSec!=='daily'); } else { on=(a===cur); }
+      if(on) el.classList.add('active'); else el.classList.remove('active'); }
   }
   function buildTabs(name){
     var mod=MODS[name], h='', i;
@@ -794,6 +799,7 @@ var APP=(function(){
     $('drawerSections').innerHTML=dh;
   }
   function markTabs(sec){
+    _curSec=sec; markActiveLinks();
     var i,t=document.querySelectorAll('#tabs .tab'); for(i=0;i<t.length;i++){ t[i].className='tab'+(t[i].getAttribute('data-sec')===sec?' active':''); }
     var d=document.querySelectorAll('#drawerSections .drawer-sec'); for(i=0;i<d.length;i++){ d[i].className='drawer-sec'+(d[i].getAttribute('data-sec')===sec?' active':''); }
   }
@@ -801,7 +807,7 @@ var APP=(function(){
     cur=name;
     var v=document.querySelectorAll('.app-view'),i;
     for(i=0;i<v.length;i++){ v[i].className='app-view'+(v[i].id==='app-'+name?' active':''); }
-    markActiveLinks(name);
+    markActiveLinks();
     buildTabs(name);
   }
   function showApp(name){ if(!MODS[name]) return; switchView(name); MODS[name].show(MODS[name].def); window.scrollTo(0,0); }
@@ -1297,7 +1303,7 @@ var SYNC=(function(){
       if(!d||!d.data){ pushNow(); return; }
       if(d.ts && d.ts!==lastPushTs && d.ts>lastAppliedTs){ if(apply(JSON.parse(d.data),d.ts)) status('Synced '+new Date().toLocaleTimeString()); }
     }, function(err){ status('Sync error: '+(err&&err.code||err)); });
-    status('Connected — live');
+    status('Connected — live'); pullNow();
   }
   function pushNow(){
     if(!key){ status('Enter a Sync Key'); return; }
