@@ -301,6 +301,20 @@ button:active:not(:disabled),.btn:active{transform:scale(.96)}
 @media(prefers-reduced-motion:reduce){.rpl,.botfab.pop,.botfab.pop::after,.botpanel.open .bothead,.botpanel.open .botchips,.botpanel.open .botinput,.botpanel.open .botava{animation:none!important}.botpanel,.botpanel.open{transition:none}}
 .cobub.sys{background:rgba(52,199,89,.12);border:1px solid rgba(52,199,89,.5);color:var(--text);font-size:13px;margin-right:auto}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* ---- iPhone safe areas (notch / status bar / home bar) ---- */
+.topbar{padding-top:env(safe-area-inset-top)}
+.topbar-inner{padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
+.wrap{padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right));padding-bottom:calc(80px + env(safe-area-inset-bottom))}
+.drawer{padding-top:calc(24px + env(safe-area-inset-top));padding-bottom:calc(24px + env(safe-area-inset-bottom));padding-left:max(18px,env(safe-area-inset-left))}
+.overlay{padding-top:max(20px,env(safe-area-inset-top));padding-bottom:max(20px,env(safe-area-inset-bottom))}
+@media(min-width:601px){.botfab{bottom:calc(20px + env(safe-area-inset-bottom))}.botpanel,.clkchip{bottom:calc(92px + env(safe-area-inset-bottom))}}
+@media(max-width:600px){
+  .botfab{right:16px;bottom:calc(16px + env(safe-area-inset-bottom));width:66px;height:66px}
+  .botfab .ic-bot{width:36px;height:36px}
+  .botfab .ic-x{width:30px;height:30px}
+  .botpanel{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+  .clkchip{right:16px;bottom:calc(94px + env(safe-area-inset-bottom))}
+}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
