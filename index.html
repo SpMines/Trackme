@@ -54,8 +54,8 @@ nav.tabs::-webkit-scrollbar{display:none}
 .app-view.active{display:block}
 section{display:none;padding-top:26px;animation:fade .45s ease both}
 section.active{display:block}
-@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-@keyframes cardIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0;transform:perspective(1000px) rotateX(7deg) translateY(10px)}to{opacity:1;transform:none}}
+@keyframes cardIn{from{opacity:0;transform:perspective(900px) rotateX(10deg) translateY(12px)}to{opacity:1;transform:none}}
 h1.page-h{font-weight:700;font-size:30px;letter-spacing:-.01em;margin-bottom:4px}
 .sub{color:var(--text2);font-size:15px;margin-bottom:24px}
 h2.sec-h{font-weight:700;font-size:19px;margin:30px 0 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
@@ -208,6 +208,45 @@ input[type="date"],input[type="month"]{text-align:center;-webkit-appearance:none
 .gcol .gl{font-size:10px;color:var(--text2)}
 @media(max-width:720px){.field input,.field textarea,.field select,.datebar input,.monthbar input,#syKey{font-size:16px}}
 @media print{.topbar,.drawer,.drawer-overlay,.notif-pop,.notif-ov,#toast,.overlay,.btn,.tab,.iconbtn{display:none!important}.app-view{display:none!important}.app-view.active{display:block!important}body{background:#fff}.card{break-inside:avoid;box-shadow:none}}
+.moodrow{display:flex;gap:5px}
+.moodb{width:34px;height:34px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text2);font-family:inherit;font-weight:600;cursor:pointer}
+.moodb.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.nnum{width:84px;font-family:inherit;font-size:16px;text-align:center;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text)}
+.nnote{width:100%;font-family:inherit;font-size:16px;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);resize:vertical;min-height:52px;margin-top:4px}
+.cobub{padding:11px 14px;border-radius:12px;margin-bottom:10px;max-width:90%;font-size:14.5px;line-height:1.5;white-space:pre-wrap;animation:cardIn .3s ease both}
+.cobub.user{background:var(--accent-soft);margin-left:auto;border:1px solid var(--accent)}
+.cobub.ai{background:var(--card);border:1px solid var(--border);margin-right:auto}
+.botfab{position:fixed;right:20px;bottom:20px;width:60px;height:60px;border-radius:50%;border:1px solid var(--accent);background:var(--card);color:var(--accent);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:90;box-shadow:0 8px 28px rgba(0,0,0,.35);transition:transform .2s,background .2s}
+.botfab:hover{transform:scale(1.07)}
+.botfab.on{background:var(--accent);color:#111}
+.botdot{position:absolute;top:7px;right:7px;width:10px;height:10px;border-radius:50%;background:var(--ok);border:2px solid var(--card)}
+.botpanel{position:fixed;right:20px;bottom:92px;width:390px;max-width:calc(100vw - 24px);height:min(620px,calc(100vh - 120px));background:var(--card);border:1px solid var(--border);border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.45);display:none;flex-direction:column;z-index:91;overflow:hidden}
+.botpanel.open{display:flex;animation:fade .25s ease both}
+.bothead{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border)}
+.botava{width:34px;height:34px;border-radius:50%;background:var(--accent);color:#111;display:flex;align-items:center;justify-content:center;flex:none}
+.botname{font-weight:700;font-size:15px}
+.botsub{font-size:12px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.iconbtn{background:none;border:none;color:var(--text);font-size:16px;cursor:pointer;padding:6px;opacity:.7}
+.iconbtn:hover{opacity:1}
+.botmsgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column}
+.botmsgs .cobub{animation:none}
+.cobub.user{align-self:flex-end}
+.cobub.ai,.cobub.sys{align-self:flex-start}
+.cobub.typing span{display:inline-block;width:7px;height:7px;margin:0 2px;border-radius:50%;background:var(--text2);animation:botb 1s infinite}
+.cobub.typing span:nth-child(2){animation-delay:.15s}
+.cobub.typing span:nth-child(3){animation-delay:.3s}
+@keyframes botb{0%,80%,100%{opacity:.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+.botchips{display:flex;gap:6px;padding:8px 12px 0;overflow-x:auto;scrollbar-width:none}
+.botchips::-webkit-scrollbar{display:none}
+.botchips button{flex:none;font:inherit;font-size:12.5px;padding:6px 11px;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer}
+.botchips button:hover{border-color:var(--accent)}
+.botinput{display:flex;gap:8px;padding:10px 12px 12px;align-items:flex-end}
+.botinput textarea{flex:1;resize:none;font:inherit;font-size:16px;line-height:1.35;padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text);max-height:110px;outline:none}
+.botinput textarea:focus{border-color:var(--accent)}
+.botsend{width:42px;height:42px;border-radius:50%;border:none;background:var(--accent);color:#111;font-size:16px;cursor:pointer;flex:none}
+@media(max-width:600px){.botfab{right:14px;bottom:14px;width:54px;height:54px}.botpanel{right:0;left:0;bottom:0;top:0;width:100%;max-width:100%;height:100%;border-radius:0;border:none}.botpanel.open~.botfab{display:none}}
+@media print{.botfab,.botpanel{display:none!important}}
+.cobub.sys{background:rgba(52,199,89,.12);border:1px solid rgba(52,199,89,.5);color:var(--text);font-size:13px;margin-right:auto}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -435,10 +474,24 @@ input[type="date"],input[type="month"]{text-align:center;-webkit-appearance:none
       <div class="row"><button class="btn primary" id="syToggle" onclick="SYNC.toggle()">Enable sync</button><button class="btn" onclick="SYNC.pushNow()">Push now</button><button class="btn" onclick="SYNC.pullNow()">Pull now</button></div>
       <p class="sub" id="syStatus" style="margin:12px 0 0;font-size:13px">Off</p>
     </div>
+    <div class="card" style="margin-top:18px">
+      <h2 class="sec-h" style="margin-top:0">Samm AI (Groq)</h2>
+      <p class="sub" style="margin-bottom:14px">Paste your Groq API key. Stays only in this browser — not synced, not in the file. Free key: console.groq.com</p>
+      <div class="field"><label>Groq API key</label><input id="stAIKey" type="password" placeholder="gsk_..."></div>
+      <button class="btn primary" onclick="APP.saveAIKey()">Save key</button>
+    </div>
   </section>
 </div>
 
 </div>
+
+<div id="botPanel" class="botpanel" role="dialog" aria-label="Samm AI">
+ <div class="bothead"><div class="botava"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V5"/><circle cx="12" cy="4" r="1"/><circle cx="9" cy="13.5" r="1" fill="currentColor"/><circle cx="15" cy="13.5" r="1" fill="currentColor"/></svg></div><div style="flex:1;min-width:0"><div class="botname">Samm AI</div><div class="botsub" id="coStat">Online · scans your app live</div></div><button class="iconbtn" onclick="CO.clear()" title="Clear chat">🗑</button><button class="iconbtn" onclick="CO.toggle(false)" title="Close">✕</button></div>
+ <div id="coMsgs" class="botmsgs"></div>
+ <div class="botchips"><button onclick="CO.quick('Aaj kya pehle karun? Mere pattern dekh ke priority set kar.')">🎯 Aaj ki priority</button><button onclick="CO.quick('Pichle 2 hafte ka mera status bata — kya chhut raha hai, kya strong hai?')">📊 Mera status</button><button onclick="CO.quick('Paise ka haal bata — is mahine kharcha, kahan zyada ja raha hai?')">💰 Paisa</button><button onclick="CO.quick('Aaj ki global financial aur market news short me — gold, Nifty, dollar-rupee.')">🌍 Market news</button></div>
+ <div class="botinput"><textarea id="coIn" rows="1" placeholder="Bol bhai…"></textarea><button class="botsend" onclick="CO.send()" aria-label="Send">➤</button></div>
+</div>
+<button id="botFab" class="botfab" onclick="CO.toggle()" aria-label="Open Samm AI"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V5"/><circle cx="12" cy="4" r="1.2"/><circle cx="9" cy="13.5" r="1.3" fill="currentColor"/><circle cx="15" cy="13.5" r="1.3" fill="currentColor"/><path d="M9.5 16.5h5"/><path d="M2 12v3M22 12v3"/></svg><span class="botdot"></span></button>
 
 <div class="notif-ov" id="notifOv" onclick="APP.closeNotifs()"></div>
 <div class="notif-pop" id="notifPop"><div class="notif-head"><b>Notifications</b><div class="spacer"></div><button class="btn mini ghost" id="arcToggle" onclick="APP.toggleArchived()">Archived</button><button class="btn mini ghost" onclick="APP.markAllRead()">Read all</button></div><div id="notifList"></div></div>
@@ -475,7 +528,8 @@ var STORE=(function(){
       notes:[], settings:{}, activityLog:[],
       wallet:{transactions:[]},
       habits:[], habitChecks:[],
-      notifications:[]
+      notifications:[],
+      daylog:{}, coach:{messages:[],memory:[]}
     };
   }
   /* ensure every expected key exists (safe migration, never drops user data) */
@@ -491,6 +545,13 @@ var STORE=(function(){
     if(!db.wallet||typeof db.wallet!=='object') db.wallet={transactions:[]};
     if(!isArr(db.wallet.transactions)) db.wallet.transactions=[];
     for(i=0;i<db.monthlyGoals.length;i++){ if(!db.monthlyGoals[i].period) db.monthlyGoals[i].period='month'; if(!db.monthlyGoals[i].periodKey) db.monthlyGoals[i].periodKey=db.monthlyGoals[i].month||thisMonth(); }
+    if(db.lock) delete db.lock;
+    if(!db.daylog||typeof db.daylog!=='object') db.daylog={};
+    if(!db.coach||typeof db.coach!=='object') db.coach={messages:[]};
+    if(!db.settings||typeof db.settings!=='object') db.settings={};
+    if(!('spendLimit' in db.settings)) db.settings.spendLimit=null;
+    if(!isArr(db.coach.messages)) db.coach.messages=[];
+    if(!isArr(db.coach.memory)) db.coach.memory=[];
     db.version=1;
     return db;
   }
@@ -606,6 +667,8 @@ var STORE=(function(){
       });
     });
   }
+  function bulkDaily(items){ commit(function(db){ for(var i=0;i<items.length;i++){ var it=items[i],dup=false; for(var j=0;j<db.dailyGoals.length;j++){ if(db.dailyGoals[j].date===it.date && db.dailyGoals[j].title===it.title){ dup=true; break; } } if(dup) continue; db.dailyGoals.push({id:genId('day'),title:it.title||'Task',description:'',categoryKey:it.categoryKey||'general',priority:'medium',done:false,date:it.date||today(),note:'',linkedMonthlyId:'',appliedToMonthly:false}); } }); }
+  function setSpendLimit(amount,month){ commit(function(db){ db.settings.spendLimit={amount:parseFloat(amount)||0,month:month||thisMonth(),notified:false}; }); }
   function toggleDaily(id,done){
     commit(function(db){
       var t=find(db.dailyGoals,id); if(!t) return;
@@ -737,12 +800,20 @@ var STORE=(function(){
     return changed;
   }
   function rollover(){ var db=read(); if(doRollover(db)){ db=normalize(db); var ok=write(db); if(ok) emit(db); } }
+  /* ---------- NIGHT LOG ---------- */
+  function saveDayLog(date,o){ commit(function(db){ db.daylog[date]={sleep:(o.sleep===''||o.sleep==null)?null:parseFloat(o.sleep),mood:o.mood||null,note:o.note||''}; }); }
+  function addCoachMsg(role,content){ commit(function(db){ db.coach.messages.push({role:role,content:content,ts:Date.now()}); if(db.coach.messages.length>200) db.coach.messages.splice(0,db.coach.messages.length-200); }); }
+  function coachRemember(fact){ fact=(''+(fact||'')).replace(/^\s+|\s+$/g,''); if(!fact) return false; var m=read().coach.memory; for(var i=0;i<m.length;i++){ if(m[i].fact.toLowerCase()===fact.toLowerCase()) return false; } commit(function(db){ db.coach.memory.push({fact:fact,ts:Date.now()}); if(db.coach.memory.length>60) db.coach.memory.splice(0,db.coach.memory.length-60); }); return true; }
+  function coachForget(fact){ var q=(''+(fact||'')).toLowerCase().replace(/^\s+|\s+$/g,''); if(!q) return 0; var n=0; commit(function(db){ var keep=[]; for(var i=0;i<db.coach.memory.length;i++){ var f=db.coach.memory[i].fact.toLowerCase(); if(f.indexOf(q)>-1||q.indexOf(f)>-1) n++; else keep.push(db.coach.memory[i]); } db.coach.memory=keep; }); return n; }
+  function clearCoach(){ commit(function(db){ db.coach.messages=[]; }); }
   function replaceAll(d){ var ok=write(normalize(d)); if(ok) emit(read()); return ok; }
   /* ---------- NOTIFICATIONS ---------- */
   function pushNotif(db,n){ db.notifications.unshift({id:genId('ntf'),date:(new Date()).toISOString(),read:false,type:n.type||'info',title:n.title||'',body:n.body||'',action:n.action||null}); if(db.notifications.length>120) db.notifications.length=120; }
   function hasPendingApproval(db,gid){ for(var i=0;i<db.notifications.length;i++){ var a=db.notifications[i].action; if(a && a.goalId===gid && a.status==='pending') return true; } return false; }
   function checkGoalDone(db,m){ if(!m) return; if(m.status==='completed' && !m._doneNotified){ m._doneNotified=true; pushNotif(db,{type:'goal',title:'Goal completed',body:m.title+' \u2014 '+m.target+' done'}); } else if(m.status!=='completed' && m._doneNotified){ m._doneNotified=false; } }
-  function reconcile(db){ var i,g; for(i=0;i<db.monthlyGoals.length;i++){ g=db.monthlyGoals[i]; checkGoalDone(db,g); if(g.budget>0 && !g._reqMade && !hasPendingApproval(db,g.id)){ g._reqMade=true; pushNotif(db,{type:'money',title:'Money request',body:'\u20b9'+g.budget+' for '+g.title+' \u2014 approve in Wallet?',action:{kind:'approval',goalId:g.id,amount:g.budget,status:'pending'}}); } } }
+  function reconcile(db){ var i,g; for(i=0;i<db.monthlyGoals.length;i++){ g=db.monthlyGoals[i]; checkGoalDone(db,g); if(g.budget>0 && !g._reqMade && !hasPendingApproval(db,g.id)){ g._reqMade=true; pushNotif(db,{type:'money',title:'Money request',body:'\u20b9'+g.budget+' for '+g.title+' \u2014 approve in Wallet?',action:{kind:'approval',goalId:g.id,amount:g.budget,status:'pending'}}); } }
+    var sl=db.settings&&db.settings.spendLimit; if(sl&&sl.amount>0){ var mk=sl.month||thisMonth(),sp=0; for(i=0;i<db.wallet.transactions.length;i++){ var tx=db.wallet.transactions[i]; if(tx.type==='expense'&&(tx.date||'').slice(0,7)===mk) sp+=tx.amount; } if(sp>=sl.amount){ if(!sl.notified){ sl.notified=true; pushNotif(db,{type:'alert',title:'Budget limit hit',body:'₹'+sp+' spent this month — limit was ₹'+sl.amount}); } } else { sl.notified=false; } }
+  }
   function notify(type,title,body){ commit(function(db){ pushNotif(db,{type:type,title:title,body:body}); }); }
   function markAllRead(){ commit(function(db){ for(var i=0;i<db.notifications.length;i++) db.notifications[i].read=true; }); }
   function markRead(id){ commit(function(db){ var n=find(db.notifications,id); if(n) n.read=true; }); }
@@ -757,10 +828,10 @@ var STORE=(function(){
     updateCategory:updateCategory,addStep:addStep,updateStep:updateStep,deleteStep:deleteStep,
     setStepStatus:setStepStatus,reorderStep:reorderStep,
     addMilestone:addMilestone,updateMilestone:updateMilestone,deleteMilestone:deleteMilestone,toggleMilestone:toggleMilestone,
-    addDaily:addDaily,toggleDaily:toggleDaily,updateDaily:updateDaily,deleteDaily:deleteDaily,
+    addDaily:addDaily,bulkDaily:bulkDaily,setSpendLimit:setSpendLimit,toggleDaily:toggleDaily,updateDaily:updateDaily,deleteDaily:deleteDaily,
     addMonthly:addMonthly,updateMonthly:updateMonthly,setMonthlyProgress:setMonthlyProgress,completeMonthly:completeMonthly,deleteMonthly:deleteMonthly,
     addNote:addNote,updateNote:updateNote,deleteNote:deleteNote,
-    setProfile:setProfile,exportObj:exportObj,validImport:validImport,doImport:doImport,replaceAll:replaceAll,
+    setProfile:setProfile,exportObj:exportObj,validImport:validImport,doImport:doImport,replaceAll:replaceAll,saveDayLog:saveDayLog,addCoachMsg:addCoachMsg,clearCoach:clearCoach,coachRemember:coachRemember,coachForget:coachForget,
     addTxn:addTxn,updateTxn:updateTxn,deleteTxn:deleteTxn,walletTotals:walletTotals,
     addHabit:addHabit,updateHabit:updateHabit,deleteHabit:deleteHabit,habitDone:habitDone,toggleHabit:toggleHabit,
     notify:notify,markAllRead:markAllRead,markRead:markRead,archiveNotif:archiveNotif,deleteNotif:deleteNotif,unreadCount:unreadCount,respondApproval:respondApproval,rollover:rollover,
@@ -840,6 +911,8 @@ var APP=(function(){
 
   /* ---- shared settings ---- */
   function fillSettings(){ var db=STORE.read(); $('stName').value=db.profile.name||''; $('stTheme').value=db.profile.theme||'light'; }
+  function saveAIKey(){ var e=$('stAIKey'); if(!e)return; var v=(e.value||'').replace(/^\s+|\s+$/g,''); try{ localStorage.setItem('SAMM_AI_KEY',v); }catch(x){} toast(v?'Coach key saved':'Key cleared'); if(window.CO) CO.render(); }
+  function fillAIKey(){ var e=$('stAIKey'); if(e){ try{ e.value=localStorage.getItem('SAMM_AI_KEY')||''; }catch(x){} } }
   function saveSettings(){ STORE.setProfile({name:$('stName').value.trim(),theme:$('stTheme').value}); applyTheme($('stTheme').value); toast('Settings saved'); }
 
   /* ---- backup ---- */
@@ -866,7 +939,7 @@ var APP=(function(){
   }
 
   /* settings pseudo-module */
-  register({id:'settings',def:'main',tabs:[{sec:'main',ic:'⚙️',label:'Settings'}],show:function(sec){ var s=document.querySelectorAll('#app-settings section'),i; for(i=0;i<s.length;i++) s[i].className=s[i].id==='st-'+sec?'active':''; markTabs(sec); fillSettings(); if(window.SYNC)SYNC.fill(); },render:function(){ fillSettings(); }});
+  register({id:'settings',def:'main',tabs:[{sec:'main',ic:'⚙️',label:'Settings'}],show:function(sec){ var s=document.querySelectorAll('#app-settings section'),i; for(i=0;i<s.length;i++) s[i].className=s[i].id==='st-'+sec?'active':''; markTabs(sec); fillSettings(); fillAIKey(); if(window.SYNC)SYNC.fill(); },render:function(){ fillSettings(); }});
 
   function toggleNotifs(){ var p=$('notifPop'); if(p.className.indexOf('show')>-1) closeNotifs(); else { p.className='notif-pop show'; $('notifOv').className='notif-ov show'; renderNotifs(); } }
   function closeNotifs(){ $('notifPop').className='notif-pop'; $('notifOv').className='notif-ov'; }
@@ -901,7 +974,7 @@ var APP=(function(){
 
   return {register:register,showApp:showApp,go:go,markTabs:markTabs,toast:toast,esc:esc,fmtDate:fmtDate,
     openOverlay:openOverlay,closeModal:closeModal,confirmBox:confirmBox,openDrawer:openDrawer,closeDrawer:closeDrawer,
-    toggleTheme:toggleTheme,applyTheme:applyTheme,exportBackup:exportBackup,importBackup:importBackup,saveSettings:saveSettings,
+    toggleTheme:toggleTheme,applyTheme:applyTheme,exportBackup:exportBackup,importBackup:importBackup,saveSettings:saveSettings,saveAIKey:saveAIKey,
     renderCurrent:renderCurrent,setNavH:setNavH,toggleNotifs:toggleNotifs,closeNotifs:closeNotifs,renderNotifs:renderNotifs,markAllRead:markAllRead,toggleArchived:toggleArchived,downloadSummary:downloadSummary,init:init};
 })();
 
@@ -1251,7 +1324,7 @@ var WL=(function(){
 })();
 
 var HM=(function(){
-  var ID='home';
+  var ID='home'; var _mood=null;
   var tabs=[{sec:'main',ic:'🏠',label:'Home'}];
   function $(id){ return document.getElementById(id); }
   var esc=APP.esc, fmtDate=APP.fmtDate;
@@ -1275,6 +1348,8 @@ var HM=(function(){
     var mavg=mg.length?Math.round(msum/mg.length):0;
     var wal=STORE.walletTotals(db,mk);
     var streak=dayStreak(db), unread=STORE.unreadCount(db);
+    var dl=db.daylog[today]||{}, mm2='', mv=(_mood!=null?_mood:dl.mood); for(i=1;i<=5;i++) mm2+='<button class="moodb'+(mv===i?' on':'')+'" onclick="HM.mood('+i+')">'+i+'</button>';
+    var nightH='<div class="card" style="margin-top:16px"><h2 class="sec-h" style="margin-top:0;font-size:16px">Tonight \u00b7 30 sec</h2><div class="row" style="justify-content:space-between;margin-bottom:11px"><span class="sub" style="margin:0">Sleep (hrs)</span><input id="hmSleep" type="number" step="0.5" min="0" max="14" class="nnum" value="'+(dl.sleep!=null?dl.sleep:'')+'" placeholder="7"></div><div class="row" style="justify-content:space-between;margin-bottom:11px;gap:10px"><span class="sub" style="margin:0">Mood</span><div class="moodrow" id="hmMood">'+mm2+'</div></div><textarea id="hmNote" class="nnote" placeholder="One line \u2014 what happened, not what you planned.">'+esc(dl.note||'')+'</textarea><button class="btn primary mini" style="margin-top:11px" onclick="HM.saveNight()">Save tonight</button></div>';
     var h='';
     h+='<div class="grid cols4" style="margin-bottom:6px">'+statCard(tpct+'%','Today done',td+' / '+tt+' tasks')+statCard(mavg+'%','Month goals',mdone+' / '+mg.length+' done')+statCard(money(wal.balance),'Month balance','')+statCard(streak,'Day streak','')+'</div>';
     var gdays=7,gseries=[],gmax=1,gj,gq;
@@ -1303,10 +1378,13 @@ var HM=(function(){
     h+='<div class="card"><h2 class="sec-h" style="margin-top:0;font-size:16px">Alerts'+(unread?' <span class="pill out">'+unread+'</span>':'')+'<div class="spacer"></div><button class="btn mini ghost" onclick="APP.toggleNotifs()">Open</button></h2>';
     var nl=db.notifications||[]; if(!nl.length){ h+='<p class="sub" style="margin:0">No notifications</p>'; } else { for(i=0;i<nl.length&&i<4;i++){ h+='<div class="row" style="margin-bottom:8px"><span style="flex:1;font-size:13.5px'+(nl[i].read?'':';font-weight:600')+'">'+esc(nl[i].title)+'</span></div>'; } }
     h+='</div></div>';
+    h+=nightH;
     $('hmBody').innerHTML=h;
   }
+  function mood(m){ _mood=m; var bx=$('hmMood'); if(!bx)return; var bs=bx.getElementsByTagName('button'),i; for(i=0;i<bs.length;i++) bs[i].className='moodb'+((i+1)===m?' on':''); }
+  function saveNight(){ var s=$('hmSleep').value, n=$('hmNote').value, db=STORE.read(), dl=db.daylog[STORE.today()]||{}; STORE.saveDayLog(STORE.today(),{sleep:s,mood:(_mood!=null?_mood:dl.mood),note:n}); _mood=null; APP.toast('Tonight saved'); }
   APP.register({id:ID,def:'main',tabs:tabs,show:show,render:render});
-  return {show:show,render:render};
+  return {show:show,render:render,mood:mood,saveNight:saveNight};
 })();
 
 
@@ -1357,8 +1435,160 @@ var SYNC=(function(){
   return {toggle:toggle,pushNow:pushNow,pullNow:pullNow,fill:fill,boot:boot};
 })();
 
+var CO=(function(){
+  var MODEL='llama-3.3-70b-versatile', NEWS_MODEL='groq/compound';
+  var LSK='SAMM_AI_KEY';
+  var SYS="You are Samm AI — Sam's personal AI buddy + mentor living inside his growth app 'Samm 2.0'. Talk like a real friend who is also a sharp mentor: Hinglish like Sam, warm but direct. Rule: Be Real, Be Human — say no to bad ideas, no flattery, no fluff.\n\nNOW: {{NOW}}.\nYou get a LIVE SCAN of his whole app below (tasks, 14-day patterns, goals, milestones, money, logs, your memory of him). Use it.\n\nHOW TO BEHAVE:\n- Hi/hello/casual talk: reply naturally like a friend (1-2 lines), optionally one useful nudge from his data. Don't dump reports unasked.\n- Status / 'kya karun' / priority: lead with NEGLECTED items first ('bhai X 3 din se nahi kiya — pehle ye'), then deadlines/overdue, then the rest. Give a numbered order and set priorities via actions on TODAY's tasks.\n- Never invent numbers. If data is thin, say log more.\n- Memory: when Sam tells you something durable about himself, his routine, goals, preferences or how he works, add a remember action (short fact, third person). If he says forget something, add forget. Skip trivial chit-chat.\n\nOUTPUT: ALWAYS exactly ONE JSON object, nothing else:\n{\"say\":\"<your reply>\",\"actions\":[...]}\nActions (use only when needed, else []):\n- {\"type\":\"daily\",\"title\":\"6:00 AM wake up\",\"days\":30}  repeat task N days from today (max 60; month=30, week=7)\n- {\"type\":\"challenge\",\"title\":\"No cigarette\",\"days\":30}\n- {\"type\":\"milestone\",\"title\":\"Launch site\",\"date\":\"2026-12-31\"} (ISO or \"+30d\" or omit)\n- {\"type\":\"budget\",\"amount\":5000,\"month\":\"{{MONTH}}\"}  monthly spend limit, alerts on breach\n- {\"type\":\"monthly\",\"title\":\"Read 2 books\"}\n- {\"type\":\"priority\",\"title\":\"<exact title of a TODAY task>\",\"level\":\"high|medium|low\"}\n- {\"type\":\"remember\",\"fact\":\"Sam trades XAUUSD in the evening\"}\n- {\"type\":\"forget\",\"fact\":\"<text of the memory to remove>\"}\nSplit each distinct routine into its own action.";
+  var NEWS_ADD="\n\nNEWS MODE: Sam asked about world/financial/market news. Use your web search for LIVE info from today/this week. Short bullets, each with source name. If you could not get live info, say so plainly — never invent prices or headlines. Still answer in the JSON format.";
+  var NO_WEB="\n\nLIVE WEB IS UNAVAILABLE right now. If Sam asks for news or live prices, tell him honestly you couldn't fetch live news this time; do not invent any.";
+  var busy=false, isOpen=false, wired=false;
+  function $(id){ return document.getElementById(id); }
+  var esc=APP.esc;
+  function keyGet(){ try{ return localStorage.getItem(LSK)||''; }catch(e){ return ''; } }
+  function pad2(n){ return (n<10?'0':'')+n; }
+  function addD(ds,n){ var p=ds.split('-'); var d=new Date(parseInt(p[0],10),parseInt(p[1],10)-1,parseInt(p[2],10)); d.setDate(d.getDate()+n); return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate()); }
+  function wd(ds){ var p=ds.split('-'); return new Date(parseInt(p[0],10),parseInt(p[1],10)-1,parseInt(p[2],10)).getDay(); }
+  var WD=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  function stat(t){ var e=$('coStat'); if(e) e.textContent=t||'Online · scans your app live'; }
+  function scrollEnd(){ var m=$('coMsgs'); if(m) m.scrollTop=m.scrollHeight; }
+  function money(n){ return '₹'+Math.round(n).toLocaleString('en-IN'); }
+  function catName(db,k){ for(var i=0;i<db.categories.length;i++){ if(db.categories[i].key===k) return db.categories[i].name; } return k||'general'; }
+
+  /* ---- full live scan of the app ---- */
+  function buildContext(db){
+    var t=STORE.today(), mk=STORE.thisMonth(), L=[], i, k;
+    var now=new Date();
+    L.push('Name: '+((db.profile&&db.profile.name)||'Sam'));
+    var mem=(db.coach&&db.coach.memory)||[];
+    if(mem.length){ var ml=[]; for(i=0;i<mem.length;i++) ml.push('- '+mem[i].fact); L.push('YOUR MEMORY OF SAM:\n'+ml.join('\n')); }
+    // today
+    var td=[],tdone=0; for(i=0;i<db.dailyGoals.length;i++){ var g=db.dailyGoals[i]; if(g.date===t){ td.push(g); if(g.done) tdone++; } }
+    if(td.length){ var tl=[]; for(i=0;i<td.length;i++) tl.push((td[i].done?'[x] ':'[ ] ')+td[i].title+(td[i].priority&&td[i].priority!=='medium'?(' ('+td[i].priority+')'):'')); L.push('TODAY '+tdone+'/'+td.length+' done:\n'+tl.join('\n')); } else L.push('TODAY: no tasks planned');
+    // 14-day patterns
+    var from=addD(t,-14), st={}, all=0, alld=0, wdn=[0,0,0,0,0,0,0], wdd=[0,0,0,0,0,0,0];
+    for(i=0;i<db.dailyGoals.length;i++){ var d=db.dailyGoals[i]; if(d.date<from||d.date>=t) continue; var key=d.title; var s=st[key]||(st[key]={n:0,d:0,days:{}}); s.n++; if(d.done) s.d++; s.days[d.date]=s.days[d.date]||d.done; all++; if(d.done) alld++; var w=wd(d.date); wdn[w]++; if(d.done) wdd[w]++; }
+    var neg=[],strong=[];
+    for(k in st){ if(!st.hasOwnProperty(k)) continue; var s2=st[k]; if(s2.n<2) continue; var ms=0, dd=addD(t,-1), guard=0; while(guard<14){ guard++; if(!(dd in s2.days)) { dd=addD(dd,-1); if(dd<from) break; continue; } if(s2.days[dd]) break; ms++; dd=addD(dd,-1); if(dd<from) break; } var rate=s2.d/s2.n;
+      if(rate<0.5||ms>=2) neg.push(k+' — done '+s2.d+'/'+s2.n+(ms>=2?(', missed last '+ms+' in a row'):''));
+      else if(rate>=0.8&&s2.n>=3) strong.push(k+' ('+s2.d+'/'+s2.n+')'); }
+    if(all){ L.push('LAST 14 DAYS: '+alld+'/'+all+' tasks done ('+Math.round(alld/all*100)+'%)');
+      var best=-1,worst=-1,bR=-1,wR=2; for(i=0;i<7;i++){ if(wdn[i]<2) continue; var r=wdd[i]/wdn[i]; if(r>bR){bR=r;best=i;} if(r<wR){wR=r;worst=i;} }
+      if(best>-1&&worst>-1&&best!==worst) L.push('Best day '+WD[best]+' ('+Math.round(bR*100)+'%), weakest '+WD[worst]+' ('+Math.round(wR*100)+'%)'); }
+    else L.push('LAST 14 DAYS: nothing logged');
+    if(neg.length) L.push('NEGLECTED (do these first):\n- '+neg.slice(0,8).join('\n- '));
+    if(strong.length) L.push('STRONG HABITS: '+strong.slice(0,6).join(', '));
+    // goals
+    var gl=[]; for(i=0;i<db.monthlyGoals.length;i++){ var m=db.monthlyGoals[i]; if(m.status==='completed') continue; var per=m.period||'month'; var od=m.deadline&&m.deadline<t; gl.push('['+per+'] '+m.title+(m.deadline?(' due '+m.deadline+(od?' OVERDUE':'')):'')); }
+    if(gl.length) L.push('OPEN GOALS:\n- '+gl.slice(0,10).join('\n- '));
+    var ml2=[]; for(i=0;i<db.milestones.length;i++){ var x=db.milestones[i]; if(x.done) continue; ml2.push(x.title+(x.targetDate?(' by '+x.targetDate+(x.targetDate<t?' OVERDUE':'')):'')); }
+    if(ml2.length) L.push('OPEN MILESTONES:\n- '+ml2.slice(0,8).join('\n- '));
+    // money
+    var wt=STORE.walletTotals(db,mk), s7=0,p7=0,cats={},tx=db.wallet.transactions;
+    for(i=0;i<tx.length;i++){ var tr=tx[i]; if(tr.type!=='expense') continue; if(tr.date>addD(t,-7)) s7+=tr.amount; else if(tr.date>addD(t,-14)) p7+=tr.amount; if((tr.date||'').slice(0,7)===mk){ var cn=catName(db,tr.categoryKey); cats[cn]=(cats[cn]||0)+tr.amount; } }
+    var top=[]; for(k in cats) if(cats.hasOwnProperty(k)) top.push([k,cats[k]]); top.sort(function(a,b){return b[1]-a[1];});
+    var mline='MONEY '+mk+': income '+money(wt.income)+', spent '+money(wt.expense)+', balance '+money(wt.balance)+'. Spend last 7d '+money(s7)+' vs prev 7d '+money(p7);
+    if(top.length) mline+='. Top spend: '+top.slice(0,3).map(function(a){return a[0]+' '+money(a[1]);}).join(', ');
+    var sl=db.settings&&db.settings.spendLimit; if(sl&&sl.amount>0) mline+='. Budget limit '+money(sl.amount)+' for '+sl.month;
+    L.push(mline);
+    var pend=0; for(i=0;i<db.notifications.length;i++){ var nf=db.notifications[i]; if(nf.action&&nf.action.kind==='approval'&&nf.action.status==='pending') pend++; }
+    L.push('Unread notifications: '+STORE.unreadCount(db)+(pend?(', '+pend+' money approvals pending'):''));
+    // night logs
+    var dk=Object.keys(db.daylog||{}).sort().reverse(), nl=[], sS=0,sN=0,mS=0,mN=0;
+    for(i=0;i<dk.length&&i<7;i++){ var e=db.daylog[dk[i]]; if(!e) continue; if(e.sleep!=null&&e.sleep!==''){ sS+=parseFloat(e.sleep)||0; sN++; } if(e.mood){ mS+=e.mood; mN++; } if(i<4&&(e.note||e.mood)) nl.push(dk[i]+': '+(e.sleep!=null&&e.sleep!==''?e.sleep+'h ':'')+(e.mood?('mood '+e.mood+'/5 '):'')+(e.note?('— '+e.note):'')); }
+    if(sN||mN) L.push('NIGHT LOGS: '+(sN?('avg sleep '+(Math.round(sS/sN*10)/10)+'h'):'')+(mN?(', avg mood '+(Math.round(mS/mN*10)/10)+'/5'):''));
+    if(nl.length) L.push(nl.join('\n'));
+    return L.join('\n');
+  }
+
+  /* ---- actions ---- */
+  function nDays(n){ n=parseInt(n,10)||1; if(n<1)n=1; if(n>60)n=60; return n; }
+  function relDate(s){ s=(''+(s||'')).replace(/^\s+|\s+$/g,''); if(!s)return ''; if(/^\d{4}-\d{2}-\d{2}$/.test(s))return s; var m=s.match(/([+]?\d+)\s*d/i); if(m)return addD(STORE.today(),parseInt(m[1],10)); return ''; }
+  function applyAction(a){
+    var t=((a&&a.type)||'').toLowerCase(), i, db;
+    if(t==='daily'||t==='challenge'){
+      var days=nDays(a.days||a.day||1), title=(a.title||'Task');
+      if(t==='challenge') title='🚫 '+title.replace(/^🚫\s*/,'');
+      var items=[], base=STORE.today(); for(i=0;i<days;i++) items.push({title:title,date:addD(base,i),categoryKey:'general'});
+      STORE.bulkDaily(items); return days+'× "'+title+'" → daily list';
+    }
+    if(t==='milestone'){ var dt=relDate(a.date||a.targetDate); STORE.addMilestone({title:a.title||'Milestone',targetDate:dt}); return 'Milestone: '+(a.title||'')+(dt?(' by '+dt):''); }
+    if(t==='budget'||t==='limit'){ var amt=parseFloat(a.amount)||0, mo=a.month||STORE.thisMonth(); STORE.setSpendLimit(amt,mo); return 'Budget watch '+money(amt)+' / '+mo; }
+    if(t==='monthly'){ STORE.addMonthly({title:a.title||'Goal',period:a.period||'month',periodKey:STORE.thisMonth(),budget:a.budget||'',categoryKey:'general'}); return 'Goal: '+(a.title||''); }
+    if(t==='priority'){ var lv=(a.level||'high').toLowerCase(); if(lv!=='high'&&lv!=='low') lv='medium'; db=STORE.read(); var want=(a.title||'').toLowerCase(); for(i=0;i<db.dailyGoals.length;i++){ var g=db.dailyGoals[i]; if(g.date===STORE.today()&&want&&g.title.toLowerCase().indexOf(want)>-1){ STORE.updateDaily(g.id,{priority:lv}); return 'Priority '+lv+': '+g.title; } } return ''; }
+    if(t==='remember'){ if(STORE.coachRemember(a.fact)) return 'Remembered: '+a.fact; return ''; }
+    if(t==='forget'){ var n=STORE.coachForget(a.fact); return n?('Forgot '+n+' memory'):''; }
+    return '';
+  }
+  function parseOut(txt){ var s=txt.indexOf('{'), e=txt.lastIndexOf('}'); if(s<0||e<=s) return {say:txt,actions:[]}; try{ var o=JSON.parse(txt.slice(s,e+1)); if(typeof o.say!=='string') o.say=txt; if(!Array.isArray(o.actions)) o.actions=[]; return o; }catch(x){ return {say:txt,actions:[]}; } }
+  function fmt(s){ return esc(s).replace(/\*\*([^*\n]+)\*\*/g,'<b>$1</b>'); }
+
+  /* ---- UI ---- */
+  function wire(){ if(wired) return; var inp=$('coIn'); if(!inp) return; wired=true;
+    inp.addEventListener('keydown',function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); send(); } });
+    inp.addEventListener('input',function(){ inp.style.height='auto'; inp.style.height=Math.min(inp.scrollHeight,110)+'px'; }); }
+  function toggle(force){ isOpen=(typeof force==='boolean')?force:!isOpen; var p=$('botPanel'),f=$('botFab'); if(p) p.className='botpanel'+(isOpen?' open':''); if(f) f.className='botfab'+(isOpen?' on':''); if(isOpen){ wire(); render(); var i=$('coIn'); if(i&&window.innerWidth>600) setTimeout(function(){i.focus();},50); } }
+  function render(){
+    var db=STORE.read(), ms=(db.coach&&db.coach.messages)||[], host=$('coMsgs'); if(!host) return;
+    if(!keyGet()){ host.innerHTML='<div class="cobub ai">Bhai pehle Groq API key daal: Settings → Samm AI.<br><button class="btn primary mini" style="margin-top:10px" onclick="CO.toggle(false);APP.showApp(\'settings\')">Open Settings</button></div>'; return; }
+    var h='';
+    if(!ms.length) h='<div class="cobub ai">Hey '+esc((db.profile&&db.profile.name)||'Sam')+' 👋 Main tera poora app live padhta hoon — tasks, goals, paise, patterns. Kuch bhi bol: “hi”, “aaj kya pehle karun”, “next 30 din 6AM uthna”, “market news”.</div>';
+    for(var i=0;i<ms.length;i++){ var cls=ms[i].role==='ai'?'ai':(ms[i].role==='sys'?'sys':'user'); h+='<div class="cobub '+cls+'">'+fmt(ms[i].content)+'</div>'; }
+    if(busy) h+='<div class="cobub ai typing"><span></span><span></span><span></span></div>';
+    host.innerHTML=h; scrollEnd();
+  }
+  function isNews(s){ return /news|khabar|khabr|market|sensex|nifty|gold|xau|crypto|bitcoin|btc|dollar|rupee|inflation|economy|fed\b|rbi|stock|share bazaar|global/i.test(s); }
+  function call(key,model,msgs,json){
+    var body={model:model,messages:msgs,temperature:0.5,max_tokens:900}; if(json) body.response_format={type:'json_object'};
+    return fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify(body)}).then(function(r){ return r.json(); });
+  }
+  function finish(out){
+    busy=false; stat('');
+    var p=parseOut(out); STORE.addCoachMsg('ai',p.say||out);
+    if(p.actions&&p.actions.length){ var done=[],k; for(k=0;k<p.actions.length;k++){ var r=applyAction(p.actions[k]); if(r) done.push(r); } if(done.length) STORE.addCoachMsg('sys','✅ '+done.join('\n✅ ')); }
+    render();
+  }
+  function send(){
+    if(busy) return;
+    var inp=$('coIn'), txt=(inp.value||'').replace(/^\s+|\s+$/g,''); if(!txt) return;
+    var key=keyGet(); if(!key){ APP.toast('Add Groq key in Settings',true); return; }
+    STORE.addCoachMsg('user',txt); inp.value=''; inp.style.height='auto'; busy=true; stat('Scanning your app…'); render();
+    var db=STORE.read(), now=new Date();
+    var nowS=STORE.today()+' '+pad2(now.getHours())+':'+pad2(now.getMinutes())+' ('+WD[now.getDay()]+')';
+    var base=SYS.replace(/\{\{NOW\}\}/g,nowS).replace(/\{\{MONTH\}\}/g,STORE.thisMonth())+'\n\nLIVE APP SCAN:\n'+buildContext(db);
+    var hist=((db.coach&&db.coach.messages)||[]).filter(function(m){ return m.role==='user'||m.role==='ai'; }).slice(-16).map(function(m){ return {role:m.role==='ai'?'assistant':'user',content:m.content}; });
+    function fallback(note){ return call(key,MODEL,[{role:'system',content:base+(note||'')}].concat(hist),true); }
+    var p=isNews(txt)?call(key,NEWS_MODEL,[{role:'system',content:base+NEWS_ADD}].concat(hist),false).then(function(j){ if(j&&j.choices&&j.choices[0]) return j; return fallback(NO_WEB); }):fallback('');
+    p.then(function(j){ var out=(j&&j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content)||(j&&j.error&&('Error: '+j.error.message))||'No response'; finish(out); })
+     .catch(function(e){ busy=false; render(); stat('Error: '+((e&&e.message)||e)); });
+  }
+  function quick(t){ if(!isOpen) toggle(true); var i=$('coIn'); if(i){ i.value=t; send(); } }
+  function clear(){ APP.confirmBox('Clear chat? (Memory stays.)',function(){ STORE.clearCoach(); render(); }); }
+  STORE.onChange(function(){ if(isOpen&&!busy) render(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&isOpen) toggle(false); });
+  return {toggle:toggle,render:render,send:send,quick:quick,clear:clear};
+})();
+
 /* boot */
 APP.init(); SYNC.boot();
+/* ---- site-wide 3D tilt on cards ---- */
+(function(){
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var raf=0, cur=null, rx=0, ry=0;
+  function nearestCard(el){ while(el && el!==document.body){ var c=el.className; if(c && (''+c).indexOf('card')>-1) return el; el=el.parentNode; } return null; }
+  function apply(){ raf=0; if(cur) cur.style.transform='perspective(800px) rotateX('+rx.toFixed(2)+'deg) rotateY('+ry.toFixed(2)+'deg) translateZ(0)'; }
+  function clear(){ if(cur){ cur.style.transform=''; cur=null; } }
+  document.addEventListener('pointermove', function(e){
+    if(e.pointerType==='touch'){ clear(); return; }
+    var el=nearestCard(e.target);
+    if(!el){ clear(); return; }
+    if(cur && cur!==el) cur.style.transform='';
+    cur=el; var r=el.getBoundingClientRect();
+    var px=(e.clientX-r.left)/r.width-0.5, py=(e.clientY-r.top)/r.height-0.5;
+    rx=py*-5; ry=px*6;
+    if(!raf) raf=requestAnimationFrame(apply);
+  }, {passive:true});
+  document.addEventListener('pointerout', function(e){ if(cur && (!e.relatedTarget || !cur.contains(e.relatedTarget))) clear(); }, true);
+})();
 </script>
 </body>
 </html>
