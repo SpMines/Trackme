@@ -1,0 +1,12 @@
+/* Samm 2.0 service worker — lets the app show notifications on phones (Android needs this; iPhone needs it after Add to Home Screen). */
+self.addEventListener('install', function (e) { self.skipWaiting(); });
+self.addEventListener('activate', function (e) { e.waitUntil(self.clients.claim()); });
+self.addEventListener('notificationclick', function (e) {
+  e.notification.close();
+  e.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (list) {
+      for (var i = 0; i < list.length; i++) { if ('focus' in list[i]) return list[i].focus(); }
+      if (self.clients.openWindow) return self.clients.openWindow('./');
+    })
+  );
+});
