@@ -222,14 +222,25 @@ input[type="date"],input[type="month"]{text-align:center;-webkit-appearance:none
 .cdot.err{background:var(--danger);opacity:1;box-shadow:0 0 0 3px rgba(255,69,58,.22)}
 .cdot.busy{background:var(--warn);opacity:1;animation:cpulse 1s infinite}
 @keyframes cpulse{50%{opacity:.35}}
-.botdot.err{background:var(--danger)}
-.botdot.off{background:var(--text2)}
 .botfab{position:fixed;right:20px;bottom:20px;width:60px;height:60px;border-radius:50%;border:1px solid var(--accent);background:var(--card);color:var(--accent);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:90;box-shadow:0 8px 28px rgba(0,0,0,.35);transition:transform .2s,background .2s}
 .botfab:hover{transform:scale(1.07)}
 .botfab.on{background:var(--accent);color:#111}
-.botdot{position:absolute;top:7px;right:7px;width:10px;height:10px;border-radius:50%;background:var(--ok);border:2px solid var(--card)}
-.botpanel{position:fixed;right:20px;bottom:92px;width:390px;max-width:calc(100vw - 24px);height:min(620px,calc(100vh - 120px));background:var(--card);border:1px solid var(--border);border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.45);display:none;flex-direction:column;z-index:91;overflow:hidden}
-.botpanel.open{display:flex;animation:fade .25s ease both}
+.botpanel{position:fixed;right:20px;bottom:92px;width:390px;max-width:calc(100vw - 24px);height:min(620px,calc(100vh - 120px));background:var(--card);border:1px solid var(--border);border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.45);display:flex;flex-direction:column;z-index:91;overflow:hidden;transform-origin:calc(100% - 30px) calc(100% + 42px);opacity:0;visibility:hidden;pointer-events:none;transform:translateY(24px) scale(.55);transition:opacity .2s ease,transform .38s cubic-bezier(.2,.9,.25,1.18),visibility 0s linear .38s}
+.botpanel.open{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition:opacity .22s ease,transform .42s cubic-bezier(.2,.9,.25,1.18),visibility 0s}
+.botpanel.open .bothead,.botpanel.open .botchips,.botpanel.open .botinput{animation:botIn .45s cubic-bezier(.2,.9,.3,1.1) both}
+.botpanel.open .botchips{animation-delay:.08s}.botpanel.open .botinput{animation-delay:.14s}
+.botpanel.open .botava{animation:botWave .9s ease .15s both}
+@keyframes botIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes botWave{0%{transform:scale(.4) rotate(-30deg)}55%{transform:scale(1.15) rotate(12deg)}75%{transform:rotate(-6deg)}100%{transform:none}}
+.botfab svg{position:absolute;transition:transform .35s cubic-bezier(.2,.9,.3,1.3),opacity .2s}
+.botfab .ic-x{opacity:0;transform:rotate(-90deg) scale(.4)}
+.botfab.on .ic-bot{opacity:0;transform:rotate(90deg) scale(.4)}
+.botfab.on .ic-x{opacity:1;transform:none}
+.botfab.pop{animation:fabPop .45s cubic-bezier(.2,.9,.3,1.4)}
+.botfab::after{content:"";position:absolute;inset:-2px;border-radius:50%;border:2px solid var(--accent);opacity:0;pointer-events:none}
+.botfab.pop::after{animation:fabRing .6s ease-out}
+@keyframes fabPop{0%{transform:scale(1)}30%{transform:scale(.82)}65%{transform:scale(1.1)}100%{transform:scale(1)}}
+@keyframes fabRing{0%{opacity:.7;transform:scale(1)}100%{opacity:0;transform:scale(1.7)}}
 .bothead{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border)}
 .botava{width:34px;height:34px;border-radius:50%;background:var(--accent);color:#111;display:flex;align-items:center;justify-content:center;flex:none}
 .botname{font-weight:700;font-size:15px}
@@ -254,6 +265,17 @@ input[type="date"],input[type="month"]{text-align:center;-webkit-appearance:none
 .botsend{width:42px;height:42px;border-radius:50%;border:none;background:var(--accent);color:#111;font-size:16px;cursor:pointer;flex:none}
 @media(max-width:600px){.botfab{right:14px;bottom:14px;width:54px;height:54px}.botpanel{right:0;left:0;bottom:0;top:0;width:100%;max-width:100%;height:100%;border-radius:0;border:none}.botpanel.open~.botfab{display:none}}
 @media print{.botfab,.botpanel{display:none!important}}
+.rpl-wrap{position:absolute;inset:0;overflow:hidden;border-radius:inherit;pointer-events:none;z-index:0}
+.rpl{position:absolute;border-radius:50%;background:currentColor;opacity:.3;transform:scale(0);animation:fxRpl .6s ease-out forwards;pointer-events:none}
+@keyframes fxRpl{to{transform:scale(1);opacity:0}}
+button:active:not(:disabled),.btn:active{transform:scale(.96)}
+.botfab:active{transform:scale(.9)}
+.is-loading{color:transparent!important;pointer-events:none}
+.is-loading>*{visibility:hidden}
+.is-loading::before{content:"";position:absolute;left:50%;top:50%;width:16px;height:16px;margin:-10px 0 0 -10px;border-radius:50%;border:2px solid rgba(127,127,127,.3);border-top-color:var(--accent);animation:fxSpin .7s linear infinite;z-index:1}
+.btn.primary.is-loading::before,.botsend.is-loading::before{border-color:rgba(0,0,0,.18);border-top-color:#111}
+@keyframes fxSpin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.rpl,.botfab.pop,.botfab.pop::after,.botpanel.open .bothead,.botpanel.open .botchips,.botpanel.open .botinput,.botpanel.open .botava{animation:none!important}.botpanel,.botpanel.open{transition:none}}
 .cobub.sys{background:rgba(52,199,89,.12);border:1px solid rgba(52,199,89,.5);color:var(--text);font-size:13px;margin-right:auto}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -479,14 +501,14 @@ input[type="date"],input[type="month"]{text-align:center;-webkit-appearance:none
       <h2 class="sec-h" style="margin-top:0">Cloud Sync (Firebase)</h2>
       <p class="sub" style="margin-bottom:14px">Same Sync Key on every device → data stays updated everywhere, live.</p>
       <div class="field"><label>Sync Key (secret — same on all your devices)</label><input id="syKey" placeholder="e.g. sam-journey-7781"></div>
-      <div class="row"><button class="btn primary" id="syToggle" onclick="SYNC.toggle()">Enable sync</button><button class="btn" onclick="SYNC.pushNow()">Push now</button><button class="btn" onclick="SYNC.pullNow()">Pull now</button></div>
+      <div class="row"><button class="btn primary" id="syToggle" onclick="SYNC.toggle()">Enable sync</button><button class="btn" id="syPush" onclick="SYNC.pushNow()">Push now</button><button class="btn" id="syPull" onclick="SYNC.pullNow()">Pull now</button></div>
       <p class="sub" style="margin:12px 0 0;font-size:13px;display:flex;align-items:center;gap:8px"><span class="cdot off" id="syDot"></span><span id="syStatus">Off</span></p>
     </div>
     <div class="card" style="margin-top:18px">
       <h2 class="sec-h" style="margin-top:0">Samm AI (Groq)</h2>
       <p class="sub" style="margin-bottom:14px">Paste your Groq API key. Stays only in this browser — not synced, not in the file. Free key: console.groq.com</p>
       <div class="field"><label>Groq API key</label><input id="stAIKey" type="password" placeholder="gsk_..."></div>
-      <div class="row" style="align-items:center"><button class="btn primary" onclick="APP.saveAIKey()">Save &amp; connect</button><button class="btn" onclick="CO.check()">Test</button><span class="conn"><span class="cdot off" id="aiDot"></span><span id="aiConnTxt">Not checked</span></span></div>
+      <div class="row" style="align-items:center"><button class="btn primary" data-load="ai" onclick="APP.saveAIKey()">Save &amp; connect</button><button class="btn" data-load="ai" onclick="CO.check()">Test</button><span class="conn"><span class="cdot off" id="aiDot"></span><span id="aiConnTxt">Not checked</span></span></div>
     </div>
   </section>
 </div>
@@ -496,10 +518,10 @@ input[type="date"],input[type="month"]{text-align:center;-webkit-appearance:none
 <div id="botPanel" class="botpanel" role="dialog" aria-label="Samm AI">
  <div class="bothead"><div class="botava"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V5"/><circle cx="12" cy="4" r="1"/><circle cx="9" cy="13.5" r="1" fill="currentColor"/><circle cx="15" cy="13.5" r="1" fill="currentColor"/></svg></div><div style="flex:1;min-width:0"><div class="botname">Samm AI</div><div class="botsub" id="coStat">Online · scans your app live</div></div><button class="iconbtn" onclick="CO.clear()" title="Clear chat">🗑</button><button class="iconbtn" onclick="CO.toggle(false)" title="Close">✕</button></div>
  <div id="coMsgs" class="botmsgs"></div>
- <div class="botchips"><button onclick="CO.quick('Aaj kya pehle karun? Mere pattern dekh ke priority set kar.')">🎯 Aaj ki priority</button><button onclick="CO.quick('Pichle 2 hafte ka mera status bata — kya chhut raha hai, kya strong hai?')">📊 Mera status</button><button onclick="CO.quick('Paise ka haal bata — is mahine kharcha, kahan zyada ja raha hai?')">💰 Paisa</button><button onclick="CO.quick('Aaj ki global financial aur market news short me — gold, Nifty, dollar-rupee.')">🌍 Market news</button></div>
- <div class="botinput"><textarea id="coIn" rows="1" placeholder="Bol bhai…"></textarea><button class="botsend" onclick="CO.send()" aria-label="Send">➤</button></div>
+ <div class="botchips"><button onclick="CO.quick('What should I do first today? Check my patterns and set priorities.')">🎯 Today’s priority</button><button onclick="CO.quick('Give me my status for the last 2 weeks — what am I skipping and what is strong?')">📊 My status</button><button onclick="CO.quick('How is my money this month — spending, and where is most of it going?')">💰 Money</button><button onclick="CO.quick('Give me today’s global financial and market news in short — gold, Nifty, USD/INR.')">🌍 Market news</button></div>
+ <div class="botinput"><textarea id="coIn" rows="1" placeholder="Type in Hinglish or English…"></textarea><button class="botsend" onclick="CO.send()" aria-label="Send">➤</button></div>
 </div>
-<button id="botFab" class="botfab" onclick="CO.toggle()" aria-label="Open Samm AI"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V5"/><circle cx="12" cy="4" r="1.2"/><circle cx="9" cy="13.5" r="1.3" fill="currentColor"/><circle cx="15" cy="13.5" r="1.3" fill="currentColor"/><path d="M9.5 16.5h5"/><path d="M2 12v3M22 12v3"/></svg><span class="botdot off" id="botDot"></span></button>
+<button id="botFab" class="botfab" onclick="CO.toggle()" aria-label="Open Samm AI"><svg class="ic-bot" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V5"/><circle cx="12" cy="4" r="1.2"/><circle cx="9" cy="13.5" r="1.3" fill="currentColor"/><circle cx="15" cy="13.5" r="1.3" fill="currentColor"/><path d="M9.5 16.5h5"/><path d="M2 12v3M22 12v3"/></svg><svg class="ic-x" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
 
 <div class="notif-ov" id="notifOv" onclick="APP.closeNotifs()"></div>
 <div class="notif-pop" id="notifPop"><div class="notif-head"><b>Notifications</b><div class="spacer"></div><button class="btn mini ghost" id="arcToggle" onclick="APP.toggleArchived()">Archived</button><button class="btn mini ghost" onclick="APP.markAllRead()">Read all</button></div><div id="notifList"></div></div>
@@ -952,7 +974,7 @@ var APP=(function(){
   function toggleNotifs(){ var p=$('notifPop'); if(p.className.indexOf('show')>-1) closeNotifs(); else { p.className='notif-pop show'; $('notifOv').className='notif-ov show'; renderNotifs(); } }
   function closeNotifs(){ $('notifPop').className='notif-pop'; $('notifOv').className='notif-ov'; }
   function timeAgo(iso){ var s=Math.floor((Date.now()-new Date(iso).getTime())/1000); if(s<60)return 'just now'; var mm=Math.floor(s/60); if(mm<60)return mm+'m ago'; var hh=Math.floor(mm/60); if(hh<24)return hh+'h ago'; var d=Math.floor(hh/24); return d+'d ago'; }
-  function notifIcon(t){ return t==='money'?'\uD83D\uDCB0':(t==='goal'?'\u2705':(t==='milestone'?'\uD83D\uDEA9':(t==='summary'?'\uD83D\uDCCB':'\uD83D\uDD14'))); }
+  function notifIcon(t){ return t==='ai'?'\uD83E\uDD16':t==='money'?'\uD83D\uDCB0':(t==='goal'?'\u2705':(t==='milestone'?'\uD83D\uDEA9':(t==='summary'?'\uD83D\uDCCB':'\uD83D\uDD14'))); }
   function markAllRead(){ STORE.markAllRead(); }
   function renderNotifs(){
     var db=STORE.read(),all=db.notifications||[];
@@ -1401,7 +1423,7 @@ var SYNC=(function(){
   var LS='JOURNEY_SYNC';
   var fdb=null, ref=null, handler=null, on=false, key='', lastPushTs=0, lastAppliedTs=0, applying=false, pushT=null, ready=false, connected=false, infoRef=null, errS=false;
   function $(id){ return document.getElementById(id); }
-  function dot(){ var d=$('syDot'); if(!d) return; d.className='cdot '+(!on?'off':(errS?'err':(connected?'ok':'busy'))); d.title=!on?'Sync off':(errS?'Error':(connected?'Connected to Firebase':'Connecting\u2026')); }
+  function dot(){ if(window.FX&&(connected||errS||!on)) FX.load('#syToggle',false); var d=$('syDot'); if(!d) return; d.className='cdot '+(!on?'off':(errS?'err':(connected?'ok':'busy'))); d.title=!on?'Sync off':(errS?'Error':(connected?'Connected to Firebase':'Connecting\u2026')); }
   function status(t){ var e=$('syStatus'); if(e) e.textContent=t; errS=/error|failed|not loaded|Enter a/i.test(t); dot(); }
   function setBtn(){ var b=$('syToggle'); if(b) b.textContent=on?'Disable sync':'Enable sync'; }
   function loadCfg(){ try{ var s=JSON.parse(localStorage.getItem(LS)||'{}'); key=s.key||''; on=!!s.on; }catch(e){} }
@@ -1414,7 +1436,7 @@ var SYNC=(function(){
     if(!initFB()){ status('Firebase SDK not loaded'); return; }
     if(handler&&ref){ ref.off('value',handler); handler=null; }
     if(!infoRef){ infoRef=fdb.ref('.info/connected'); infoRef.on('value',function(s){ connected=!!s.val(); dot(); }); }
-    ref=node(); status('Connecting…');
+    ref=node(); status('Connecting…'); if(window.FX&&!connected) FX.load('#syToggle',true);
     handler=ref.on('value',function(snap){
       var d=snap.val();
       if(!d||!d.data){ pushNow(); return; }
@@ -1425,14 +1447,14 @@ var SYNC=(function(){
   function pushNow(){
     if(!key){ status('Enter a Sync Key'); return; }
     if(!initFB()){ status('Firebase SDK not loaded'); return; }
-    lastPushTs=Date.now();
-    node().set({data:JSON.stringify(STORE.read()),ts:lastPushTs}).then(function(){ lastAppliedTs=lastPushTs; status('Pushed '+new Date().toLocaleTimeString()); }, function(e){ status('Push failed: '+(e&&e.code||e)); });
+    lastPushTs=Date.now(); if(window.FX) FX.load('#syPush',true);
+    node().set({data:JSON.stringify(STORE.read()),ts:lastPushTs}).then(function(){ lastAppliedTs=lastPushTs; status('Pushed '+new Date().toLocaleTimeString()); if(window.FX) FX.load('#syPush',false); }, function(e){ status('Push failed: '+(e&&e.code||e)); if(window.FX) FX.load('#syPush',false); });
   }
   function pullNow(){
     if(!key){ status('Enter a Sync Key'); return; }
     if(!initFB()){ status('Firebase SDK not loaded'); return; }
-    status('Pulling…');
-    node().once('value').then(function(snap){ var d=snap.val(); if(d&&d.data){ if(apply(JSON.parse(d.data),d.ts)) status('Pulled '+new Date().toLocaleTimeString()); } else status('No cloud data yet'); }, function(e){ status('Pull failed: '+(e&&e.code||e)); });
+    status('Pulling…'); if(window.FX) FX.load('#syPull',true);
+    node().once('value').then(function(snap){ var d=snap.val(); if(d&&d.data){ if(apply(JSON.parse(d.data),d.ts)) status('Pulled '+new Date().toLocaleTimeString()); } else status('No cloud data yet'); if(window.FX) FX.load('#syPull',false); }, function(e){ status('Pull failed: '+(e&&e.code||e)); if(window.FX) FX.load('#syPull',false); });
   }
   function schedulePush(){ if(!on||applying) return; clearTimeout(pushT); pushT=setTimeout(pushNow,1500); }
   function toggle(){
@@ -1450,7 +1472,7 @@ var CO=(function(){
   var PREF=['openai/gpt-oss-120b','llama-3.3-70b-versatile','moonshotai/kimi-k2-instruct','meta-llama/llama-4-maverick-17b-128e-instruct','qwen/qwen3-32b','openai/gpt-oss-20b','meta-llama/llama-4-scout-17b-16e-instruct','llama-3.1-8b-instant'];
   var SKIP=/whisper|tts|guard|compound|playai|orpheus|distil|safeguard|allam/i;
   var conn='unknown', connMsg='';
-  var SYS="You are Samm AI — Sam's personal AI buddy + mentor living inside his growth app 'Samm 2.0'. Talk like a real friend who is also a sharp mentor: Hinglish like Sam, warm but direct. Rule: Be Real, Be Human — say no to bad ideas, no flattery, no fluff.\n\nNOW: {{NOW}}.\nYou get a LIVE SCAN of his whole app below (tasks, 14-day patterns, goals, milestones, money, logs, your memory of him). Use it.\n\nHOW TO BEHAVE:\n- Hi/hello/casual talk: reply naturally like a friend (1-2 lines), optionally one useful nudge from his data. Don't dump reports unasked.\n- Status / 'kya karun' / priority: lead with NEGLECTED items first ('bhai X 3 din se nahi kiya — pehle ye'), then deadlines/overdue, then the rest. Give a numbered order and set priorities via actions on TODAY's tasks.\n- Never invent numbers. If data is thin, say log more.\n- Memory: when Sam tells you something durable about himself, his routine, goals, preferences or how he works, add a remember action (short fact, third person). If he says forget something, add forget. Skip trivial chit-chat.\n\nOUTPUT: ALWAYS exactly ONE JSON object, nothing else:\n{\"say\":\"<your reply>\",\"actions\":[...]}\nActions (use only when needed, else []):\n- {\"type\":\"daily\",\"title\":\"6:00 AM wake up\",\"days\":30}  repeat task N days from today (max 60; month=30, week=7)\n- {\"type\":\"challenge\",\"title\":\"No cigarette\",\"days\":30}\n- {\"type\":\"milestone\",\"title\":\"Launch site\",\"date\":\"2026-12-31\"} (ISO or \"+30d\" or omit)\n- {\"type\":\"budget\",\"amount\":5000,\"month\":\"{{MONTH}}\"}  monthly spend limit, alerts on breach\n- {\"type\":\"monthly\",\"title\":\"Read 2 books\"}\n- {\"type\":\"priority\",\"title\":\"<exact title of a TODAY task>\",\"level\":\"high|medium|low\"}\n- {\"type\":\"remember\",\"fact\":\"Sam trades XAUUSD in the evening\"}\n- {\"type\":\"forget\",\"fact\":\"<text of the memory to remove>\"}\nSplit each distinct routine into its own action.";
+  var SYS="You are Samm AI — Sam's personal AI buddy + mentor AND the operator of his app 'Samm 2.0'. Talk like a real friend who is also a sharp mentor, warm but direct. Rule: Be Real, Be Human — say no to bad ideas, no flattery, no fluff.\n\nNOW: {{NOW}}.\nYou get a LIVE SCAN of his whole app below (tasks, upcoming tasks, 14-day patterns, goals, milestones, wallet, logs, your memory of him). Use it.\n\nLANGUAGE (strict):\n- Sam writes in Hinglish or English. Understand both perfectly.\n- Casual chat only (hi, small talk, banter): you may mirror his style — Hinglish or English.\n- Every RESULT must be in clear, simple, pure English with no Hindi/Hinglish words: suggestions, advice, priority lists, plans, status reports, money summaries, news, and questions asking for missing info.\n- EVERY text field inside actions (title, note, text, fact, category) must be clean English. Translate his Hinglish into natural English, e.g. \"bank jana\" → \"Go to the bank\", \"roz subah 6 baje uthna\" → \"Wake up at 6:00 AM\", \"chai ka kharcha\" → \"Tea\", \"cigarette nahi fukni\" → \"No smoking\". Titles: short, capitalized, action-style.\n\nHOW TO TALK:\n- Hi/hello/casual: reply like a friend (1-2 lines), maybe one useful nudge. No unasked reports.\n- Status / priority: NEGLECTED items first ('You skipped X for 3 days — do it first'), then deadlines/overdue, then rest. Numbered order + set priorities with actions.\n- Never invent numbers.\n\nYOU HAVE FULL CONTROL OF THE APP THROUGH ACTIONS. Whatever Sam asks to add / change / complete / move / delete, you DO it with actions in the SAME reply.\nHARD RULES:\n1. NEVER say done/added/set/scheduled/kar diya unless the matching action is in this same reply. The app shows Sam a receipt only for actions that actually ran — a claim without an action is a lie he will catch.\n2. Missing or unclear info → ask ONE short question, actions:[]. Required: txn = amount + income/expense (credit/aaya/mila/received = income; debit/kharcha/diya/paid = expense); task = title; goal = title (+ period, default month).\n3. For existing items use the exact title from the LIVE SCAN.\n4. Dates: \"today\", \"tomorrow\", \"+3d\" (3 din baad), or YYYY-MM-DD.\n5. Memory: durable facts about Sam (routine, goals, preferences, how he works) → remember action, written as a short third-person English fact. 'bhool ja' / 'forget it' → forget.\n\nOUTPUT: exactly ONE JSON object, nothing else: {\"say\":\"<reply>\",\"actions\":[...]}\nACTIONS:\nTasks (daily list):\n- {\"type\":\"task\",\"title\":\"Call bank\",\"date\":\"+3d\",\"priority\":\"high\"}  one task on one day (date default today)\n- {\"type\":\"daily\",\"title\":\"6:00 AM wake up\",\"days\":30}  same task every day from today (max 60; month=30, week=7)\n- {\"type\":\"challenge\",\"title\":\"No cigarette\",\"days\":30}\n- {\"type\":\"task_done\",\"title\":\"Workout\",\"date\":\"today\"}   {\"type\":\"task_undo\",\"title\":\"Workout\"}\n- {\"type\":\"task_move\",\"title\":\"Call bank\",\"from\":\"today\",\"to\":\"+1d\"}\n- {\"type\":\"task_delete\",\"title\":\"Call bank\",\"date\":\"today\",\"all\":false}  (all:true = every date from today)\n- {\"type\":\"priority\",\"title\":\"Workout\",\"level\":\"high|medium|low\"}\nGoals:\n- {\"type\":\"goal\",\"title\":\"Read 2 books\",\"period\":\"week|month|year\",\"deadline\":\"+20d\",\"budget\":0}\n- {\"type\":\"goal_done\",\"title\":\"...\"}   {\"type\":\"goal_delete\",\"title\":\"...\"}\nMilestones:\n- {\"type\":\"milestone\",\"title\":\"Launch site\",\"date\":\"2026-12-31\"}   {\"type\":\"milestone_done\",\"title\":\"...\"}   {\"type\":\"milestone_delete\",\"title\":\"...\"}\nWallet:\n- {\"type\":\"txn\",\"kind\":\"income\",\"amount\":1000,\"note\":\"From Rahul\",\"category\":\"Career\",\"date\":\"today\"}  (kind income|expense)\n- {\"type\":\"txn_delete\",\"note\":\"From Rahul\",\"amount\":1000}\n- {\"type\":\"budget\",\"amount\":5000,\"month\":\"{{MONTH}}\"}  monthly spend limit, alerts on breach\nOther:\n- {\"type\":\"note\",\"text\":\"...\"}\n- {\"type\":\"remember\",\"fact\":\"Sam trades XAUUSD in the evening\"}   {\"type\":\"forget\",\"fact\":\"...\"}\nSplit each distinct item into its own action. Several actions in one reply is fine.";
   var NEWS_ADD="\n\nNEWS MODE: Sam asked about world/financial/market news. Use your web search for LIVE info from today/this week. Short bullets, each with source name. If you could not get live info, say so plainly — never invent prices or headlines. Still answer in the JSON format.";
   var NO_WEB="\n\nLIVE WEB IS UNAVAILABLE right now. If Sam asks for news or live prices, tell him honestly you couldn't fetch live news this time; do not invent any.";
   var busy=false, isOpen=false, wired=false;
@@ -1471,11 +1493,14 @@ var CO=(function(){
     var t=STORE.today(), mk=STORE.thisMonth(), L=[], i, k;
     var now=new Date();
     L.push('Name: '+((db.profile&&db.profile.name)||'Sam'));
+    L.push('Categories: '+db.categories.map(function(c){ return c.name; }).join(', '));
     var mem=(db.coach&&db.coach.memory)||[];
     if(mem.length){ var ml=[]; for(i=0;i<mem.length;i++) ml.push('- '+mem[i].fact); L.push('YOUR MEMORY OF SAM:\n'+ml.join('\n')); }
     // today
     var td=[],tdone=0; for(i=0;i<db.dailyGoals.length;i++){ var g=db.dailyGoals[i]; if(g.date===t){ td.push(g); if(g.done) tdone++; } }
     if(td.length){ var tl=[]; for(i=0;i<td.length;i++) tl.push((td[i].done?'[x] ':'[ ] ')+td[i].title+(td[i].priority&&td[i].priority!=='medium'?(' ('+td[i].priority+')'):'')); L.push('TODAY '+tdone+'/'+td.length+' done:\n'+tl.join('\n')); } else L.push('TODAY: no tasks planned');
+    var upc={}; for(i=0;i<db.dailyGoals.length;i++){ var ug=db.dailyGoals[i]; if(ug.date>t&&ug.date<=addD(t,7)&&!ug.done){ (upc[ug.date]=upc[ug.date]||[]).push(ug.title); } }
+    var upk=Object.keys(upc).sort(); if(upk.length){ var ul=[]; for(i=0;i<upk.length;i++){ var tl2=upc[upk[i]]; ul.push(upk[i]+': '+tl2.slice(0,6).join(', ')+(tl2.length>6?(' +'+(tl2.length-6)+' more'):'')); } L.push('UPCOMING (next 7d):\n'+ul.join('\n')); }
     // 14-day patterns
     var from=addD(t,-14), st={}, all=0, alld=0, wdn=[0,0,0,0,0,0,0], wdd=[0,0,0,0,0,0,0];
     for(i=0;i<db.dailyGoals.length;i++){ var d=db.dailyGoals[i]; if(d.date<from||d.date>=t) continue; var key=d.title; var s=st[key]||(st[key]={n:0,d:0,days:{}}); s.n++; if(d.done) s.d++; s.days[d.date]=s.days[d.date]||d.done; all++; if(d.done) alld++; var w=wd(d.date); wdn[w]++; if(d.done) wdd[w]++; }
@@ -1502,6 +1527,8 @@ var CO=(function(){
     if(top.length) mline+='. Top spend: '+top.slice(0,3).map(function(a){return a[0]+' '+money(a[1]);}).join(', ');
     var sl=db.settings&&db.settings.spendLimit; if(sl&&sl.amount>0) mline+='. Budget limit '+money(sl.amount)+' for '+sl.month;
     L.push(mline);
+    var allw=STORE.walletTotals(db); L.push('All-time wallet balance '+money(allw.balance));
+    var rt=tx.slice().sort(function(x,y){ return x.date<y.date?1:-1; }).slice(0,6); if(rt.length) L.push('RECENT TXNS:\n'+rt.map(function(r){ return r.date+' '+(r.type==='income'?'+':'-')+money(r.amount)+' '+(r.note||'')+' ['+catName(db,r.categoryKey)+']'; }).join('\n'));
     var pend=0; for(i=0;i<db.notifications.length;i++){ var nf=db.notifications[i]; if(nf.action&&nf.action.kind==='approval'&&nf.action.status==='pending') pend++; }
     L.push('Unread notifications: '+STORE.unreadCount(db)+(pend?(', '+pend+' money approvals pending'):''));
     // night logs
@@ -1513,37 +1540,111 @@ var CO=(function(){
   }
 
   /* ---- actions ---- */
+  var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function norm(s){ return (''+(s==null?'':s)).toLowerCase().replace(/^\s+|\s+$/g,''); }
+  function bare(s){ return norm(s).replace(/^\uD83D\uDEAB\s*/,''); }
   function nDays(n){ n=parseInt(n,10)||1; if(n<1)n=1; if(n>60)n=60; return n; }
-  function relDate(s){ s=(''+(s||'')).replace(/^\s+|\s+$/g,''); if(!s)return ''; if(/^\d{4}-\d{2}-\d{2}$/.test(s))return s; var m=s.match(/([+]?\d+)\s*d/i); if(m)return addD(STORE.today(),parseInt(m[1],10)); return ''; }
+  function dateOf(s,def){ s=norm(s); if(!s) return def; if(s==='today'||s==='aaj') return STORE.today(); if(s==='tomorrow'||s==='kal') return addD(STORE.today(),1); if(s==='yesterday') return addD(STORE.today(),-1); if(/^\d{4}-\d{2}-\d{2}$/.test(s)) return s; var m=s.match(/^([+-]?\d+)\s*d/); if(m) return addD(STORE.today(),parseInt(m[1],10)); return def; }
+  function nice(ds){ if(!ds) return ''; var p=ds.split('-'), d=new Date(+p[0],+p[1]-1,+p[2]), tp=STORE.today().split('-'), t0=new Date(+tp[0],+tp[1]-1,+tp[2]); var df=Math.round((d-t0)/86400000); return WD[d.getDay()]+' '+d.getDate()+' '+MON[d.getMonth()]+(df===0?' (today)':(df===1?' (tomorrow)':(df>1?(' (in '+df+' days)'):''))); }
+  function isoWk(ds){ var pr=ds.split('-'); var d=new Date(Date.UTC(+pr[0],+pr[1]-1,+pr[2])); var day=d.getUTCDay()||7; d.setUTCDate(d.getUTCDate()+4-day); var ys=new Date(Date.UTC(d.getUTCFullYear(),0,1)); var wk=Math.ceil((((d-ys)/86400000)+1)/7); return d.getUTCFullYear()+'-W'+(wk<10?'0':'')+wk; }
+  function pKey(per,ds){ if(per==='week') return isoWk(ds); if(per==='year') return ds.slice(0,4); return ds.slice(0,7); }
+  function catKey(name){ var q=norm(name), c=STORE.read().categories; if(!q) return 'general'; for(var i=0;i<c.length;i++){ if(norm(c[i].name)===q||norm(c[i].key)===q) return c[i].key; } return 'general'; }
+  function findItem(list,title,pred){ var q=bare(title), i, c=[]; if(!q) return null; for(i=0;i<list.length;i++){ if(!pred||pred(list[i])) c.push(list[i]); } for(i=0;i<c.length;i++){ if(bare(c[i].title)===q) return c[i]; } for(i=0;i<c.length;i++){ var t=bare(c[i].title); if(t&&(t.indexOf(q)>-1||q.indexOf(t)>-1)) return c[i]; } return null; }
+  function ntf(type,title,body){ STORE.notify(type,title,body); }
+  var AL={add_task:'task',schedule:'task',schedule_task:'task',task_add:'task',todo:'task',repeat:'daily',routine:'daily',recurring:'daily',daily_task:'daily',complete_task:'task_done',done:'task_done',mark_done:'task_done',undone:'task_undo',delete_task:'task_delete',remove_task:'task_delete',reschedule:'task_move',move_task:'task_move',add_goal:'goal',monthly:'goal',weekly:'goal',yearly:'goal',complete_goal:'goal_done',delete_goal:'goal_delete',add_milestone:'milestone',complete_milestone:'milestone_done',delete_milestone:'milestone_delete',transaction:'txn',wallet:'txn',add_txn:'txn',add_transaction:'txn',income:'txn',expense:'txn',credit:'txn',debit:'txn',delete_txn:'txn_delete',limit:'budget',add_note:'note'};
   function applyAction(a){
-    var t=((a&&a.type)||'').toLowerCase(), i, db;
-    if(t==='daily'||t==='challenge'){
-      var days=nDays(a.days||a.day||1), title=(a.title||'Task');
-      if(t==='challenge') title='🚫 '+title.replace(/^🚫\s*/,'');
-      var items=[], base=STORE.today(); for(i=0;i<days;i++) items.push({title:title,date:addD(base,i),categoryKey:'general'});
-      STORE.bulkDaily(items); return days+'× "'+title+'" → daily list';
+    if(!a||typeof a!=='object') return {ok:false,msg:'bad action'};
+    var raw=norm(a.type||a.action).replace(/[\s-]+/g,'_'), t=AL[raw]||raw, db=STORE.read(), today=STORE.today(), i, it, title=(a.title||a.name||'').replace(/^\s+|\s+$/g,'');
+    if(raw==='weekly'&&!a.period) a.period='week'; if(raw==='yearly'&&!a.period) a.period='year';
+    if((raw==='income'||raw==='credit')&&!a.kind) a.kind='income'; if((raw==='expense'||raw==='debit')&&!a.kind) a.kind='expense';
+    switch(t){
+    case 'task':
+      if(!title) return {ok:false,msg:'task title missing'};
+      var td=dateOf(a.date||a.when,today); if(td<today) return {ok:false,msg:'date is in the past: '+td};
+      if(findItem(db.dailyGoals,title,function(g){ return g.date===td&&bare(g.title)===bare(title); })) return {ok:false,msg:'"'+title+'" already on '+nice(td)};
+      var pr=norm(a.priority); STORE.addDaily({title:title,date:td,priority:(pr==='high'||pr==='low')?pr:'medium',categoryKey:catKey(a.category)});
+      ntf('ai','Task scheduled','"'+title+'" \u2192 '+nice(td)+' \u00b7 Daily list');
+      return {ok:true,msg:'Task "'+title+'" \u2192 '+nice(td)};
+    case 'daily': case 'challenge':
+      if(!title) return {ok:false,msg:'routine title missing'};
+      var days=nDays(a.days||a.day||1); if(t==='challenge') title='\uD83D\uDEAB '+title.replace(/^\uD83D\uDEAB\s*/,'');
+      var st=dateOf(a.start||a.date,today), items=[]; if(st<today) st=today; for(i=0;i<days;i++) items.push({title:title,date:addD(st,i),categoryKey:catKey(a.category)});
+      STORE.bulkDaily(items); ntf('ai',t==='challenge'?'Challenge started':'Routine added','"'+title+'" every day \u00b7 '+nice(st)+' \u2192 '+nice(addD(st,days-1)));
+      return {ok:true,msg:days+'\u00d7 "'+title+'" \u2192 daily list ('+nice(st)+' \u2192 '+nice(addD(st,days-1))+')'};
+    case 'task_done': case 'task_undo':
+      var dd=dateOf(a.date,today); it=findItem(db.dailyGoals,title,function(g){ return g.date===dd; }); if(!it) return {ok:false,msg:'no task "'+title+'" on '+nice(dd)};
+      STORE.toggleDaily(it.id,t==='task_done'); ntf('goal',t==='task_done'?'Task done':'Task reopened','"'+it.title+'" \u00b7 '+nice(dd));
+      return {ok:true,msg:(t==='task_done'?'Done: ':'Reopened: ')+it.title};
+    case 'task_move':
+      var fr=dateOf(a.from||a.date,today), to=dateOf(a.to||a.new_date,''); if(!to) return {ok:false,msg:'new date missing'};
+      it=findItem(db.dailyGoals,title,function(g){ return g.date===fr; }); if(!it) return {ok:false,msg:'no task "'+title+'" on '+nice(fr)};
+      STORE.updateDaily(it.id,{date:to}); ntf('ai','Task moved','"'+it.title+'" \u2192 '+nice(to));
+      return {ok:true,msg:'Moved "'+it.title+'" \u2192 '+nice(to)};
+    case 'task_delete':
+      if(a.all){ var ids=[]; for(i=0;i<db.dailyGoals.length;i++){ var g2=db.dailyGoals[i]; if(g2.date>=today&&bare(g2.title)===bare(title)) ids.push(g2.id); } if(!ids.length) return {ok:false,msg:'no upcoming "'+title+'"'}; for(i=0;i<ids.length;i++) STORE.deleteDaily(ids[i]); ntf('ai','Tasks removed',ids.length+'\u00d7 "'+title+'" from today on'); return {ok:true,msg:'Deleted '+ids.length+'\u00d7 "'+title+'"'}; }
+      var dl=dateOf(a.date,today); it=findItem(db.dailyGoals,title,function(g){ return g.date===dl; }); if(!it) return {ok:false,msg:'no task "'+title+'" on '+nice(dl)};
+      STORE.deleteDaily(it.id); ntf('ai','Task removed','"'+it.title+'" \u00b7 '+nice(dl)); return {ok:true,msg:'Deleted "'+it.title+'"'};
+    case 'priority':
+      var lv=norm(a.level||a.priority||'high'); if(lv!=='high'&&lv!=='low') lv='medium'; var pd=dateOf(a.date,today);
+      it=findItem(db.dailyGoals,title,function(g){ return g.date===pd; }); if(!it) return {ok:false,msg:'no task "'+title+'" on '+nice(pd)};
+      STORE.updateDaily(it.id,{priority:lv}); return {ok:true,msg:'Priority '+lv+': '+it.title};
+    case 'goal':
+      if(!title) return {ok:false,msg:'goal title missing'};
+      var per=norm(a.period); if(per!=='week'&&per!=='year') per='month';
+      STORE.addMonthly({title:title,period:per,periodKey:pKey(per,today),month:today.slice(0,7),deadline:dateOf(a.deadline,''),budget:a.budget||'',categoryKey:catKey(a.category),description:a.description||''});
+      ntf('goal','Goal added','"'+title+'" \u00b7 this '+per); return {ok:true,msg:'Goal ('+per+'): '+title};
+    case 'goal_done': case 'goal_delete':
+      it=findItem(db.monthlyGoals,title,t==='goal_done'?function(m){ return m.status!=='completed'; }:null); if(!it) return {ok:false,msg:'no goal "'+title+'"'};
+      if(t==='goal_done'){ STORE.completeMonthly(it.id); ntf('goal','Goal completed','"'+it.title+'"'); return {ok:true,msg:'Goal done: '+it.title}; }
+      STORE.deleteMonthly(it.id); ntf('ai','Goal removed','"'+it.title+'"'); return {ok:true,msg:'Goal deleted: '+it.title};
+    case 'milestone':
+      if(!title) return {ok:false,msg:'milestone title missing'};
+      var md=dateOf(a.date||a.targetDate,''); STORE.addMilestone({title:title,targetDate:md,categoryKey:catKey(a.category)});
+      ntf('milestone','Milestone set','"'+title+'"'+(md?(' \u00b7 by '+nice(md)):'')); return {ok:true,msg:'Milestone: '+title+(md?(' by '+nice(md)):'')};
+    case 'milestone_done': case 'milestone_delete':
+      it=findItem(db.milestones,title,t==='milestone_done'?function(m){ return !m.done; }:null); if(!it) return {ok:false,msg:'no milestone "'+title+'"'};
+      if(t==='milestone_done'){ STORE.toggleMilestone(it.id,true,a.note||''); ntf('milestone','Milestone reached','"'+it.title+'"'); return {ok:true,msg:'Milestone done: '+it.title}; }
+      STORE.deleteMilestone(it.id); ntf('ai','Milestone removed','"'+it.title+'"'); return {ok:true,msg:'Milestone deleted: '+it.title};
+    case 'txn':
+      var amt=parseFloat((''+(a.amount==null?'':a.amount)).replace(/[^\d.]/g,'')); if(!amt) return {ok:false,msg:'amount missing'};
+      var k=norm(a.kind||a.txn_type||a.direction||a.mode), ty='';
+      if(/income|credit|^in$|aaya|received|mila|salary/.test(k)) ty='income'; else if(/expense|debit|^out$|spent|kharch|paid|diya/.test(k)) ty='expense';
+      if(!ty) return {ok:false,msg:'income or expense? (not given)'};
+      var nt=a.note||a.name||a.title||a.from||a.to||'', tdt=dateOf(a.date,today);
+      STORE.addTxn({type:ty,amount:amt,note:nt,categoryKey:catKey(a.category),date:tdt});
+      var bal=STORE.walletTotals(STORE.read()).balance;
+      ntf('money','Wallet '+(ty==='income'?'+':'\u2212')+money(amt),(ty==='income'?'Credit':'Debit')+(nt?(' \u00b7 '+nt):'')+' \u00b7 '+nice(tdt)+' \u00b7 balance '+money(bal));
+      return {ok:true,msg:'Wallet '+(ty==='income'?'+':'\u2212')+money(amt)+(nt?(' ('+nt+')'):'')+' \u2192 balance '+money(bal)};
+    case 'txn_delete':
+      var q=bare(a.note||a.name||a.title), qa=parseFloat(a.amount)||0, txs=db.wallet.transactions.slice().sort(function(x,y){ return x.date<y.date?1:-1; }), hit=null;
+      for(i=0;i<txs.length;i++){ var tn=bare(txs[i].note); if((!q||(tn&&(tn.indexOf(q)>-1||q.indexOf(tn)>-1)))&&(!qa||txs[i].amount===qa)&&(q||qa)){ hit=txs[i]; break; } }
+      if(!hit) return {ok:false,msg:'no matching transaction'};
+      STORE.deleteTxn(hit.id); ntf('money','Transaction removed',money(hit.amount)+(hit.note?(' \u00b7 '+hit.note):'')); return {ok:true,msg:'Deleted txn '+money(hit.amount)+(hit.note?(' ('+hit.note+')'):'')};
+    case 'budget':
+      var ba=parseFloat(a.amount)||0; if(!ba) return {ok:false,msg:'budget amount missing'}; var mo=a.month||STORE.thisMonth();
+      STORE.setSpendLimit(ba,mo); ntf('money','Budget watch on',money(ba)+' limit for '+mo+' \u2014 alert when crossed'); return {ok:true,msg:'Budget watch '+money(ba)+' / '+mo};
+    case 'note':
+      var tx2=a.text||a.note||title; if(!tx2) return {ok:false,msg:'note empty'}; STORE.addNote({text:tx2,date:today}); return {ok:true,msg:'Note saved'};
+    case 'remember': return STORE.coachRemember(a.fact||a.text)?{ok:true,msg:'Remembered: '+(a.fact||a.text)}:{ok:true,msg:'Already remembered'};
+    case 'forget': var n=STORE.coachForget(a.fact||a.text); return n?{ok:true,msg:'Forgot '+n+' memory'}:{ok:false,msg:'nothing matched to forget'};
     }
-    if(t==='milestone'){ var dt=relDate(a.date||a.targetDate); STORE.addMilestone({title:a.title||'Milestone',targetDate:dt}); return 'Milestone: '+(a.title||'')+(dt?(' by '+dt):''); }
-    if(t==='budget'||t==='limit'){ var amt=parseFloat(a.amount)||0, mo=a.month||STORE.thisMonth(); STORE.setSpendLimit(amt,mo); return 'Budget watch '+money(amt)+' / '+mo; }
-    if(t==='monthly'){ STORE.addMonthly({title:a.title||'Goal',period:a.period||'month',periodKey:STORE.thisMonth(),budget:a.budget||'',categoryKey:'general'}); return 'Goal: '+(a.title||''); }
-    if(t==='priority'){ var lv=(a.level||'high').toLowerCase(); if(lv!=='high'&&lv!=='low') lv='medium'; db=STORE.read(); var want=(a.title||'').toLowerCase(); for(i=0;i<db.dailyGoals.length;i++){ var g=db.dailyGoals[i]; if(g.date===STORE.today()&&want&&g.title.toLowerCase().indexOf(want)>-1){ STORE.updateDaily(g.id,{priority:lv}); return 'Priority '+lv+': '+g.title; } } return ''; }
-    if(t==='remember'){ if(STORE.coachRemember(a.fact)) return 'Remembered: '+a.fact; return ''; }
-    if(t==='forget'){ var n=STORE.coachForget(a.fact); return n?('Forgot '+n+' memory'):''; }
-    return '';
+    return {ok:false,msg:'unknown action "'+(a.type||'')+'"'};
   }
-  function parseOut(txt){ var s=txt.indexOf('{'), e=txt.lastIndexOf('}'); if(s<0||e<=s) return {say:txt,actions:[]}; try{ var o=JSON.parse(txt.slice(s,e+1)); if(typeof o.say!=='string') o.say=txt; if(!Array.isArray(o.actions)) o.actions=[]; return o; }catch(x){ return {say:txt,actions:[]}; } }
+  function runActions(list){ var r={ok:[],fail:[]}; for(var i=0;i<list.length;i++){ var x; try{ x=applyAction(list[i]); }catch(e){ x={ok:false,msg:'crashed: '+e.message}; } (x.ok?r.ok:r.fail).push(x.msg); } return r; }
+  var CLAIM=/(kar|kr)\s?(diya|di|dia|dia)\b|krdiya|krdia|ho\s?gaya|hogya|add\s?(kar|kr)|\badded\b|set\s?(kar|kr)|\bdone\b|schedul|daal\s?(diya|di)|dal\s?diya|update\s?(kar|kr)|delete\s?(kar|kr)|hata\s?(diya|di)|\u2705/i;
+  function parseOut(txt){ var s=txt.indexOf('{'), e=txt.lastIndexOf('}'), o; if(s<0||e<=s) return {say:txt,actions:[]}; try{ o=JSON.parse(txt.slice(s,e+1)); }catch(x){ return {say:txt,actions:[]}; } var acts=o.actions||o.action||o.tasks||[]; if(!Array.isArray(acts)) acts=[acts]; return {say:(typeof o.say==='string'?o.say:(o.reply||o.message||txt)),actions:acts}; }
   function fmt(s){ return esc(s).replace(/\*\*([^*\n]+)\*\*/g,'<b>$1</b>'); }
 
   /* ---- UI ---- */
   function wire(){ if(wired) return; var inp=$('coIn'); if(!inp) return; wired=true;
     inp.addEventListener('keydown',function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); send(); } });
     inp.addEventListener('input',function(){ inp.style.height='auto'; inp.style.height=Math.min(inp.scrollHeight,110)+'px'; }); }
-  function toggle(force){ isOpen=(typeof force==='boolean')?force:!isOpen; var p=$('botPanel'),f=$('botFab'); if(p) p.className='botpanel'+(isOpen?' open':''); if(f) f.className='botfab'+(isOpen?' on':''); if(isOpen){ wire(); autoCheck(); render(); var i=$('coIn'); if(i&&window.innerWidth>600) setTimeout(function(){i.focus();},50); } }
+  function toggle(force){ isOpen=(typeof force==='boolean')?force:!isOpen; var p=$('botPanel'),f=$('botFab'); if(p) p.className='botpanel'+(isOpen?' open':''); if(f){ f.className='botfab'+(isOpen?' on':''); void f.offsetWidth; f.className+=' pop'; f.setAttribute('aria-label',isOpen?'Close Samm AI':'Open Samm AI'); } if(isOpen){ wire(); autoCheck(); render(); var i=$('coIn'); if(i&&window.innerWidth>600) setTimeout(function(){i.focus();},50); } }
   function render(){
     var db=STORE.read(), ms=(db.coach&&db.coach.messages)||[], host=$('coMsgs'); if(!host) return;
-    if(!keyGet()){ host.innerHTML='<div class="cobub ai">Bhai pehle Groq API key daal: Settings → Samm AI.<br><button class="btn primary mini" style="margin-top:10px" onclick="CO.toggle(false);APP.showApp(\'settings\')">Open Settings</button></div>'; return; }
+    if(!keyGet()){ host.innerHTML='<div class="cobub ai">Add your Groq API key first: Settings → Samm AI.<br><button class="btn primary mini" style="margin-top:10px" onclick="CO.toggle(false);APP.showApp(\'settings\')">Open Settings</button></div>'; return; }
     var h='';
-    if(!ms.length) h='<div class="cobub ai">Hey '+esc((db.profile&&db.profile.name)||'Sam')+' 👋 Main tera poora app live padhta hoon — tasks, goals, paise, patterns. Kuch bhi bol: “hi”, “aaj kya pehle karun”, “next 30 din 6AM uthna”, “market news”.</div>';
+    if(!ms.length) h='<div class="cobub ai">Hey '+esc((db.profile&&db.profile.name)||'Sam')+' 👋 I read your whole app live — tasks, goals, money, patterns. Talk to me in Hinglish or English: “hi”, “aaj kya pehle karun”, “add 1000 to wallet”, “market news”. Results always come back in English.</div>';
     for(var i=0;i<ms.length;i++){ var cls=ms[i].role==='ai'?'ai':(ms[i].role==='sys'?'sys':'user'); h+='<div class="cobub '+cls+'">'+fmt(ms[i].content)+'</div>'; }
     if(busy) h+='<div class="cobub ai typing"><span></span><span></span><span></span></div>';
     host.innerHTML=h; scrollEnd();
@@ -1551,7 +1652,7 @@ var CO=(function(){
   function isNews(s){ return /news|khabar|khabr|market|sensex|nifty|gold|xau|crypto|bitcoin|btc|dollar|rupee|inflation|economy|fed\b|rbi|stock|share bazaar|global/i.test(s); }
   function lsGet(k){ try{ return localStorage.getItem(k)||''; }catch(e){ return ''; } }
   function lsSet(k,v){ try{ if(v) localStorage.setItem(k,v); else localStorage.removeItem(k); }catch(e){} }
-  function setConn(s,msg){ conn=s; connMsg=msg||''; var d=$('aiDot'); if(d) d.className='cdot '+(s==='ok'?'ok':(s==='err'?'err':(s==='busy'?'busy':'off'))); var tx=$('aiConnTxt'); if(tx) tx.textContent=msg||(s==='off'?'No key':'Not checked'); var fd=$('botDot'); if(fd) fd.className='botdot'+(s==='ok'?'':(s==='err'?' err':' off')); if(!busy) stat(''); }
+  function setConn(s,msg){ conn=s; connMsg=msg||''; var d=$('aiDot'); if(d) d.className='cdot '+(s==='ok'?'ok':(s==='err'?'err':(s==='busy'?'busy':'off'))); var tx=$('aiConnTxt'); if(tx) tx.textContent=msg||(s==='off'?'No key':'Not checked'); if(window.FX) FX.load('[data-load="ai"]',s==='busy'); if(!busy) stat(''); }
   function pickModel(ids){ var i; for(i=0;i<PREF.length;i++){ if(ids.indexOf(PREF[i])>-1) return PREF[i]; } for(i=0;i<ids.length;i++){ if(!SKIP.test(ids[i])) return ids[i]; } return ''; }
   function check(){
     var key=keyGet(); if(!key){ lsSet(LM,''); lsSet(LN,''); setConn('off','No key'); return Promise.resolve(false); }
@@ -1577,12 +1678,6 @@ var CO=(function(){
   }
   function txtOf(j){ var c=j&&j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content; return c?(''+c).replace(/<think>[\s\S]*?<\/think>/g,'').replace(/^\s+|\s+$/g,''):''; }
   function errOf(j){ return (j&&j.error&&j.error.message)||''; }
-  function finish(out){
-    busy=false; stat('');
-    var p=parseOut(out); STORE.addCoachMsg('ai',p.say||out);
-    if(p.actions&&p.actions.length){ var done=[],k; for(k=0;k<p.actions.length;k++){ var r=applyAction(p.actions[k]); if(r) done.push(r); } if(done.length) STORE.addCoachMsg('sys','\u2705 '+done.join('\n\u2705 ')); }
-    render();
-  }
   function ask(key,base,hist,txt,retried){
     var model=lsGet(LM), news=lsGet(LN);
     if(!model){ return check().then(function(ok){ if(!ok) throw new Error(connMsg||'Groq not connected'); return ask(key,base,hist,txt,true); }); }
@@ -1593,19 +1688,36 @@ var CO=(function(){
       if(e&&!retried&&/model|decommission|does not exist|not found|access/i.test(e)){ lsSet(LM,''); return ask(key,base,hist,txt,true); }
       if(e){ setConn('err',e.length>70?e.slice(0,70)+'\u2026':e); return 'Error: '+e; }
       if(conn!=='ok') setConn('ok','Connected \u00b7 '+model.replace(/^.*\//,''));
-      return txtOf(j)||'Khaali jawab aaya \u2014 ek baar phir bhej.';
+      return txtOf(j)||'Empty reply \u2014 please send again.';
     });
+  }
+  var FIX='APP CHECK (automatic, not Sam): your last reply claimed something was done but contained NO valid action, so NOTHING changed in the app. Reply again with the same JSON including the correct actions. If info is missing, ask Sam instead and do not claim it is done.';
+  function post(say,res,lied){
+    busy=false; if(window.FX) FX.load('.botsend',false); stat('');
+    STORE.addCoachMsg('ai',say);
+    if(res.ok.length) STORE.addCoachMsg('sys','\u2705 '+res.ok.join('\n\u2705 '));
+    if(res.fail.length) STORE.addCoachMsg('sys','\u26A0 Not applied: '+res.fail.join('; '));
+    if(lied) STORE.addCoachMsg('sys','\u26A0 The bot said it was done but sent no action \u2014 nothing changed in the app. Please rephrase and send again.');
+    render();
   }
   function send(){
     if(busy) return;
     var inp=$('coIn'), txt=(inp.value||'').replace(/^\s+|\s+$/g,''); if(!txt) return;
     var key=keyGet(); if(!key){ APP.toast('Add Groq key in Settings',true); return; }
-    STORE.addCoachMsg('user',txt); inp.value=''; inp.style.height='auto'; busy=true; stat('Scanning your app\u2026'); render();
+    STORE.addCoachMsg('user',txt); inp.value=''; inp.style.height='auto'; busy=true; if(window.FX) FX.load('.botsend',true); stat('Scanning your app\u2026'); render();
     var db=STORE.read(), now=new Date();
     var nowS=STORE.today()+' '+pad2(now.getHours())+':'+pad2(now.getMinutes())+' ('+WD[now.getDay()]+')';
     var base=SYS.replace(/\{\{NOW\}\}/g,nowS).replace(/\{\{MONTH\}\}/g,STORE.thisMonth())+'\n\nLIVE APP SCAN:\n'+buildContext(db);
-    var hist=((db.coach&&db.coach.messages)||[]).filter(function(m){ return m.role==='user'||m.role==='ai'; }).filter(function(m){ return !/^Error:/.test(m.content); }).slice(-16).map(function(m){ return {role:m.role==='ai'?'assistant':'user',content:m.content}; });
-    ask(key,base,hist,txt,false).then(function(out){ finish(out); }).catch(function(e){ busy=false; render(); setConn('err',(e&&e.message)||'Error'); STORE.addCoachMsg('sys','\u26A0 '+((e&&e.message)||'Error')+' \u2014 Settings me key check kar.'); render(); });
+    var hist=((db.coach&&db.coach.messages)||[]).filter(function(m){ return (m.role==='user'||m.role==='ai')&&!/^Error:/.test(m.content); }).slice(-16).map(function(m){ return {role:m.role==='ai'?'assistant':'user',content:m.content}; });
+    ask(key,base,hist,txt,false).then(function(out){
+      if(/^Error:/.test(out)){ post(out,{ok:[],fail:[]},false); return; }
+      var p=parseOut(out), res=runActions(p.actions);
+      if(!res.ok.length&&!res.fail.length&&CLAIM.test(p.say)){
+        stat('Verifying\u2026');
+        return ask(key,base,hist.concat([{role:'assistant',content:out},{role:'user',content:FIX}]),txt,true).then(function(out2){ var p2=parseOut(out2), r2=runActions(p2.actions); post(p2.say||out2,r2,!r2.ok.length&&!r2.fail.length&&CLAIM.test(p2.say)); });
+      }
+      post(p.say||out,res,false);
+    }).catch(function(e){ busy=false; if(window.FX) FX.load('.botsend',false); render(); setConn('err',(e&&e.message)||'Error'); STORE.addCoachMsg('sys','\u26A0 '+((e&&e.message)||'Error')+' \u2014 check your key in Settings.'); render(); });
   }
   function quick(t){ if(!isOpen) toggle(true); var i=$('coIn'); if(i){ i.value=t; send(); } }
   function clear(){ APP.confirmBox('Clear chat? (Memory stays.)',function(){ STORE.clearCoach(); render(); }); }
@@ -1614,6 +1726,25 @@ var CO=(function(){
   return {toggle:toggle,render:render,send:send,quick:quick,clear:clear,check:check,autoCheck:autoCheck};
 })();
 
+var FX=(function(){
+  var SEL='button,.btn,.plink,.drawer-link,[role="button"]';
+  function reduced(){ try{ return !!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches); }catch(e){ return false; } }
+  function ripple(e){
+    var b=e.target&&e.target.closest?e.target.closest(SEL):null; if(!b||b.disabled||reduced()) return;
+    if(getComputedStyle(b).position==='static') b.style.position='relative';
+    var r=b.getBoundingClientRect(), size=Math.max(r.width,r.height)*2.2;
+    var x=(e.clientX!=null&&e.clientX!==0?e.clientX:r.left+r.width/2)-r.left, y=(e.clientY!=null&&e.clientY!==0?e.clientY:r.top+r.height/2)-r.top;
+    var w=document.createElement('span'); w.className='rpl-wrap';
+    var s=document.createElement('span'); s.className='rpl'; s.style.width=s.style.height=size+'px'; s.style.left=(x-size/2)+'px'; s.style.top=(y-size/2)+'px';
+    w.appendChild(s); b.appendChild(w); setTimeout(function(){ if(w.parentNode) w.parentNode.removeChild(w); },650);
+  }
+  function load(t,on){
+    var els=typeof t==='string'?document.querySelectorAll(t):(t&&t.nodeType?[t]:(t||[]));
+    for(var i=0;i<els.length;i++){ var b=els[i]; if(on){ if(getComputedStyle(b).position==='static') b.style.position='relative'; b.classList.add('is-loading'); b.setAttribute('aria-busy','true'); } else { b.classList.remove('is-loading'); b.removeAttribute('aria-busy'); } }
+  }
+  document.addEventListener('pointerdown',ripple,true);
+  return {load:load,ripple:ripple};
+})();
 /* boot */
 APP.init(); SYNC.boot();
 /* ---- site-wide 3D tilt on cards ---- */
