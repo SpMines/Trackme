@@ -3,6 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1b1e24">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Samm">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>Samm 2.0</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -265,6 +272,22 @@ input[type="date"],input[type="month"]{text-align:center;-webkit-appearance:none
 .botsend{width:42px;height:42px;border-radius:50%;border:none;background:var(--accent);color:#111;font-size:16px;cursor:pointer;flex:none}
 @media(max-width:600px){.botfab{right:14px;bottom:14px;width:54px;height:54px}.botpanel{right:0;left:0;bottom:0;top:0;width:100%;max-width:100%;height:100%;border-radius:0;border:none}.botpanel.open~.botfab{display:none}}
 @media print{.botfab,.botpanel{display:none!important}}
+.clkchip{position:fixed;right:20px;bottom:92px;z-index:89;display:none;align-items:center;gap:6px;padding:7px 13px;border-radius:999px;background:var(--card);border:1px solid var(--accent);color:var(--text);font-size:13px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.3);max-width:240px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.clkchip.on{display:flex;animation:botIn .35s ease both}
+.clkchip b{font-variant-numeric:tabular-nums;color:var(--accent)}
+.clkmore{font-size:11px;opacity:.7}
+.botpanel.open~.clkchip{display:none}
+.clkring{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.clkring.on{display:flex}
+.clkbox{background:var(--card);border:1px solid var(--accent);border-radius:22px;padding:30px 34px;text-align:center;min-width:280px;max-width:90vw;animation:fabPop .5s ease}
+.clkic{font-size:46px;display:inline-block;animation:clkShake .5s ease-in-out infinite}
+@keyframes clkShake{0%,100%{transform:rotate(0)}25%{transform:rotate(-14deg)}75%{transform:rotate(14deg)}}
+.clklbl{font-size:20px;font-weight:700;margin-top:8px}
+.clktime{font-size:14px;color:var(--text2);margin-top:4px}
+.cobtns{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.cobtn{font:inherit;font-size:12.5px;padding:6px 11px;border-radius:999px;border:1px solid var(--accent);background:transparent;color:var(--text);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:4px;white-space:normal;text-align:left}
+.cobtn:hover{background:var(--accent-soft)}
+@media(max-width:600px){.clkchip{right:14px;bottom:78px}}
 .rpl-wrap{position:absolute;inset:0;overflow:hidden;border-radius:inherit;pointer-events:none;z-index:0}
 .rpl{position:absolute;border-radius:50%;background:currentColor;opacity:.3;transform:scale(0);animation:fxRpl .6s ease-out forwards;pointer-events:none}
 @keyframes fxRpl{to{transform:scale(1);opacity:0}}
@@ -510,6 +533,11 @@ button:active:not(:disabled),.btn:active{transform:scale(.96)}
       <div class="field"><label>Groq API key</label><input id="stAIKey" type="password" placeholder="gsk_..."></div>
       <div class="row" style="align-items:center"><button class="btn primary" data-load="ai" onclick="APP.saveAIKey()">Save &amp; connect</button><button class="btn" data-load="ai" onclick="CO.check()">Test</button><span class="conn"><span class="cdot off" id="aiDot"></span><span id="aiConnTxt">Not checked</span></span></div>
     </div>
+    <div class="card" style="margin-top:18px">
+      <h2 class="sec-h" style="margin-top:0">Screen notifications &amp; alarms</h2>
+      <p class="sub" style="margin-bottom:14px">Shows Samm notifications, timers and alarms on your phone/PC screen while Samm is open (a background tab is fine). <b>iPhone:</b> open in Safari → Share → Add to Home Screen, open Samm from the home screen, then enable here. For an alarm that must ring with the phone locked, tap the 📅 Add to phone button the bot gives you.</p>
+      <div class="row" style="align-items:center"><button class="btn primary" id="pushBtn" onclick="CLK.togglePush()">Enable</button><button class="btn" onclick="CLK.testPush()">Test</button><button class="btn" onclick="CLK.openList()">Timers &amp; alarms</button><span class="conn"><span class="cdot off" id="pushDot"></span><span id="pushTxt">Off</span></span></div>
+    </div>
   </section>
 </div>
 
@@ -521,6 +549,8 @@ button:active:not(:disabled),.btn:active{transform:scale(.96)}
  <div class="botchips"><button onclick="CO.quick('What should I do first today? Check my patterns and set priorities.')">🎯 Today’s priority</button><button onclick="CO.quick('Give me my status for the last 2 weeks — what am I skipping and what is strong?')">📊 My status</button><button onclick="CO.quick('How is my money this month — spending, and where is most of it going?')">💰 Money</button><button onclick="CO.quick('Give me today’s global financial and market news in short — gold, Nifty, USD/INR.')">🌍 Market news</button></div>
  <div class="botinput"><textarea id="coIn" rows="1" placeholder="Type in Hinglish or English…"></textarea><button class="botsend" onclick="CO.send()" aria-label="Send">➤</button></div>
 </div>
+<div id="clkChip" class="clkchip" role="button" aria-label="Timers and alarms" onclick="CLK.openList()"></div>
+<div id="clkRing" class="clkring" role="alertdialog" aria-live="assertive"><div class="clkbox"><div class="clkic" id="clkIc">⏰</div><div class="clklbl" id="clkLbl">Alarm</div><div class="clktime" id="clkTime"></div><div class="row" style="justify-content:center;gap:12px;margin-top:22px"><button class="btn" onclick="CLK.snooze()">Snooze 5 min</button><button class="btn primary" onclick="CLK.stop()">Stop</button></div></div></div>
 <button id="botFab" class="botfab" onclick="CO.toggle()" aria-label="Open Samm AI"><svg class="ic-bot" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V5"/><circle cx="12" cy="4" r="1.2"/><circle cx="9" cy="13.5" r="1.3" fill="currentColor"/><circle cx="15" cy="13.5" r="1.3" fill="currentColor"/><path d="M9.5 16.5h5"/><path d="M2 12v3M22 12v3"/></svg><svg class="ic-x" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
 
 <div class="notif-ov" id="notifOv" onclick="APP.closeNotifs()"></div>
@@ -832,7 +862,7 @@ var STORE=(function(){
   function rollover(){ var db=read(); if(doRollover(db)){ db=normalize(db); var ok=write(db); if(ok) emit(db); } }
   /* ---------- NIGHT LOG ---------- */
   function saveDayLog(date,o){ commit(function(db){ db.daylog[date]={sleep:(o.sleep===''||o.sleep==null)?null:parseFloat(o.sleep),mood:o.mood||null,note:o.note||''}; }); }
-  function addCoachMsg(role,content){ commit(function(db){ db.coach.messages.push({role:role,content:content,ts:Date.now()}); if(db.coach.messages.length>200) db.coach.messages.splice(0,db.coach.messages.length-200); }); }
+  function addCoachMsg(role,content,links){ commit(function(db){ var m={role:role,content:content,ts:Date.now()}; if(links&&links.length) m.links=links; db.coach.messages.push(m); if(db.coach.messages.length>200) db.coach.messages.splice(0,db.coach.messages.length-200); }); }
   function coachRemember(fact){ fact=(''+(fact||'')).replace(/^\s+|\s+$/g,''); if(!fact) return false; var m=read().coach.memory; for(var i=0;i<m.length;i++){ if(m[i].fact.toLowerCase()===fact.toLowerCase()) return false; } commit(function(db){ db.coach.memory.push({fact:fact,ts:Date.now()}); if(db.coach.memory.length>60) db.coach.memory.splice(0,db.coach.memory.length-60); }); return true; }
   function coachForget(fact){ var q=(''+(fact||'')).toLowerCase().replace(/^\s+|\s+$/g,''); if(!q) return 0; var n=0; commit(function(db){ var keep=[]; for(var i=0;i<db.coach.memory.length;i++){ var f=db.coach.memory[i].fact.toLowerCase(); if(f.indexOf(q)>-1||q.indexOf(f)>-1) n++; else keep.push(db.coach.memory[i]); } db.coach.memory=keep; }); return n; }
   function clearCoach(){ commit(function(db){ db.coach.messages=[]; }); }
@@ -942,7 +972,7 @@ var APP=(function(){
   /* ---- shared settings ---- */
   function fillSettings(){ var db=STORE.read(); $('stName').value=db.profile.name||''; $('stTheme').value=db.profile.theme||'light'; }
   function saveAIKey(){ var e=$('stAIKey'); if(!e)return; var v=(e.value||'').replace(/^\s+|\s+$/g,''); try{ localStorage.setItem('SAMM_AI_KEY',v); }catch(x){} toast(v?'Key saved \u2014 connecting\u2026':'Key cleared'); if(window.CO){ CO.check(); CO.render(); } }
-  function fillAIKey(){ var e=$('stAIKey'); if(e){ try{ e.value=localStorage.getItem('SAMM_AI_KEY')||''; }catch(x){} } if(window.CO) CO.autoCheck(); }
+  function fillAIKey(){ var e=$('stAIKey'); if(e){ try{ e.value=localStorage.getItem('SAMM_AI_KEY')||''; }catch(x){} } if(window.CO) CO.autoCheck(); if(window.CLK) CLK.paintPush(); }
   function saveSettings(){ STORE.setProfile({name:$('stName').value.trim(),theme:$('stTheme').value}); applyTheme($('stTheme').value); toast('Settings saved'); }
 
   /* ---- backup ---- */
@@ -974,7 +1004,7 @@ var APP=(function(){
   function toggleNotifs(){ var p=$('notifPop'); if(p.className.indexOf('show')>-1) closeNotifs(); else { p.className='notif-pop show'; $('notifOv').className='notif-ov show'; renderNotifs(); } }
   function closeNotifs(){ $('notifPop').className='notif-pop'; $('notifOv').className='notif-ov'; }
   function timeAgo(iso){ var s=Math.floor((Date.now()-new Date(iso).getTime())/1000); if(s<60)return 'just now'; var mm=Math.floor(s/60); if(mm<60)return mm+'m ago'; var hh=Math.floor(mm/60); if(hh<24)return hh+'h ago'; var d=Math.floor(hh/24); return d+'d ago'; }
-  function notifIcon(t){ return t==='ai'?'\uD83E\uDD16':t==='money'?'\uD83D\uDCB0':(t==='goal'?'\u2705':(t==='milestone'?'\uD83D\uDEA9':(t==='summary'?'\uD83D\uDCCB':'\uD83D\uDD14'))); }
+  function notifIcon(t){ return t==='alarm'?'\u23F0':t==='ai'?'\uD83E\uDD16':t==='money'?'\uD83D\uDCB0':(t==='goal'?'\u2705':(t==='milestone'?'\uD83D\uDEA9':(t==='summary'?'\uD83D\uDCCB':'\uD83D\uDD14'))); }
   function markAllRead(){ STORE.markAllRead(); }
   function renderNotifs(){
     var db=STORE.read(),all=db.notifications||[];
@@ -1472,7 +1502,7 @@ var CO=(function(){
   var PREF=['openai/gpt-oss-120b','llama-3.3-70b-versatile','moonshotai/kimi-k2-instruct','meta-llama/llama-4-maverick-17b-128e-instruct','qwen/qwen3-32b','openai/gpt-oss-20b','meta-llama/llama-4-scout-17b-16e-instruct','llama-3.1-8b-instant'];
   var SKIP=/whisper|tts|guard|compound|playai|orpheus|distil|safeguard|allam/i;
   var conn='unknown', connMsg='';
-  var SYS="You are Samm AI — Sam's personal AI buddy + mentor AND the operator of his app 'Samm 2.0'. Talk like a real friend who is also a sharp mentor, warm but direct. Rule: Be Real, Be Human — say no to bad ideas, no flattery, no fluff.\n\nNOW: {{NOW}}.\nYou get a LIVE SCAN of his whole app below (tasks, upcoming tasks, 14-day patterns, goals, milestones, wallet, logs, your memory of him). Use it.\n\nLANGUAGE (strict):\n- Sam writes in Hinglish or English. Understand both perfectly.\n- Casual chat only (hi, small talk, banter): you may mirror his style — Hinglish or English.\n- Every RESULT must be in clear, simple, pure English with no Hindi/Hinglish words: suggestions, advice, priority lists, plans, status reports, money summaries, news, and questions asking for missing info.\n- EVERY text field inside actions (title, note, text, fact, category) must be clean English. Translate his Hinglish into natural English, e.g. \"bank jana\" → \"Go to the bank\", \"roz subah 6 baje uthna\" → \"Wake up at 6:00 AM\", \"chai ka kharcha\" → \"Tea\", \"cigarette nahi fukni\" → \"No smoking\". Titles: short, capitalized, action-style.\n\nHOW TO TALK:\n- Hi/hello/casual: reply like a friend (1-2 lines), maybe one useful nudge. No unasked reports.\n- Status / priority: NEGLECTED items first ('You skipped X for 3 days — do it first'), then deadlines/overdue, then rest. Numbered order + set priorities with actions.\n- Never invent numbers.\n\nYOU HAVE FULL CONTROL OF THE APP THROUGH ACTIONS. Whatever Sam asks to add / change / complete / move / delete, you DO it with actions in the SAME reply.\nHARD RULES:\n1. NEVER say done/added/set/scheduled/kar diya unless the matching action is in this same reply. The app shows Sam a receipt only for actions that actually ran — a claim without an action is a lie he will catch.\n2. Missing or unclear info → ask ONE short question, actions:[]. Required: txn = amount + income/expense (credit/aaya/mila/received = income; debit/kharcha/diya/paid = expense); task = title; goal = title (+ period, default month).\n3. For existing items use the exact title from the LIVE SCAN.\n4. Dates: \"today\", \"tomorrow\", \"+3d\" (3 din baad), or YYYY-MM-DD.\n5. Memory: durable facts about Sam (routine, goals, preferences, how he works) → remember action, written as a short third-person English fact. 'bhool ja' / 'forget it' → forget.\n\nOUTPUT: exactly ONE JSON object, nothing else: {\"say\":\"<reply>\",\"actions\":[...]}\nACTIONS:\nTasks (daily list):\n- {\"type\":\"task\",\"title\":\"Call bank\",\"date\":\"+3d\",\"priority\":\"high\"}  one task on one day (date default today)\n- {\"type\":\"daily\",\"title\":\"6:00 AM wake up\",\"days\":30}  same task every day from today (max 60; month=30, week=7)\n- {\"type\":\"challenge\",\"title\":\"No cigarette\",\"days\":30}\n- {\"type\":\"task_done\",\"title\":\"Workout\",\"date\":\"today\"}   {\"type\":\"task_undo\",\"title\":\"Workout\"}\n- {\"type\":\"task_move\",\"title\":\"Call bank\",\"from\":\"today\",\"to\":\"+1d\"}\n- {\"type\":\"task_delete\",\"title\":\"Call bank\",\"date\":\"today\",\"all\":false}  (all:true = every date from today)\n- {\"type\":\"priority\",\"title\":\"Workout\",\"level\":\"high|medium|low\"}\nGoals:\n- {\"type\":\"goal\",\"title\":\"Read 2 books\",\"period\":\"week|month|year\",\"deadline\":\"+20d\",\"budget\":0}\n- {\"type\":\"goal_done\",\"title\":\"...\"}   {\"type\":\"goal_delete\",\"title\":\"...\"}\nMilestones:\n- {\"type\":\"milestone\",\"title\":\"Launch site\",\"date\":\"2026-12-31\"}   {\"type\":\"milestone_done\",\"title\":\"...\"}   {\"type\":\"milestone_delete\",\"title\":\"...\"}\nWallet:\n- {\"type\":\"txn\",\"kind\":\"income\",\"amount\":1000,\"note\":\"From Rahul\",\"category\":\"Career\",\"date\":\"today\"}  (kind income|expense)\n- {\"type\":\"txn_delete\",\"note\":\"From Rahul\",\"amount\":1000}\n- {\"type\":\"budget\",\"amount\":5000,\"month\":\"{{MONTH}}\"}  monthly spend limit, alerts on breach\nOther:\n- {\"type\":\"note\",\"text\":\"...\"}\n- {\"type\":\"remember\",\"fact\":\"Sam trades XAUUSD in the evening\"}   {\"type\":\"forget\",\"fact\":\"...\"}\nSplit each distinct item into its own action. Several actions in one reply is fine.";
+  var SYS="You are Samm AI — Sam's personal AI buddy + mentor AND the operator of his app 'Samm 2.0'. Talk like a real friend who is also a sharp mentor, warm but direct. Rule: Be Real, Be Human — say no to bad ideas, no flattery, no fluff.\n\nNOW: {{NOW}}.\nYou get a LIVE SCAN of his whole app below (tasks, upcoming tasks, 14-day patterns, goals, milestones, wallet, logs, your memory of him). Use it.\n\nLANGUAGE (strict):\n- Sam writes in Hinglish or English. Understand both perfectly.\n- Casual chat only (hi, small talk, banter): you may mirror his style — Hinglish or English.\n- Every RESULT must be in clear, simple, pure English with no Hindi/Hinglish words: suggestions, advice, priority lists, plans, status reports, money summaries, news, and questions asking for missing info.\n- EVERY text field inside actions (title, note, text, fact, category) must be clean English. Translate his Hinglish into natural English, e.g. \"bank jana\" → \"Go to the bank\", \"roz subah 6 baje uthna\" → \"Wake up at 6:00 AM\", \"chai ka kharcha\" → \"Tea\", \"cigarette nahi fukni\" → \"No smoking\". Titles: short, capitalized, action-style.\n\nHOW TO TALK:\n- Hi/hello/casual: reply like a friend (1-2 lines), maybe one useful nudge. No unasked reports.\n- Status / priority: NEGLECTED items first ('You skipped X for 3 days — do it first'), then deadlines/overdue, then rest. Numbered order + set priorities with actions.\n- Never invent numbers.\n\nYOU HAVE FULL CONTROL OF THE APP THROUGH ACTIONS. Whatever Sam asks to add / change / complete / move / delete, you DO it with actions in the SAME reply.\nHARD RULES:\n1. NEVER say done/added/set/scheduled/kar diya unless the matching action is in this same reply. The app shows Sam a receipt only for actions that actually ran — a claim without an action is a lie he will catch.\n2. Missing or unclear info → ask ONE short question, actions:[]. Required: txn = amount + income/expense (credit/aaya/mila/received = income; debit/kharcha/diya/paid = expense); task = title; goal = title (+ period, default month).\n3. For existing items use the exact title from the LIVE SCAN.\n4. Dates: \"today\", \"tomorrow\", \"+3d\" (3 din baad), or YYYY-MM-DD.\n5. Memory: durable facts about Sam (routine, goals, preferences, how he works) → remember action, written as a short third-person English fact. 'bhool ja' / 'forget it' → forget.\n\nOUTPUT: exactly ONE JSON object, nothing else: {\"say\":\"<reply>\",\"actions\":[...]}\nACTIONS:\nTasks (daily list):\n- {\"type\":\"task\",\"title\":\"Call bank\",\"date\":\"+3d\",\"priority\":\"high\"}  one task on one day (date default today)\n- {\"type\":\"daily\",\"title\":\"6:00 AM wake up\",\"days\":30}  same task every day from today (max 60; month=30, week=7)\n- {\"type\":\"challenge\",\"title\":\"No cigarette\",\"days\":30}\n- {\"type\":\"task_done\",\"title\":\"Workout\",\"date\":\"today\"}   {\"type\":\"task_undo\",\"title\":\"Workout\"}\n- {\"type\":\"task_move\",\"title\":\"Call bank\",\"from\":\"today\",\"to\":\"+1d\"}\n- {\"type\":\"task_delete\",\"title\":\"Call bank\",\"date\":\"today\",\"all\":false}  (all:true = every date from today)\n- {\"type\":\"priority\",\"title\":\"Workout\",\"level\":\"high|medium|low\"}\nGoals:\n- {\"type\":\"goal\",\"title\":\"Read 2 books\",\"period\":\"week|month|year\",\"deadline\":\"+20d\",\"budget\":0}\n- {\"type\":\"goal_done\",\"title\":\"...\"}   {\"type\":\"goal_delete\",\"title\":\"...\"}\nMilestones:\n- {\"type\":\"milestone\",\"title\":\"Launch site\",\"date\":\"2026-12-31\"}   {\"type\":\"milestone_done\",\"title\":\"...\"}   {\"type\":\"milestone_delete\",\"title\":\"...\"}\nWallet:\n- {\"type\":\"txn\",\"kind\":\"income\",\"amount\":1000,\"note\":\"From Rahul\",\"category\":\"Career\",\"date\":\"today\"}  (kind income|expense)\n- {\"type\":\"txn_delete\",\"note\":\"From Rahul\",\"amount\":1000}\n- {\"type\":\"budget\",\"amount\":5000,\"month\":\"{{MONTH}}\"}  monthly spend limit, alerts on breach\nTimers & alarms (ring on this device while Samm is open; for a locked phone the receipt gives Sam an 'Add to phone' button — mention it in one short line for alarms):\n- {\"type\":\"timer\",\"minutes\":25,\"label\":\"Focus\"}\n- {\"type\":\"alarm\",\"time\":\"06:00\",\"date\":\"tomorrow\",\"label\":\"Wake up\"}  (or \"in\":\"45m\"; no date = next occurrence)\n- {\"type\":\"alarm_cancel\",\"label\":\"Wake up\"}   {\"type\":\"timer_cancel\",\"label\":\"Focus\"}\nMaps:\n- {\"type\":\"navigate\",\"to\":\"Purulia Railway Station\",\"mode\":\"driving|two-wheeler|walking|transit\"}  gives Sam a Start navigation button (from his current location)\nMeetings:\n- {\"type\":\"meeting\",\"title\":\"Pricing discussion\",\"with\":\"Rahul\",\"date\":\"tomorrow\",\"time\":\"15:30\",\"place\":\"SP Honda office | online\",\"notes\":\"agenda\"}  adds a task, a reminder 15 min before, a note, calendar + map/Meet buttons\n- {\"type\":\"meeting_note\",\"title\":\"Pricing discussion\",\"text\":\"Agreed on Rs 50k, follow up Friday\"}\nWhen Sam asks what happened in a meeting, answer from RECENT NOTES.\nOther:\n- {\"type\":\"note\",\"text\":\"...\"}\n- {\"type\":\"remember\",\"fact\":\"Sam trades XAUUSD in the evening\"}   {\"type\":\"forget\",\"fact\":\"...\"}\nSplit each distinct item into its own action. Several actions in one reply is fine.";
   var NEWS_ADD="\n\nNEWS MODE: Sam asked about world/financial/market news. Use your web search for LIVE info from today/this week. Short bullets, each with source name. If you could not get live info, say so plainly — never invent prices or headlines. Still answer in the JSON format.";
   var NO_WEB="\n\nLIVE WEB IS UNAVAILABLE right now. If Sam asks for news or live prices, tell him honestly you couldn't fetch live news this time; do not invent any.";
   var busy=false, isOpen=false, wired=false;
@@ -1527,6 +1557,8 @@ var CO=(function(){
     if(top.length) mline+='. Top spend: '+top.slice(0,3).map(function(a){return a[0]+' '+money(a[1]);}).join(', ');
     var sl=db.settings&&db.settings.spendLimit; if(sl&&sl.amount>0) mline+='. Budget limit '+money(sl.amount)+' for '+sl.month;
     L.push(mline);
+    var als=(window.CLK?CLK.all():[]); if(als.length) L.push('TIMERS & ALARMS (this device):\n'+als.slice(0,8).map(function(x){ return (x.kind==='timer'?'Timer ':'Alarm ')+'"'+x.label+'" at '+niceAt(x.at); }).join('\n'));
+    var nts=db.notes.slice().sort(function(x,y){ return x.date<y.date?1:-1; }).slice(0,8); if(nts.length) L.push('RECENT NOTES (incl. meetings):\n'+nts.map(function(x){ var tx3=(x.text||'').replace(/\s+/g,' '); return x.date+': '+(tx3.length>160?tx3.slice(0,160)+'\u2026':tx3); }).join('\n'));
     var allw=STORE.walletTotals(db); L.push('All-time wallet balance '+money(allw.balance));
     var rt=tx.slice().sort(function(x,y){ return x.date<y.date?1:-1; }).slice(0,6); if(rt.length) L.push('RECENT TXNS:\n'+rt.map(function(r){ return r.date+' '+(r.type==='income'?'+':'-')+money(r.amount)+' '+(r.note||'')+' ['+catName(db,r.categoryKey)+']'; }).join('\n'));
     var pend=0; for(i=0;i<db.notifications.length;i++){ var nf=db.notifications[i]; if(nf.action&&nf.action.kind==='approval'&&nf.action.status==='pending') pend++; }
@@ -1551,10 +1583,20 @@ var CO=(function(){
   function catKey(name){ var q=norm(name), c=STORE.read().categories; if(!q) return 'general'; for(var i=0;i<c.length;i++){ if(norm(c[i].name)===q||norm(c[i].key)===q) return c[i].key; } return 'general'; }
   function findItem(list,title,pred){ var q=bare(title), i, c=[]; if(!q) return null; for(i=0;i<list.length;i++){ if(!pred||pred(list[i])) c.push(list[i]); } for(i=0;i<c.length;i++){ if(bare(c[i].title)===q) return c[i]; } for(i=0;i<c.length;i++){ var t=bare(c[i].title); if(t&&(t.indexOf(q)>-1||q.indexOf(t)>-1)) return c[i]; } return null; }
   function ntf(type,title,body){ STORE.notify(type,title,body); }
-  var AL={add_task:'task',schedule:'task',schedule_task:'task',task_add:'task',todo:'task',repeat:'daily',routine:'daily',recurring:'daily',daily_task:'daily',complete_task:'task_done',done:'task_done',mark_done:'task_done',undone:'task_undo',delete_task:'task_delete',remove_task:'task_delete',reschedule:'task_move',move_task:'task_move',add_goal:'goal',monthly:'goal',weekly:'goal',yearly:'goal',complete_goal:'goal_done',delete_goal:'goal_delete',add_milestone:'milestone',complete_milestone:'milestone_done',delete_milestone:'milestone_delete',transaction:'txn',wallet:'txn',add_txn:'txn',add_transaction:'txn',income:'txn',expense:'txn',credit:'txn',debit:'txn',delete_txn:'txn_delete',limit:'budget',add_note:'note'};
+  function hm2(ms){ var d=new Date(ms); return pad2(d.getHours())+':'+pad2(d.getMinutes()); }
+  function dsOf(ms){ var d=new Date(ms); return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate()); }
+  function niceAt(ms){ return nice(dsOf(ms))+' '+hm2(ms); }
+  function parseTime(s){ s=norm(s).replace(/\s+/g,' '); var m=s.match(/^(\d{1,2})(?:[:.](\d{2}))?\s*(am|pm|a\.m\.|p\.m\.)?$/); if(!m) return null; var hh=+m[1], mi=+(m[2]||0), ap=(m[3]||'').replace(/\./g,''); if(ap==='pm'&&hh<12) hh+=12; if(ap==='am'&&hh===12) hh=0; if(hh>23||mi>59) return null; return [hh,mi]; }
+  function atOf(ds,tm){ var p=ds.split('-'); return new Date(+p[0],+p[1]-1,+p[2],tm[0],tm[1],0,0).getTime(); }
+  function durSec(s){ s=norm(s); var re=/(\d+(?:\.\d+)?)\s*(hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\b/g, x, tot=0; while((x=re.exec(s))){ var u=x[2].charAt(0); tot+=parseFloat(x[1])*(u==='h'?3600:(u==='m'?60:1)); } return tot; }
+  function fmtDur(sec){ sec=Math.round(sec); var hh=Math.floor(sec/3600), mm=Math.floor(sec%3600/60), ss=sec%60; return ((hh?hh+'h ':'')+(mm?mm+'m ':'')+(ss&&!hh?ss+'s':'')).replace(/\s+$/,'')||'0s'; }
+  function whenOf(a){ if(a.in){ var s=durSec(a.in); return s?Date.now()+s*1000:0; } var tm=parseTime(a.time); if(!tm) return 0; var ds=dateOf(a.date,''); if(ds) return atOf(ds,tm); var x=atOf(STORE.today(),tm); if(x<=Date.now()) x=atOf(addD(STORE.today(),1),tm); return x; }
+  var TMODE={car:'driving',drive:'driving',driving:'driving',bike:'two-wheeler',scooty:'two-wheeler',scooter:'two-wheeler',motorbike:'two-wheeler','two-wheeler':'two-wheeler',two_wheeler:'two-wheeler',walk:'walking',walking:'walking',foot:'walking',bus:'transit',train:'transit',transit:'transit',cycle:'bicycling',bicycle:'bicycling',bicycling:'bicycling'};
+  function mapsUrl(to,from,mode){ return 'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(to)+(from?('&origin='+encodeURIComponent(from)):'')+(mode?('&travelmode='+mode):'')+(from?'':'&dir_action=navigate'); }
+  var AL={add_task:'task',schedule:'task',schedule_task:'task',task_add:'task',todo:'task',repeat:'daily',routine:'daily',recurring:'daily',daily_task:'daily',complete_task:'task_done',done:'task_done',mark_done:'task_done',undone:'task_undo',delete_task:'task_delete',remove_task:'task_delete',reschedule:'task_move',move_task:'task_move',add_goal:'goal',monthly:'goal',weekly:'goal',yearly:'goal',complete_goal:'goal_done',delete_goal:'goal_delete',add_milestone:'milestone',complete_milestone:'milestone_done',delete_milestone:'milestone_delete',transaction:'txn',wallet:'txn',add_txn:'txn',add_transaction:'txn',income:'txn',expense:'txn',credit:'txn',debit:'txn',delete_txn:'txn_delete',limit:'budget',add_note:'note',set_timer:'timer',start_timer:'timer',countdown:'timer',set_alarm:'alarm',reminder:'alarm',remind:'alarm',wake_up:'alarm',cancel_alarm:'alarm_cancel',stop_alarm:'alarm_cancel',delete_alarm:'alarm_cancel',cancel_timer:'timer_cancel',stop_timer:'timer_cancel',directions:'navigate',map:'navigate',maps:'navigate',route:'navigate',navigation:'navigate',schedule_meeting:'meeting',add_meeting:'meeting',meet:'meeting',meeting_notes:'meeting_note',notes_meeting:'meeting_note'};
   function applyAction(a){
     if(!a||typeof a!=='object') return {ok:false,msg:'bad action'};
-    var raw=norm(a.type||a.action).replace(/[\s-]+/g,'_'), t=AL[raw]||raw, db=STORE.read(), today=STORE.today(), i, it, title=(a.title||a.name||'').replace(/^\s+|\s+$/g,'');
+    var raw=norm(a.type||a.action).replace(/[\s-]+/g,'_'), t=AL[raw]||raw, db=STORE.read(), today=STORE.today(), i, it, title=(a.title||a.name||a.label||'').replace(/^\s+|\s+$/g,'');
     if(raw==='weekly'&&!a.period) a.period='week'; if(raw==='yearly'&&!a.period) a.period='year';
     if((raw==='income'||raw==='credit')&&!a.kind) a.kind='income'; if((raw==='expense'||raw==='debit')&&!a.kind) a.kind='expense';
     switch(t){
@@ -1627,10 +1669,41 @@ var CO=(function(){
       var tx2=a.text||a.note||title; if(!tx2) return {ok:false,msg:'note empty'}; STORE.addNote({text:tx2,date:today}); return {ok:true,msg:'Note saved'};
     case 'remember': return STORE.coachRemember(a.fact||a.text)?{ok:true,msg:'Remembered: '+(a.fact||a.text)}:{ok:true,msg:'Already remembered'};
     case 'forget': var n=STORE.coachForget(a.fact||a.text); return n?{ok:true,msg:'Forgot '+n+' memory'}:{ok:false,msg:'nothing matched to forget'};
+    case 'timer':
+      var sec=(parseFloat(a.hours)||0)*3600+(parseFloat(a.minutes||a.min||a.mins)||0)*60+(parseFloat(a.seconds||a.sec)||0); if(!sec&&(a.duration||a.in)) sec=durSec(a.duration||a.in);
+      if(!(sec>0)) return {ok:false,msg:'timer length missing'}; sec=Math.min(sec,86400); var tl=title||'Timer', ti=CLK.add('timer',Date.now()+sec*1000,tl);
+      ntf('ai','Timer started','"'+tl+'" \u00b7 '+fmtDur(sec)+' \u00b7 rings at '+hm2(ti.at));
+      return {ok:true,msg:'Timer "'+tl+'" '+fmtDur(sec)+' \u2192 rings at '+hm2(ti.at)+' (keep Samm open)'};
+    case 'alarm':
+      var at=whenOf(a); if(!at) return {ok:false,msg:'alarm time missing'}; if(at<=Date.now()) return {ok:false,msg:'alarm time is in the past'};
+      var al=title||'Alarm'; CLK.add('alarm',at,al); ntf('ai','Alarm set','"'+al+'" \u00b7 '+niceAt(at));
+      return {ok:true,msg:'Alarm "'+al+'" \u00b7 '+niceAt(at),links:[{label:'\uD83D\uDCC5 Add to phone (rings when locked)',ics:{title:al,start:at,dur:5,alarm:0}}]};
+    case 'alarm_cancel': case 'timer_cancel':
+      var cn=CLK.cancelMatch(title,t==='timer_cancel'?'timer':''); if(!cn) return {ok:false,msg:'no matching '+(t==='timer_cancel'?'timer':'alarm')};
+      return {ok:true,msg:'Cancelled '+cn+' '+(t==='timer_cancel'?'timer':'alarm')+(cn>1?'s':'')};
+    case 'navigate':
+      var dest=a.to||a.destination||a.place||a.location||title; if(!dest) return {ok:false,msg:'destination missing'};
+      var tmode=TMODE[norm(a.mode).replace(/\s+/g,'-')]||'', murl=mapsUrl(dest,a.from||a.origin||'',tmode);
+      return {ok:true,msg:'Directions ready \u2192 '+dest+(tmode?(' ('+tmode+')'):''),links:[{label:'\uD83D\uDDFA Start navigation to '+dest,url:murl}]};
+    case 'meeting':
+      var mt=title||'Meeting', mtm=parseTime(a.time); if(!mtm) return {ok:false,msg:'meeting time missing'};
+      var mds=dateOf(a.date,today), mat=atOf(mds,mtm); if(mat<=Date.now()) return {ok:false,msg:'meeting time is in the past'};
+      var who=a.with||a.person||a.people||'', where=a.place||a.location||'', online=!!a.online||/online|google meet|\bmeet\b|zoom|video|teams/i.test(where), mdur=parseInt(a.duration,10)||60;
+      STORE.addDaily({title:hm2(mat)+' \u00b7 Meeting: '+mt+(who?(' with '+who):''),date:mds,priority:'high',categoryKey:catKey(a.category)});
+      if(mat-15*60000>Date.now()) CLK.add('alarm',mat-15*60000,'Meeting in 15 min: '+mt);
+      STORE.addNote({text:'Meeting \u2014 '+mt+(who?(' with '+who):'')+' \u00b7 '+niceAt(mat)+(where?(' \u00b7 '+where):'')+(a.notes||a.agenda?('\nAgenda: '+(a.notes||a.agenda)):''),date:mds});
+      ntf('ai','Meeting scheduled','"'+mt+'"'+(who?(' with '+who):'')+' \u00b7 '+niceAt(mat)+(where?(' \u00b7 '+where):''));
+      var ml=[{label:'\uD83D\uDCC5 Add to phone calendar',ics:{title:'Meeting: '+mt+(who?(' with '+who):''),start:mat,dur:mdur,alarm:15,loc:where,notes:a.notes||a.agenda||''}}];
+      if(online) ml.push({label:'\uD83C\uDFA5 Start Google Meet',url:'https://meet.google.com/new'}); else if(where) ml.push({label:'\uD83D\uDDFA Directions to '+where,url:mapsUrl(where,'','')});
+      return {ok:true,msg:'Meeting "'+mt+'"'+(who?(' with '+who):'')+' \u00b7 '+niceAt(mat)+' \u00b7 reminder 15 min before',links:ml};
+    case 'meeting_note':
+      var mn=a.text||a.notes||a.note; if(!mn) return {ok:false,msg:'meeting notes empty'};
+      STORE.addNote({text:'Meeting notes \u2014 '+(title||'Meeting')+': '+mn,date:today}); ntf('ai','Meeting notes saved','"'+(title||'Meeting')+'"');
+      return {ok:true,msg:'Meeting notes saved: '+(title||'Meeting')};
     }
     return {ok:false,msg:'unknown action "'+(a.type||'')+'"'};
   }
-  function runActions(list){ var r={ok:[],fail:[]}; for(var i=0;i<list.length;i++){ var x; try{ x=applyAction(list[i]); }catch(e){ x={ok:false,msg:'crashed: '+e.message}; } (x.ok?r.ok:r.fail).push(x.msg); } return r; }
+  function runActions(list){ var r={ok:[],fail:[],links:[]}; for(var i=0;i<list.length;i++){ var x; try{ x=applyAction(list[i]); }catch(e){ x={ok:false,msg:'crashed: '+e.message}; } (x.ok?r.ok:r.fail).push(x.msg); if(x.ok&&x.links) r.links=r.links.concat(x.links); } return r; }
   var CLAIM=/(kar|kr)\s?(diya|di|dia|dia)\b|krdiya|krdia|ho\s?gaya|hogya|add\s?(kar|kr)|\badded\b|set\s?(kar|kr)|\bdone\b|schedul|daal\s?(diya|di)|dal\s?diya|update\s?(kar|kr)|delete\s?(kar|kr)|hata\s?(diya|di)|\u2705/i;
   function parseOut(txt){ var s=txt.indexOf('{'), e=txt.lastIndexOf('}'), o; if(s<0||e<=s) return {say:txt,actions:[]}; try{ o=JSON.parse(txt.slice(s,e+1)); }catch(x){ return {say:txt,actions:[]}; } var acts=o.actions||o.action||o.tasks||[]; if(!Array.isArray(acts)) acts=[acts]; return {say:(typeof o.say==='string'?o.say:(o.reply||o.message||txt)),actions:acts}; }
   function fmt(s){ return esc(s).replace(/\*\*([^*\n]+)\*\*/g,'<b>$1</b>'); }
@@ -1645,7 +1718,7 @@ var CO=(function(){
     if(!keyGet()){ host.innerHTML='<div class="cobub ai">Add your Groq API key first: Settings → Samm AI.<br><button class="btn primary mini" style="margin-top:10px" onclick="CO.toggle(false);APP.showApp(\'settings\')">Open Settings</button></div>'; return; }
     var h='';
     if(!ms.length) h='<div class="cobub ai">Hey '+esc((db.profile&&db.profile.name)||'Sam')+' 👋 I read your whole app live — tasks, goals, money, patterns. Talk to me in Hinglish or English: “hi”, “aaj kya pehle karun”, “add 1000 to wallet”, “market news”. Results always come back in English.</div>';
-    for(var i=0;i<ms.length;i++){ var cls=ms[i].role==='ai'?'ai':(ms[i].role==='sys'?'sys':'user'); h+='<div class="cobub '+cls+'">'+fmt(ms[i].content)+'</div>'; }
+    for(var i=0;i<ms.length;i++){ var cls=ms[i].role==='ai'?'ai':(ms[i].role==='sys'?'sys':'user'); var lk=''; if(ms[i].links&&ms[i].links.length){ lk='<div class="cobtns">'; for(var j=0;j<ms[i].links.length;j++){ var L=ms[i].links[j]; if(L.url&&/^https:\/\//.test(L.url)) lk+='<a class="cobtn" href="'+esc(L.url)+'" target="_blank" rel="noopener">'+esc(L.label)+'</a>'; else if(L.ics) lk+='<button class="cobtn" onclick="CO.link('+i+','+j+')">'+esc(L.label)+'</button>'; } lk+='</div>'; } h+='<div class="cobub '+cls+'">'+fmt(ms[i].content)+lk+'</div>'; }
     if(busy) h+='<div class="cobub ai typing"><span></span><span></span><span></span></div>';
     host.innerHTML=h; scrollEnd();
   }
@@ -1695,7 +1768,8 @@ var CO=(function(){
   function post(say,res,lied){
     busy=false; if(window.FX) FX.load('.botsend',false); stat('');
     STORE.addCoachMsg('ai',say);
-    if(res.ok.length) STORE.addCoachMsg('sys','\u2705 '+res.ok.join('\n\u2705 '));
+    if(res.ok.length) STORE.addCoachMsg('sys','\u2705 '+res.ok.join('\n\u2705 '),res.links);
+    if(!res.links) res.links=[];
     if(res.fail.length) STORE.addCoachMsg('sys','\u26A0 Not applied: '+res.fail.join('; '));
     if(lied) STORE.addCoachMsg('sys','\u26A0 The bot said it was done but sent no action \u2014 nothing changed in the app. Please rephrase and send again.');
     render();
@@ -1719,11 +1793,12 @@ var CO=(function(){
       post(p.say||out,res,false);
     }).catch(function(e){ busy=false; if(window.FX) FX.load('.botsend',false); render(); setConn('err',(e&&e.message)||'Error'); STORE.addCoachMsg('sys','\u26A0 '+((e&&e.message)||'Error')+' \u2014 check your key in Settings.'); render(); });
   }
+  function link(i,j){ var m=(STORE.read().coach.messages||[])[i], L=m&&m.links&&m.links[j]; if(L&&L.ics){ CLK.ics(L.ics); APP.toast('Calendar file downloaded \u2014 open it to add'); } }
   function quick(t){ if(!isOpen) toggle(true); var i=$('coIn'); if(i){ i.value=t; send(); } }
   function clear(){ APP.confirmBox('Clear chat? (Memory stays.)',function(){ STORE.clearCoach(); render(); }); }
   STORE.onChange(function(){ if(isOpen&&!busy) render(); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&isOpen) toggle(false); });
-  return {toggle:toggle,render:render,send:send,quick:quick,clear:clear,check:check,autoCheck:autoCheck};
+  return {toggle:toggle,render:render,send:send,quick:quick,clear:clear,link:link,check:check,autoCheck:autoCheck};
 })();
 
 var FX=(function(){
@@ -1745,8 +1820,121 @@ var FX=(function(){
   document.addEventListener('pointerdown',ripple,true);
   return {load:load,ripple:ripple};
 })();
+var CLK=(function(){
+  var LS='SAMM_ALARMS', LP='SAMM_PUSH';
+  var list=[], tick=null, ringing=null, sndT=null, stopT=null, actx=null, swReg=null, seen={}, pend=[], pendT=null;
+  function $(id){ return document.getElementById(id); }
+  var esc=APP.esc;
+  function lsGet(k){ try{ return localStorage.getItem(k)||''; }catch(e){ return ''; } }
+  function lsSet(k,v){ try{ if(v) localStorage.setItem(k,v); else localStorage.removeItem(k); }catch(e){} }
+  function load(){ try{ list=JSON.parse(lsGet(LS)||'[]'); if(!Array.isArray(list)) list=[]; }catch(e){ list=[]; } }
+  function save(){ lsSet(LS,list.length?JSON.stringify(list):''); }
+  function pad(n){ return (n<10?'0':'')+n; }
+  function hm(ms){ var d=new Date(ms); return pad(d.getHours())+':'+pad(d.getMinutes()); }
+  function left(ms){ var s=Math.max(0,Math.round((ms-Date.now())/1000)), h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=s%60; return (h?h+':'+pad(m):m)+':'+pad(x); }
+  function sortL(){ list.sort(function(a,b){ return a.at-b.at; }); }
+
+  /* ---- alarms & timers (device-local, not synced) ---- */
+  function add(kind,at,label){ var it={id:'al'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),kind:kind==='timer'?'timer':'alarm',at:at,label:label||(kind==='timer'?'Timer':'Alarm')}; list.push(it); sortL(); save(); paint(); ensureTick(); return it; }
+  function cancel(id){ for(var i=0;i<list.length;i++){ if(list[i].id===id){ list.splice(i,1); break; } } save(); paint(); if(APP.closeModal&&$('clkList')) openList(); }
+  function cancelMatch(label,kind){ var q=(''+(label||'')).toLowerCase(), n=0; for(var i=list.length-1;i>=0;i--){ var it=list[i]; if(kind&&it.kind!==kind) continue; if(!q||it.label.toLowerCase().indexOf(q)>-1||q.indexOf(it.label.toLowerCase())>-1){ list.splice(i,1); n++; } } save(); paint(); return n; }
+  function all(){ return list.slice(); }
+
+  /* ---- sound ---- */
+  function unlock(){ try{ if(!actx){ var C=window.AudioContext||window.webkitAudioContext; if(C) actx=new C(); } if(actx&&actx.state==='suspended') actx.resume(); }catch(e){} }
+  function beep(){ if(!actx) return; try{ var t=actx.currentTime, o; for(o=0;o<3;o++){ var osc=actx.createOscillator(), g=actx.createGain(), st=t+o*0.25; osc.type='sine'; osc.frequency.value=o===2?1175:880; g.gain.setValueAtTime(0.0001,st); g.gain.exponentialRampToValueAtTime(0.4,st+0.02); g.gain.exponentialRampToValueAtTime(0.0001,st+0.2); osc.connect(g); g.connect(actx.destination); osc.start(st); osc.stop(st+0.22); } }catch(e){} }
+
+  /* ---- screen notifications ---- */
+  function supported(){ return ('Notification' in window); }
+  function pushOn(){ return lsGet(LP)==='on' && supported() && Notification.permission==='granted'; }
+  function sysNotify(title,body,tag,sticky){
+    if(!pushOn()) return false;
+    var opt={body:body||'',icon:'icon-192.png',badge:'icon-192.png',requireInteraction:!!sticky};
+    if(tag){ opt.tag=tag; opt.renotify=true; }
+    try{ if(swReg&&swReg.showNotification){ swReg.showNotification(title,opt); return true; } new Notification(title,opt); return true; }catch(e){ return false; }
+  }
+  function regSW(){
+    if(swReg) return Promise.resolve(swReg);
+    if(!('serviceWorker' in navigator)||location.protocol==='file:') return Promise.resolve(null);
+    return navigator.serviceWorker.register('sw.js').then(function(){ return navigator.serviceWorker.ready; }).then(function(r){ swReg=r; return r; }).catch(function(){ return null; });
+  }
+  function setPush(s,msg){ var d=$('pushDot'); if(d) d.className='cdot '+s; var t=$('pushTxt'); if(t) t.textContent=msg; var b=$('pushBtn'); if(b) b.textContent=pushOn()?'Disable':'Enable'; }
+  function paintPush(){
+    if(!supported()) return setPush('err','Not supported here \u2014 iPhone: Add to Home Screen first');
+    if(Notification.permission==='denied') return setPush('err','Blocked \u2014 allow notifications in browser settings');
+    if(pushOn()) return setPush('ok','On \u00b7 shows on your screen');
+    setPush('off','Off');
+  }
+  function enablePush(){
+    if(!supported()){ paintPush(); APP.toast('Not supported in this browser',true); return; }
+    if(window.FX) FX.load('#pushBtn',true);
+    var done=function(p){ if(window.FX) FX.load('#pushBtn',false);
+      if(p==='granted'){ lsSet(LP,'on'); regSW().then(function(){ paintPush(); sysNotify('Samm 2.0','Screen notifications are on \u2705','samm-test'); }); }
+      else paintPush(); };
+    try{ var r=Notification.requestPermission(done); if(r&&r.then) r.then(done); }catch(e){ done(Notification.permission); }
+  }
+  function togglePush(){ if(pushOn()){ lsSet(LP,''); paintPush(); APP.toast('Screen notifications off'); } else enablePush(); }
+  function testPush(){ if(!pushOn()){ APP.toast('Enable screen notifications first',true); return; } sysNotify('Samm 2.0 test','If you can see this, screen notifications work.','samm-test'); }
+  function watch(){
+    var db=STORE.read(), i; for(i=0;i<db.notifications.length;i++) seen[db.notifications[i].id]=1;
+    STORE.onChange(function(){ var d=STORE.read(), fresh=[], j; for(j=0;j<d.notifications.length;j++){ var n=d.notifications[j]; if(!seen[n.id]){ seen[n.id]=1; if(!n.read&&n.type!=='alarm') fresh.push(n); } } if(fresh.length){ pend=pend.concat(fresh); clearTimeout(pendT); pendT=setTimeout(flush,700); } });
+  }
+  function flush(){ var p=pend; pend=[]; if(!p.length) return; if(p.length===1) sysNotify(p[0].title,p[0].body,p[0].id); else sysNotify(p.length+' updates in Samm',p.slice(0,4).map(function(n){ return n.title+(n.body?(': '+n.body):''); }).join('\n'),'samm-batch'); }
+
+  /* ---- ringing ---- */
+  function ring(it){
+    ringing=it; for(var i=0;i<list.length;i++){ if(list[i].id===it.id){ list.splice(i,1); break; } } save(); paint();
+    var ov=$('clkRing'); if(ov){ $('clkIc').textContent=it.kind==='timer'?'\u23F1':'\u23F0'; $('clkLbl').textContent=it.label; $('clkTime').textContent=(it.kind==='timer'?'Timer finished':'Alarm')+' \u00b7 '+hm(it.at); ov.className='clkring on'; }
+    unlock(); beep(); clearInterval(sndT); sndT=setInterval(beep,1200);
+    try{ if(navigator.vibrate) navigator.vibrate([400,200,400,200,400]); }catch(e){}
+    sysNotify((it.kind==='timer'?'\u23F1 ':'\u23F0 ')+it.label,(it.kind==='timer'?'Timer finished':'Alarm')+' \u00b7 '+hm(it.at),it.id,true);
+    STORE.notify('alarm',(it.kind==='timer'?'Timer done: ':'Alarm: ')+it.label,hm(it.at));
+    clearTimeout(stopT); stopT=setTimeout(function(){ if(ringing===it) stop(); },60000);
+  }
+  function stop(){ clearInterval(sndT); sndT=null; clearTimeout(stopT); ringing=null; var ov=$('clkRing'); if(ov) ov.className='clkring'; try{ if(navigator.vibrate) navigator.vibrate(0); }catch(e){} }
+  function snooze(){ var it=ringing; stop(); if(it){ add(it.kind,Date.now()+5*60000,it.label); APP.toast('Snoozed 5 min'); } }
+  function check(){
+    var now=Date.now();
+    for(var i=0;i<list.length;i++){
+      var it=list[i]; if(it.at>now) break;
+      if(now-it.at>10*60000){ list.splice(i,1); i--; save(); STORE.notify('alarm','Missed '+it.kind+': '+it.label,'Was due at '+hm(it.at)+' (Samm was closed)'); continue; }
+      if(!ringing){ ring(it); break; }
+    }
+    paintTime(); if(!list.length&&tick){ clearInterval(tick); tick=null; }
+  }
+  function ensureTick(){ if(!tick) tick=setInterval(check,1000); }
+
+  /* ---- countdown chip + list ---- */
+  function paint(){ var c=$('clkChip'); if(!c) return; if(!list.length){ c.className='clkchip'; c.innerHTML=''; return; } c.className='clkchip on'; paintTime(); }
+  function paintTime(){ var c=$('clkChip'); if(!c||!list.length) return; var it=list[0], soon=it.kind==='timer'||it.at-Date.now()<3600000; c.innerHTML=(it.kind==='timer'?'\u23F1 ':'\u23F0 ')+'<b>'+(soon?left(it.at):hm(it.at))+'</b> '+esc(it.label)+(list.length>1?(' <span class="clkmore">+'+(list.length-1)+'</span>'):''); }
+  function openList(){
+    var h='<h3>Timers &amp; alarms</h3><div id="clkList">';
+    if(!list.length) h+='<p class="sub">Nothing set. Ask the bot: \u201c25 min timer\u201d or \u201calarm at 6 AM\u201d.</p>';
+    for(var i=0;i<list.length;i++){ var it=list[i], d=new Date(it.at); h+='<div class="row" style="justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)"><div><div style="font-weight:600">'+(it.kind==='timer'?'\u23F1 ':'\u23F0 ')+esc(it.label)+'</div><div class="sub" style="margin:2px 0 0;font-size:12.5px">'+d.toDateString().slice(0,10)+' \u00b7 '+hm(it.at)+'</div></div><button class="btn mini ghost" onclick="CLK.cancel(\''+it.id+'\')">Cancel</button></div>'; }
+    h+='</div><p class="sub" style="font-size:12.5px;margin-top:12px">Rings only while Samm is open on this device. For a locked phone, use the \uD83D\uDCC5 Add to phone button the bot gives you.</p><div class="modal-actions"><button class="btn primary" onclick="APP.closeModal()">Close</button></div>';
+    APP.openOverlay(h);
+  }
+
+  /* ---- calendar file (.ics) \u2014 rings natively even when phone is locked ---- */
+  function icsText(o){
+    var dt=function(ms){ return new Date(ms).toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,''); };
+    var e=function(s){ return (''+(s||'')).replace(/\\/g,'\\\\').replace(/\n/g,'\\n').replace(/([,;])/g,'\\$1'); };
+    var L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Samm 2.0//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH','BEGIN:VEVENT','UID:'+Date.now()+'-'+Math.random().toString(36).slice(2,7)+'@samm','DTSTAMP:'+dt(Date.now()),'DTSTART:'+dt(o.start),'DTEND:'+dt(o.start+(o.dur||15)*60000),'SUMMARY:'+e(o.title)];
+    if(o.loc) L.push('LOCATION:'+e(o.loc)); if(o.notes) L.push('DESCRIPTION:'+e(o.notes));
+    L.push('BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+e(o.title),'TRIGGER:-PT'+(parseInt(o.alarm,10)||0)+'M','END:VALARM','END:VEVENT','END:VCALENDAR');
+    return L.join('\r\n');
+  }
+  function ics(o){
+    var blob=new Blob([icsText(o)],{type:'text/calendar;charset=utf-8'}), url=URL.createObjectURL(blob), a=document.createElement('a');
+    a.href=url; a.download=((o.title||'event').replace(/[^\w]+/g,'-').replace(/^-|-$/g,'').slice(0,40)||'event')+'.ics';
+    document.body.appendChild(a); a.click(); setTimeout(function(){ if(a.parentNode) a.parentNode.removeChild(a); URL.revokeObjectURL(url); },800);
+  }
+
+  function boot(){ load(); sortL(); paint(); if(list.length) ensureTick(); watch(); if(lsGet(LP)==='on') regSW(); document.addEventListener('pointerdown',unlock,true); document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&ringing) stop(); }); check(); }
+  return {add:add,cancel:cancel,cancelMatch:cancelMatch,all:all,stop:stop,snooze:snooze,openList:openList,ics:ics,icsText:icsText,togglePush:togglePush,testPush:testPush,paintPush:paintPush,sysNotify:sysNotify,check:check,boot:boot};
+})();
 /* boot */
-APP.init(); SYNC.boot();
+APP.init(); SYNC.boot(); CLK.boot();
 /* ---- site-wide 3D tilt on cards ---- */
 (function(){
   if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
