@@ -13,7 +13,7 @@
 <title>Samm 2.0</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Jost:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Jost:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#F5F2EC;--card:#FFFFFF;--text:#29251F;--text2:#81796D;--accent:#A67C52;--border:#EAE6DE;--accent-soft:rgba(166,124,82,.10);--radius:16px;--radius-sm:10px;--shadow:0 1px 3px rgba(41,37,31,.05);--ok:#5B8C5A;--warn:#C08A3E;--danger:#B4544B}
 [data-theme="dark"]{--bg:#17191D;--card:#22252B;--text:#F2F0EA;--text2:#A3A5AA;--accent:#BFA27D;--border:#35383F;--accent-soft:rgba(191,162,125,.12);--shadow:0 1px 3px rgba(0,0,0,.25);--ok:#7CA876;--warn:#D1A35A;--danger:#D07A70}
@@ -315,11 +315,165 @@ button:active:not(:disabled),.btn:active{transform:scale(.96)}
   .botpanel{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
   .clkchip{right:16px;bottom:calc(94px + env(safe-area-inset-bottom))}
 }
+
+/* ================= macOS theme layer ================= */
+:root{--bg:#F5F5F7;--card:#FFFFFF;--text:#1D1D1F;--text2:#6E6E73;--accent:#007AFF;--border:rgba(0,0,0,.1);--accent-soft:rgba(0,122,255,.12);--radius:12px;--radius-sm:8px;--shadow:0 .5px 1.5px rgba(0,0,0,.06),0 4px 14px rgba(0,0,0,.05);--ok:#34C759;--warn:#FF9F0A;--danger:#FF3B30;--glass:rgba(246,246,248,.72);--win:rgba(255,255,255,.88);--ctl:rgba(118,118,128,.12);--font:"Jost",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;--spring:cubic-bezier(.2,.9,.25,1.12);--ease:cubic-bezier(.25,.1,.25,1)}
+[data-theme="dark"]{--bg:#1C1C1E;--card:#2C2C2E;--text:#F5F5F7;--text2:#98989D;--accent:#0A84FF;--border:rgba(255,255,255,.1);--accent-soft:rgba(10,132,255,.2);--shadow:0 .5px 1.5px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.28);--ok:#30D158;--warn:#FF9F0A;--danger:#FF453A;--glass:rgba(30,30,32,.72);--win:rgba(40,40,42,.9);--ctl:rgba(118,118,128,.24)}
+body{font-family:var(--font);letter-spacing:0}
+h1.page-h{font-weight:800;letter-spacing:-.01em}
+h2.sec-h{font-weight:700;letter-spacing:-.005em}
+::selection{background:var(--accent-soft)}
+/* menu-bar style top bar with vibrancy */
+.topbar,.sticky-sub{background:var(--glass);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px)}
+.topbar{border-bottom:.5px solid var(--border)}
+/* segmented control nav */
+.pagelinks{background:var(--ctl);padding:2px;border-radius:9px;gap:0}
+.plink{border-radius:7px;padding:6px 13px;font-size:13.5px;color:var(--text)}
+.plink.active{background:var(--card);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.14),0 0 0 .5px rgba(0,0,0,.04)}
+[data-theme="dark"] .plink.active{background:#636366}
+.tab{border-radius:7px;padding:7px 13px;font-size:13.5px}
+.tab.active{background:var(--accent-soft);color:var(--accent)}
+.iconbtn{width:36px;height:36px;border-radius:9px;border:.5px solid var(--border);box-shadow:0 .5px 1px rgba(0,0,0,.06);font-size:16px}
+.iconbtn:hover{transform:none;background:var(--ctl)}
+/* cards */
+.card,.step{border:.5px solid var(--border)}
+.card{box-shadow:var(--shadow);animation:macFade .4s var(--ease) both}
+section{animation:macFade .32s var(--ease) both}
+.cat-card:hover{transform:none;box-shadow:0 2px 6px rgba(0,0,0,.08),0 10px 28px rgba(0,0,0,.08)}
+.bar{background:var(--ctl);height:6px}
+.bar > i{background:var(--accent)}
+/* push buttons */
+.btn{border-radius:7px;font-size:13.5px;padding:7px 14px;border:.5px solid var(--border);box-shadow:0 .5px 1px rgba(0,0,0,.08);background:var(--card)}
+[data-theme="dark"] .btn{background:#48484A;border-color:rgba(255,255,255,.06)}
+.btn:hover{transform:none;filter:brightness(.97)}
+[data-theme="dark"] .btn:hover{filter:brightness(1.12)}
+.btn.primary{background:linear-gradient(180deg,#3395FF,#007AFF);border-color:rgba(0,0,0,.06);color:#fff;box-shadow:0 1px 2px rgba(0,122,255,.35)}
+[data-theme="dark"] .btn.primary{background:linear-gradient(180deg,#3A98FF,#0A84FF)}
+.btn.ghost{background:transparent;box-shadow:none}
+.btn.mini{padding:4px 10px;font-size:12.5px;border-radius:6px}
+.btn.icon{border-radius:7px}
+.btn.in{background:var(--ok);border-color:transparent;color:#fff}
+.botsend{background:linear-gradient(180deg,#3395FF,#007AFF);color:#fff}
+/* inputs: macOS focus ring */
+.field input,.field textarea,.field select,.nnote,.nnum,.botinput textarea{border:.5px solid var(--border);border-radius:7px;background:var(--card);box-shadow:inset 0 .5px 1px rgba(0,0,0,.05)}
+.field input:focus,.field textarea:focus,.field select:focus,.nnote:focus,.nnum:focus,.botinput textarea:focus,.mt-add input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3.5px var(--accent-soft)}
+input[type=checkbox],input[type=radio]{accent-color:var(--accent)}
+/* windows: modal + bot */
+.overlay{background:rgba(0,0,0,.28);-webkit-backdrop-filter:none;backdrop-filter:none}
+@media(max-width:600px){.macwin.open{box-shadow:0 0 0 100vmax rgba(0,0,0,.4),0 24px 80px rgba(0,0,0,.35)}}
+.modal{background:var(--win);-webkit-backdrop-filter:saturate(180%) blur(30px);backdrop-filter:saturate(180%) blur(30px);border:.5px solid var(--border);border-radius:12px;box-shadow:0 22px 70px rgba(0,0,0,.32),0 0 0 .5px rgba(0,0,0,.08);transform:none;transition:none}
+.overlay.show .modal{animation:macWinIn .36s var(--spring) both}
+.overlay.closing{opacity:0;transition:opacity .2s ease}
+.overlay.closing .modal{animation:macWinOut .2s ease both}
+.modal .mac-tb{margin:-26px -26px 10px;padding:12px 14px}
+.botpanel,.drawer{background:var(--win);-webkit-backdrop-filter:saturate(180%) blur(30px);backdrop-filter:saturate(180%) blur(30px)}
+.drawer-link,.drawer-sec{border-radius:7px}
+.drawer-link.active{background:var(--accent);color:#fff}
+.botfab{border-radius:50%}
+.botfab::after{border-radius:inherit}
+.cobub{border-radius:16px}
+.cobub.user{background:var(--accent);color:#fff;border-color:transparent}
+.cobub.ai{background:var(--ctl);border-color:transparent}
+/* traffic lights */
+.mac-tb{display:flex;align-items:center;gap:8px;position:relative;user-select:none;-webkit-user-select:none}
+.tl{width:12px;height:12px;border-radius:50%;display:inline-block;flex:none;cursor:pointer;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.18);position:relative;font-size:9px;line-height:12px;text-align:center;color:rgba(0,0,0,.55);font-weight:700}
+.tl.r{background:#FF5F57}.tl.y{background:#FEBC2E}.tl.g{background:#28C840}
+.tl::after{opacity:0;transition:opacity .12s}
+.tl.r::after{content:"\00D7"}.tl.y::after{content:"\2212"}.tl.g::after{content:"+"}
+.mac-tb:hover .tl::after{opacity:1}
+.mac-title{position:absolute;left:70px;right:70px;text-align:center;font-weight:600;font-size:13px;color:var(--text);pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Today window */
+.macwin{position:fixed;z-index:150;left:50%;top:50%;width:min(420px,calc(100vw - 24px));max-height:min(78vh,640px);display:none;flex-direction:column;background:var(--win);-webkit-backdrop-filter:saturate(180%) blur(30px);backdrop-filter:saturate(180%) blur(30px);border:.5px solid var(--border);border-radius:12px;box-shadow:0 24px 80px rgba(0,0,0,.35),0 0 0 .5px rgba(0,0,0,.1);overflow:hidden}
+.macwin .mac-tb{padding:12px 14px;cursor:grab;border-bottom:.5px solid var(--border)}
+.macwin.dragging .mac-tb{cursor:grabbing}
+.macwin.measuring{display:flex;visibility:hidden;animation:none}
+.macwin.open{display:flex;animation:macGenie .52s var(--spring) both}
+.macwin.closing{animation:macGenieOut .26s cubic-bezier(.4,0,.7,1) both}
+.macwin.zoomed{width:min(680px,calc(100vw - 24px));max-height:88vh}
+.macwin-body{padding:12px 14px 14px;overflow-y:auto;flex:1}
+.mt-prog-txt{font-size:12.5px;color:var(--text2);display:flex;justify-content:space-between}
+.mt-prog .bar{margin-top:6px;margin-bottom:8px}
+.mt-row{display:flex;align-items:center;gap:10px;padding:9px 8px;border-radius:8px;cursor:pointer;transition:background .15s}
+.mt-row:hover{background:var(--ctl)}
+.mt-row input{width:18px;height:18px;flex:none;cursor:pointer}
+.mt-t{flex:1;font-size:14.5px;transition:color .2s}
+.mt-row.done .mt-t{text-decoration:line-through;color:var(--text2)}
+.mt-pri{font-size:11px;font-weight:600;padding:2px 7px;border-radius:6px;text-transform:capitalize}
+.mt-pri.high{background:rgba(255,59,48,.14);color:var(--danger)}
+.mt-pri.low{background:var(--ctl);color:var(--text2)}
+.mt-add{display:flex;gap:8px;margin-top:10px;padding-top:12px;border-top:.5px solid var(--border)}
+.mt-add input{flex:1;min-width:0;font:inherit;font-size:16px;color:var(--text);background:var(--card);border:.5px solid var(--border);border-radius:7px;padding:8px 10px}
+.mt-empty{color:var(--text2);font-size:13.5px;padding:18px 4px;text-align:center}
+/* notification banner toast */
+#toast{left:auto;right:16px;top:calc(14px + env(safe-area-inset-top));bottom:auto;transform:translateX(130%);opacity:0;background:var(--win);color:var(--text);-webkit-backdrop-filter:saturate(180%) blur(30px);backdrop-filter:saturate(180%) blur(30px);border:.5px solid var(--border);border-radius:14px;box-shadow:0 10px 36px rgba(0,0,0,.22);padding:11px 16px 12px;font-size:13.5px;min-width:230px;max-width:340px;transition:transform .5s var(--spring),opacity .3s ease;z-index:320}
+#toast::before{content:"SAMM";display:block;font-size:10.5px;font-weight:600;letter-spacing:.06em;color:var(--text2);margin-bottom:2px}
+#toast.show{transform:none;opacity:1}
+#toast.err{background:var(--win);color:var(--danger)}
+@media(max-width:600px){#toast{left:10px;right:10px;max-width:none;transform:translateY(-150%)}#toast.show{transform:none}}
+/* spinning-spoke loader */
+.is-loading::before{border:none;width:18px;height:18px;margin:-9px 0 0 -9px;background:conic-gradient(from 0deg,rgba(142,142,147,0),rgba(142,142,147,1));-webkit-mask:radial-gradient(circle,transparent 34%,#000 36%),repeating-conic-gradient(#000 0 14deg,transparent 14deg 30deg);-webkit-mask-composite:source-in;mask:radial-gradient(circle,transparent 34%,#000 36%),repeating-conic-gradient(#000 0 14deg,transparent 14deg 30deg);mask-composite:intersect;animation:macSpin 1s steps(12) infinite}
+.btn.primary.is-loading::before,.botsend.is-loading::before{background:conic-gradient(from 0deg,rgba(255,255,255,0),#fff)}
+/* boot */
+#macBoot{position:fixed;inset:0;z-index:500;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transition:opacity .45s ease}
+#macBoot.done{opacity:0;pointer-events:none}
+#macBoot img{height:34px;width:auto}
+[data-theme="dark"] #macBoot img{filter:invert(1)}
+.mb-bar{width:150px;height:4px;border-radius:4px;background:var(--ctl);overflow:hidden}
+.mb-bar i{display:block;height:100%;width:0;border-radius:4px;background:var(--text);animation:macBootBar .9s var(--ease) forwards}
+/* scrollbars */
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-thumb{background:rgba(128,128,128,.45);border-radius:9px;border:2px solid transparent;background-clip:content-box}
+::-webkit-scrollbar-track{background:transparent}
+@keyframes macFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes macWinIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+@keyframes macWinOut{to{opacity:0;transform:scale(.95)}}
+@keyframes macGenie{0%{opacity:0;transform:scale(.05);filter:blur(6px)}55%{opacity:1;filter:blur(0)}100%{opacity:1;transform:scale(1)}}
+@keyframes macGenieOut{to{opacity:0;transform:scale(.05);filter:blur(4px)}}
+@keyframes macSpin{to{transform:rotate(360deg)}}
+@keyframes macBootBar{0%{width:0}60%{width:72%}100%{width:100%}}
+@media(prefers-reduced-motion:reduce){.macwin.open,.macwin.closing,.overlay.show .modal,.overlay.closing .modal,.card,section{animation:none!important}#toast{transition:opacity .2s}}
+@media print{#macBoot,.macwin{display:none!important}}
+
+/* ===== weights (need-wise) ===== */
+.btn{font-weight:600}
+.btn.ghost,.btn.mini{font-weight:600}
+.plink{font-weight:500}.plink.active{font-weight:600}
+.tab{font-weight:500}.tab.active{font-weight:600}
+.drawer-link{font-weight:500}.drawer-link.active{font-weight:600}
+.card h3,.modal h3,.card-h,.cat-name,.step-title,.task-title,.botname,.clklbl,.mac-title{font-weight:600}
+.task.done .task-title,.step.done .step-title{font-weight:500}
+.card > .row:first-child > strong,.card h2.sec-h{font-weight:700}
+.stat-big{font-weight:800}
+.stat-lbl,.field label{font-weight:500}
+.pill{font-weight:600;letter-spacing:.01em}
+.botchips button,.cobtn{font-weight:500}
+/* ===== vertical centering everywhere (dots, tags, buttons) ===== */
+.row,.task,.task-meta,.step-meta,.step-actions,.cat-top,.mt-row,.mac-tb,.botinput,.bothead{align-items:center}
+.task-meta,.step-meta{display:flex;flex-wrap:wrap;gap:8px}
+.catdot,.hdot,.cal-dot,.cdot{align-self:center;flex:none;vertical-align:middle}
+.pill{display:inline-flex;align-items:center;justify-content:center;line-height:1.25;vertical-align:middle;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;line-height:1.2;vertical-align:middle}
+.iconbtn,.btn.icon{line-height:1}
+.chk{flex:none;align-self:center}
+.sec-h .pill,.sec-h .btn{align-self:center}
+.datebar .btn.primary,.monthbar .btn.primary{margin-left:auto}
+.why-btn{border:none;background:transparent;cursor:pointer;font-size:14px;line-height:1;padding:2px 4px;margin-left:4px;border-radius:6px;vertical-align:middle;opacity:.9}
+.why-btn:hover{background:var(--ctl);opacity:1}
+.why-t{font-weight:600;font-size:16px;margin:4px 0 2px}
+.why-r{font-size:15px;margin:6px 0 12px}
+.why-ev-h{font-size:11.5px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-top:6px}
+.why-ev{list-style:none;margin:6px 0 10px;padding:0}
+.why-ev li{padding:7px 11px;border-radius:8px;background:var(--ctl);margin-bottom:6px;font-size:14px}
+.cobtn.primary{background:var(--accent);color:#fff;border-color:transparent;font-weight:600;padding:9px 14px;font-size:13.5px}
+.cobtn.primary:hover{background:var(--accent);filter:brightness(1.06)}
+.cobtn.wa-done{border-color:var(--ok);color:var(--ok);opacity:1;cursor:default}
+.cobtn:disabled{cursor:default;opacity:.8}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 </head>
 <body>
+<div id="macBoot" aria-hidden="true"><img alt="" id="macBootImg"><div class="mb-bar"><i></i></div></div>
 <div class="topbar">
   <div class="topbar-inner">
     <button class="iconbtn hamb" onclick="APP.openDrawer()" aria-label="Menu">&#9776;</button>
@@ -446,7 +600,7 @@ button:active:not(:disabled),.btn:active{transform:scale(.96)}
   </section>
   <section id="gl-monthly">
     <h1 class="page-h">Goals</h1>
-    <p class="sub">Set what to do this week, month or year \u2014 then track progress.</p>
+    <p class="sub">Set what to do this week, month or year — then track progress.</p>
     <div class="monthbar sticky-sub" id="glGoalBar"></div>
     <div id="glMonthlyList"></div>
   </section>
@@ -548,6 +702,13 @@ button:active:not(:disabled),.btn:active{transform:scale(.96)}
       <div class="row" style="align-items:center"><button class="btn primary" data-load="ai" onclick="APP.saveAIKey()">Save &amp; connect</button><button class="btn" data-load="ai" onclick="CO.check()">Test</button><span class="conn"><span class="cdot off" id="aiDot"></span><span id="aiConnTxt">Not checked</span></span></div>
     </div>
     <div class="card" style="margin-top:18px">
+      <h2 class="sec-h" style="margin-top:0">WhatsApp from my number</h2>
+      <p class="sub" style="margin-bottom:14px">Lets Samm AI send WhatsApp messages from your own number through your SP WA Sender bridge — only when you tap Send. Paste your Apps Script web-app URL and token. Stays only in this browser.</p>
+      <div class="field"><label>Apps Script web-app URL</label><input id="stWaUrl" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off"></div>
+      <div class="field"><label>Token</label><input id="stWaTok" type="password" placeholder="SPWA-…" autocomplete="off"></div>
+      <div class="row" style="align-items:center"><button class="btn primary" data-load="wa" onclick="CO.waSave()">Save &amp; test</button><span class="conn"><span class="cdot off" id="waDot"></span><span id="waTxt">Not set up</span></span></div>
+    </div>
+    <div class="card" style="margin-top:18px">
       <h2 class="sec-h" style="margin-top:0">Screen notifications &amp; alarms</h2>
       <p class="sub" style="margin-bottom:14px">Shows Samm notifications, timers and alarms on your phone/PC screen while Samm is open (a background tab is fine). <b>iPhone:</b> open in Safari → Share → Add to Home Screen, open Samm from the home screen, then enable here. For an alarm that must ring with the phone locked, tap the 📅 Add to phone button the bot gives you.</p>
       <div class="row" style="align-items:center"><button class="btn primary" id="pushBtn" onclick="CLK.togglePush()">Enable</button><button class="btn" onclick="CLK.testPush()">Test</button><button class="btn" onclick="CLK.openList()">Timers &amp; alarms</button><span class="conn"><span class="cdot off" id="pushDot"></span><span id="pushTxt">Off</span></span></div>
@@ -560,7 +721,7 @@ button:active:not(:disabled),.btn:active{transform:scale(.96)}
 <div id="botPanel" class="botpanel" role="dialog" aria-label="Samm AI">
  <div class="bothead"><div class="botava"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V5"/><circle cx="12" cy="4" r="1"/><circle cx="9" cy="13.5" r="1" fill="currentColor"/><circle cx="15" cy="13.5" r="1" fill="currentColor"/></svg></div><div style="flex:1;min-width:0"><div class="botname">Samm AI</div><div class="botsub" id="coStat">Online · scans your app live</div></div><button class="iconbtn" onclick="CO.clear()" title="Clear chat">🗑</button><button class="iconbtn" onclick="CO.toggle(false)" title="Close">✕</button></div>
  <div id="coMsgs" class="botmsgs"></div>
- <div class="botchips"><button onclick="CO.quick('What should I do first today? Check my patterns and set priorities.')">🎯 Today’s priority</button><button onclick="CO.quick('Give me my status for the last 2 weeks — what am I skipping and what is strong?')">📊 My status</button><button onclick="CO.quick('How is my money this month — spending, and where is most of it going?')">💰 Money</button><button onclick="CO.quick('Give me today’s global financial and market news in short — gold, Nifty, USD/INR.')">🌍 Market news</button></div>
+ <div class="botchips"><button onclick="WIN.show(this)">📋 Today’s tasks</button><button onclick="CO.quick('What should I do first today? Check my patterns and set priorities.')">🎯 Today’s priority</button><button onclick="CO.quick('Give me my status for the last 2 weeks — what am I skipping and what is strong?')">📊 My status</button><button onclick="CO.quick('How is my money this month — spending, and where is most of it going?')">💰 Money</button><button onclick="CO.quick('Give me today’s global financial and market news in short — gold, Nifty, USD/INR.')">🌍 Market news</button><button onclick="CO.quick('Live prices right now: XAUUSD, silver, BTC and USD/INR.')">💹 Live prices</button></div>
  <div class="botinput"><textarea id="coIn" rows="1" placeholder="Type in Hinglish or English…"></textarea><button class="botsend" onclick="CO.send()" aria-label="Send">➤</button></div>
 </div>
 <div id="clkChip" class="clkchip" role="button" aria-label="Timers and alarms" onclick="CLK.openList()"></div>
@@ -738,10 +899,10 @@ var STORE=(function(){
         categoryKey:d.categoryKey||'general',priority:d.priority||'medium',
         done:false,date:d.date||today(),note:d.note||'',
         linkedMonthlyId:d.linkedMonthlyId||'',appliedToMonthly:false
-      });
+      }); var o=db.dailyGoals[db.dailyGoals.length-1]; if(d.why) o.why=String(d.why).slice(0,200); if(d.evidence&&d.evidence.length) o.evidence=d.evidence.slice(0,5); if(d.by) o.by=d.by; if(d.asked) o.asked=String(d.asked).slice(0,160);
     });
   }
-  function bulkDaily(items){ commit(function(db){ for(var i=0;i<items.length;i++){ var it=items[i],dup=false; for(var j=0;j<db.dailyGoals.length;j++){ if(db.dailyGoals[j].date===it.date && db.dailyGoals[j].title===it.title){ dup=true; break; } } if(dup) continue; db.dailyGoals.push({id:genId('day'),title:it.title||'Task',description:'',categoryKey:it.categoryKey||'general',priority:'medium',done:false,date:it.date||today(),note:'',linkedMonthlyId:'',appliedToMonthly:false}); } }); }
+  function bulkDaily(items){ commit(function(db){ for(var i=0;i<items.length;i++){ var it=items[i],dup=false; for(var j=0;j<db.dailyGoals.length;j++){ if(db.dailyGoals[j].date===it.date && db.dailyGoals[j].title===it.title){ dup=true; break; } } if(dup) continue; db.dailyGoals.push({id:genId('day'),title:it.title||'Task',description:'',categoryKey:it.categoryKey||'general',priority:'medium',done:false,date:it.date||today(),note:'',linkedMonthlyId:'',appliedToMonthly:false}); var o=db.dailyGoals[db.dailyGoals.length-1], d=it; if(d.why) o.why=String(d.why).slice(0,200); if(d.evidence&&d.evidence.length) o.evidence=d.evidence.slice(0,5); if(d.by) o.by=d.by; if(d.asked) o.asked=String(d.asked).slice(0,160); } }); }
   function setSpendLimit(amount,month){ commit(function(db){ db.settings.spendLimit={amount:parseFloat(amount)||0,month:month||thisMonth(),notified:false}; }); }
   function toggleDaily(id,done){
     commit(function(db){
@@ -879,7 +1040,8 @@ var STORE=(function(){
   function addCoachMsg(role,content,links){ commit(function(db){ var m={role:role,content:content,ts:Date.now()}; if(links&&links.length) m.links=links; db.coach.messages.push(m); if(db.coach.messages.length>200) db.coach.messages.splice(0,db.coach.messages.length-200); }); }
   function coachRemember(fact){ fact=(''+(fact||'')).replace(/^\s+|\s+$/g,''); if(!fact) return false; var m=read().coach.memory; for(var i=0;i<m.length;i++){ if(m[i].fact.toLowerCase()===fact.toLowerCase()) return false; } commit(function(db){ db.coach.memory.push({fact:fact,ts:Date.now()}); if(db.coach.memory.length>60) db.coach.memory.splice(0,db.coach.memory.length-60); }); return true; }
   function coachForget(fact){ var q=(''+(fact||'')).toLowerCase().replace(/^\s+|\s+$/g,''); if(!q) return 0; var n=0; commit(function(db){ var keep=[]; for(var i=0;i<db.coach.memory.length;i++){ var f=db.coach.memory[i].fact.toLowerCase(); if(f.indexOf(q)>-1||q.indexOf(f)>-1) n++; else keep.push(db.coach.memory[i]); } db.coach.memory=keep; }); return n; }
-  function clearCoach(){ commit(function(db){ db.coach.messages=[]; }); }
+  function patchCoachLink(ts,j,patch){ commit(function(db){ var ms=db.coach.messages, m=null, i; for(i=ms.length-1;i>=0;i--){ if(ms[i].ts===ts){ m=ms[i]; break; } } if(!m||!m.links||!m.links[j]) return; for(var k in patch) m.links[j][k]=patch[k]; }); }
+  function clearCoach(){ commit(function(db){ db.coach.clearedAt=Date.now(); }); }
   function replaceAll(d){ var ok=write(normalize(d)); if(ok) emit(read()); return ok; }
   /* ---------- NOTIFICATIONS ---------- */
   function pushNotif(db,n){ db.notifications.unshift({id:genId('ntf'),date:(new Date()).toISOString(),read:false,type:n.type||'info',title:n.title||'',body:n.body||'',action:n.action||null}); if(db.notifications.length>120) db.notifications.length=120; }
@@ -905,7 +1067,7 @@ var STORE=(function(){
     addDaily:addDaily,bulkDaily:bulkDaily,setSpendLimit:setSpendLimit,toggleDaily:toggleDaily,updateDaily:updateDaily,deleteDaily:deleteDaily,
     addMonthly:addMonthly,updateMonthly:updateMonthly,setMonthlyProgress:setMonthlyProgress,completeMonthly:completeMonthly,deleteMonthly:deleteMonthly,
     addNote:addNote,updateNote:updateNote,deleteNote:deleteNote,
-    setProfile:setProfile,exportObj:exportObj,validImport:validImport,doImport:doImport,replaceAll:replaceAll,saveDayLog:saveDayLog,addCoachMsg:addCoachMsg,clearCoach:clearCoach,coachRemember:coachRemember,coachForget:coachForget,
+    setProfile:setProfile,exportObj:exportObj,validImport:validImport,doImport:doImport,replaceAll:replaceAll,saveDayLog:saveDayLog,addCoachMsg:addCoachMsg,clearCoach:clearCoach,coachRemember:coachRemember,patchCoachLink:patchCoachLink,coachForget:coachForget,
     addTxn:addTxn,updateTxn:updateTxn,deleteTxn:deleteTxn,walletTotals:walletTotals,
     addHabit:addHabit,updateHabit:updateHabit,deleteHabit:deleteHabit,habitDone:habitDone,toggleHabit:toggleHabit,
     notify:notify,markAllRead:markAllRead,markRead:markRead,archiveNotif:archiveNotif,deleteNotif:deleteNotif,unreadCount:unreadCount,respondApproval:respondApproval,rollover:rollover,
@@ -932,8 +1094,8 @@ var APP=(function(){
   var _tt;
   function toast(msg,err){ var el=$('toast'); el.textContent=msg; el.className='show'+(err?' err':''); clearTimeout(_tt); _tt=setTimeout(function(){ el.className=err?'err':''; },2200); }
 
-  function openOverlay(html){ $('modal').innerHTML=html; $('overlay').className='overlay show'; document.body.classList.add('modal-open'); }
-  function closeModal(){ $('overlay').className='overlay'; document.body.classList.remove('modal-open'); }
+  function openOverlay(html){ $('modal').innerHTML='<div class="mac-tb"><span class="tl r" onclick="APP.closeModal()" title="Close"></span><span class="tl y" onclick="APP.closeModal()" title="Minimize"></span><span class="tl g" title="Zoom"></span></div>'+html; $('overlay').className='overlay show'; document.body.classList.add('modal-open'); }
+  function closeModal(){ var ov=$('overlay'); document.body.classList.remove('modal-open'); if(ov.className.indexOf('show')<0){ ov.className='overlay'; return; } ov.className='overlay show closing'; setTimeout(function(){ if(ov.className.indexOf('closing')>-1) ov.className='overlay'; },190); }
   function confirmBox(msg,onYes,yesLabel){
     openOverlay('<h3>Please confirm</h3><p class="sub" style="margin-bottom:0;white-space:pre-wrap">'+esc(msg)+'</p>'
       +'<div class="modal-actions"><button class="btn ghost" onclick="APP.closeModal()">Cancel</button>'
@@ -986,7 +1148,7 @@ var APP=(function(){
   /* ---- shared settings ---- */
   function fillSettings(){ var db=STORE.read(); $('stName').value=db.profile.name||''; $('stTheme').value=db.profile.theme||'light'; }
   function saveAIKey(){ var e=$('stAIKey'); if(!e)return; var v=(e.value||'').replace(/^\s+|\s+$/g,''); try{ localStorage.setItem('SAMM_AI_KEY',v); }catch(x){} toast(v?'Key saved \u2014 connecting\u2026':'Key cleared'); if(window.CO){ CO.check(); CO.render(); } }
-  function fillAIKey(){ var e=$('stAIKey'); if(e){ try{ e.value=localStorage.getItem('SAMM_AI_KEY')||''; }catch(x){} } if(window.CO) CO.autoCheck(); if(window.CLK) CLK.paintPush(); }
+  function fillAIKey(){ var e=$('stAIKey'); if(e){ try{ e.value=localStorage.getItem('SAMM_AI_KEY')||''; }catch(x){} } if(window.CO){ CO.autoCheck(); CO.waFill(); } if(window.CLK) CLK.paintPush(); }
   function saveSettings(){ STORE.setProfile({name:$('stName').value.trim(),theme:$('stTheme').value}); applyTheme($('stTheme').value); toast('Settings saved'); }
 
   /* ---- backup ---- */
@@ -1226,7 +1388,7 @@ var GL=(function(){
   }
   function taskRow(db,t){
     var linked=t.linkedMonthlyId?STORE.find(db.monthlyGoals,t.linkedMonthlyId):null; var ck=t.categoryKey||'general';
-    return '<div class="task'+(t.done?' done':'')+'"><div class="chk'+(t.done?' on':'')+'" onclick="STORE.toggleDaily(\''+t.id+'\','+(t.done?'false':'true')+')">'+(t.done?'&#10003;':'')+'</div><div class="task-main"><div class="task-title">'+esc(t.title)+'</div><div class="task-meta">'+priPill(t.priority)+(linked?'<span class="pill link">&#128279; '+linked.current+'/'+linked.target+'</span>':'')+'</div></div><span class="catdot '+ck+'" title="'+(CATL[ck]||'General')+'"></span><button class="btn icon mini ghost" title="Edit" onclick="GL.openDaily(\''+t.id+'\',\''+t.date+'\')">&#9998;</button><button class="btn icon mini danger" title="Delete" onclick="GL.askDelDaily(\''+t.id+'\')">&times;</button></div>';
+    return '<div class="task'+(t.done?' done':'')+'"><div class="chk'+(t.done?' on':'')+'" onclick="STORE.toggleDaily(\''+t.id+'\','+(t.done?'false':'true')+')">'+(t.done?'&#10003;':'')+'</div><div class="task-main"><div class="task-title">'+esc(t.title)+((t.why||t.prioWhy)?(' <button class="why-btn" title="Why this task?" onclick="event.stopPropagation();WIN.why(\''+t.id+'\')">\uD83D\uDCA1</button>'):'')+'</div><div class="task-meta">'+priPill(t.priority)+(linked?'<span class="pill link">&#128279; '+linked.current+'/'+linked.target+'</span>':'')+'</div></div><span class="catdot '+ck+'" title="'+(CATL[ck]||'General')+'"></span><button class="btn icon mini ghost" title="Edit" onclick="GL.openDaily(\''+t.id+'\',\''+t.date+'\')">&#9998;</button><button class="btn icon mini danger" title="Delete" onclick="GL.askDelDaily(\''+t.id+'\')">&times;</button></div>';
   }
 
   function renderDaily(db){
@@ -1516,10 +1678,10 @@ var CO=(function(){
   var PREF=['openai/gpt-oss-120b','llama-3.3-70b-versatile','moonshotai/kimi-k2-instruct','meta-llama/llama-4-maverick-17b-128e-instruct','qwen/qwen3-32b','openai/gpt-oss-20b','meta-llama/llama-4-scout-17b-16e-instruct','llama-3.1-8b-instant'];
   var SKIP=/whisper|tts|guard|compound|playai|orpheus|distil|safeguard|allam/i;
   var conn='unknown', connMsg='';
-  var SYS="You are Samm AI — Sam's personal AI buddy + mentor AND the operator of his app 'Samm 2.0'. Talk like a real friend who is also a sharp mentor, warm but direct. Rule: Be Real, Be Human — say no to bad ideas, no flattery, no fluff.\n\nNOW: {{NOW}}.\nYou get a LIVE SCAN of his whole app below (tasks, upcoming tasks, 14-day patterns, goals, milestones, wallet, logs, your memory of him). Use it.\n\nLANGUAGE (strict):\n- Sam writes in Hinglish or English. Understand both perfectly.\n- Casual chat only (hi, small talk, banter): you may mirror his style — Hinglish or English.\n- Every RESULT must be in clear, simple, pure English with no Hindi/Hinglish words: suggestions, advice, priority lists, plans, status reports, money summaries, news, and questions asking for missing info.\n- EVERY text field inside actions (title, note, text, fact, category) must be clean English. Translate his Hinglish into natural English, e.g. \"bank jana\" → \"Go to the bank\", \"roz subah 6 baje uthna\" → \"Wake up at 6:00 AM\", \"chai ka kharcha\" → \"Tea\", \"cigarette nahi fukni\" → \"No smoking\". Titles: short, capitalized, action-style.\n\nHOW TO TALK:\n- Hi/hello/casual: reply like a friend (1-2 lines), maybe one useful nudge. No unasked reports.\n- Status / priority: NEGLECTED items first ('You skipped X for 3 days — do it first'), then deadlines/overdue, then rest. Numbered order + set priorities with actions.\n- Never invent numbers.\n\nYOU HAVE FULL CONTROL OF THE APP THROUGH ACTIONS. Whatever Sam asks to add / change / complete / move / delete, you DO it with actions in the SAME reply.\nHARD RULES:\n1. NEVER say done/added/set/scheduled/kar diya unless the matching action is in this same reply. The app shows Sam a receipt only for actions that actually ran — a claim without an action is a lie he will catch.\n2. Missing or unclear info → ask ONE short question, actions:[]. Required: txn = amount + income/expense (credit/aaya/mila/received = income; debit/kharcha/diya/paid = expense); task = title; goal = title (+ period, default month).\n3. For existing items use the exact title from the LIVE SCAN.\n4. Dates: \"today\", \"tomorrow\", \"+3d\" (3 din baad), or YYYY-MM-DD.\n5. Memory: durable facts about Sam (routine, goals, preferences, how he works) → remember action, written as a short third-person English fact. 'bhool ja' / 'forget it' → forget.\n\nOUTPUT: exactly ONE JSON object, nothing else: {\"say\":\"<reply>\",\"actions\":[...]}\nACTIONS:\nTasks (daily list):\n- {\"type\":\"task\",\"title\":\"Call bank\",\"date\":\"+3d\",\"priority\":\"high\"}  one task on one day (date default today)\n- {\"type\":\"daily\",\"title\":\"6:00 AM wake up\",\"days\":30}  same task every day from today (max 60; month=30, week=7)\n- {\"type\":\"challenge\",\"title\":\"No cigarette\",\"days\":30}\n- {\"type\":\"task_done\",\"title\":\"Workout\",\"date\":\"today\"}   {\"type\":\"task_undo\",\"title\":\"Workout\"}\n- {\"type\":\"task_move\",\"title\":\"Call bank\",\"from\":\"today\",\"to\":\"+1d\"}\n- {\"type\":\"task_delete\",\"title\":\"Call bank\",\"date\":\"today\",\"all\":false}  (all:true = every date from today)\n- {\"type\":\"priority\",\"title\":\"Workout\",\"level\":\"high|medium|low\"}\nGoals:\n- {\"type\":\"goal\",\"title\":\"Read 2 books\",\"period\":\"week|month|year\",\"deadline\":\"+20d\",\"budget\":0}\n- {\"type\":\"goal_done\",\"title\":\"...\"}   {\"type\":\"goal_delete\",\"title\":\"...\"}\nMilestones:\n- {\"type\":\"milestone\",\"title\":\"Launch site\",\"date\":\"2026-12-31\"}   {\"type\":\"milestone_done\",\"title\":\"...\"}   {\"type\":\"milestone_delete\",\"title\":\"...\"}\nWallet:\n- {\"type\":\"txn\",\"kind\":\"income\",\"amount\":1000,\"note\":\"From Rahul\",\"category\":\"Career\",\"date\":\"today\"}  (kind income|expense)\n- {\"type\":\"txn_delete\",\"note\":\"From Rahul\",\"amount\":1000}\n- {\"type\":\"budget\",\"amount\":5000,\"month\":\"{{MONTH}}\"}  monthly spend limit, alerts on breach\nTimers & alarms (ring on this device while Samm is open; for a locked phone the receipt gives Sam an 'Add to phone' button — mention it in one short line for alarms):\n- {\"type\":\"timer\",\"minutes\":25,\"label\":\"Focus\"}\n- {\"type\":\"alarm\",\"time\":\"06:00\",\"date\":\"tomorrow\",\"label\":\"Wake up\"}  (or \"in\":\"45m\"; no date = next occurrence)\n- {\"type\":\"alarm_cancel\",\"label\":\"Wake up\"}   {\"type\":\"timer_cancel\",\"label\":\"Focus\"}\nMaps:\n- {\"type\":\"navigate\",\"to\":\"Purulia Railway Station\",\"mode\":\"driving|two-wheeler|walking|transit\"}  gives Sam a Start navigation button (from his current location)\nMeetings:\n- {\"type\":\"meeting\",\"title\":\"Pricing discussion\",\"with\":\"Rahul\",\"date\":\"tomorrow\",\"time\":\"15:30\",\"place\":\"SP Honda office | online\",\"notes\":\"agenda\"}  adds a task, a reminder 15 min before, a note, calendar + map/Meet buttons\n- {\"type\":\"meeting_note\",\"title\":\"Pricing discussion\",\"text\":\"Agreed on Rs 50k, follow up Friday\"}\nWhen Sam asks what happened in a meeting, answer from RECENT NOTES.\nOther:\n- {\"type\":\"note\",\"text\":\"...\"}\n- {\"type\":\"remember\",\"fact\":\"Sam trades XAUUSD in the evening\"}   {\"type\":\"forget\",\"fact\":\"...\"}\nSplit each distinct item into its own action. Several actions in one reply is fine.";
-  var NEWS_ADD="\n\nNEWS MODE: Sam asked about world/financial/market news. Use your web search for LIVE info from today/this week. Short bullets, each with source name. If you could not get live info, say so plainly — never invent prices or headlines. Still answer in the JSON format.";
+  var SYS="You are Samm AI — Sam's personal AI buddy + mentor AND the operator of his app 'Samm 2.0'. Talk like a real friend who is also a sharp mentor, warm but direct. Rule: Be Real, Be Human — say no to bad ideas, no flattery, no fluff.\n\nNOW: {{NOW}}.\nYou get a LIVE SCAN of his whole app below (tasks, upcoming tasks, 14-day patterns, goals, milestones, wallet, logs, your memory of him). Use it.\n\nLANGUAGE & STYLE (strict):\n- Sam writes in Hinglish (Hindi in Roman script mixed with English) or in English. Understand both perfectly.\n- Reply in the SAME style as his latest message: Hinglish question → simple Hinglish answer (Roman script, the way he types — never Devanagari); English question → simple English answer.\n- Simple but effective: short sentences, everyday words, explain any jargon in one line, use 2–5 short bullets or numbered steps only when they help, and end with the one most useful next step. No long essays.\n- EVERY text field inside actions (title, note, text, fact, category) and anything saved in the app must be clean English, whatever language Sam used. Translate his Hinglish into natural English, e.g. \"bank jana\" → \"Go to the bank\", \"roz subah 6 baje uthna\" → \"Wake up at 6:00 AM\", \"chai ka kharcha\" → \"Tea\", \"cigarette nahi fukni\" → \"No smoking\". Titles: short, capitalized, action-style.\n\nUSEFUL LINKS:\n- For important, how-to, learning, career, money, tax, legal, health, tech or official/government questions, add 1–3 useful links in \"links\". Casual chat and simple app actions get no links.\n- You have NO web access in normal mode, so NEVER write a URL yourself. Give a search instead: {\"label\":\"Official ITR filing guide\",\"search\":\"how to file ITR online site:incometax.gov.in\"} or a YouTube search for visual how-tos: {\"label\":\"Watch: file ITR step by step\",\"video\":\"how to file ITR online step by step 2026\"}. Make the search specific; prefer official sites with site:.\n- Mention the links in one short line in say (e.g. \"Neeche links diye hain.\").\n\nWHY & EVIDENCE (with emojis):\n- Every task, routine, challenge or priority you create on your OWN suggestion must carry \"why\" (one short line that starts with an emoji) and \"evidence\" (2–4 short facts from the LIVE SCAN with real numbers or dates, each starting with an emoji), e.g. \"why\":\"💪 Workout keeps slipping\", \"evidence\":[\"📉 Done 2/6 in the last 14 days\",\"⏰ Missed the last 3 days in a row\",\"🎯 Linked to your goal: Run 3 times\"].\n- If Sam asked for the task himself, use \"why\":\"📝 You asked for this\" and evidence may be empty. Never invent evidence or numbers.\n- When Sam asks why a task was given, answer from that task's stored why / evidence / 'Sam asked' in the scan, plus today's data: short, with emojis, in his language style. If there is no stored reason, say so honestly.\n\nPRICES: quote market prices ONLY from a LIVE PRICES block in this prompt, with its 'as of' time, and add that a broker's quote can differ by the spread. If there is no LIVE PRICES block or it says unavailable, say you couldn't fetch it — never quote prices from memory. Indian stock prices (Nifty, Sensex, shares) are not available live here; say so and offer news instead.\n\nHOW TO TALK:\n- Hi/hello/casual: reply like a friend (1-2 lines), maybe one useful nudge. No unasked reports.\n- Status / priority: NEGLECTED items first ('You skipped X for 3 days — do it first'), then deadlines/overdue, then rest. Numbered order + set priorities with actions.\n- Never invent numbers.\n\nYOU HAVE FULL CONTROL OF THE APP THROUGH ACTIONS. Whatever Sam asks to add / change / complete / move / delete, you DO it with actions in the SAME reply.\nHARD RULES:\n1. NEVER say done/added/set/scheduled/kar diya unless the matching action is in this same reply. The app shows Sam a receipt only for actions that actually ran — a claim without an action is a lie he will catch.\n2. Missing or unclear info → ask ONE short question, actions:[]. Required: txn = amount + income/expense (credit/aaya/mila/received = income; debit/kharcha/diya/paid = expense); task = title; goal = title (+ period, default month).\n3. For existing items use the exact title from the LIVE SCAN.\n4. Dates: \"today\", \"tomorrow\", \"+3d\" (3 din baad), or YYYY-MM-DD.\n5. Memory: durable facts about Sam (routine, goals, preferences, how he works) → remember action, written as a short third-person English fact. 'bhool ja' / 'forget it' → forget.\n\nOUTPUT: exactly ONE JSON object, nothing else: {\"say\":\"<reply>\",\"actions\":[...],\"links\":[...]}  (links optional, max 3)\nACTIONS (add \"why\" + \"evidence\" to task, daily, challenge and priority actions):\nTasks (daily list):\n- {\"type\":\"task\",\"title\":\"Call bank\",\"date\":\"+3d\",\"priority\":\"high\"}  one task on one day (date default today)\n- {\"type\":\"daily\",\"title\":\"6:00 AM wake up\",\"days\":30}  same task every day from today (max 60; month=30, week=7)\n- {\"type\":\"challenge\",\"title\":\"No cigarette\",\"days\":30}\n- {\"type\":\"task_done\",\"title\":\"Workout\",\"date\":\"today\"}   {\"type\":\"task_undo\",\"title\":\"Workout\"}\n- {\"type\":\"task_move\",\"title\":\"Call bank\",\"from\":\"today\",\"to\":\"+1d\"}\n- {\"type\":\"task_delete\",\"title\":\"Call bank\",\"date\":\"today\",\"all\":false}  (all:true = every date from today)\n- {\"type\":\"priority\",\"title\":\"Workout\",\"level\":\"high|medium|low\"}\nGoals:\n- {\"type\":\"goal\",\"title\":\"Read 2 books\",\"period\":\"week|month|year\",\"deadline\":\"+20d\",\"budget\":0}\n- {\"type\":\"goal_done\",\"title\":\"...\"}   {\"type\":\"goal_delete\",\"title\":\"...\"}\nMilestones:\n- {\"type\":\"milestone\",\"title\":\"Launch site\",\"date\":\"2026-12-31\"}   {\"type\":\"milestone_done\",\"title\":\"...\"}   {\"type\":\"milestone_delete\",\"title\":\"...\"}\nWallet:\n- {\"type\":\"txn\",\"kind\":\"income\",\"amount\":1000,\"note\":\"From Rahul\",\"category\":\"Career\",\"date\":\"today\"}  (kind income|expense)\n- {\"type\":\"txn_delete\",\"note\":\"From Rahul\",\"amount\":1000}\n- {\"type\":\"budget\",\"amount\":5000,\"month\":\"{{MONTH}}\"}  monthly spend limit, alerts on breach\nTimers & alarms (ring on this device while Samm is open; for a locked phone the receipt gives Sam an 'Add to phone' button — mention it in one short line for alarms):\n- {\"type\":\"timer\",\"minutes\":25,\"label\":\"Focus\"}\n- {\"type\":\"alarm\",\"time\":\"06:00\",\"date\":\"tomorrow\",\"label\":\"Wake up\"}  (or \"in\":\"45m\"; no date = next occurrence)\n- {\"type\":\"alarm_cancel\",\"label\":\"Wake up\"}   {\"type\":\"timer_cancel\",\"label\":\"Focus\"}\nMaps:\n- {\"type\":\"navigate\",\"to\":\"Purulia Railway Station\",\"mode\":\"driving|two-wheeler|walking|transit\"}  gives Sam a Start navigation button (from his current location)\n- When Sam says he has to go somewhere (\"aaj X jana hai\", \"X ka rasta\", \"navigate to X\"), give a navigate action. If he also mentions a time or another day, add a task \"Go to X\" for that day too.\nLocation:\n- {\"type\":\"share_location\",\"to\":\"+919876543210\",\"name\":\"Rahul\",\"message\":\"On my way\"}  gives Sam a button that reads his CURRENT GPS location and opens WhatsApp with a Google Maps link (no number = he picks the contact). This is not WhatsApp live location: live location can only be started inside WhatsApp (chat → 📎 → Location → Share live location). When he asks for live location, give share_location and say that in one short line.\nMeetings:\n- {\"type\":\"meeting\",\"title\":\"Pricing discussion\",\"with\":\"Rahul\",\"date\":\"tomorrow\",\"time\":\"15:30\",\"place\":\"SP Honda office | online\",\"notes\":\"agenda\"}  adds a task, a reminder 15 min before, a note, calendar + map/Meet buttons\n- {\"type\":\"meeting_note\",\"title\":\"Pricing discussion\",\"text\":\"Agreed on Rs 50k, follow up Friday\"}\nWhen Sam asks what happened in a meeting, answer from RECENT NOTES.\nMessages (Sam taps Send himself after reviewing — never claim a message was sent):\n- If the scan says WhatsApp from Sam’s own number is connected, a draft with a phone number gets a \"Send from my number\" button that sends through his bridge once he taps it (saved contacts only, max 30/day). Still never say it was sent — the app shows Sent/Failed itself.\n- {\"type\":\"whatsapp\",\"to\":\"+919876543210\",\"name\":\"Rahul\",\"message\":\"...\",\"at\":\"2026-11-26 00:02\"}  (\"at\" optional = scheduled send at that exact local time; or use \"time\":\"00:02\",\"date\":\"tomorrow\"). If Sam gives only a name and his own-number WhatsApp is connected, leave \"to\" empty and put the saved contact name exactly as he said it in \"name\" — his bridge matches it against his saved contacts. Otherwise no number = he picks the contact in WhatsApp.\n- Scheduled WhatsApp goes even if Sam is offline, but only if his bridge PC is on at that time; say that in one short line. Midnight wishes: compute the date correctly (\"12:02 tonight\" = tomorrow’s date at 00:02).\n- {\"type\":\"email\",\"to\":\"name@company.com\",\"cc\":\"\",\"subject\":\"...\",\"body\":\"...\"}\nWrite messages like a professional: right greeting, short clear body, polite close, signed with Sam's name from the scan. English unless Sam asks for Hindi. If the purpose or recipient is unclear, ask first. When Sam shares someone's number or email, also add a remember action (e.g. \"Rahul's WhatsApp is +91...\") so you have it next time.\nOther:\n- {\"type\":\"note\",\"text\":\"...\"}\n- {\"type\":\"remember\",\"fact\":\"Sam trades XAUUSD in the evening\"}   {\"type\":\"forget\",\"fact\":\"...\"}\nSplit each distinct item into its own action. Several actions in one reply is fine.";
+  var NEWS_ADD="\n\nNEWS MODE: Sam asked about world/financial/market news. Use your web search for LIVE info from today/this week. Short bullets, each with source name, in the same language style as Sam's question. Put real source pages you actually found in \"links\" as {\"label\":\"Reuters: Gold rises on Fed bets\",\"url\":\"https://...\"} (max 3). If you could not get live info, say so plainly — never invent prices or headlines. Still answer in the JSON format.";
   var NO_WEB="\n\nLIVE WEB IS UNAVAILABLE right now. If Sam asks for news or live prices, tell him honestly you couldn't fetch live news this time; do not invent any.";
-  var busy=false, isOpen=false, wired=false;
+  var busy=false, isOpen=false, wired=false, greeting=false, GREET_GAP=30*60000;
   function $(id){ return document.getElementById(id); }
   var esc=APP.esc;
   function keyGet(){ try{ return localStorage.getItem(LSK)||''; }catch(e){ return ''; } }
@@ -1538,11 +1700,12 @@ var CO=(function(){
     var now=new Date();
     L.push('Name: '+((db.profile&&db.profile.name)||'Sam'));
     L.push('Categories: '+db.categories.map(function(c){ return c.name; }).join(', '));
+    L.push('WhatsApp from Sam\u2019s own number: '+(waCfg()?'connected (the receipt gets a "Send from my number" button; it sends only when Sam taps it)':'not set up (only Open-in-WhatsApp links)'));
     var mem=(db.coach&&db.coach.memory)||[];
     if(mem.length){ var ml=[]; for(i=0;i<mem.length;i++) ml.push('- '+mem[i].fact); L.push('YOUR MEMORY OF SAM:\n'+ml.join('\n')); }
     // today
     var td=[],tdone=0; for(i=0;i<db.dailyGoals.length;i++){ var g=db.dailyGoals[i]; if(g.date===t){ td.push(g); if(g.done) tdone++; } }
-    if(td.length){ var tl=[]; for(i=0;i<td.length;i++) tl.push((td[i].done?'[x] ':'[ ] ')+td[i].title+(td[i].priority&&td[i].priority!=='medium'?(' ('+td[i].priority+')'):'')); L.push('TODAY '+tdone+'/'+td.length+' done:\n'+tl.join('\n')); } else L.push('TODAY: no tasks planned');
+    if(td.length){ var tl=[]; for(i=0;i<td.length;i++) tl.push((td[i].done?'[x] ':'[ ] ')+td[i].title+(td[i].priority&&td[i].priority!=='medium'?(' ('+td[i].priority+')'):'')+(td[i].why?(' \u2014 why: '+td[i].why+(td[i].evidence&&td[i].evidence.length?(' | evidence: '+td[i].evidence.join('; ')):'')+(td[i].prioWhy?(' | priority why: '+td[i].prioWhy+(td[i].prioEvidence&&td[i].prioEvidence.length?(' ('+td[i].prioEvidence.join('; ')+')'):'')):'')+(td[i].asked?(' | Sam asked: "'+td[i].asked+'"'):'')):'')); L.push('TODAY '+tdone+'/'+td.length+' done:\n'+tl.join('\n')); } else L.push('TODAY: no tasks planned');
     var upc={}; for(i=0;i<db.dailyGoals.length;i++){ var ug=db.dailyGoals[i]; if(ug.date>t&&ug.date<=addD(t,7)&&!ug.done){ (upc[ug.date]=upc[ug.date]||[]).push(ug.title); } }
     var upk=Object.keys(upc).sort(); if(upk.length){ var ul=[]; for(i=0;i<upk.length;i++){ var tl2=upc[upk[i]]; ul.push(upk[i]+': '+tl2.slice(0,6).join(', ')+(tl2.length>6?(' +'+(tl2.length-6)+' more'):'')); } L.push('UPCOMING (next 7d):\n'+ul.join('\n')); }
     // 14-day patterns
@@ -1607,7 +1770,7 @@ var CO=(function(){
   function whenOf(a){ if(a.in){ var s=durSec(a.in); return s?Date.now()+s*1000:0; } var tm=parseTime(a.time); if(!tm) return 0; var ds=dateOf(a.date,''); if(ds) return atOf(ds,tm); var x=atOf(STORE.today(),tm); if(x<=Date.now()) x=atOf(addD(STORE.today(),1),tm); return x; }
   var TMODE={car:'driving',drive:'driving',driving:'driving',bike:'two-wheeler',scooty:'two-wheeler',scooter:'two-wheeler',motorbike:'two-wheeler','two-wheeler':'two-wheeler',two_wheeler:'two-wheeler',walk:'walking',walking:'walking',foot:'walking',bus:'transit',train:'transit',transit:'transit',cycle:'bicycling',bicycle:'bicycling',bicycling:'bicycling'};
   function mapsUrl(to,from,mode){ return 'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(to)+(from?('&origin='+encodeURIComponent(from)):'')+(mode?('&travelmode='+mode):'')+(from?'':'&dir_action=navigate'); }
-  var AL={add_task:'task',schedule:'task',schedule_task:'task',task_add:'task',todo:'task',repeat:'daily',routine:'daily',recurring:'daily',daily_task:'daily',complete_task:'task_done',done:'task_done',mark_done:'task_done',undone:'task_undo',delete_task:'task_delete',remove_task:'task_delete',reschedule:'task_move',move_task:'task_move',add_goal:'goal',monthly:'goal',weekly:'goal',yearly:'goal',complete_goal:'goal_done',delete_goal:'goal_delete',add_milestone:'milestone',complete_milestone:'milestone_done',delete_milestone:'milestone_delete',transaction:'txn',wallet:'txn',add_txn:'txn',add_transaction:'txn',income:'txn',expense:'txn',credit:'txn',debit:'txn',delete_txn:'txn_delete',limit:'budget',add_note:'note',set_timer:'timer',start_timer:'timer',countdown:'timer',set_alarm:'alarm',reminder:'alarm',remind:'alarm',wake_up:'alarm',cancel_alarm:'alarm_cancel',stop_alarm:'alarm_cancel',delete_alarm:'alarm_cancel',cancel_timer:'timer_cancel',stop_timer:'timer_cancel',directions:'navigate',map:'navigate',maps:'navigate',route:'navigate',navigation:'navigate',schedule_meeting:'meeting',add_meeting:'meeting',meet:'meeting',meeting_notes:'meeting_note',notes_meeting:'meeting_note'};
+  var AL={add_task:'task',schedule:'task',schedule_task:'task',task_add:'task',todo:'task',repeat:'daily',routine:'daily',recurring:'daily',daily_task:'daily',complete_task:'task_done',done:'task_done',mark_done:'task_done',undone:'task_undo',delete_task:'task_delete',remove_task:'task_delete',reschedule:'task_move',move_task:'task_move',add_goal:'goal',monthly:'goal',weekly:'goal',yearly:'goal',complete_goal:'goal_done',delete_goal:'goal_delete',add_milestone:'milestone',complete_milestone:'milestone_done',delete_milestone:'milestone_delete',transaction:'txn',wallet:'txn',add_txn:'txn',add_transaction:'txn',income:'txn',expense:'txn',credit:'txn',debit:'txn',delete_txn:'txn_delete',limit:'budget',add_note:'note',set_timer:'timer',start_timer:'timer',countdown:'timer',set_alarm:'alarm',reminder:'alarm',remind:'alarm',wake_up:'alarm',cancel_alarm:'alarm_cancel',stop_alarm:'alarm_cancel',delete_alarm:'alarm_cancel',cancel_timer:'timer_cancel',stop_timer:'timer_cancel',directions:'navigate',map:'navigate',maps:'navigate',route:'navigate',navigation:'navigate',schedule_meeting:'meeting',add_meeting:'meeting',meet:'meeting',meeting_notes:'meeting_note',notes_meeting:'meeting_note',wa:'whatsapp',live_location:'share_location',send_location:'share_location',location:'share_location',my_location:'share_location',share_live_location:'share_location',whatsapp_message:'whatsapp',send_whatsapp:'whatsapp',message:'whatsapp',mail:'email',send_email:'email',send_mail:'email',gmail:'email'};
   function applyAction(a){
     if(!a||typeof a!=='object') return {ok:false,msg:'bad action'};
     var raw=norm(a.type||a.action).replace(/[\s-]+/g,'_'), t=AL[raw]||raw, db=STORE.read(), today=STORE.today(), i, it, title=(a.title||a.name||a.label||'').replace(/^\s+|\s+$/g,'');
@@ -1618,13 +1781,13 @@ var CO=(function(){
       if(!title) return {ok:false,msg:'task title missing'};
       var td=dateOf(a.date||a.when,today); if(td<today) return {ok:false,msg:'date is in the past: '+td};
       if(findItem(db.dailyGoals,title,function(g){ return g.date===td&&bare(g.title)===bare(title); })) return {ok:false,msg:'"'+title+'" already on '+nice(td)};
-      var pr=norm(a.priority); STORE.addDaily({title:title,date:td,priority:(pr==='high'||pr==='low')?pr:'medium',categoryKey:catKey(a.category)});
+      var pr=norm(a.priority), W=whyOf(a); STORE.addDaily({title:title,date:td,priority:(pr==='high'||pr==='low')?pr:'medium',categoryKey:catKey(a.category),why:W.why||'\uD83D\uDCDD You asked for this task',evidence:W.evidence,by:'Samm AI',asked:curAsk});
       ntf('ai','Task scheduled','"'+title+'" \u2192 '+nice(td)+' \u00b7 Daily list');
-      return {ok:true,msg:'Task "'+title+'" \u2192 '+nice(td)};
+      return {ok:true,msg:'Task "'+title+'" \u2192 '+nice(td)+(W.why?('\n   '+W.why):'')};
     case 'daily': case 'challenge':
       if(!title) return {ok:false,msg:'routine title missing'};
       var days=nDays(a.days||a.day||1); if(t==='challenge') title='\uD83D\uDEAB '+title.replace(/^\uD83D\uDEAB\s*/,'');
-      var st=dateOf(a.start||a.date,today), items=[]; if(st<today) st=today; for(i=0;i<days;i++) items.push({title:title,date:addD(st,i),categoryKey:catKey(a.category)});
+      var st=dateOf(a.start||a.date,today), items=[], W2=whyOf(a); if(st<today) st=today; for(i=0;i<days;i++) items.push({title:title,date:addD(st,i),categoryKey:catKey(a.category),why:W2.why||'\uD83D\uDCDD You asked for this routine',evidence:W2.evidence,by:'Samm AI',asked:curAsk});
       STORE.bulkDaily(items); ntf('ai',t==='challenge'?'Challenge started':'Routine added','"'+title+'" every day \u00b7 '+nice(st)+' \u2192 '+nice(addD(st,days-1)));
       return {ok:true,msg:days+'\u00d7 "'+title+'" \u2192 daily list ('+nice(st)+' \u2192 '+nice(addD(st,days-1))+')'};
     case 'task_done': case 'task_undo':
@@ -1643,7 +1806,7 @@ var CO=(function(){
     case 'priority':
       var lv=norm(a.level||a.priority||'high'); if(lv!=='high'&&lv!=='low') lv='medium'; var pd=dateOf(a.date,today);
       it=findItem(db.dailyGoals,title,function(g){ return g.date===pd; }); if(!it) return {ok:false,msg:'no task "'+title+'" on '+nice(pd)};
-      STORE.updateDaily(it.id,{priority:lv}); return {ok:true,msg:'Priority '+lv+': '+it.title};
+      var W3=whyOf(a), pp={priority:lv}; if(W3.why){ pp.prioWhy=W3.why; pp.prioEvidence=W3.evidence; } STORE.updateDaily(it.id,pp); return {ok:true,msg:'Priority '+lv+': '+it.title+(W3.why?('\n   '+W3.why):'')};
     case 'goal':
       if(!title) return {ok:false,msg:'goal title missing'};
       var per=norm(a.period); if(per!=='week'&&per!=='year') per='month';
@@ -1698,12 +1861,12 @@ var CO=(function(){
     case 'navigate':
       var dest=a.to||a.destination||a.place||a.location||title; if(!dest) return {ok:false,msg:'destination missing'};
       var tmode=TMODE[norm(a.mode).replace(/\s+/g,'-')]||'', murl=mapsUrl(dest,a.from||a.origin||'',tmode);
-      return {ok:true,msg:'Directions ready \u2192 '+dest+(tmode?(' ('+tmode+')'):''),links:[{label:'\uD83D\uDDFA Start navigation to '+dest,url:murl}]};
+      return {ok:true,msg:'Directions ready \u2192 '+dest+(tmode?(' ('+tmode+')'):''),links:[{label:'\uD83D\uDDFA Start navigation to '+dest,url:murl,primary:true}]};
     case 'meeting':
       var mt=title||'Meeting', mtm=parseTime(a.time); if(!mtm) return {ok:false,msg:'meeting time missing'};
       var mds=dateOf(a.date,today), mat=atOf(mds,mtm); if(mat<=Date.now()) return {ok:false,msg:'meeting time is in the past'};
       var who=a.with||a.person||a.people||'', where=a.place||a.location||'', online=!!a.online||/online|google meet|\bmeet\b|zoom|video|teams/i.test(where), mdur=parseInt(a.duration,10)||60;
-      STORE.addDaily({title:hm2(mat)+' \u00b7 Meeting: '+mt+(who?(' with '+who):''),date:mds,priority:'high',categoryKey:catKey(a.category)});
+      STORE.addDaily({title:hm2(mat)+' \u00b7 Meeting: '+mt+(who?(' with '+who):''),date:mds,priority:'high',categoryKey:catKey(a.category),why:'\uD83D\uDCC5 Meeting you scheduled',evidence:[(who?'\uD83D\uDC64 With '+who:''),(where?'\uD83D\uDCCD '+where:'')].filter(Boolean),by:'Samm AI',asked:curAsk});
       if(mat-15*60000>Date.now()) CLK.add('alarm',mat-15*60000,'Meeting in 15 min: '+mt);
       STORE.addNote({text:'Meeting \u2014 '+mt+(who?(' with '+who):'')+' \u00b7 '+niceAt(mat)+(where?(' \u00b7 '+where):'')+(a.notes||a.agenda?('\nAgenda: '+(a.notes||a.agenda)):''),date:mds});
       ntf('ai','Meeting scheduled','"'+mt+'"'+(who?(' with '+who):'')+' \u00b7 '+niceAt(mat)+(where?(' \u00b7 '+where):''));
@@ -1714,29 +1877,84 @@ var CO=(function(){
       var mn=a.text||a.notes||a.note; if(!mn) return {ok:false,msg:'meeting notes empty'};
       STORE.addNote({text:'Meeting notes \u2014 '+(title||'Meeting')+': '+mn,date:today}); ntf('ai','Meeting notes saved','"'+(title||'Meeting')+'"');
       return {ok:true,msg:'Meeting notes saved: '+(title||'Meeting')};
+    case 'share_location':
+      var lg=(''+(a.to||a.phone||a.number||'')).replace(/[^\d]/g,''); if(lg.length===10) lg='91'+lg; if(lg.length===11&&lg.charAt(0)==='0') lg='91'+lg.slice(1);
+      if(lg&&(lg.length<11||lg.length>15)) return {ok:false,msg:'phone number looks wrong: '+(a.to||a.phone)};
+      var ln=a.name||a.to_name||'';
+      return {ok:true,msg:'Location share ready'+(ln?(' for '+ln):'')+' \u2014 tap the button: it reads your current GPS and opens WhatsApp with a map link. Then tap Send.',links:[{label:'\uD83D\uDCCD Send my location'+(ln?(' to '+ln):'')+' on WhatsApp',geo:{to:lg,name:ln,message:String(a.message||a.text||'').slice(0,300)},primary:true}]};
+    case 'whatsapp':
+      var wm=(a.message||a.text||a.body||'').replace(/^\s+|\s+$/g,''); if(!wm) return {ok:false,msg:'WhatsApp message empty'};
+      var dg=(''+(a.to||a.phone||a.number||'')).replace(/[^\d]/g,''); if(dg.length===10) dg='91'+dg; if(dg.length===11&&dg.charAt(0)==='0') dg='91'+dg.slice(1);
+      if(dg&&(dg.length<11||dg.length>15)) return {ok:false,msg:'phone number looks wrong: '+(a.to||a.phone)};
+      var wn=String(a.name||a.to_name||a.contact||'').replace(/^\s+|\s+$/g,''), wurl='https://wa.me/'+(dg||'')+'?text='+encodeURIComponent(wm);
+      var sendMs=0, atm=String(a.at||a.send_at||'').match(/(\d{4}-\d{2}-\d{2})[ T](\d{1,2}[:.]\d{2}(?:\s*[ap]\.?m\.?)?)/i);
+      if(atm){ var ptm=parseTime(atm[2]); if(ptm) sendMs=atOf(atm[1],ptm); } else if(a.time||a['in']) sendMs=whenOf(a);
+      if(sendMs&&sendMs<Date.now()+30000) sendMs=0;
+      var cfg=waCfg(), viaBridge=!!(cfg&&(dg||wn));
+      if(sendMs&&!viaBridge){
+        CLK.add('alarm',sendMs,'Send WhatsApp'+(wn?(' to '+wn):''));
+        return {ok:true,msg:'Reminder set for '+niceAt(sendMs)+' to send this WhatsApp'+(wn?(' to '+wn):'')+' (scheduled sending needs \u201cWhatsApp from my number\u201d in Settings'+(cfg?' and a number or saved name':'')+'):\n\u201c'+(wm.length>500?wm.slice(0,500)+'\u2026':wm)+'\u201d',links:[{label:'\uD83D\uDCAC Open in WhatsApp'+(wn?(' \u2192 '+wn):''),url:wurl}]};
+      }
+      var sIso=sendMs?new Date(sendMs).toISOString():'';
+      var wlinks=viaBridge?[{label:(sendMs?('\uD83D\uDD52 Schedule from my number'+(wn?(' to '+wn):'')+' \u00b7 '+niceAt(sendMs)):('\uD83D\uDCE4 Send from my number'+(wn?(' to '+wn):''))),wa:{to:dg,name:wn,message:wm,sendAt:sIso},primary:true}].concat(dg||!sendMs?[{label:'\uD83D\uDCAC Open in WhatsApp instead',url:wurl}]:[]):[{label:'\uD83D\uDCAC Open in WhatsApp'+(wn?(' \u2192 '+wn):''),url:wurl}];
+      var whoTxt=dg?(' (+'+dg+')'):(viaBridge?' (matched by saved contact name)':' (choose the contact in WhatsApp)');
+      return {ok:true,msg:'WhatsApp '+(sendMs?'scheduled ':'')+'draft'+(wn?(' for '+wn):'')+whoTxt+(sendMs?(' \u00b7 goes at '+niceAt(sendMs)+' even if you\u2019re offline, as long as the bridge PC is on'):'')+' \u2014 review, then tap '+(viaBridge?(sendMs?'Schedule':'Send from my number'):'Send')+':\n\u201c'+(wm.length>500?wm.slice(0,500)+'\u2026':wm)+'\u201d',links:wlinks};
+    case 'email':
+      var eto=(a.to||a.email||'').replace(/\s+/g,''), esu=a.subject||'', ebd=a.body||a.message||a.text||'';
+      if(!ebd) return {ok:false,msg:'email body empty'}; if(eto&&!/^[^@\s]+@[^@\s]+\.[^@\s]+(,[^@\s]+@[^@\s]+\.[^@\s]+)*$/.test(eto)) return {ok:false,msg:'email address looks wrong: '+eto};
+      var ecc=(a.cc||'').replace(/\s+/g,''), gq='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(eto)+(ecc?('&cc='+encodeURIComponent(ecc)):'')+'&su='+encodeURIComponent(esu)+'&body='+encodeURIComponent(ebd);
+      var mq='mailto:'+encodeURIComponent(eto).replace(/%40/g,'@').replace(/%2C/g,',')+'?subject='+encodeURIComponent(esu)+(ecc?('&cc='+encodeURIComponent(ecc)):'')+'&body='+encodeURIComponent(ebd);
+      return {ok:true,msg:'Email draft'+(eto?(' to '+eto):'')+' \u2014 review, then tap Send:\nSubject: '+esu+'\n\n'+(ebd.length>700?ebd.slice(0,700)+'\u2026':ebd),links:[{label:'\u2709\uFE0F Open in Gmail',url:gq},{label:'\uD83D\uDCE7 Open in Mail app',url:mq}]};
     }
     return {ok:false,msg:'unknown action "'+(a.type||'')+'"'};
   }
   function runActions(list){ var r={ok:[],fail:[],links:[]}; for(var i=0;i<list.length;i++){ var x; try{ x=applyAction(list[i]); }catch(e){ x={ok:false,msg:'crashed: '+e.message}; } (x.ok?r.ok:r.fail).push(x.msg); if(x.ok&&x.links) r.links=r.links.concat(x.links); } return r; }
   var CLAIM=/(kar|kr)\s?(diya|di|dia|dia)\b|krdiya|krdia|ho\s?gaya|hogya|add\s?(kar|kr)|\badded\b|set\s?(kar|kr)|\bdone\b|schedul|daal\s?(diya|di)|dal\s?diya|update\s?(kar|kr)|delete\s?(kar|kr)|hata\s?(diya|di)|\u2705/i;
-  function parseOut(txt){ var s=txt.indexOf('{'), e=txt.lastIndexOf('}'), o; if(s<0||e<=s) return {say:txt,actions:[]}; try{ o=JSON.parse(txt.slice(s,e+1)); }catch(x){ return {say:txt,actions:[]}; } var acts=o.actions||o.action||o.tasks||[]; if(!Array.isArray(acts)) acts=[acts]; return {say:(typeof o.say==='string'?o.say:(o.reply||o.message||txt)),actions:acts}; }
+  function parseOut(txt){ var s=txt.indexOf('{'), e=txt.lastIndexOf('}'), o; if(s<0||e<=s) return {say:txt,actions:[]}; try{ o=JSON.parse(txt.slice(s,e+1)); }catch(x){ return {say:txt,actions:[]}; } var acts=o.actions||o.action||o.tasks||[]; if(!Array.isArray(acts)) acts=[acts]; return {say:(typeof o.say==='string'?o.say:(o.reply||o.message||txt)),actions:acts,links:o.links||o.sources||[]}; }
   function fmt(s){ return esc(s).replace(/\*\*([^*\n]+)\*\*/g,'<b>$1</b>'); }
 
   /* ---- UI ---- */
   function wire(){ if(wired) return; var inp=$('coIn'); if(!inp) return; wired=true;
     inp.addEventListener('keydown',function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); send(); } });
     inp.addEventListener('input',function(){ inp.style.height='auto'; inp.style.height=Math.min(inp.scrollHeight,110)+'px'; }); }
-  function toggle(force){ isOpen=(typeof force==='boolean')?force:!isOpen; var p=$('botPanel'),f=$('botFab'); if(p) p.className='botpanel'+(isOpen?' open':''); if(f){ f.className='botfab'+(isOpen?' on':''); void f.offsetWidth; f.className+=' pop'; f.setAttribute('aria-label',isOpen?'Close Samm AI':'Open Samm AI'); } if(isOpen){ wire(); autoCheck(); render(); var i=$('coIn'); if(i&&window.innerWidth>600) setTimeout(function(){i.focus();},50); } }
+  function toggle(force){ isOpen=(typeof force==='boolean')?force:!isOpen; var p=$('botPanel'),f=$('botFab'); if(p) p.className='botpanel'+(isOpen?' open':''); if(f){ f.className='botfab'+(isOpen?' on':''); void f.offsetWidth; f.className+=' pop'; f.setAttribute('aria-label',isOpen?'Close Samm AI':'Open Samm AI'); } if(isOpen){ wire(); autoCheck(); render(); greet(); var i=$('coIn'); if(i&&window.innerWidth>600) setTimeout(function(){i.focus();},50); } }
+  function greetText(db){
+    var n=(db.profile&&db.profile.name)||'Sam', hr=new Date().getHours(), t=STORE.today(), td=db.dailyGoals.filter(function(g){ return g.date===t; }), left=td.filter(function(g){ return !g.done; }).length;
+    var tod=hr<5?'Up late':(hr<12?'Good morning':(hr<17?'Good afternoon':(hr<21?'Good evening':'Hey night owl')));
+    var opts=['Hey '+n+' \uD83D\uDC4B What\u2019s up?','Hey buddy! What\u2019s up? \uD83D\uDE04','Yo '+n+', what\u2019s up?',tod+', '+n+'! What\u2019s up?','Hey '+n+'! What are we doing today?'];
+    var line=opts[Math.floor(Math.random()*opts.length)];
+    var nudge=!td.length?'Nothing planned for today yet \u2014 want me to set something up?':(left?('You\u2019ve got '+left+' task'+(left>1?'s':'')+' left today.'):'All of today\u2019s tasks are done \uD83D\uDD25');
+    var first=!((db.coach&&db.coach.messages)||[]).length?'\nI read your whole app live \u2014 tasks, goals, money, patterns. Talk to me in Hinglish or English.':'';
+    return line+'\n'+nudge+first;
+  }
+  function greet(){
+    if(!keyGet()||busy||greeting) return;
+    var db=STORE.read(), ms=(db.coach&&db.coach.messages)||[], clr=(db.coach&&db.coach.clearedAt)||0, last=null, i;
+    for(i=ms.length-1;i>=0;i--){ if((ms[i].ts||0)>clr){ last=ms[i]; break; } }
+    if(last&&Date.now()-(last.ts||0)<GREET_GAP) return;
+    var count=ms.length; greeting=true; render();
+    setTimeout(function(){ greeting=false; var d=STORE.read(), now=((d.coach&&d.coach.messages)||[]).length; if(busy||now!==count){ render(); return; } STORE.addCoachMsg('ai',greetText(d)); render(); },750);
+  }
   function render(){
     var db=STORE.read(), ms=(db.coach&&db.coach.messages)||[], host=$('coMsgs'); if(!host) return;
     if(!keyGet()){ host.innerHTML='<div class="cobub ai">Add your Groq API key first: Settings → Samm AI.<br><button class="btn primary mini" style="margin-top:10px" onclick="CO.toggle(false);APP.showApp(\'settings\')">Open Settings</button></div>'; return; }
-    var h='';
-    if(!ms.length) h='<div class="cobub ai">Hey '+esc((db.profile&&db.profile.name)||'Sam')+' 👋 I read your whole app live — tasks, goals, money, patterns. Talk to me in Hinglish or English: “hi”, “aaj kya pehle karun”, “add 1000 to wallet”, “market news”. Results always come back in English.</div>';
-    for(var i=0;i<ms.length;i++){ var cls=ms[i].role==='ai'?'ai':(ms[i].role==='sys'?'sys':'user'); var lk=''; if(ms[i].links&&ms[i].links.length){ lk='<div class="cobtns">'; for(var j=0;j<ms[i].links.length;j++){ var L=ms[i].links[j]; if(L.url&&/^https:\/\//.test(L.url)) lk+='<a class="cobtn" href="'+esc(L.url)+'" target="_blank" rel="noopener">'+esc(L.label)+'</a>'; else if(L.ics) lk+='<button class="cobtn" onclick="CO.link('+i+','+j+')">'+esc(L.label)+'</button>'; } lk+='</div>'; } h+='<div class="cobub '+cls+'">'+fmt(ms[i].content)+lk+'</div>'; }
-    if(busy) h+='<div class="cobub ai typing"><span></span><span></span><span></span></div>';
+    var h='', clr=(db.coach&&db.coach.clearedAt)||0, vis=0; for(var v=0;v<ms.length;v++){ if((ms[v].ts||0)>clr) vis++; }
+    if(!vis&&!greeting) h='<div class="cobub ai">Hey '+esc((db.profile&&db.profile.name)||'Sam')+' 👋 I read your whole app live — tasks, goals, money, patterns. Talk to me in Hinglish or English: “hi”, “aaj kya pehle karun”, “add 1000 to wallet”, “market news”. Results always come back in English.</div>';
+    for(var i=0;i<ms.length;i++){ if((ms[i].ts||0)<=clr) continue; var cls=ms[i].role==='ai'?'ai':(ms[i].role==='sys'?'sys':'user'); var lk=''; if(ms[i].links&&ms[i].links.length){ lk='<div class="cobtns">'; for(var j=0;j<ms[i].links.length;j++){ var L=ms[i].links[j]; if(L.wa){ var wst=L.state||''; if(wst==='sent') lk+='<button class="cobtn wa-done" disabled>\u2713 Sent'+(L.at?(' \u00b7 '+esc(L.at)):'')+'</button>'; else if(wst==='queued'){ lk+='<button class="cobtn" disabled>\u23F3 Queued \u2014 your bridge will send it</button>'; if(L.ref) watchRef(L.ref,ms[i].ts,j,(L.wa&&L.wa.name)||''); } else if(wst==='scheduled'){ var sat=Date.parse(L.sendAt||(L.wa&&L.wa.sendAt)||''); lk+='<button class="cobtn" disabled>\uD83D\uDD52 Scheduled \u00b7 '+esc(isNaN(sat)?'':niceAt(sat))+'</button><button class="cobtn" onclick="CO.waCancel('+ms[i].ts+','+j+',this)">\u2715 Cancel</button>'; if(L.ref&&!isNaN(sat)&&Date.now()>sat-60000) watchRef(L.ref,ms[i].ts,j,(L.wa&&L.wa.name)||''); } else if(wst==='cancelled') lk+='<button class="cobtn" disabled>Cancelled</button>'; else lk+='<button class="cobtn primary" onclick="CO.waSend('+ms[i].ts+','+j+',this)">'+(wst==='failed'?('\u21BB Retry \u2014 '+esc((L.err||'failed').slice(0,60))):esc(L.label))+'</button>'; } else if(L.geo) lk+='<button class="cobtn primary" onclick="CO.geo('+i+','+j+',this)">'+esc(L.label)+'</button>'; else if(L.url&&/^(https:\/\/|mailto:)/.test(L.url)) lk+='<a class="cobtn'+(L.primary?' primary':'')+'" href="'+esc(L.url)+'" target="_blank" rel="noopener">'+esc(L.label)+'</a>'; else if(L.ics) lk+='<button class="cobtn" onclick="CO.link('+i+','+j+')">'+esc(L.label)+'</button>'; } lk+='</div>'; } h+='<div class="cobub '+cls+'">'+fmt(ms[i].content)+lk+'</div>'; }
+    if(busy||greeting) h+='<div class="cobub ai typing"><span></span><span></span><span></span></div>';
     host.innerHTML=h; scrollEnd();
   }
-  function isNews(s){ return /news|khabar|khabr|market|sensex|nifty|gold|xau|crypto|bitcoin|btc|dollar|rupee|inflation|economy|fed\b|rbi|stock|share bazaar|global/i.test(s); }
+  var ASSET=/\bxau|gold|\bsona\b|\bsone\b|silver|chandi|chaandi|\bxag|\bbtc\b|bitcoin|usd\s*\/?\s*inr|dollar|rupee|paxg/i, WHYNEWS=/news|khabar|khabr|headline|\bwhy\b|\bkyu|\bkyon|reason|wajah/i;
+  var PX={at:0,data:null};
+  function num(v){ return (typeof v==='number'&&isFinite(v))?v:null; }
+  function normPx(j){ if(!j) return null; var o={xau:num(j.spot_usd_oz),xag:num(j.silver_usd_oz),btc:num(j.btc_usd),usdinr:num(j.fx_rate),inrGram:(j.xau?num(j.xau.price):null),asOf:j.price_as_of||j.updated_at||(j.data_state&&j.data_state.as_of)||'',stale:!!j.stale}; return o.xau?o:null; }
+  function getPrices(force){ if(!force&&PX.data&&Date.now()-PX.at<60000) return Promise.resolve(PX.data); return fetch('https://xaus.com/api/v1/spot?currency=INR&unit=gram&compact=1').then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(function(j){ var o=normPx(j); if(!o) throw new Error('unexpected data'); PX={at:Date.now(),data:o}; return o; }); }
+  function f2(n){ return n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+  function f0(n){ return Math.round(n).toLocaleString('en-IN'); }
+  function tAt(v){ if(!v) return 'just now'; var d=(typeof v==='number')?new Date(v<1e12?v*1000:v):new Date(v); return isNaN(d.getTime())?String(v):d.toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true}); }
+  function pxLine(o){ var L=['XAU/USD (gold spot): $'+f2(o.xau)+' per oz']; if(o.xag) L.push('XAG/USD (silver spot): $'+f2(o.xag)+' per oz'); if(o.btc) L.push('BTC/USD: $'+f0(o.btc)); if(o.usdinr) L.push('USD/INR: \u20b9'+f2(o.usdinr)); if(o.inrGram) L.push('Gold in INR (spot, before GST/import duty): \u20b9'+f0(o.inrGram*10)+' per 10 g'); if(o.xag&&o.usdinr) L.push('Silver in INR (spot, before GST/duty): \u20b9'+f0(o.xag*o.usdinr/31.1035*1000)+' per kg'); L.push('As of: '+tAt(o.asOf)+(o.stale?' (source marks this as stale)':'')+' \u00b7 Source: xaus.com'); return L.join('\n'); }
+  function tvLinks(s){ var L=[], m=[[/\bxau|gold|\bsona\b|\bsone\b/i,'OANDA:XAUUSD','XAUUSD'],[/silver|chandi|chaandi|\bxag/i,'OANDA:XAGUSD','XAGUSD'],[/\bbtc\b|bitcoin/i,'BITSTAMP:BTCUSD','BTCUSD'],[/usd\s*\/?\s*inr|dollar|rupee/i,'FX_IDC:USDINR','USDINR']]; for(var i=0;i<m.length;i++){ if(m[i][0].test(s)) L.push({label:'\uD83D\uDCC8 '+m[i][2]+' chart (TradingView)',url:'https://www.tradingview.com/chart/?symbol='+encodeURIComponent(m[i][1])}); } return L; }
+  function isNews(s){ if(ASSET.test(s)&&!WHYNEWS.test(s)) return false; return /news|khabar|khabr|market|sensex|nifty|gold|xau|crypto|bitcoin|btc|dollar|rupee|inflation|economy|fed\b|rbi|stock|share bazaar|global/i.test(s); }
   function lsGet(k){ try{ return localStorage.getItem(k)||''; }catch(e){ return ''; } }
   function lsSet(k,v){ try{ if(v) localStorage.setItem(k,v); else localStorage.removeItem(k); }catch(e){} }
   function setConn(s,msg){ conn=s; connMsg=msg||''; var d=$('aiDot'); if(d) d.className='cdot '+(s==='ok'?'ok':(s==='err'?'err':(s==='busy'?'busy':'off'))); var tx=$('aiConnTxt'); if(tx) tx.textContent=msg||(s==='off'?'No key':'Not checked'); if(window.FX) FX.load('[data-load="ai"]',s==='busy'); if(!busy) stat(''); }
@@ -1752,7 +1970,7 @@ var CO=(function(){
         var ids=[],i; for(i=0;i<x.j.data.length;i++){ if(x.j.data[i].active!==false) ids.push(x.j.data[i].id); }
         var m=pickModel(ids); if(!m){ setConn('err','No chat model on this key'); return false; }
         var nm=ids.indexOf('groq/compound')>-1?'groq/compound':(ids.indexOf('groq/compound-mini')>-1?'groq/compound-mini':'');
-        lsSet(LM,m); lsSet(LN,nm);
+        lsSet(LM,m); lsSet(LN,nm); lsSet('SAMM_AI_MODELS',JSON.stringify(ids));
         setConn('ok','Connected \u00b7 '+m.replace(/^.*\//,'')+(nm?' + live news':''));
         return true;
       })
@@ -1760,28 +1978,90 @@ var CO=(function(){
   }
   function autoCheck(){ if(keyGet()&&conn==='unknown') check(); else if(!keyGet()) setConn('off','No key'); }
   function call(key,model,msgs,json){
-    var body={model:model,messages:msgs,temperature:0.5,max_tokens:2000}; if(json) body.response_format={type:'json_object'}; if(/gpt-oss/.test(model)) body.reasoning_effort='low';
+    var body={model:model,messages:msgs,temperature:0.5,max_tokens:1400}; if(json) body.response_format={type:'json_object'}; if(/gpt-oss/.test(model)) body.reasoning_effort='low';
     return fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify(body)}).then(function(r){ return r.json(); });
   }
   function txtOf(j){ var c=j&&j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content; return c?(''+c).replace(/<think>[\s\S]*?<\/think>/g,'').replace(/^\s+|\s+$/g,''):''; }
   function errOf(j){ return (j&&j.error&&j.error.message)||''; }
-  function ask(key,base,hist,txt,retried){
-    var model=lsGet(LM), news=lsGet(LN);
-    if(!model){ return check().then(function(ok){ if(!ok) throw new Error(connMsg||'Groq not connected'); return ask(key,base,hist,txt,true); }); }
-    function main(note){ var msgs=[{role:'system',content:base+(note||'')}].concat(hist); return call(key,model,msgs,true).then(function(j){ var e=errOf(j); if(e&&/response_format|json/i.test(e)) return call(key,model,msgs,false); return j; }); }
-    var p=(isNews(txt)&&news)?call(key,news,[{role:'system',content:base+NEWS_ADD}].concat(hist),false).then(function(j){ if(txtOf(j)) return j; return main(NO_WEB); }):main(isNews(txt)?NO_WEB:'');
-    return p.then(function(j){
+  var FB=['openai/gpt-oss-120b','meta-llama/llama-4-scout-17b-16e-instruct','llama-3.3-70b-versatile','openai/gpt-oss-20b','meta-llama/llama-4-maverick-17b-128e-instruct','moonshotai/kimi-k2-instruct','qwen/qwen3-32b','llama-3.1-8b-instant'];
+  var rateTried={}, waited=false;
+  function shortM(m){ return (m||'').replace(/^.*\//,''); }
+  function isRate(e){ return /rate limit|tokens per minute|\(TPM\)|\(TPD\)|\(RPM\)|requests per minute|too many requests/i.test(e||''); }
+  function waitSec(e){ var m=(e||'').match(/try again in\s*(?:(\d+)m)?\s*([\d.]+)s/i); return m?((+(m[1]||0))*60+parseFloat(m[2])):0; }
+  function fallbacks(){ var ids=[], out=[], i; try{ ids=JSON.parse(lsGet('SAMM_AI_MODELS')||'[]'); }catch(x){} for(i=0;i<FB.length;i++){ if(ids.indexOf(FB[i])>-1) out.push(FB[i]); } return out; }
+  function countdown(s){ return new Promise(function(res){ var left=s; stat('Groq busy \u2014 retrying in '+left+'s\u2026'); var t=setInterval(function(){ left--; if(left<=0){ clearInterval(t); stat('Retrying\u2026'); res(); } else stat('Groq busy \u2014 retrying in '+left+'s\u2026'); },1000); }); }
+  function onRate(key,m,sys,hist,e,depth){
+    rateTried[m]=1; var fb=fallbacks().filter(function(x){ return !rateTried[x]; });
+    if(fb.length&&depth<4){ stat('Groq limit on '+shortM(m)+' \u2014 trying '+shortM(fb[0])+'\u2026'); return callModel(key,fb[0],sys,hist,depth+1); }
+    if(!waited){ waited=true; rateTried={}; var w=Math.min(Math.ceil(waitSec(e)||12)+1,40); return countdown(w).then(function(){ return callModel(key,lsGet(LM)||m,sys,hist,depth+1); }); }
+    return 'Groq\u2019s free limit is full right now (too much text per minute). Wait about a minute and ask again.';
+  }
+  function callModel(key,m,sys,hist,depth){
+    var msgs=[{role:'system',content:sys}].concat(hist);
+    return call(key,m,msgs,true).then(function(j){ var e=errOf(j); if(e&&!isRate(e)&&/response_format|json/i.test(e)) return call(key,m,msgs,false); return j; }).then(function(j){
       var e=errOf(j);
-      if(e&&!retried&&/model|decommission|does not exist|not found|access/i.test(e)){ lsSet(LM,''); return ask(key,base,hist,txt,true); }
+      if(e&&isRate(e)) return onRate(key,m,sys,hist,e,depth);
+      if(e&&/decommission|does not exist|not found|do not have access/i.test(e)) return {__gone:true,msg:e};
       if(e){ setConn('err',e.length>70?e.slice(0,70)+'\u2026':e); return 'Error: '+e; }
-      if(conn!=='ok') setConn('ok','Connected \u00b7 '+model.replace(/^.*\//,''));
+      if(conn!=='ok') setConn('ok','Connected \u00b7 '+shortM(m));
       return txtOf(j)||'Empty reply \u2014 please send again.';
     });
   }
+  function ask(key,base,hist,txt,retried){
+    var model=lsGet(LM), news=lsGet(LN);
+    if(!model){ return check().then(function(ok){ if(!ok) throw new Error(connMsg||'Groq not connected'); return ask(key,base,hist,txt,true); }); }
+    rateTried={}; waited=false;
+    function main(note){ return callModel(key,model,base+(note||''),hist,0).then(function(out){ if(out&&out.__gone){ if(!retried){ lsSet(LM,''); return ask(key,base,hist,txt,true); } setConn('err',out.msg.slice(0,70)); return 'Error: '+out.msg; } return out; }); }
+    if(isNews(txt)&&news) return call(key,news,[{role:'system',content:base+NEWS_ADD}].concat(hist),false).then(function(j){ var t=txtOf(j); if(t){ lastWeb=true; return t; } return main(NO_WEB); });
+    return main(isNews(txt)?NO_WEB:'');
+  }
+  var LWU='SAMM_WA_URL', LWT='SAMM_WA_TOKEN', watching={};
+  function waCfg(){ var u=lsGet(LWU), t=lsGet(LWT); return (u&&t)?{url:u,token:t}:null; }
+  function gas(body,cfg){ cfg=cfg||waCfg(); if(!cfg) return Promise.reject(new Error('WhatsApp not set up in Settings')); var b={}; for(var k in body) b[k]=body[k]; b.token=cfg.token;
+    return fetch(cfg.url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(b),redirect:'follow'}).then(function(r){ return r.text(); }).then(function(t){ try{ return JSON.parse(t); }catch(e){ throw new Error('Apps Script did not return JSON \u2014 check deployment access = Anyone'); } }); }
+  function setWa(s,msg){ var d=$('waDot'); if(d) d.className='cdot '+s; var t=$('waTxt'); if(t) t.textContent=msg; if(window.FX) FX.load('[data-load="wa"]',s==='busy'); }
+  function waFill(){ var u=$('stWaUrl'), t=$('stWaTok'); if(u) u.value=lsGet(LWU); if(t) t.value=lsGet(LWT); if(!waCfg()) setWa('off','Not set up'); else if(($('waTxt')||{}).textContent==='Not set up') waTest(); }
+  function verOk(v){ var a=String(v||'0').split('.').map(Number); return a[0]>1||(a[0]===1&&(a[1]||0)>=13); }
+  function waTest(){ var c=waCfg(); if(!c){ setWa('off','Not set up'); return Promise.resolve(false); } setWa('busy','Checking\u2026');
+    return gas({action:'__ping'},c).then(function(p){ if(!p||!p.ok) throw new Error('No reply from Apps Script'); if(!verOk(p.version)) throw new Error('Code.gs is v'+p.version+' \u2014 update to v1.13.0'); return gas({action:'samm_status',refs:[]},c).then(function(r){ if(!r.ok) throw new Error(r.error==='bad token'?'Wrong token':r.error); setWa('ok','Connected \u00b7 Code.gs v'+p.version); return true; }); })
+      .catch(function(e){ setWa('err',(e&&e.message)||'Could not reach Apps Script'); return false; }); }
+  function waSave(){ var u=(($('stWaUrl')||{}).value||'').replace(/^\s+|\s+$/g,''), t=(($('stWaTok')||{}).value||'').replace(/^\s+|\s+$/g,'');
+    if(u&&!/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(u)){ setWa('err','URL should look like https://script.google.com/macros/s/\u2026/exec'); return; }
+    lsSet(LWU,u); lsSet(LWT,t); if(!u||!t){ setWa('off','Not set up'); APP.toast('WhatsApp settings cleared'); return; } waTest().then(function(ok){ if(ok) APP.toast('WhatsApp connected'); }); }
+  function findMsg(ts){ var ms=(STORE.read().coach.messages||[]); for(var i=ms.length-1;i>=0;i--){ if(ms[i].ts===ts) return ms[i]; } return null; }
+  function waSend(ts,j,btn){
+    var m=findMsg(ts), L=m&&m.links&&m.links[j]; if(!L||!L.wa||L.state==='queued'||L.state==='sent'||L.state==='scheduled'||L.state==='cancelled') return;
+    if(!waCfg()){ APP.toast('Set up \u201cWhatsApp from my number\u201d in Settings first',true); return; }
+    if(window.FX&&btn) FX.load(btn,true);
+    gas({action:'samm_send',number:L.wa.to,message:L.wa.message,name:L.wa.name,sendAt:L.wa.sendAt||''}).then(function(r){
+      if(window.FX&&btn) FX.load(btn,false);
+      if(!r.ok){ STORE.patchCoachLink(ts,j,{state:'failed',err:r.error||'failed'}); APP.toast(r.error||'Could not queue',true); render(); return; }
+      var sch=r.status==='SCHEDULED'; STORE.patchCoachLink(ts,j,{state:sch?'scheduled':'queued',ref:r.ref,err:'',sendAt:r.sendAt||''}); APP.toast((sch?('Scheduled for '+niceAt(Date.parse(r.sendAt))):'Queued \u2014 your bridge will send it')+(r.cap?(' ('+r.today+'/'+r.cap+' that day)'):'')); render();
+    }).catch(function(e){ if(window.FX&&btn) FX.load(btn,false); STORE.patchCoachLink(ts,j,{state:'failed',err:(e&&e.message)||'network'}); APP.toast((e&&e.message)||'Network error',true); render(); });
+  }
+  function waCancel(ts,j,btn){ var m=findMsg(ts), L=m&&m.links&&m.links[j]; if(!L||!L.ref) return; if(window.FX&&btn) FX.load(btn,true);
+    gas({action:'samm_cancel',ref:L.ref}).then(function(r){ if(window.FX&&btn) FX.load(btn,false); if(r.ok){ STORE.patchCoachLink(ts,j,{state:'cancelled'}); APP.toast('Scheduled message cancelled'); } else APP.toast('Could not cancel: '+(r.error||'error'),true); render(); }).catch(function(e){ if(window.FX&&btn) FX.load(btn,false); APP.toast((e&&e.message)||'Network error',true); }); }
+  function watchRef(ref,ts,j,name){
+    if(watching[ref]) return; watching[ref]=1; var n=0;
+    var tick=function(){ gas({action:'samm_status',refs:[ref]}).then(function(r){ var s=r&&r.ok&&r.items&&r.items[ref];
+        if(s&&s.status==='SENT'){ delete watching[ref]; STORE.patchCoachLink(ts,j,{state:'sent',at:s.sentAt}); STORE.notify('ai','WhatsApp sent',(name?('To '+name+' \u00b7 '):'')+(s.sentAt||'just now')); render(); return; }
+        if(s&&s.status==='CANCELLED'){ delete watching[ref]; STORE.patchCoachLink(ts,j,{state:'cancelled'}); render(); return; }
+        if(s&&s.status==='FAILED'){ delete watching[ref]; STORE.patchCoachLink(ts,j,{state:'failed',err:s.error||'failed'}); STORE.notify('ai','WhatsApp not sent',(name?('To '+name+' \u00b7 '):'')+(s.error||'failed')); render(); return; }
+        if(++n<40) setTimeout(tick,10000); else delete watching[ref]; },function(){ if(++n<40) setTimeout(tick,15000); else delete watching[ref]; }); };
+    setTimeout(tick,6000);
+  }
+  var aiLinks=[], lastWeb=false, curAsk='';
+  function whyOf(a){ var w=String(a.why||a.reason||'').slice(0,200), ev=a.evidence||a.proof||[]; if(!Array.isArray(ev)) ev=[ev]; ev=ev.map(function(x){ return String(x).slice(0,160); }).filter(function(x){ return x.replace(/\s/g,''); }).slice(0,5); return {why:w,evidence:ev}; }
+  function mkLinks(list,web){ var out=[], i; if(!list) return out; if(!Array.isArray(list)) list=[list];
+    for(i=0;i<list.length&&out.length<4;i++){ var L=list[i]; if(!L||typeof L!=='object') continue; var lab=(''+(L.label||L.title||'')).slice(0,80);
+      if(L.url&&web&&/^https:\/\/[^\s"<>]+$/.test(L.url)) out.push({label:'\uD83D\uDD17 '+(lab||L.url.replace(/^https:\/\/(www\.)?/,'').slice(0,40)),url:L.url});
+      else if(L.video) out.push({label:'\u25B6\uFE0F '+(lab||L.video),url:'https://www.youtube.com/results?search_query='+encodeURIComponent(L.video)});
+      else if(L.search||L.query||(L.url&&!web)) out.push({label:'\uD83D\uDD0E '+(lab||L.search||L.query),url:'https://www.google.com/search?q='+encodeURIComponent(L.search||L.query||lab)}); }
+    return out; }
   var FIX='APP CHECK (automatic, not Sam): your last reply claimed something was done but contained NO valid action, so NOTHING changed in the app. Reply again with the same JSON including the correct actions. If info is missing, ask Sam instead and do not claim it is done.';
   function post(say,res,lied){
     busy=false; if(window.FX) FX.load('.botsend',false); stat('');
-    STORE.addCoachMsg('ai',say);
+    STORE.addCoachMsg('ai',say,aiLinks); aiLinks=[];
     if(res.ok.length) STORE.addCoachMsg('sys','\u2705 '+res.ok.join('\n\u2705 '),res.links);
     if(!res.links) res.links=[];
     if(res.fail.length) STORE.addCoachMsg('sys','\u26A0 Not applied: '+res.fail.join('; '));
@@ -1796,23 +2076,42 @@ var CO=(function(){
     var db=STORE.read(), now=new Date();
     var nowS=STORE.today()+' '+pad2(now.getHours())+':'+pad2(now.getMinutes())+' ('+WD[now.getDay()]+')';
     var base=SYS.replace(/\{\{NOW\}\}/g,nowS).replace(/\{\{MONTH\}\}/g,STORE.thisMonth())+'\n\nLIVE APP SCAN:\n'+buildContext(db);
-    var hist=((db.coach&&db.coach.messages)||[]).filter(function(m){ return (m.role==='user'||m.role==='ai')&&!/^Error:/.test(m.content); }).slice(-16).map(function(m){ return {role:m.role==='ai'?'assistant':'user',content:m.content}; });
-    ask(key,base,hist,txt,false).then(function(out){
+    var hist=((db.coach&&db.coach.messages)||[]).filter(function(m){ return (m.role==='user'||m.role==='ai')&&!/^Error:/.test(m.content); }).slice(-10).map(function(m){ var c=m.content||''; return {role:m.role==='ai'?'assistant':'user',content:c.length>700?c.slice(0,700)+'\u2026':c}; });
+    curAsk=txt.slice(0,160); var wantPx=ASSET.test(txt); aiLinks=wantPx?tvLinks(txt):[]; lastWeb=false;
+    (wantPx?getPrices().then(function(o){ return '\n\nLIVE PRICES (fetched just now):\n'+pxLine(o); },function(e){ return '\n\nLIVE PRICES UNAVAILABLE right now ('+((e&&e.message)||'network')+'). Tell Sam you could not fetch live prices this time. Never guess or quote a price from memory.'; }):Promise.resolve('')).then(function(pxs){ base+=pxs; return ask(key,base,hist,txt,false); }).then(function(out){
       if(/^Error:/.test(out)){ post(out,{ok:[],fail:[]},false); return; }
       var p=parseOut(out), res=runActions(p.actions);
       if(!res.ok.length&&!res.fail.length&&CLAIM.test(p.say)){
         stat('Verifying\u2026');
-        return ask(key,base,hist.concat([{role:'assistant',content:out},{role:'user',content:FIX}]),txt,true).then(function(out2){ var p2=parseOut(out2), r2=runActions(p2.actions); post(p2.say||out2,r2,!r2.ok.length&&!r2.fail.length&&CLAIM.test(p2.say)); });
+        return ask(key,base,hist.concat([{role:'assistant',content:out},{role:'user',content:FIX}]),txt,true).then(function(out2){ var p2=parseOut(out2), r2=runActions(p2.actions); aiLinks=aiLinks.concat(mkLinks(p2.links,lastWeb)); post(p2.say||out2,r2,!r2.ok.length&&!r2.fail.length&&CLAIM.test(p2.say)); });
       }
-      post(p.say||out,res,false);
+      aiLinks=aiLinks.concat(mkLinks(p.links,lastWeb)); post(p.say||out,res,false);
     }).catch(function(e){ busy=false; if(window.FX) FX.load('.botsend',false); render(); setConn('err',(e&&e.message)||'Error'); STORE.addCoachMsg('sys','\u26A0 '+((e&&e.message)||'Error')+' \u2014 check your key in Settings.'); render(); });
   }
   function link(i,j){ var m=(STORE.read().coach.messages||[])[i], L=m&&m.links&&m.links[j]; if(L&&L.ics){ CLK.ics(L.ics); APP.toast('Calendar file downloaded \u2014 open it to add'); } }
+  function geo(i,j,btn){
+    var m=(STORE.read().coach.messages||[])[i], L=m&&m.links&&m.links[j]; if(!L||!L.geo) return;
+    if(!navigator.geolocation){ APP.toast('Location is not available in this browser',true); return; }
+    var mobile=(window.matchMedia&&window.matchMedia('(pointer:coarse)').matches)||window.innerWidth<=820;
+    var w=null; if(!mobile){ try{ w=window.open('','_blank'); }catch(x){ w=null; } }
+    if(window.FX&&btn) FX.load(btn,true); APP.toast('Getting your location\u2026');
+    navigator.geolocation.getCurrentPosition(function(pos){
+      if(window.FX&&btn) FX.load(btn,false);
+      var la=pos.coords.latitude.toFixed(6), lo=pos.coords.longitude.toFixed(6), acc=Math.round(pos.coords.accuracy||0);
+      var map='https://maps.google.com/?q='+la+','+lo, txt=(L.geo.message?(L.geo.message+'\n'):'')+'\uD83D\uDCCD My current location: '+map;
+      var wa='https://wa.me/'+(L.geo.to||'')+'?text='+encodeURIComponent(txt);
+      STORE.addCoachMsg('sys','\uD83D\uDCCD Location ready (accuracy ~'+acc+' m) \u2014 WhatsApp opened'+(L.geo.name?(' for '+L.geo.name):'')+'. Tap Send there.',[{label:'\uD83D\uDCAC Open WhatsApp again',url:wa},{label:'\uD83D\uDDFA View on map',url:map}]);
+      if(w&&!w.closed) w.location.href=wa; else window.location.href=wa;
+    },function(err){
+      if(window.FX&&btn) FX.load(btn,false); if(w&&!w.closed) w.close();
+      APP.toast(err&&err.code===1?'Location permission denied \u2014 allow it in your browser settings':'Could not get your location \u2014 turn on GPS and try again',true);
+    },{enableHighAccuracy:true,timeout:15000,maximumAge:30000});
+  }
   function quick(t){ if(!isOpen) toggle(true); var i=$('coIn'); if(i){ i.value=t; send(); } }
-  function clear(){ APP.confirmBox('Clear chat? (Memory stays.)',function(){ STORE.clearCoach(); render(); }); }
+  function clear(){ APP.confirmBox('Clear the chat from your screen? Samm AI still remembers the conversation and everything it learned about you.',function(){ STORE.clearCoach(); render(); }); }
   STORE.onChange(function(){ if(isOpen&&!busy) render(); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&isOpen) toggle(false); });
-  return {toggle:toggle,render:render,send:send,quick:quick,clear:clear,link:link,check:check,autoCheck:autoCheck};
+  return {toggle:toggle,render:render,send:send,quick:quick,clear:clear,link:link,geo:geo,waSave:waSave,waSend:waSend,waCancel:waCancel,waFill:waFill,waTest:waTest,check:check,autoCheck:autoCheck};
 })();
 
 var FX=(function(){
@@ -1947,8 +2246,78 @@ var CLK=(function(){
   function boot(){ load(); sortL(); paint(); if(list.length) ensureTick(); watch(); if(lsGet(LP)==='on') regSW(); document.addEventListener('pointerdown',unlock,true); document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&ringing) stop(); }); check(); }
   return {add:add,cancel:cancel,cancelMatch:cancelMatch,all:all,stop:stop,snooze:snooze,openList:openList,ics:ics,icsText:icsText,togglePush:togglePush,testPush:testPush,paintPush:paintPush,sysNotify:sysNotify,check:check,boot:boot};
 })();
+var WIN=(function(){
+  var el=null, isOpen=false, drag=null;
+  function $(id){ return document.getElementById(id); }
+  var esc=APP.esc;
+  var DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'], MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var PR={high:0,medium:1,low:2};
+  function build(){
+    el=document.createElement('div'); el.id='macToday'; el.className='macwin'; el.setAttribute('role','dialog'); el.setAttribute('aria-label','Today\u2019s tasks');
+    el.innerHTML='<div class="mac-tb" id="mtBar"><span class="tl r" onclick="WIN.close()" title="Close"></span><span class="tl y" onclick="WIN.close()" title="Minimize"></span><span class="tl g" onclick="WIN.zoom()" title="Zoom"></span><div class="mac-title" id="mtTitle">Today</div></div>'+
+      '<div class="macwin-body"><div class="mt-prog"><div class="mt-prog-txt"><span id="mtProgTxt"></span><span id="mtPct"></span></div><div class="bar"><i id="mtProgBar"></i></div></div><div id="mtList"></div>'+
+      '<form class="mt-add" onsubmit="WIN.add(event)"><input id="mtNew" placeholder="Add a task for today\u2026" autocomplete="off" enterkeyhint="done"><button class="btn primary mini" type="submit">Add</button></form></div>';
+    document.body.appendChild(el);
+    var bar=$('mtBar');
+    bar.addEventListener('pointerdown',function(e){ if(e.target.classList.contains('tl')||window.innerWidth<=600) return; var r=el.getBoundingClientRect(); drag={dx:e.clientX-r.left,dy:e.clientY-r.top}; el.classList.add('dragging'); try{ bar.setPointerCapture(e.pointerId); }catch(x){} });
+    bar.addEventListener('pointermove',function(e){ if(!drag) return; var w=el.offsetWidth,hh=el.offsetHeight; el.style.left=Math.max(4,Math.min(window.innerWidth-w-4,e.clientX-drag.dx))+'px'; el.style.top=Math.max(4,Math.min(window.innerHeight-40,e.clientY-drag.dy))+'px'; });
+    bar.addEventListener('pointerup',function(){ drag=null; el.classList.remove('dragging'); });
+    bar.addEventListener('dblclick',function(e){ if(!e.target.classList.contains('tl')) zoom(); });
+    STORE.onChange(function(){ if(isOpen) render(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&isOpen) close(); });
+  }
+  function render(){
+    var db=STORE.read(), t=STORE.today(), p=t.split('-'), d=new Date(+p[0],+p[1]-1,+p[2]);
+    var list=db.dailyGoals.filter(function(g){ return g.date===t; }).sort(function(a,b){ if(a.done!==b.done) return a.done?1:-1; return (PR[a.priority]==null?1:PR[a.priority])-(PR[b.priority]==null?1:PR[b.priority]); });
+    var done=list.filter(function(g){ return g.done; }).length, pct=list.length?Math.round(done/list.length*100):0;
+    $('mtTitle').textContent='Today \u00b7 '+DAYS[d.getDay()]+', '+d.getDate()+' '+MON[d.getMonth()];
+    $('mtProgTxt').textContent=list.length?(done+' of '+list.length+' done'):'Nothing planned';
+    $('mtPct').textContent=list.length?(pct+'%'):'';
+    $('mtProgBar').style.width=pct+'%';
+    var h='';
+    if(!list.length) h='<div class="mt-empty">No tasks for today. Add one below or ask Samm AI.</div>';
+    for(var i=0;i<list.length;i++){ var g=list[i], pr=g.priority||'medium';
+      h+='<label class="mt-row'+(g.done?' done':'')+'"><input type="checkbox"'+(g.done?' checked':'')+' onchange="WIN.toggle(\''+g.id+'\',this.checked)"><span class="mt-t">'+esc(g.title)+'</span>'+((g.why||g.prioWhy)?('<button class="why-btn" title="Why this task?" onclick="event.preventDefault();event.stopPropagation();WIN.why(\''+g.id+'\')">\uD83D\uDCA1</button>'):'')+''+(pr!=='medium'?('<span class="mt-pri '+esc(pr)+'">'+esc(pr)+'</span>'):'')+'</label>'; }
+    $('mtList').innerHTML=h;
+  }
+  function show(src){
+    if(!el) build(); render();
+    if(isOpen){ el.className='macwin open'+(el.classList.contains('zoomed')?' zoomed':''); return; }
+    var zoomed=el.classList.contains('zoomed');
+    el.className='macwin measuring'+(zoomed?' zoomed':'');
+    var w=el.offsetWidth, hh=el.offsetHeight, vw=window.innerWidth, vh=window.innerHeight;
+    var left=Math.max(12,(vw-w)/2), top=Math.max(12,(vh-hh)/2-(vw>600?20:0));
+    el.style.left=left+'px'; el.style.top=top+'px';
+    var r=src&&src.getBoundingClientRect?src.getBoundingClientRect():null;
+    el.style.transformOrigin=r?((r.left+r.width/2-left)+'px '+(r.top+r.height/2-top)+'px'):'50% 100%';
+    el.className='macwin open'+(zoomed?' zoomed':''); isOpen=true;
+    if(vw>600) setTimeout(function(){ var i=$('mtNew'); if(i) i.focus(); },300);
+  }
+  function close(){ if(!el||!isOpen) return; isOpen=false; var z=el.classList.contains('zoomed'); el.className='macwin open closing'+(z?' zoomed':''); setTimeout(function(){ if(!isOpen) el.className='macwin'+(z?' zoomed':''); },260); }
+  function zoom(){ if(!el) return; el.classList.toggle('zoomed'); var w=el.offsetWidth, l=parseFloat(el.style.left)||0; if(l+w>window.innerWidth-4) el.style.left=Math.max(4,(window.innerWidth-w)/2)+'px'; }
+  function toggle(id,on){ STORE.toggleDaily(id,!!on); }
+  function add(e){ if(e) e.preventDefault(); var i=$('mtNew'), v=(i.value||'').replace(/^\s+|\s+$/g,''); if(!v) return; STORE.addDaily({title:v,date:STORE.today()}); i.value=''; APP.toast('Task added for today'); }
+  function why(id){
+    var db=STORE.read(), t=null, i; for(i=0;i<db.dailyGoals.length;i++){ if(db.dailyGoals[i].id===id){ t=db.dailyGoals[i]; break; } } if(!t) return;
+    var ul=function(a){ return (a&&a.length)?('<ul class="why-ev">'+a.map(function(x){ return '<li>'+esc(x)+'</li>'; }).join('')+'</ul>'):''; };
+    var p=t.date.split('-'), d=new Date(+p[0],+p[1]-1,+p[2]);
+    var h='<h3>\uD83D\uDCA1 Why this task?</h3><div class="why-t">'+esc(t.title)+'</div>'+
+      (t.why?('<p class="why-r">'+esc(t.why)+'</p>'):'<p class="why-r">No reason was saved for this task.</p>')+
+      ((t.evidence&&t.evidence.length)?('<div class="why-ev-h">Evidence</div>'+ul(t.evidence)):'')+
+      (t.prioWhy?('<div class="why-ev-h">Why priority: '+esc(t.priority||'')+'</div><p class="why-r">'+esc(t.prioWhy)+'</p>'+ul(t.prioEvidence)):'')+
+      '<p class="sub" style="font-size:12.5px;margin:8px 0 0">'+(t.by?('Added by '+esc(t.by)+' \u00b7 '):'')+DAYS[d.getDay()]+', '+d.getDate()+' '+MON[d.getMonth()]+(t.asked?(' \u00b7 You said: \u201c'+esc(t.asked)+'\u201d'):'')+'</p>'+
+      '<div class="modal-actions"><button class="btn" onclick="WIN.askWhy(\''+t.id+'\')">Ask Samm AI</button><button class="btn primary" onclick="APP.closeModal()">Got it</button></div>';
+    APP.openOverlay(h);
+  }
+  function askWhy(id){ var db=STORE.read(), t=null, i; for(i=0;i<db.dailyGoals.length;i++){ if(db.dailyGoals[i].id===id){ t=db.dailyGoals[i]; break; } } if(!t) return; APP.closeModal(); if(window.CO) CO.quick('Why did you give me the task "'+t.title+'"? Show the evidence.'); }
+  function boot(){ var b=$('macBoot'); if(!b) return; var li=document.querySelector('.logo-img'), bi=$('macBootImg'); if(li&&bi&&li.src) bi.src=li.src; else if(bi) bi.style.display='none';
+    var gone=false, fin=function(){ if(gone) return; gone=true; b.className='done'; setTimeout(function(){ if(b.parentNode) b.parentNode.removeChild(b); },500); };
+    if(document.readyState==='complete') setTimeout(fin,650); else window.addEventListener('load',function(){ setTimeout(fin,450); });
+    setTimeout(fin,2500); }
+  return {show:show,close:close,zoom:zoom,toggle:toggle,add:add,render:render,boot:boot,why:why,askWhy:askWhy,isOpen:function(){ return isOpen; }};
+})();
 /* boot */
-APP.init(); SYNC.boot(); CLK.boot();
+APP.init(); SYNC.boot(); CLK.boot(); WIN.boot();
 /* ---- site-wide 3D tilt on cards ---- */
 (function(){
   if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
