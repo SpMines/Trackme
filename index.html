@@ -468,6 +468,52 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent)}
 .cobtn.primary:hover{background:var(--accent);filter:brightness(1.06)}
 .cobtn.wa-done{border-color:var(--ok);color:var(--ok);opacity:1;cursor:default}
 .cobtn:disabled{cursor:default;opacity:.8}
+
+/* ===== SAMM assistant (Phase 1): black / charcoal / champagne gold, blue = voice ===== */
+#botPanel{--accent:#d4b483;--accent-soft:rgba(212,180,131,.14);--card:#141416;--bg:#0c0c0d;--border:rgba(255,255,255,.09);--text:#f3efe8;--text2:#a9a399;background:#0c0c0d;color:var(--text);border-color:rgba(212,180,131,.28);font-family:var(--font)}
+#botPanel .botname{font-weight:700;letter-spacing:.14em}
+#botPanel .botava{background:linear-gradient(160deg,#f1dfb8,#c9a46a);color:#111}
+#botPanel .cobub.user{background:rgba(212,180,131,.14);border-color:rgba(212,180,131,.55)}
+#botPanel .cobub.ai{background:#17171a;border-color:rgba(255,255,255,.07)}
+#botPanel .botsend{background:linear-gradient(180deg,#e6cd9f,#c49d62);color:#111}
+#botPanel .iconbtn{color:var(--text2)}
+#botPanel textarea{background:#101012}
+#botFab{background:#0c0c0d;border-color:rgba(212,180,131,.7);color:#e2c891}
+#botFab.on{background:linear-gradient(180deg,#e6cd9f,#c49d62);color:#111}
+#botFab::after{border-color:#d4b483}
+.vxstage{display:flex;align-items:center;gap:14px;padding:14px 14px 14px 20px;border-bottom:1px solid var(--border);background:radial-gradient(120% 160% at 0% 0%,rgba(212,180,131,.10),transparent 60%)}
+.vxorb{--lvl:0;position:relative;width:50px;height:50px;border-radius:50%;border:none;padding:0;cursor:pointer;flex:none;background:radial-gradient(circle at 35% 30%,#f5e6c6,#c9a46a 58%,#5e4827);box-shadow:0 0 0 1px rgba(212,180,131,.45),0 6px 18px rgba(0,0,0,.5);transition:transform .07s linear,box-shadow .2s,background .3s}
+.vxorb .vxcore{position:absolute;inset:14px;border-radius:50%;background:rgba(255,255,255,.22)}
+#botPanel[data-vs=listening] .vxorb{background:radial-gradient(circle at 35% 30%,#d4ecff,#4da3ff 55%,#174a86);transform:scale(calc(1 + var(--lvl) * .2));box-shadow:0 0 0 1px rgba(77,163,255,.6),0 0 calc(10px + var(--lvl) * 30px) rgba(77,163,255,.7)}
+#botPanel[data-vs=speaking] .vxorb{background:radial-gradient(circle at 35% 30%,#d4ecff,#4da3ff 55%,#174a86);animation:vxTalk 1s ease-in-out infinite}
+#botPanel[data-vs=speaking] .vxorb.beat{transform:scale(1.1)}
+#botPanel[data-vs=thinking] .vxorb::after,#botPanel[data-vs=transcribing] .vxorb::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid transparent;border-top-color:#d4b483;border-right-color:rgba(212,180,131,.4);animation:vxSpin .8s linear infinite}
+@keyframes vxSpin{to{transform:rotate(360deg)}}
+@keyframes vxTalk{50%{box-shadow:0 0 0 1px rgba(77,163,255,.6),0 0 26px rgba(77,163,255,.65)}}
+.vxinfo{flex:1;min-width:0;cursor:default}
+.vxtop{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.vxtop b{font-size:14px;letter-spacing:.04em;color:#e9d3a8}
+#botPanel[data-vs=listening] .vxtop b,#botPanel[data-vs=speaking] .vxtop b{color:#7cbcff}
+.vxst{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);white-space:nowrap}
+.vxst .cdot{width:7px;height:7px}
+.vxline{font-size:12.5px;color:var(--text2);margin-top:3px;line-height:1.35;max-height:2.7em;overflow:hidden}
+.vxline.interim{color:#9ccaff;font-style:italic}
+.vxline.final{color:var(--text)}
+.vxset{padding:10px 14px 12px;border-bottom:1px solid var(--border);background:#111113;display:flex;flex-direction:column;gap:8px;font-size:13px}
+.vxset[hidden]{display:none}
+.vxrow{display:flex;align-items:center;gap:10px;justify-content:space-between}
+.vxrow label{color:var(--text2);white-space:nowrap}
+.vxrow select{flex:1;min-width:0;font:inherit;font-size:13px;padding:6px 8px;border-radius:8px;border:1px solid var(--border);background:#0c0c0d;color:var(--text)}
+.vxrow input[type=range]{flex:1;accent-color:#d4b483}
+.vxchk{display:flex;gap:8px;align-items:flex-start;color:var(--text);line-height:1.35}
+.vxchk input{accent-color:#d4b483;margin-top:2px}
+.botmic{width:42px;height:42px;border-radius:50%;border:1px solid rgba(212,180,131,.5);background:transparent;color:#e2c891;cursor:pointer;flex:none;display:flex;align-items:center;justify-content:center;touch-action:none;-webkit-user-select:none;user-select:none}
+.botmic.on{background:#4da3ff;border-color:#4da3ff;color:#06121f;box-shadow:0 0 0 4px rgba(77,163,255,.25)}
+.botmic:disabled{opacity:.35;cursor:not-allowed}
+#botPanel[data-min="1"]{height:auto}
+#botPanel[data-min="1"] .botmsgs,#botPanel[data-min="1"] .botchips,#botPanel[data-min="1"] .vxset{display:none}
+#botPanel[data-min="1"] .vxinfo{cursor:pointer}
+@media(prefers-reduced-motion:reduce){#botPanel .vxorb,#botPanel .vxorb::after{animation:none!important;transition:none!important}}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
@@ -696,10 +742,11 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent)}
       <p class="sub" style="margin:12px 0 0;font-size:13px;display:flex;align-items:center;gap:8px"><span class="cdot off" id="syDot"></span><span id="syStatus">Off</span></p>
     </div>
     <div class="card" style="margin-top:18px">
-      <h2 class="sec-h" style="margin-top:0">Samm AI (Groq)</h2>
+      <h2 class="sec-h" style="margin-top:0">SAMM assistant (Groq)</h2>
       <p class="sub" style="margin-bottom:14px">Paste your Groq API key. Stays only in this browser — not synced, not in the file. Free key: console.groq.com</p>
       <div class="field"><label>Groq API key</label><input id="stAIKey" type="password" placeholder="gsk_..."></div>
       <div class="row" style="align-items:center"><button class="btn primary" data-load="ai" onclick="APP.saveAIKey()">Save &amp; connect</button><button class="btn" data-load="ai" onclick="CO.check()">Test</button><span class="conn"><span class="cdot off" id="aiDot"></span><span id="aiConnTxt">Not checked</span></span></div>
+      <details style="margin-top:14px"><summary style="cursor:pointer;font-weight:600">Key proxy (safer — key stays on your server)</summary><p class="sub" style="margin:8px 0 10px">Paste your Cloudflare Worker URL and app token from the setup guide. When set, SAMM sends every Groq call through it and the browser never needs the Groq key — you can clear the key field above.</p><div class="field"><label>Proxy URL</label><input id="stPxUrl" placeholder="https://samm-proxy.yourname.workers.dev" autocomplete="off"></div><div class="field"><label>App token</label><input id="stPxTok" type="password" placeholder="long random token" autocomplete="off"></div><button class="btn" data-load="ai" onclick="CO.proxySave()">Save proxy &amp; test</button></details>
     </div>
     <div class="card" style="margin-top:18px">
       <h2 class="sec-h" style="margin-top:0">WhatsApp from my number</h2>
@@ -707,6 +754,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent)}
       <div class="field"><label>Apps Script web-app URL</label><input id="stWaUrl" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off"></div>
       <div class="field"><label>Token</label><input id="stWaTok" type="password" placeholder="SPWA-…" autocomplete="off"></div>
       <div class="row" style="align-items:center"><button class="btn primary" data-load="wa" onclick="CO.waSave()">Save &amp; test</button><span class="conn"><span class="cdot off" id="waDot"></span><span id="waTxt">Not set up</span></span></div>
+      <div class="field" style="margin-top:14px"><label>Trusted contacts — get my location without a tap</label><input id="stTrust" placeholder="e.g. Manbi, 9876543210" autocomplete="off"></div><button class="btn" onclick="CO.trustSave()">Save trusted contacts</button>
     </div>
     <div class="card" style="margin-top:18px">
       <h2 class="sec-h" style="margin-top:0">Screen notifications &amp; alarms</h2>
@@ -718,15 +766,17 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent)}
 
 </div>
 
-<div id="botPanel" class="botpanel" role="dialog" aria-label="Samm AI">
- <div class="bothead"><div class="botava"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V5"/><circle cx="12" cy="4" r="1"/><circle cx="9" cy="13.5" r="1" fill="currentColor"/><circle cx="15" cy="13.5" r="1" fill="currentColor"/></svg></div><div style="flex:1;min-width:0"><div class="botname">Samm AI</div><div class="botsub" id="coStat">Online · scans your app live</div></div><button class="iconbtn" onclick="CO.clear()" title="Clear chat">🗑</button><button class="iconbtn" onclick="CO.toggle(false)" title="Close">✕</button></div>
+<div id="botPanel" class="botpanel" role="dialog" aria-label="SAMM assistant" data-vs="idle" data-min="0">
+ <div class="bothead"><div class="botava"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V5"/><circle cx="12" cy="4" r="1"/><circle cx="9" cy="13.5" r="1" fill="currentColor"/><circle cx="15" cy="13.5" r="1" fill="currentColor"/></svg></div><div style="flex:1;min-width:0"><div class="botname">SAMM</div><div class="botsub" id="coStat">Online · scans your app live</div></div><button class="iconbtn" onclick="VX.settings()" title="Voice settings" aria-label="Voice settings">⚙︎</button><button class="iconbtn" onclick="CO.mini()" title="Minimize / restore" aria-label="Minimize">–</button><button class="iconbtn" onclick="CO.clear()" title="Clear chat">🗑</button><button class="iconbtn" onclick="CO.toggle(false)" title="Close">✕</button></div>
+ <div class="vxstage"><button id="vxOrb" class="vxorb" onclick="VX.orb()" aria-label="Talk to SAMM"><span class="vxcore"></span></button><div class="vxinfo" onclick="CO.mini(false)"><div class="vxtop"><b id="vxState">Idle</b><span class="vxst"><span class="cdot off" id="vxAi"></span>AI<span class="cdot off" id="vxDesk"></span><span id="vxDeskT">Desktop app off</span></span></div><div id="vxLine" class="vxline">Tap the orb or the mic and talk. Hold the mic for push-to-talk.</div></div><button id="vxMute" class="iconbtn" onclick="VX.toggleMute()" title="Mute voice replies" aria-label="Mute voice replies">🔊</button></div>
+ <div id="vxSet" class="vxset" hidden><div class="vxrow"><label for="vxVoice">Voice</label><select id="vxVoice" onchange="VX.setVoice(this.value)"></select></div><div class="vxrow"><label for="vxRate">Speed <span id="vxRateT">1.0×</span></label><input id="vxRate" type="range" min="0.7" max="1.5" step="0.05" oninput="VX.setRate(this.value)"></div><label class="vxchk"><input type="checkbox" id="vxAuto" onchange="VX.opt('auto',this.checked)"> Speak replies when I talk</label><label class="vxchk"><input type="checkbox" id="vxConvo" onchange="VX.opt('convo',this.checked)"> Conversation mode: keep listening after SAMM answers (stops after 8 s of silence)</label><label class="vxchk"><input type="checkbox" id="vxAll" onchange="VX.opt('all',this.checked)"> Also speak replies to typed messages</label><label class="vxchk"><input type="checkbox" id="vxPrev" onchange="VX.opt('preview',this.checked)"> Live preview while I talk (Chrome/Edge; uses the browser's speech service)</label><div class="vxrow" style="margin-top:6px"><button class="btn mini" onclick="VX.test()">Test voice</button><span class="sub" style="margin:0;font-size:12px">Shortcut: Ctrl+Shift+Space = talk</span></div></div>
  <div id="coMsgs" class="botmsgs"></div>
  <div class="botchips"><button onclick="WIN.show(this)">📋 Today’s tasks</button><button onclick="CO.quick('What should I do first today? Check my patterns and set priorities.')">🎯 Today’s priority</button><button onclick="CO.quick('Give me my status for the last 2 weeks — what am I skipping and what is strong?')">📊 My status</button><button onclick="CO.quick('How is my money this month — spending, and where is most of it going?')">💰 Money</button><button onclick="CO.quick('Give me today’s global financial and market news in short — gold, Nifty, USD/INR.')">🌍 Market news</button><button onclick="CO.quick('Live prices right now: XAUUSD, silver, BTC and USD/INR.')">💹 Live prices</button></div>
- <div class="botinput"><textarea id="coIn" rows="1" placeholder="Type in Hinglish or English…"></textarea><button class="botsend" onclick="CO.send()" aria-label="Send">➤</button></div>
+ <div class="botinput"><button id="vxMic" class="botmic" aria-label="Talk (hold for push-to-talk)" aria-pressed="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button><textarea id="coIn" rows="1" placeholder="Type or talk — Hinglish/English"></textarea><button class="botsend" onclick="CO.send()" aria-label="Send">➤</button></div>
 </div>
 <div id="clkChip" class="clkchip" role="button" aria-label="Timers and alarms" onclick="CLK.openList()"></div>
 <div id="clkRing" class="clkring" role="alertdialog" aria-live="assertive"><div class="clkbox"><div class="clkic" id="clkIc">⏰</div><div class="clklbl" id="clkLbl">Alarm</div><div class="clktime" id="clkTime"></div><div class="row" style="justify-content:center;gap:12px;margin-top:22px"><button class="btn" onclick="CLK.snooze()">Snooze 5 min</button><button class="btn primary" onclick="CLK.stop()">Stop</button></div></div></div>
-<button id="botFab" class="botfab" onclick="CO.toggle()" aria-label="Open Samm AI"><svg class="ic-bot" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V5"/><circle cx="12" cy="4" r="1.2"/><circle cx="9" cy="13.5" r="1.3" fill="currentColor"/><circle cx="15" cy="13.5" r="1.3" fill="currentColor"/><path d="M9.5 16.5h5"/><path d="M2 12v3M22 12v3"/></svg><svg class="ic-x" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+<button id="botFab" class="botfab" onclick="CO.toggle()" aria-label="Open SAMM"><svg class="ic-bot" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V5"/><circle cx="12" cy="4" r="1.2"/><circle cx="9" cy="13.5" r="1.3" fill="currentColor"/><circle cx="15" cy="13.5" r="1.3" fill="currentColor"/><path d="M9.5 16.5h5"/><path d="M2 12v3M22 12v3"/></svg><svg class="ic-x" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
 
 <div class="notif-ov" id="notifOv" onclick="APP.closeNotifs()"></div>
 <div class="notif-pop" id="notifPop"><div class="notif-head"><b>Notifications</b><div class="spacer"></div><button class="btn mini ghost" id="arcToggle" onclick="APP.toggleArchived()">Archived</button><button class="btn mini ghost" onclick="APP.markAllRead()">Read all</button></div><div id="notifList"></div></div>
@@ -1675,16 +1725,19 @@ var SYNC=(function(){
 
 var CO=(function(){
   var LSK='SAMM_AI_KEY', LM='SAMM_AI_MODEL', LN='SAMM_AI_NEWS';
-  var PREF=['openai/gpt-oss-120b','llama-3.3-70b-versatile','moonshotai/kimi-k2-instruct','meta-llama/llama-4-maverick-17b-128e-instruct','qwen/qwen3-32b','openai/gpt-oss-20b','meta-llama/llama-4-scout-17b-16e-instruct','llama-3.1-8b-instant'];
+  var PREF=['openai/gpt-oss-120b','llama-3.3-70b-versatile','moonshotai/kimi-k2-instruct','meta-llama/llama-4-maverick-17b-128e-instruct','openai/gpt-oss-20b','llama-3.1-8b-instant'];
   var SKIP=/whisper|tts|guard|compound|playai|orpheus|distil|safeguard|allam/i;
   var conn='unknown', connMsg='';
-  var SYS="You are Samm AI — Sam's personal AI buddy + mentor AND the operator of his app 'Samm 2.0'. Talk like a real friend who is also a sharp mentor, warm but direct. Rule: Be Real, Be Human — say no to bad ideas, no flattery, no fluff.\n\nNOW: {{NOW}}.\nYou get a LIVE SCAN of his whole app below (tasks, upcoming tasks, 14-day patterns, goals, milestones, wallet, logs, your memory of him). Use it.\n\nLANGUAGE & STYLE (strict):\n- Sam writes in Hinglish (Hindi in Roman script mixed with English) or in English. Understand both perfectly.\n- His Hinglish spelling is loose. Read words by meaning, NEVER as names or places: avi/abi/abhi = now, kal = tomorrow or yesterday (from context), parso = day after, kya chal rha/raha h = what is going on, bhej/bhejo/bhejde = send, bola/bol = said/say, krr/kr/kar = do, h/hai = is, mtt/mat = don't, wapis = again, kese/kaise = how. Example: \"Avi market me kya chal rha h\" = \"What is happening in the market right now?\" (Avi is not a place).\n- Reply in the SAME style as his latest message: Hinglish question → simple Hinglish answer (Roman script, the way he types — never Devanagari); English question → simple English answer.\n- Simple but effective: short sentences, everyday words, explain any jargon in one line, use 2–5 short bullets or numbered steps only when they help, and end with the one most useful next step. No long essays.\n- EVERY text field inside actions (title, note, text, fact, category) and anything saved in the app must be clean English, whatever language Sam used. Translate his Hinglish into natural English, e.g. \"bank jana\" → \"Go to the bank\", \"roz subah 6 baje uthna\" → \"Wake up at 6:00 AM\", \"chai ka kharcha\" → \"Tea\", \"cigarette nahi fukni\" → \"No smoking\". Titles: short, capitalized, action-style.\n\nUSEFUL LINKS:\n- For important, how-to, learning, career, money, tax, legal, health, tech or official/government questions, add 1–3 useful links in \"links\". Casual chat and simple app actions get no links.\n- You have NO web access in normal mode, so NEVER write a URL yourself. Give a search instead: {\"label\":\"Official ITR filing guide\",\"search\":\"how to file ITR online site:incometax.gov.in\"} or a YouTube search for visual how-tos: {\"label\":\"Watch: file ITR step by step\",\"video\":\"how to file ITR online step by step 2026\"}. Make the search specific; prefer official sites with site:.\n- Mention the links in one short line in say (e.g. \"Neeche links diye hain.\").\n\nWHY & EVIDENCE (with emojis):\n- Every task, routine, challenge or priority you create on your OWN suggestion must carry \"why\" (one short line that starts with an emoji) and \"evidence\" (2–4 short facts from the LIVE SCAN with real numbers or dates, each starting with an emoji), e.g. \"why\":\"💪 Workout keeps slipping\", \"evidence\":[\"📉 Done 2/6 in the last 14 days\",\"⏰ Missed the last 3 days in a row\",\"🎯 Linked to your goal: Run 3 times\"].\n- If Sam asked for the task himself, use \"why\":\"📝 You asked for this\" and evidence may be empty. Never invent evidence or numbers.\n- When Sam asks why a task was given, answer from that task's stored why / evidence / 'Sam asked' in the scan, plus today's data: short, with emojis, in his language style. If there is no stored reason, say so honestly.\n\nPRICES: quote market prices ONLY from a LIVE PRICES block in this prompt, with its 'as of' time, and add that a broker's quote can differ by the spread. If there is no LIVE PRICES block or it says unavailable, say you couldn't fetch it — never quote prices from memory. Indian stock prices (Nifty, Sensex, shares) are not available live here; say so and offer news instead.\nGeneral market questions (\"market me kya chal raha\", \"market kaisa hai\", \"aaj market\"): give the LIVE PRICES numbers (gold, silver, BTC, USD/INR) in short bullets, plus 2-3 headlines only if you really have live news. Never answer a market question with only \"I can't fetch\" when a LIVE PRICES block is present.\n\nHOW TO TALK:\n- Hi/hello/casual: reply like a friend (1-2 lines), maybe one useful nudge. No unasked reports.\n- Status / priority: NEGLECTED items first ('You skipped X for 3 days — do it first'), then deadlines/overdue, then rest. Numbered order + set priorities with actions.\n- Never invent numbers.\n\nYOU HAVE FULL CONTROL OF THE APP THROUGH ACTIONS. Whatever Sam asks to add / change / complete / move / delete, you DO it with actions in the SAME reply.\nHARD RULES:\n1. NEVER say done/added/set/scheduled/kar diya unless the matching action is in this same reply. The app shows Sam a receipt only for actions that actually ran — a claim without an action is a lie he will catch.\n2. Missing or unclear info → ask ONE short question, actions:[]. Required: txn = amount + income/expense (credit/aaya/mila/received = income; debit/kharcha/diya/paid = expense); task = title; goal = title (+ period, default month).\n3. For existing items use the exact title from the LIVE SCAN.\n4. Dates: \"today\", \"tomorrow\", \"+3d\" (3 din baad), or YYYY-MM-DD.\n5. Memory: durable facts about Sam (routine, goals, preferences, how he works) → remember action, written as a short third-person English fact. 'bhool ja' / 'forget it' → forget.\n\nOUTPUT: exactly ONE JSON object, nothing else: {\"say\":\"<reply>\",\"actions\":[...],\"links\":[...]}  (links optional, max 3)\nACTIONS (add \"why\" + \"evidence\" to task, daily, challenge and priority actions):\nTasks (daily list):\n- {\"type\":\"task\",\"title\":\"Call bank\",\"date\":\"+3d\",\"priority\":\"high\"}  one task on one day (date default today)\n- {\"type\":\"daily\",\"title\":\"6:00 AM wake up\",\"days\":30}  same task every day from today (max 60; month=30, week=7)\n- {\"type\":\"challenge\",\"title\":\"No cigarette\",\"days\":30}\n- {\"type\":\"task_done\",\"title\":\"Workout\",\"date\":\"today\"}   {\"type\":\"task_undo\",\"title\":\"Workout\"}\n- {\"type\":\"task_move\",\"title\":\"Call bank\",\"from\":\"today\",\"to\":\"+1d\"}\n- {\"type\":\"task_delete\",\"title\":\"Call bank\",\"date\":\"today\",\"all\":false}  (all:true = every date from today)\n- {\"type\":\"priority\",\"title\":\"Workout\",\"level\":\"high|medium|low\"}\nGoals:\n- {\"type\":\"goal\",\"title\":\"Read 2 books\",\"period\":\"week|month|year\",\"deadline\":\"+20d\",\"budget\":0}\n- {\"type\":\"goal_done\",\"title\":\"...\"}   {\"type\":\"goal_delete\",\"title\":\"...\"}\nMilestones:\n- {\"type\":\"milestone\",\"title\":\"Launch site\",\"date\":\"2026-12-31\"}   {\"type\":\"milestone_done\",\"title\":\"...\"}   {\"type\":\"milestone_delete\",\"title\":\"...\"}\nWallet:\n- {\"type\":\"txn\",\"kind\":\"income\",\"amount\":1000,\"note\":\"From Rahul\",\"category\":\"Career\",\"date\":\"today\"}  (kind income|expense)\n- {\"type\":\"txn_delete\",\"note\":\"From Rahul\",\"amount\":1000}\n- {\"type\":\"budget\",\"amount\":5000,\"month\":\"{{MONTH}}\"}  monthly spend limit, alerts on breach\nTimers & alarms (ring on this device while Samm is open; for a locked phone the receipt gives Sam an 'Add to phone' button — mention it in one short line for alarms):\n- {\"type\":\"timer\",\"minutes\":25,\"label\":\"Focus\"}\n- {\"type\":\"alarm\",\"time\":\"06:00\",\"date\":\"tomorrow\",\"label\":\"Wake up\"}  (or \"in\":\"45m\"; no date = next occurrence)\n- {\"type\":\"alarm_cancel\",\"label\":\"Wake up\"}   {\"type\":\"timer_cancel\",\"label\":\"Focus\"}\nMaps:\n- {\"type\":\"navigate\",\"to\":\"Purulia Railway Station\",\"mode\":\"driving|two-wheeler|walking|transit\"}  gives Sam a Start navigation button (from his current location)\n- When Sam says he has to go somewhere (\"aaj X jana hai\", \"X ka rasta\", \"navigate to X\"), give a navigate action. If he also mentions a time or another day, add a task \"Go to X\" for that day too.\nLocation:\n- {\"type\":\"share_location\",\"to\":\"+919876543210\",\"name\":\"Rahul\",\"message\":\"On my way\"}  gives Sam a button that reads his CURRENT GPS location and opens WhatsApp with a Google Maps link (no number = he picks the contact). This is not WhatsApp live location: live location can only be started inside WhatsApp (chat → 📎 → Location → Share live location). If the scan says his own-number WhatsApp is connected and you give a number or saved name, the app sends his current location by ITSELF (5 s to stop) — say \"sending your location to X\", never \"sent\"; the app shows Sent/Failed. WhatsApp LIVE location (moving dot) cannot be started by any bot or web app, and WhatsApp stops it after max 8 hours. When he wants always-on live location, give share_location (current pin now) and tell him the one-time fix: Google Maps → profile photo → Location sharing → New share → \"Until you turn this off\" → pick the person; it stays on 24x7 even when his phone is locked.\nMeetings:\n- {\"type\":\"meeting\",\"title\":\"Pricing discussion\",\"with\":\"Rahul\",\"date\":\"tomorrow\",\"time\":\"15:30\",\"place\":\"SP Honda office | online\",\"notes\":\"agenda\"}  adds a task, a reminder 15 min before, a note, calendar + map/Meet buttons\n- {\"type\":\"meeting_note\",\"title\":\"Pricing discussion\",\"text\":\"Agreed on Rs 50k, follow up Friday\"}\nWhen Sam asks what happened in a meeting, answer from RECENT NOTES.\nMessages (Sam taps Send himself after reviewing — never claim a message was sent):\n- If the scan says WhatsApp from Sam’s own number is connected, a draft with a phone number gets a \"Send from my number\" button that sends through his bridge once he taps it (saved contacts only, max 30/day). Still never say it was sent — the app shows Sent/Failed itself.\n- When a draft is made, say \"draft ready, tap the button\" — NEVER \"bhej diya\" / \"sent\".\n- If Sam asks why a WhatsApp failed, read WHATSAPP SENDS in the scan and explain simply: \"detached Frame\" / \"Session closed\" / \"Target closed\" = the bridge’s WhatsApp page reloaded (not his fault) → restart the bridge (bridge v2.1.3+ waits for the page and re-sends by itself) and tap Retry; \"not in your saved contacts\" → save the number in his phone first; \"Daily limit\" → 30 per day; \"Missed\" → the bridge PC was off at that time.\n- If Sam complains about or points back to an earlier message (\"tumko Hi bola\", \"maine bola tha\", \"bheja kyu nahi\", \"send kar na\"), do NOT make a new draft and NEVER use his complaint words as message text. Check WHATSAPP SENDS: 'draft, not tapped yet' → tell him the card above is waiting for his tap on Send (the app never sends on its own; that tap stops a wrong or typo message from going out from his own number); failed → explain the error in one line and tell him to tap ↻ Retry on that card. Make a new draft only when he asks for a new or changed message.\n- The message text is exactly what he asked to send. Fix only an obvious typo of a greeting (Hie → Hi).\n- {\"type\":\"whatsapp\",\"to\":\"+919876543210\",\"name\":\"Rahul\",\"message\":\"...\",\"at\":\"2026-11-26 00:02\"}  (\"at\" optional = scheduled send at that exact local time; or use \"time\":\"00:02\",\"date\":\"tomorrow\"). If Sam gives only a name and his own-number WhatsApp is connected, leave \"to\" empty and put the saved contact name exactly as he said it in \"name\" — his bridge matches it against his saved contacts. Otherwise no number = he picks the contact in WhatsApp.\n- Scheduled WhatsApp goes even if Sam is offline, but only if his bridge PC is on at that time; say that in one short line. Midnight wishes: compute the date correctly (\"12:02 tonight\" = tomorrow’s date at 00:02).\n- {\"type\":\"email\",\"to\":\"name@company.com\",\"cc\":\"\",\"subject\":\"...\",\"body\":\"...\"}\nWrite messages like a professional: right greeting, short clear body, polite close, signed with Sam's name from the scan. English unless Sam asks for Hindi. If the purpose or recipient is unclear, ask first. When Sam shares someone's number or email, also add a remember action (e.g. \"Rahul's WhatsApp is +91...\") so you have it next time.\nOther:\n- {\"type\":\"note\",\"text\":\"...\"}\n- {\"type\":\"remember\",\"fact\":\"Sam trades XAUUSD in the evening\"}   {\"type\":\"forget\",\"fact\":\"...\"}\nSplit each distinct item into its own action. Several actions in one reply is fine.";
+  var SYS="You are SAMM — Sam's personal AI buddy + mentor AND the operator of his app 'Samm 2.0'. Talk like a real friend who is also a sharp mentor, warm but direct. Rule: Be Real, Be Human — say no to bad ideas, no flattery, no fluff.\n\nNOW: {{NOW}}.\nYou get a LIVE SCAN of his whole app below (tasks, upcoming tasks, 14-day patterns, goals, milestones, wallet, logs, your memory of him). Use it.\n\nLANGUAGE & STYLE (strict):\n- Sam writes in Hinglish (Hindi in Roman script mixed with English) or in English. Understand both perfectly.\n- His Hinglish spelling is loose. Read words by meaning, NEVER as names or places: avi/abi/abhi = now, kal = tomorrow or yesterday (from context), parso = day after, kya chal rha/raha h = what is going on, bhej/bhejo/bhejde = send, bola/bol = said/say, krr/kr/kar = do, h/hai = is, mtt/mat = don't, wapis = again, kese/kaise = how. Example: \"Avi market me kya chal rha h\" = \"What is happening in the market right now?\" (Avi is not a place).\n- Reply in the SAME style as his latest message: Hinglish question → simple Hinglish answer (Roman script, the way he types — never Devanagari); English question → simple English answer.\n- Simple but effective: short sentences, everyday words, explain any jargon in one line, use 2–5 short bullets or numbered steps only when they help, and end with the one most useful next step. No long essays.\n- EVERY text field inside actions (title, note, text, fact, category) and anything saved in the app must be clean English, whatever language Sam used. Translate his Hinglish into natural English, e.g. \"bank jana\" → \"Go to the bank\", \"roz subah 6 baje uthna\" → \"Wake up at 6:00 AM\", \"chai ka kharcha\" → \"Tea\", \"cigarette nahi fukni\" → \"No smoking\". Titles: short, capitalized, action-style.\n\nUSEFUL LINKS:\n- For important, how-to, learning, career, money, tax, legal, health, tech or official/government questions, add 1–3 useful links in \"links\". Casual chat and simple app actions get no links.\n- You have NO web access in normal mode, so NEVER write a URL yourself. Give a search instead: {\"label\":\"Official ITR filing guide\",\"search\":\"how to file ITR online site:incometax.gov.in\"} or a YouTube search for visual how-tos: {\"label\":\"Watch: file ITR step by step\",\"video\":\"how to file ITR online step by step 2026\"}. Make the search specific; prefer official sites with site:.\n- Mention the links in one short line in say (e.g. \"Neeche links diye hain.\").\n\nWHY & EVIDENCE (with emojis):\n- Every task, routine, challenge or priority you create on your OWN suggestion must carry \"why\" (one short line that starts with an emoji) and \"evidence\" (2–4 short facts from the LIVE SCAN with real numbers or dates, each starting with an emoji), e.g. \"why\":\"💪 Workout keeps slipping\", \"evidence\":[\"📉 Done 2/6 in the last 14 days\",\"⏰ Missed the last 3 days in a row\",\"🎯 Linked to your goal: Run 3 times\"].\n- If Sam asked for the task himself, use \"why\":\"📝 You asked for this\" and evidence may be empty. Never invent evidence or numbers.\n- When Sam asks why a task was given, answer from that task's stored why / evidence / 'Sam asked' in the scan, plus today's data: short, with emojis, in his language style. If there is no stored reason, say so honestly.\n\nPRICES: quote market prices ONLY from a LIVE PRICES block in this prompt, with its 'as of' time, and add that a broker's quote can differ by the spread. If there is no LIVE PRICES block or it says unavailable, say you couldn't fetch it — never quote prices from memory. Indian stock prices (Nifty, Sensex, shares) are not available live here; say so and offer news instead.\nGeneral market questions (\"market me kya chal raha\", \"market kaisa hai\", \"aaj market\"): give the LIVE PRICES numbers (gold, silver, BTC, USD/INR) in short bullets, plus 2-3 headlines only if you really have live news. Never answer a market question with only \"I can't fetch\" when a LIVE PRICES block is present.\n\nVOICE: when Sam speaks to you (voice), your \"say\" is read aloud: keep it to 1-3 short spoken sentences, no lists, no URLs, no emojis in the middle of sentences; numbers as words a person would say. Details go in actions/links.\n\nHOW TO TALK:\n- Hi/hello/casual: reply like a friend (1-2 lines), maybe one useful nudge. No unasked reports.\n- Status / priority: NEGLECTED items first ('You skipped X for 3 days — do it first'), then deadlines/overdue, then rest. Numbered order + set priorities with actions.\n- Never invent numbers.\n\nYOU HAVE FULL CONTROL OF THE APP THROUGH ACTIONS. Whatever Sam asks to add / change / complete / move / delete, you DO it with actions in the SAME reply.\nHARD RULES:\n1. NEVER say done/added/set/scheduled/kar diya unless the matching action is in this same reply. The app shows Sam a receipt only for actions that actually ran — a claim without an action is a lie he will catch.\n2. Missing or unclear info → ask ONE short question, actions:[]. Required: txn = amount + income/expense (credit/aaya/mila/received = income; debit/kharcha/diya/paid = expense); task = title; goal = title (+ period, default month).\n3. For existing items use the exact title from the LIVE SCAN.\n4. Dates: \"today\", \"tomorrow\", \"+3d\" (3 din baad), or YYYY-MM-DD.\n5. Memory: durable facts about Sam (routine, goals, preferences, how he works) → remember action, written as a short third-person English fact. 'bhool ja' / 'forget it' → forget.\n\nOUTPUT: exactly ONE JSON object, nothing else: {\"say\":\"<reply>\",\"actions\":[...],\"links\":[...]}  (links optional, max 3)\nACTIONS (add \"why\" + \"evidence\" to task, daily, challenge and priority actions):\nTasks (daily list):\n- {\"type\":\"task\",\"title\":\"Call bank\",\"date\":\"+3d\",\"priority\":\"high\"}  one task on one day (date default today)\n- {\"type\":\"daily\",\"title\":\"6:00 AM wake up\",\"days\":30}  same task every day from today (max 60; month=30, week=7)\n- {\"type\":\"challenge\",\"title\":\"No cigarette\",\"days\":30}\n- {\"type\":\"task_done\",\"title\":\"Workout\",\"date\":\"today\"}   {\"type\":\"task_undo\",\"title\":\"Workout\"}\n- {\"type\":\"task_move\",\"title\":\"Call bank\",\"from\":\"today\",\"to\":\"+1d\"}\n- {\"type\":\"task_delete\",\"title\":\"Call bank\",\"date\":\"today\",\"all\":false}  (all:true = every date from today)\n- {\"type\":\"priority\",\"title\":\"Workout\",\"level\":\"high|medium|low\"}\nGoals:\n- {\"type\":\"goal\",\"title\":\"Read 2 books\",\"period\":\"week|month|year\",\"deadline\":\"+20d\",\"budget\":0}\n- {\"type\":\"goal_done\",\"title\":\"...\"}   {\"type\":\"goal_delete\",\"title\":\"...\"}\nMilestones:\n- {\"type\":\"milestone\",\"title\":\"Launch site\",\"date\":\"2026-12-31\"}   {\"type\":\"milestone_done\",\"title\":\"...\"}   {\"type\":\"milestone_delete\",\"title\":\"...\"}\nWallet:\n- {\"type\":\"txn\",\"kind\":\"income\",\"amount\":1000,\"note\":\"From Rahul\",\"category\":\"Career\",\"date\":\"today\"}  (kind income|expense)\n- {\"type\":\"txn_delete\",\"note\":\"From Rahul\",\"amount\":1000}\n- {\"type\":\"budget\",\"amount\":5000,\"month\":\"{{MONTH}}\"}  monthly spend limit, alerts on breach\nTimers & alarms (ring on this device while Samm is open; for a locked phone the receipt gives Sam an 'Add to phone' button — mention it in one short line for alarms):\n- {\"type\":\"timer\",\"minutes\":25,\"label\":\"Focus\"}\n- {\"type\":\"alarm\",\"time\":\"06:00\",\"date\":\"tomorrow\",\"label\":\"Wake up\"}  (or \"in\":\"45m\"; no date = next occurrence)\n- {\"type\":\"alarm_cancel\",\"label\":\"Wake up\"}   {\"type\":\"timer_cancel\",\"label\":\"Focus\"}\nMaps:\n- {\"type\":\"navigate\",\"to\":\"Purulia Railway Station\",\"mode\":\"driving|two-wheeler|walking|transit\"}  gives Sam a Start navigation button (from his current location)\n- When Sam says he has to go somewhere (\"aaj X jana hai\", \"X ka rasta\", \"navigate to X\"), give a navigate action. If he also mentions a time or another day, add a task \"Go to X\" for that day too.\nLocation:\n- {\"type\":\"share_location\",\"to\":\"+919876543210\",\"name\":\"Rahul\",\"message\":\"On my way\"}  gives Sam a button that reads his CURRENT GPS location and opens WhatsApp with a Google Maps link (no number = he picks the contact). This is not WhatsApp live location: live location can only be started inside WhatsApp (chat → 📎 → Location → Share live location). If the scan says his own-number WhatsApp is connected and you give a number or saved name, the app sends his current location by ITSELF only to contacts he marked trusted in Settings (5 s to stop); for anyone else it shows a Send button he taps. Say \"location ready\" — never \"sent\"; the app shows Sent/Failed. WhatsApp LIVE location (moving dot) cannot be started by any bot or web app, and WhatsApp stops it after max 8 hours. When he wants always-on live location, give share_location (current pin now) and tell him the one-time fix: Google Maps → profile photo → Location sharing → New share → \"Until you turn this off\" → pick the person; it stays on 24x7 even when his phone is locked.\nMeetings:\n- {\"type\":\"meeting\",\"title\":\"Pricing discussion\",\"with\":\"Rahul\",\"date\":\"tomorrow\",\"time\":\"15:30\",\"place\":\"SP Honda office | online\",\"notes\":\"agenda\"}  adds a task, a reminder 15 min before, a note, calendar + map/Meet buttons\n- {\"type\":\"meeting_note\",\"title\":\"Pricing discussion\",\"text\":\"Agreed on Rs 50k, follow up Friday\"}\nWhen Sam asks what happened in a meeting, answer from RECENT NOTES.\nMessages (Sam taps Send himself after reviewing — never claim a message was sent):\n- If the scan says WhatsApp from Sam’s own number is connected, a draft with a phone number gets a \"Send from my number\" button that sends through his bridge once he taps it (saved contacts only, max 30/day). Still never say it was sent — the app shows Sent/Failed itself.\n- When a draft is made, say \"draft ready, tap the button\" — NEVER \"bhej diya\" / \"sent\".\n- If Sam asks why a WhatsApp failed, read WHATSAPP SENDS in the scan and explain simply: \"detached Frame\" / \"Session closed\" / \"Target closed\" = the bridge’s WhatsApp page reloaded (not his fault) → restart the bridge (bridge v2.1.3+ waits for the page and re-sends by itself) and tap Retry; \"not in your saved contacts\" → save the number in his phone first; \"Daily limit\" → 30 per day; \"Missed\" → the bridge PC was off at that time.\n- If Sam complains about or points back to an earlier message (\"tumko Hi bola\", \"maine bola tha\", \"bheja kyu nahi\", \"send kar na\"), do NOT make a new draft and NEVER use his complaint words as message text. Check WHATSAPP SENDS: 'draft, not tapped yet' → tell him the card above is waiting for his tap on Send (the app never sends on its own; that tap stops a wrong or typo message from going out from his own number); failed → explain the error in one line and tell him to tap ↻ Retry on that card. Make a new draft only when he asks for a new or changed message.\n- The message text is exactly what he asked to send. Fix only an obvious typo of a greeting (Hie → Hi).\n- {\"type\":\"whatsapp\",\"to\":\"+919876543210\",\"name\":\"Rahul\",\"message\":\"...\",\"at\":\"2026-11-26 00:02\"}  (\"at\" optional = scheduled send at that exact local time; or use \"time\":\"00:02\",\"date\":\"tomorrow\"). If Sam gives only a name and his own-number WhatsApp is connected, leave \"to\" empty and put the saved contact name exactly as he said it in \"name\" — his bridge matches it against his saved contacts. Otherwise no number = he picks the contact in WhatsApp.\n- Scheduled WhatsApp goes even if Sam is offline, but only if his bridge PC is on at that time; say that in one short line. Midnight wishes: compute the date correctly (\"12:02 tonight\" = tomorrow’s date at 00:02).\n- {\"type\":\"email\",\"to\":\"name@company.com\",\"cc\":\"\",\"subject\":\"...\",\"body\":\"...\"}\nWrite messages like a professional: right greeting, short clear body, polite close, signed with Sam's name from the scan. English unless Sam asks for Hindi. If the purpose or recipient is unclear, ask first. When Sam shares someone's number or email, also add a remember action (e.g. \"Rahul's WhatsApp is +91...\") so you have it next time.\nOther:\n- {\"type\":\"note\",\"text\":\"...\"}\n- {\"type\":\"remember\",\"fact\":\"Sam trades XAUUSD in the evening\"}   {\"type\":\"forget\",\"fact\":\"...\"}\nSplit each distinct item into its own action. Several actions in one reply is fine.";
   var NEWS_ADD="\n\nNEWS MODE: Sam asked about world/financial/market news. Use your web search for LIVE info from today/this week. Short bullets, each with source name, in the same language style as Sam's question. Put real source pages you actually found in \"links\" as {\"label\":\"Reuters: Gold rises on Fed bets\",\"url\":\"https://...\"} (max 3). If you could not get live info, say so plainly — never invent prices or headlines. Still answer in the JSON format.";
   var NO_WEB="\n\nLIVE WEB NEWS IS UNAVAILABLE right now. If Sam asks for news, say in one line you couldn't fetch live headlines this time; do not invent any. If a LIVE PRICES block is present, still give those prices.";
   var busy=false, isOpen=false, wired=false, greeting=false, GREET_GAP=30*60000;
   function $(id){ return document.getElementById(id); }
   var esc=APP.esc;
-  function keyGet(){ try{ return localStorage.getItem(LSK)||''; }catch(e){ return ''; } }
+  function proxyCfg(){ try{ var u=(localStorage.getItem('SAMM_PROXY_URL')||'').replace(/\/+$/,''), t=localStorage.getItem('SAMM_PROXY_TOKEN')||''; return /^https:\/\//.test(u)?{url:u,tok:t}:null; }catch(e){ return null; } }
+  function keyGet(){ try{ return localStorage.getItem(LSK)||(proxyCfg()?'proxy':''); }catch(e){ return ''; } }
+  /* every Groq call goes through here: key proxy (key stays on the server) or direct with the browser key */
+  function gfetch(path,init){ init=init||{}; var h=init.headers||{}, px=proxyCfg(); init.headers=h; if(px){ h['X-Samm-Token']=px.tok; return fetch(px.url+path,init); } h['Authorization']='Bearer '+(localStorage.getItem(LSK)||''); return fetch('https://api.groq.com'+path,init); }
   function pad2(n){ return (n<10?'0':'')+n; }
   function addD(ds,n){ var p=ds.split('-'); var d=new Date(parseInt(p[0],10),parseInt(p[1],10)-1,parseInt(p[2],10)); d.setDate(d.getDate()+n); return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate()); }
   function wd(ds){ var p=ds.split('-'); return new Date(parseInt(p[0],10),parseInt(p[1],10)-1,parseInt(p[2],10)).getDay(); }
@@ -1695,7 +1748,32 @@ var CO=(function(){
   function catName(db,k){ for(var i=0;i<db.categories.length;i++){ if(db.categories[i].key===k) return db.categories[i].name; } return k||'general'; }
 
   /* ---- full live scan of the app ---- */
-  function buildContext(db){
+  /* topic detectors: only the parts of the prompt + scan a message needs are sent (Groq free plan = 8,000 tokens/min) */
+  var RX={full:/status|report|priorit|pehle kya|kya karu|kya karun|plan kar|review|hafta|hafte|weekly|progress|summary|analy|kaisa chal|overall|brief|patterns?|skip|neglect/i,
+    upc:/kal|tomorrow|parso|week|hafta|upcoming|aage|next|schedule|din baad|\+\d|move|shift|baad me|later/i,
+    pat:/habit|pattern|streak|consist|skip|miss|neglect|strong|regular/i,
+    goal:/goal|target|milestone|deadline|behind|lakshya|roadmap|month/i,
+    money:/money|paisa|paise|rupay|rupee|\u20b9|\brs\b|kharch|spend|spent|budget|wallet|income|salary|balance|txn|transaction|credit|debit|\bdiya\b|\bmila\b|aaya|loan|udhar|\d{3,}/i,
+    time:/timer|alarm|alerm|remind|yaad|\buth|wake|jaga|baje|\d\s*(min|minute|ghant|hour|hr|sec)|focus|pomodoro|countdown|cancel/i,
+    map:/jana|jaana|jaunga|jaenge|navigat|rasta|raasta|route|\bmap|location|lokeshan|kaha\s|kahan|jagah|pahunch|reach|direction|nearby/i,
+    meet:/meet|meeting|\bcall\b|discussion|baat\s?cheet|agenda|\bnotes?\b|kya hua/i,
+    msg:/whats|\bwa\b|msg|message|bhej|send|sent|mail|email|\bbol\s?(de|do|dena|diya)|\bbola\b|bata\s?(de|do)|\btext\b|wish|birthday|janamdin|reply|jawab|location|retry|fail|bheja|draft/i,
+    sleep:/sleep|neend|so\s?gaya|mood|thak|tired|energy|health|night|raat|log/i};
+  function ms0recent(db){ var ms=(db.coach&&db.coach.messages)||[]; for(var i=ms.length-1;i>=0&&i>=ms.length-5;i--){ var lk=ms[i].links||[]; for(var j=0;j<lk.length;j++) if(lk[j].wa||lk[j].geo) return true; } return false; }
+  function sysFor(q,db){
+    q=q||''; var ms=(db.coach&&db.coach.messages)||[], recent=false, i, j;
+    for(i=ms.length-1;i>=0&&i>=ms.length-5;i--){ var lk=ms[i].links||[]; for(j=0;j<lk.length;j++) if(lk[j].wa||lk[j].geo) recent=true; }
+    var on={core:true,timers:RX.time.test(q),maps:RX.map.test(q)||RX.msg.test(q),meet:RX.meet.test(q),msg:RX.msg.test(q)||recent};
+    var px=ASSET.test(q)||MKT.test(q)||isNews(q), a=SYS.indexOf('\nACTIONS ('); if(a<0) return SYS;
+    var head=SYS.slice(0,a), acts=SYS.slice(a).split('\n'), out=[], grp='core', off=[];
+    if(!px) head=head.replace(/\nPRICES:[\s\S]*?(?=\n\nHOW TO TALK:)/,'');
+    var G={'Timers & alarms':'timers','Maps':'maps','Location':'maps','Meetings':'meet','Messages':'msg'};
+    for(i=0;i<acts.length;i++){ var m=acts[i].match(/^(Tasks \(daily list\)|Goals|Milestones|Wallet|Timers & alarms|Maps|Location|Meetings|Messages|Other)\b/); if(m) grp=G[m[1]]||'core'; if(on[grp]) out.push(acts[i]); else if(m&&off.indexOf(m[1])<0) off.push(m[1]); }
+    if(off.length) out.splice(2,0,'(Not shown for this message: '+off.join(', ')+' actions. If Sam asks for one of those, ask him one short question instead of guessing its format.)');
+    return head+out.join('\n');
+  }
+  function buildContext(db,q){
+    q=q||''; var FULL=!q||RX.full.test(q), want=function(r){ return FULL||r.test(q); };
     var t=STORE.today(), mk=STORE.thisMonth(), L=[], i, k;
     var now=new Date();
     L.push('Name: '+((db.profile&&db.profile.name)||'Sam'));
@@ -1707,7 +1785,7 @@ var CO=(function(){
     var td=[],tdone=0; for(i=0;i<db.dailyGoals.length;i++){ var g=db.dailyGoals[i]; if(g.date===t){ td.push(g); if(g.done) tdone++; } }
     if(td.length){ var tl=[]; for(i=0;i<td.length;i++) tl.push((td[i].done?'[x] ':'[ ] ')+td[i].title+(td[i].priority&&td[i].priority!=='medium'?(' ('+td[i].priority+')'):'')+(td[i].why?(' \u2014 why: '+td[i].why+(td[i].evidence&&td[i].evidence.length?(' | evidence: '+td[i].evidence.join('; ')):'')+(td[i].prioWhy?(' | priority why: '+td[i].prioWhy+(td[i].prioEvidence&&td[i].prioEvidence.length?(' ('+td[i].prioEvidence.join('; ')+')'):'')):'')+(td[i].asked?(' | Sam asked: "'+td[i].asked+'"'):'')):'')); L.push('TODAY '+tdone+'/'+td.length+' done:\n'+tl.join('\n')); } else L.push('TODAY: no tasks planned');
     var upc={}; for(i=0;i<db.dailyGoals.length;i++){ var ug=db.dailyGoals[i]; if(ug.date>t&&ug.date<=addD(t,7)&&!ug.done){ (upc[ug.date]=upc[ug.date]||[]).push(ug.title); } }
-    var upk=Object.keys(upc).sort(); if(upk.length){ var ul=[]; for(i=0;i<upk.length;i++){ var tl2=upc[upk[i]]; ul.push(upk[i]+': '+tl2.slice(0,6).join(', ')+(tl2.length>6?(' +'+(tl2.length-6)+' more'):'')); } L.push('UPCOMING (next 7d):\n'+ul.join('\n')); }
+    var upk=Object.keys(upc).sort(); if(upk.length&&want(RX.upc)){ var ul=[]; for(i=0;i<upk.length;i++){ var tl2=upc[upk[i]]; ul.push(upk[i]+': '+tl2.slice(0,6).join(', ')+(tl2.length>6?(' +'+(tl2.length-6)+' more'):'')); } L.push('UPCOMING (next 7d):\n'+ul.join('\n')); }
     // 14-day patterns
     var from=addD(t,-14), st={}, all=0, alld=0, wdn=[0,0,0,0,0,0,0], wdd=[0,0,0,0,0,0,0];
     for(i=0;i<db.dailyGoals.length;i++){ var d=db.dailyGoals[i]; if(d.date<from||d.date>=t) continue; var key=d.title; var s=st[key]||(st[key]={n:0,d:0,days:{}}); s.n++; if(d.done) s.d++; s.days[d.date]=s.days[d.date]||d.done; all++; if(d.done) alld++; var w=wd(d.date); wdn[w]++; if(d.done) wdd[w]++; }
@@ -1720,12 +1798,12 @@ var CO=(function(){
       if(best>-1&&worst>-1&&best!==worst) L.push('Best day '+WD[best]+' ('+Math.round(bR*100)+'%), weakest '+WD[worst]+' ('+Math.round(wR*100)+'%)'); }
     else L.push('LAST 14 DAYS: nothing logged');
     if(neg.length) L.push('NEGLECTED (do these first):\n- '+neg.slice(0,8).join('\n- '));
-    if(strong.length) L.push('STRONG HABITS: '+strong.slice(0,6).join(', '));
+    if(strong.length&&want(RX.pat)) L.push('STRONG HABITS: '+strong.slice(0,6).join(', '));
     // goals
     var gl=[]; for(i=0;i<db.monthlyGoals.length;i++){ var m=db.monthlyGoals[i]; if(m.status==='completed') continue; var per=m.period||'month'; var od=m.deadline&&m.deadline<t; gl.push('['+per+'] '+m.title+(m.deadline?(' due '+m.deadline+(od?' OVERDUE':'')):'')); }
-    if(gl.length) L.push('OPEN GOALS:\n- '+gl.slice(0,10).join('\n- '));
+    if(gl.length){ var gn=want(RX.goal)?10:4; L.push('OPEN GOALS:\n- '+gl.slice(0,gn).join('\n- ')+(gl.length>gn?('\n(+'+(gl.length-gn)+' more)'):'')); }
     var ml2=[]; for(i=0;i<db.milestones.length;i++){ var x=db.milestones[i]; if(x.done) continue; ml2.push(x.title+(x.targetDate?(' by '+x.targetDate+(x.targetDate<t?' OVERDUE':'')):'')); }
-    if(ml2.length) L.push('OPEN MILESTONES:\n- '+ml2.slice(0,8).join('\n- '));
+    if(ml2.length){ var mn=want(RX.goal)?8:3; L.push('OPEN MILESTONES:\n- '+ml2.slice(0,mn).join('\n- ')+(ml2.length>mn?('\n(+'+(ml2.length-mn)+' more)'):'')); }
     // money
     var wt=STORE.walletTotals(db,mk), s7=0,p7=0,cats={},tx=db.wallet.transactions;
     for(i=0;i<tx.length;i++){ var tr=tx[i]; if(tr.type!=='expense') continue; if(tr.date>addD(t,-7)) s7+=tr.amount; else if(tr.date>addD(t,-14)) p7+=tr.amount; if((tr.date||'').slice(0,7)===mk){ var cn=catName(db,tr.categoryKey); cats[cn]=(cats[cn]||0)+tr.amount; } }
@@ -1734,19 +1812,19 @@ var CO=(function(){
     if(top.length) mline+='. Top spend: '+top.slice(0,3).map(function(a){return a[0]+' '+money(a[1]);}).join(', ');
     var sl=db.settings&&db.settings.spendLimit; if(sl&&sl.amount>0) mline+='. Budget limit '+money(sl.amount)+' for '+sl.month;
     L.push(mline);
-    var als=(window.CLK?CLK.all():[]); if(als.length) L.push('TIMERS & ALARMS (this device):\n'+als.slice(0,8).map(function(x){ return (x.kind==='timer'?'Timer ':'Alarm ')+'"'+x.label+'" at '+niceAt(x.at); }).join('\n'));
-    var nts=db.notes.slice().sort(function(x,y){ return x.date<y.date?1:-1; }).slice(0,8); if(nts.length) L.push('RECENT NOTES (incl. meetings):\n'+nts.map(function(x){ var tx3=(x.text||'').replace(/\s+/g,' '); return x.date+': '+(tx3.length>160?tx3.slice(0,160)+'\u2026':tx3); }).join('\n'));
+    var als=(window.CLK?CLK.all():[]); if(als.length&&want(RX.time)) L.push('TIMERS & ALARMS (this device):\n'+als.slice(0,8).map(function(x){ return (x.kind==='timer'?'Timer ':'Alarm ')+'"'+x.label+'" at '+niceAt(x.at); }).join('\n'));
+    var nts=db.notes.slice().sort(function(x,y){ return x.date<y.date?1:-1; }).slice(0,8); if(nts.length&&want(RX.meet)) L.push('RECENT NOTES (incl. meetings):\n'+nts.map(function(x){ var tx3=(x.text||'').replace(/\s+/g,' '); return x.date+': '+(tx3.length>160?tx3.slice(0,160)+'\u2026':tx3); }).join('\n'));
     var wsl=[], cms=(db.coach&&db.coach.messages)||[]; for(var ci=cms.length-1;ci>=0&&wsl.length<6;ci--){ var cl=cms[ci].links||[]; for(var cj=0;cj<cl.length;cj++){ var W5=cl[cj].wa; if(!W5) continue; wsl.push((W5.name||('+'+W5.to))+' \u2014 "'+String(W5.message||'').slice(0,40)+'": '+(cl[cj].state||'draft, not tapped yet')+(cl[cj].err?(' \u2014 error: '+cl[cj].err):'')+(cl[cj].at?(' at '+cl[cj].at):'')); } }
-    if(wsl.length) L.push('WHATSAPP SENDS (newest first, real results from the bridge):\n'+wsl.join('\n'));
+    if(wsl.length&&(want(RX.msg)||ms0recent(db))) L.push('WHATSAPP SENDS (newest first, real results from the bridge):\n'+wsl.join('\n'));
     var allw=STORE.walletTotals(db); L.push('All-time wallet balance '+money(allw.balance));
-    var rt=tx.slice().sort(function(x,y){ return x.date<y.date?1:-1; }).slice(0,6); if(rt.length) L.push('RECENT TXNS:\n'+rt.map(function(r){ return r.date+' '+(r.type==='income'?'+':'-')+money(r.amount)+' '+(r.note||'')+' ['+catName(db,r.categoryKey)+']'; }).join('\n'));
+    var rt=tx.slice().sort(function(x,y){ return x.date<y.date?1:-1; }).slice(0,6); if(rt.length&&want(RX.money)) L.push('RECENT TXNS:\n'+rt.map(function(r){ return r.date+' '+(r.type==='income'?'+':'-')+money(r.amount)+' '+(r.note||'')+' ['+catName(db,r.categoryKey)+']'; }).join('\n'));
     var pend=0; for(i=0;i<db.notifications.length;i++){ var nf=db.notifications[i]; if(nf.action&&nf.action.kind==='approval'&&nf.action.status==='pending') pend++; }
     L.push('Unread notifications: '+STORE.unreadCount(db)+(pend?(', '+pend+' money approvals pending'):''));
     // night logs
     var dk=Object.keys(db.daylog||{}).sort().reverse(), nl=[], sS=0,sN=0,mS=0,mN=0;
     for(i=0;i<dk.length&&i<7;i++){ var e=db.daylog[dk[i]]; if(!e) continue; if(e.sleep!=null&&e.sleep!==''){ sS+=parseFloat(e.sleep)||0; sN++; } if(e.mood){ mS+=e.mood; mN++; } if(i<4&&(e.note||e.mood)) nl.push(dk[i]+': '+(e.sleep!=null&&e.sleep!==''?e.sleep+'h ':'')+(e.mood?('mood '+e.mood+'/5 '):'')+(e.note?('— '+e.note):'')); }
-    if(sN||mN) L.push('NIGHT LOGS: '+(sN?('avg sleep '+(Math.round(sS/sN*10)/10)+'h'):'')+(mN?(', avg mood '+(Math.round(mS/mN*10)/10)+'/5'):''));
-    if(nl.length) L.push(nl.join('\n'));
+    if((sN||mN)&&want(RX.sleep)) L.push('NIGHT LOGS: '+(sN?('avg sleep '+(Math.round(sS/sN*10)/10)+'h'):'')+(mN?(', avg mood '+(Math.round(mS/mN*10)/10)+'/5'):''));
+    if(nl.length&&want(RX.sleep)) L.push(nl.join('\n'));
     return L.join('\n');
   }
 
@@ -1883,7 +1961,7 @@ var CO=(function(){
       var lg=(''+(a.to||a.phone||a.number||'')).replace(/[^\d]/g,''); if(lg.length===10) lg='91'+lg; if(lg.length===11&&lg.charAt(0)==='0') lg='91'+lg.slice(1);
       if(lg&&(lg.length<11||lg.length>15)) return {ok:false,msg:'phone number looks wrong: '+(a.to||a.phone)};
       var ln=a.name||a.to_name||'';
-      if(waCfg()&&(lg||ln)) return {ok:true,msg:'Sending your current location'+(ln?(' to '+ln):'')+' from your number \u2014 tap \u2715 Stop within 5 s if this is wrong.',links:[{label:'\uD83D\uDCCD Location'+(ln?(' to '+ln):''),geo:{to:lg,name:ln,message:String(a.message||a.text||'').slice(0,300),auto:true},state:'auto',primary:true}]};
+      if(waCfg()&&(lg||ln)){ var trs=trusted(lg,ln); return {ok:true,msg:trs?('Sending your current location'+(ln?(' to '+ln):'')+' from your number (trusted contact) \u2014 tap \u2715 Stop within 5 s if this is wrong.'):('Location for '+(ln||('+'+lg))+' is ready \u2014 tap the button to send it from your number. Only trusted contacts (Settings) get it without a tap.'),links:[{label:'\uD83D\uDCCD Send my location'+(ln?(' to '+ln):''),geo:{to:lg,name:ln,message:String(a.message||a.text||'').slice(0,300),auto:true},state:trs?'auto':'ask',primary:true}]}; }
       return {ok:true,msg:'Location share ready'+(ln?(' for '+ln):'')+' \u2014 tap the button: it reads your current GPS and opens WhatsApp with a map link. Then tap Send.',links:[{label:'\uD83D\uDCCD Send my location'+(ln?(' to '+ln):'')+' on WhatsApp',geo:{to:lg,name:ln,message:String(a.message||a.text||'').slice(0,300)},primary:true}]};
     case 'whatsapp':
       var wm=(a.message||a.text||a.body||'').replace(/^\s+|\s+$/g,''); if(!wm) return {ok:false,msg:'WhatsApp message empty'};
@@ -1922,7 +2000,7 @@ var CO=(function(){
   function wire(){ if(wired) return; var inp=$('coIn'); if(!inp) return; wired=true;
     inp.addEventListener('keydown',function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); send(); } });
     inp.addEventListener('input',function(){ inp.style.height='auto'; inp.style.height=Math.min(inp.scrollHeight,110)+'px'; }); }
-  function toggle(force){ isOpen=(typeof force==='boolean')?force:!isOpen; var p=$('botPanel'),f=$('botFab'); if(p) p.className='botpanel'+(isOpen?' open':''); if(f){ f.className='botfab'+(isOpen?' on':''); void f.offsetWidth; f.className+=' pop'; f.setAttribute('aria-label',isOpen?'Close Samm AI':'Open Samm AI'); } if(isOpen){ wire(); autoCheck(); render(); greet(); var i=$('coIn'); if(i&&window.innerWidth>600) setTimeout(function(){i.focus();},50); } }
+  function toggle(force){ isOpen=(typeof force==='boolean')?force:!isOpen; var p=$('botPanel'),f=$('botFab'); if(p) p.className='botpanel'+(isOpen?' open':''); if(f){ f.className='botfab'+(isOpen?' on':''); void f.offsetWidth; f.className+=' pop'; f.setAttribute('aria-label',isOpen?'Close SAMM':'Open SAMM'); } if(!isOpen&&window.VX) VX.stop(); if(isOpen){ wire(); autoCheck(); render(); greet(); var i=$('coIn'); if(i&&window.innerWidth>600) setTimeout(function(){i.focus();},50); } }
   function greetText(db){
     var n=(db.profile&&db.profile.name)||'Sam', hr=new Date().getHours(), t=STORE.today(), td=db.dailyGoals.filter(function(g){ return g.date===t; }), left=td.filter(function(g){ return !g.done; }).length;
     var tod=hr<5?'Up late':(hr<12?'Good morning':(hr<17?'Good afternoon':(hr<21?'Good evening':'Hey night owl')));
@@ -1945,8 +2023,8 @@ var CO=(function(){
     if(!keyGet()){ host.innerHTML='<div class="cobub ai">Add your Groq API key first: Settings → Samm AI.<br><button class="btn primary mini" style="margin-top:10px" onclick="CO.toggle(false);APP.showApp(\'settings\')">Open Settings</button></div>'; return; }
     var h='', clr=(db.coach&&db.coach.clearedAt)||0, vis=0; for(var v=0;v<ms.length;v++){ if((ms[v].ts||0)>clr) vis++; }
     if(!vis&&!greeting) h='<div class="cobub ai">Hey '+esc((db.profile&&db.profile.name)||'Sam')+' 👋 I read your whole app live — tasks, goals, money, patterns. Talk to me in Hinglish or English: “hi”, “aaj kya pehle karun”, “add 1000 to wallet”, “market news”. Results always come back in English.</div>';
-    for(var i=0;i<ms.length;i++){ if((ms[i].ts||0)<=clr) continue; var cls=ms[i].role==='ai'?'ai':(ms[i].role==='sys'?'sys':'user'); var lk=''; if(ms[i].links&&ms[i].links.length){ lk='<div class="cobtns">'; for(var j=0;j<ms[i].links.length;j++){ var L=ms[i].links[j]; if(L.wa){ var wst=L.state||''; if(wst==='sent') lk+='<button class="cobtn wa-done" disabled>\u2713 Sent'+(L.at?(' \u00b7 '+esc(L.at)):'')+'</button>'; else if(wst==='queued'){ lk+='<button class="cobtn" disabled>\u23F3 Queued \u2014 your bridge will send it</button>'; if(L.ref) watchRef(L.ref,ms[i].ts,j,(L.wa&&L.wa.name)||''); } else if(wst==='scheduled'){ var sat=Date.parse(L.sendAt||(L.wa&&L.wa.sendAt)||''); lk+='<button class="cobtn" disabled>\uD83D\uDD52 Scheduled \u00b7 '+esc(isNaN(sat)?'':niceAt(sat))+'</button><button class="cobtn" onclick="CO.waCancel('+ms[i].ts+','+j+',this)">\u2715 Cancel</button>'; if(L.ref&&!isNaN(sat)&&Date.now()>sat-60000) watchRef(L.ref,ms[i].ts,j,(L.wa&&L.wa.name)||''); } else if(wst==='cancelled') lk+='<button class="cobtn" disabled>Cancelled</button>'; else lk+='<button class="cobtn primary" onclick="CO.waSend('+ms[i].ts+','+j+',this)">'+(wst==='failed'?('\u21BB Retry \u2014 '+esc((L.err||'failed').slice(0,60))):esc(L.label))+'</button>'; } else if(L.geo&&L.geo.auto){ var gst=L.state||''; if(gst==='auto') lk+='<button class="cobtn" disabled>\uD83D\uDCCD Sending location in 5s\u2026</button><button class="cobtn" onclick="CO.geoStop('+ms[i].ts+','+j+')">\u2715 Stop</button>'; else if(gst==='locating') lk+='<button class="cobtn is-loading" disabled>\uD83D\uDCCD Reading GPS\u2026</button>'; else if(gst==='cancelled') lk+='<button class="cobtn" disabled>Stopped \u2014 not sent</button>'; else lk+='<button class="cobtn primary" onclick="CO.geoAgain('+ms[i].ts+','+j+')">\u21BB Retry \u2014 '+esc((L.err||'failed').slice(0,60))+'</button>'; } else if(L.geo) lk+='<button class="cobtn primary" onclick="CO.geo('+i+','+j+',this)">'+esc(L.label)+'</button>'; else if(L.url&&/^(https:\/\/|mailto:)/.test(L.url)) lk+='<a class="cobtn'+(L.primary?' primary':'')+'" href="'+esc(L.url)+'" target="_blank" rel="noopener">'+esc(L.label)+'</a>'; else if(L.ics) lk+='<button class="cobtn" onclick="CO.link('+i+','+j+')">'+esc(L.label)+'</button>'; } lk+='</div>'; } h+='<div class="cobub '+cls+'">'+fmt(ms[i].content)+lk+'</div>'; }
-    if(busy||greeting) h+='<div class="cobub ai typing"><span></span><span></span><span></span></div>';
+    for(var i=0;i<ms.length;i++){ if((ms[i].ts||0)<=clr) continue; var cls=ms[i].role==='ai'?'ai':(ms[i].role==='sys'?'sys':'user'); var lk=''; if(ms[i].links&&ms[i].links.length){ lk='<div class="cobtns">'; for(var j=0;j<ms[i].links.length;j++){ var L=ms[i].links[j]; if(L.wa){ var wst=L.state||''; if(wst==='sent') lk+='<button class="cobtn wa-done" disabled>\u2713 Sent'+(L.at?(' \u00b7 '+esc(L.at)):'')+'</button>'; else if(wst==='queued'){ lk+='<button class="cobtn" disabled>\u23F3 Queued \u2014 your bridge will send it</button>'; if(L.ref) watchRef(L.ref,ms[i].ts,j,(L.wa&&L.wa.name)||''); } else if(wst==='scheduled'){ var sat=Date.parse(L.sendAt||(L.wa&&L.wa.sendAt)||''); lk+='<button class="cobtn" disabled>\uD83D\uDD52 Scheduled \u00b7 '+esc(isNaN(sat)?'':niceAt(sat))+'</button><button class="cobtn" onclick="CO.waCancel('+ms[i].ts+','+j+',this)">\u2715 Cancel</button>'; if(L.ref&&!isNaN(sat)&&Date.now()>sat-60000) watchRef(L.ref,ms[i].ts,j,(L.wa&&L.wa.name)||''); } else if(wst==='cancelled') lk+='<button class="cobtn" disabled>Cancelled</button>'; else lk+='<button class="cobtn primary" onclick="CO.waSend('+ms[i].ts+','+j+',this)">'+(wst==='failed'?('\u21BB Retry \u2014 '+esc((L.err||'failed').slice(0,60))):esc(L.label))+'</button>'; } else if(L.geo&&L.geo.auto){ var gst=L.state||''; if(gst==='auto') lk+='<button class="cobtn" disabled>\uD83D\uDCCD Sending location in 5s\u2026</button><button class="cobtn" onclick="CO.geoStop('+ms[i].ts+','+j+')">\u2715 Stop</button>'; else if(gst==='locating') lk+='<button class="cobtn is-loading" disabled>\uD83D\uDCCD Reading GPS\u2026</button>'; else if(gst==='cancelled') lk+='<button class="cobtn" disabled>Stopped \u2014 not sent</button>'; else if(gst==='ask') lk+='<button class="cobtn primary" onclick="CO.geoGo('+ms[i].ts+','+j+')">'+esc(L.label)+'</button>'; else lk+='<button class="cobtn primary" onclick="CO.geoAgain('+ms[i].ts+','+j+')">\u21BB Retry \u2014 '+esc((L.err||'failed').slice(0,60))+'</button>'; } else if(L.geo) lk+='<button class="cobtn primary" onclick="CO.geo('+i+','+j+',this)">'+esc(L.label)+'</button>'; else if(L.url&&/^(https:\/\/|mailto:)/.test(L.url)) lk+='<a class="cobtn'+(L.primary?' primary':'')+'" href="'+esc(L.url)+'" target="_blank" rel="noopener">'+esc(L.label)+'</a>'; else if(L.ics) lk+='<button class="cobtn" onclick="CO.link('+i+','+j+')">'+esc(L.label)+'</button>'; } lk+='</div>'; } h+='<div class="cobub '+cls+'">'+fmt(ms[i].content)+lk+'</div>'; }
+    if(busy||greeting) h+=(busy&&liveTxt)?'<div class="cobub ai" id="coLive">'+fmt(liveTxt)+'</div>':'<div class="cobub ai typing" id="coLive"><span></span><span></span><span></span></div>';
     host.innerHTML=h; scrollEnd();
   }
   var MKT=/\bmarket|\bbazaa?r|\bmandi\b|\bprices?\b|\brates?\b|\bbhav\b|\bbhaav\b/i, ASSET=/\bxau|gold|\bsona\b|\bsone\b|silver|chandi|chaandi|\bxag|\bbtc\b|bitcoin|usd\s*\/?\s*inr|dollar|rupee|paxg/i, WHYNEWS=/news|khabar|khabr|headline|\bwhy\b|\bkyu|\bkyon|reason|wajah/i;
@@ -1962,15 +2040,15 @@ var CO=(function(){
   function isNews(s){ if(ASSET.test(s)&&!WHYNEWS.test(s)) return false; return /news|khabar|khabr|market|sensex|nifty|gold|xau|crypto|bitcoin|btc|dollar|rupee|inflation|economy|fed\b|rbi|stock|share bazaar|global/i.test(s); }
   function lsGet(k){ try{ return localStorage.getItem(k)||''; }catch(e){ return ''; } }
   function lsSet(k,v){ try{ if(v) localStorage.setItem(k,v); else localStorage.removeItem(k); }catch(e){} }
-  function setConn(s,msg){ conn=s; connMsg=msg||''; var d=$('aiDot'); if(d) d.className='cdot '+(s==='ok'?'ok':(s==='err'?'err':(s==='busy'?'busy':'off'))); var tx=$('aiConnTxt'); if(tx) tx.textContent=msg||(s==='off'?'No key':'Not checked'); if(window.FX) FX.load('[data-load="ai"]',s==='busy'); if(!busy) stat(''); }
+  function setConn(s,msg){ conn=s; connMsg=msg||''; var d=$('aiDot'), cls='cdot '+(s==='ok'?'ok':(s==='err'?'err':(s==='busy'?'busy':'off'))); if(d) d.className=cls; var d2=$('vxAi'); if(d2) d2.className=cls; var tx=$('aiConnTxt'); if(tx) tx.textContent=msg||(s==='off'?'No key':'Not checked'); if(window.FX) FX.load('[data-load="ai"]',s==='busy'); if(!busy) stat(''); }
   function pickModel(ids){ var i; for(i=0;i<PREF.length;i++){ if(ids.indexOf(PREF[i])>-1) return PREF[i]; } for(i=0;i<ids.length;i++){ if(!SKIP.test(ids[i])) return ids[i]; } return ''; }
   function check(){
     var key=keyGet(); if(!key){ lsSet(LM,''); lsSet(LN,''); setConn('off','No key'); return Promise.resolve(false); }
     setConn('busy','Checking\u2026');
-    return fetch('https://api.groq.com/openai/v1/models',{headers:{'Authorization':'Bearer '+key}})
+    return gfetch('/openai/v1/models',{})
       .then(function(r){ return r.json().then(function(j){ return {st:r.status,j:j}; },function(){ return {st:r.status,j:null}; }); })
       .then(function(x){
-        if(x.st===401||x.st===403){ lsSet(LM,''); setConn('err','Invalid key'); return false; }
+        if(x.st===401||x.st===403){ lsSet(LM,''); setConn('err',proxyCfg()?'Proxy refused \u2014 check token':'Invalid key'); return false; }
         if(!x.j||!x.j.data){ setConn('err',(x.j&&x.j.error&&x.j.error.message)||('Groq error '+x.st)); return false; }
         var ids=[],i; for(i=0;i<x.j.data.length;i++){ if(x.j.data[i].active!==false) ids.push(x.j.data[i].id); }
         var m=pickModel(ids); if(!m){ setConn('err','No chat model on this key'); return false; }
@@ -1982,13 +2060,27 @@ var CO=(function(){
       .catch(function(){ setConn('err','Can\u2019t reach Groq (net/CORS)'); return false; });
   }
   function autoCheck(){ if(keyGet()&&conn==='unknown') check(); else if(!keyGet()) setConn('off','No key'); }
-  function call(key,model,msgs,json){
-    var body={model:model,messages:msgs,temperature:0.5,max_tokens:1400}; if(json) body.response_format={type:'json_object'}; if(/gpt-oss/.test(model)) body.reasoning_effort='low';
-    return fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify(body)}).then(function(r){ return r.json(); });
+  function call(key,model,msgs,json,onDelta){
+    var body={model:model,messages:msgs,temperature:0.5,max_tokens:1100}; if(json) body.response_format={type:'json_object'}; if(/gpt-oss/.test(model)) body.reasoning_effort='low';
+    var plain=function(){ var b2={}; for(var k in body) if(k!=='stream') b2[k]=body[k]; return gfetch('/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b2)}).then(function(r){ return r.json(); }); };
+    if(!onDelta||!window.ReadableStream||!window.TextDecoder) return plain();
+    body.stream=true;
+    return gfetch('/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){
+      var ct=(r.headers&&r.headers.get&&r.headers.get('content-type'))||'';
+      if(!r.ok||!r.body||!r.body.getReader||ct.indexOf('event-stream')<0) return r.json();
+      var rd=r.body.getReader(), dec=new TextDecoder(), buf='', acc='', err=null;
+      var pump=function(){ return rd.read().then(function(x){
+        if(x.done) return err?{error:err}:{choices:[{message:{content:acc}}]};
+        buf+=dec.decode(x.value,{stream:true}); var lines=buf.split('\n'); buf=lines.pop();
+        for(var i=0;i<lines.length;i++){ var ln=lines[i].replace(/^\s+|\s+$/g,''); if(ln.indexOf('data:')!==0) continue; var d=ln.slice(5).replace(/^\s+/,''); if(d==='[DONE]') continue;
+          try{ var j=JSON.parse(d); if(j.error) err=j.error; var c=j.choices&&j.choices[0]&&j.choices[0].delta&&j.choices[0].delta.content; if(c){ acc+=c; try{ onDelta(acc); }catch(e2){} } }catch(e){} }
+        return pump(); }); };
+      return pump();
+    }).catch(function(){ return plain(); });
   }
   function txtOf(j){ var c=j&&j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content; return c?(''+c).replace(/<think>[\s\S]*?<\/think>/g,'').replace(/^\s+|\s+$/g,''):''; }
   function errOf(j){ return (j&&j.error&&j.error.message)||''; }
-  var FB=['openai/gpt-oss-120b','meta-llama/llama-4-scout-17b-16e-instruct','llama-3.3-70b-versatile','openai/gpt-oss-20b','meta-llama/llama-4-maverick-17b-128e-instruct','moonshotai/kimi-k2-instruct','qwen/qwen3-32b','llama-3.1-8b-instant'];
+  var FB=['openai/gpt-oss-120b','openai/gpt-oss-20b','llama-3.3-70b-versatile','meta-llama/llama-4-maverick-17b-128e-instruct','moonshotai/kimi-k2-instruct','llama-3.1-8b-instant'];
   var rateTried={}, waited=false;
   function shortM(m){ return (m||'').replace(/^.*\//,''); }
   function isRate(e){ return /rate limit|tokens per minute|\(TPM\)|\(TPD\)|\(RPM\)|requests per minute|too many requests/i.test(e||''); }
@@ -2003,7 +2095,7 @@ var CO=(function(){
   }
   function callModel(key,m,sys,hist,depth){
     var msgs=[{role:'system',content:sys}].concat(hist);
-    return call(key,m,msgs,true).then(function(j){ var e=errOf(j); if(e&&!isRate(e)&&/response_format|json/i.test(e)) return call(key,m,msgs,false); return j; }).then(function(j){
+    return call(key,m,msgs,true,curDelta).then(function(j){ var e=errOf(j); if(e&&!isRate(e)&&/response_format|json/i.test(e)) return call(key,m,msgs,false,curDelta); return j; }).then(function(j){
       var e=errOf(j);
       if(e&&isRate(e)) return onRate(key,m,sys,hist,e,depth);
       if(e&&/decommission|does not exist|not found|do not have access/i.test(e)) return {__gone:true,msg:e};
@@ -2018,7 +2110,7 @@ var CO=(function(){
     rateTried={}; waited=false;
     function main(note){ return callModel(key,model,base+(note||''),hist,0).then(function(out){ if(out&&out.__gone){ if(!retried){ lsSet(LM,''); return ask(key,base,hist,txt,true); } setConn('err',out.msg.slice(0,70)); return 'Error: '+out.msg; } return out; }); }
     if(isNews(txt)&&news){ var nmsg=[{role:'system',content:base+NEWS_ADD}].concat(hist), alt=(news==='groq/compound'&&lsGet('SAMM_AI_MODELS').indexOf('groq/compound-mini')>-1)?'groq/compound-mini':'';
-      var web=function(m){ stat('Checking live news\u2026'); return call(key,m,nmsg,false).then(function(j){ return txtOf(j); },function(){ return ''; }); };
+      var web=function(m){ stat('Checking live news\u2026'); return call(key,m,nmsg,false,curDelta).then(function(j){ return txtOf(j); },function(){ return ''; }); };
       return web(news).then(function(t){ return (t||!alt)?t:web(alt); }).then(function(t){ if(t){ lastWeb=true; return t; } return main(NO_WEB); }); }
     return main(isNews(txt)?NO_WEB:'');
   }
@@ -2027,7 +2119,7 @@ var CO=(function(){
   function gas(body,cfg){ cfg=cfg||waCfg(); if(!cfg) return Promise.reject(new Error('WhatsApp not set up in Settings')); var b={}; for(var k in body) b[k]=body[k]; b.token=cfg.token;
     return fetch(cfg.url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(b),redirect:'follow'}).then(function(r){ return r.text(); }).then(function(t){ try{ return JSON.parse(t); }catch(e){ throw new Error('Apps Script did not return JSON \u2014 check deployment access = Anyone'); } }); }
   function setWa(s,msg){ var d=$('waDot'); if(d) d.className='cdot '+s; var t=$('waTxt'); if(t) t.textContent=msg; if(window.FX) FX.load('[data-load="wa"]',s==='busy'); }
-  function waFill(){ var u=$('stWaUrl'), t=$('stWaTok'); if(u) u.value=lsGet(LWU); if(t) t.value=lsGet(LWT); if(!waCfg()) setWa('off','Not set up'); else if(($('waTxt')||{}).textContent==='Not set up') waTest(); }
+  function waFill(){ var pu=$('stPxUrl'), pt=$('stPxTok'), tr=$('stTrust'); if(pu) pu.value=lsGet('SAMM_PROXY_URL'); if(pt) pt.value=lsGet('SAMM_PROXY_TOKEN'); if(tr) tr.value=lsGet('SAMM_TRUSTED'); var u=$('stWaUrl'), t=$('stWaTok'); if(u) u.value=lsGet(LWU); if(t) t.value=lsGet(LWT); if(!waCfg()) setWa('off','Not set up'); else if(($('waTxt')||{}).textContent==='Not set up') waTest(); }
   function verOk(v){ var a=String(v||'0').split('.').map(Number); return a[0]>1||(a[0]===1&&(a[1]||0)>=13); }
   function waTest(){ var c=waCfg(); if(!c){ setWa('off','Not set up'); return Promise.resolve(false); } setWa('busy','Checking\u2026');
     return gas({action:'__ping'},c).then(function(p){ if(!p||!p.ok) throw new Error('No reply from Apps Script'); if(!verOk(p.version)) throw new Error('Code.gs is v'+p.version+' \u2014 update to v1.13.0'); return gas({action:'samm_status',refs:[]},c).then(function(r){ if(!r.ok) throw new Error(r.error==='bad token'?'Wrong token':r.error); setWa('ok','Connected \u00b7 Code.gs v'+p.version); return true; }); })
@@ -2057,7 +2149,12 @@ var CO=(function(){
         if(++n<40) setTimeout(tick,10000); else delete watching[ref]; },function(){ if(++n<40) setTimeout(tick,15000); else delete watching[ref]; }); };
     setTimeout(tick,6000);
   }
-  var aiLinks=[], lastWeb=false, curAsk='';
+  var aiLinks=[], lastWeb=false, curAsk='', curDelta=null, liveTxt='';
+  /* read the "say" text out of a JSON reply that is still arriving */
+  function sayFrom(acc){ var a=acc.replace(/^\s+/,''); if(a.charAt(0)!=='{'&&a.indexOf('```')!==0) return a; var m=a.match(/"say"\s*:\s*"/); if(!m) return ''; var i=m.index+m[0].length, o='';
+    while(i<a.length){ var ch=a.charAt(i); if(ch==='"') return o; if(ch==='\\'){ var nx=a.charAt(i+1); if(!nx) return o; if(nx==='n'){ o+='\n'; i+=2; continue; } if(nx==='t'){ o+=' '; i+=2; continue; } if(nx==='u'){ var hx=a.substr(i+2,4); if(hx.length<4) return o; o+=String.fromCharCode(parseInt(hx,16)); i+=6; continue; } o+=nx; i+=2; continue; } o+=ch; i++; }
+    return o; }
+  function liveSay(acc){ var t=sayFrom(acc); if(t===liveTxt) return; liveTxt=t; var el=$('coLive'); if(el&&t){ el.className='cobub ai'; el.innerHTML=fmt(t); scrollEnd(); } if(window.VX) VX.stream(t); }
   function whyOf(a){ var w=String(a.why||a.reason||'').slice(0,200), ev=a.evidence||a.proof||[]; if(!Array.isArray(ev)) ev=[ev]; ev=ev.map(function(x){ return String(x).slice(0,160); }).filter(function(x){ return x.replace(/\s/g,''); }).slice(0,5); return {why:w,evidence:ev}; }
   function mkLinks(list,web){ var out=[], i; if(!list) return out; if(!Array.isArray(list)) list=[list];
     for(i=0;i<list.length&&out.length<4;i++){ var L=list[i]; if(!L||typeof L!=='object') continue; var lab=(''+(L.label||L.title||'')).slice(0,80);
@@ -2067,7 +2164,7 @@ var CO=(function(){
     return out; }
   var FIX='APP CHECK (automatic, not Sam): your last reply claimed something was done but contained NO valid action, so NOTHING changed in the app. Reply again with the same JSON including the correct actions. If info is missing, ask Sam instead and do not claim it is done.';
   function post(say,res,lied){
-    busy=false; if(window.FX) FX.load('.botsend',false); stat('');
+    busy=false; curDelta=null; liveTxt=''; if(window.FX) FX.load('.botsend',false); stat(''); if(window.VX) VX.finish(say,res);
     var draft=false; for(var di=0;di<(res.links||[]).length;di++){ var dl=res.links[di]; if(dl.wa||(dl.geo&&!dl.geo.auto)||(dl.url&&/^(https:\/\/wa\.me\/|https:\/\/mail\.google\.com\/|mailto:)/.test(dl.url))) draft=true; }
     if(draft&&/(bhej\s?(diya|di|dia|de\s?diya|dena)|send\s?(kar|kr)\s?(diya|di|dia)|\bsent\b|\bdelivered\b|chala\s?gaya|chala\s?diya)/i.test(say)) say+='\n\u26A0 Not sent yet \u2014 it goes only after you tap the button below.';
     STORE.addCoachMsg('ai',say,aiLinks); aiLinks=[];
@@ -2077,25 +2174,25 @@ var CO=(function(){
     if(lied) STORE.addCoachMsg('sys','\u26A0 The bot said it was done but sent no action \u2014 nothing changed in the app. Please rephrase and send again.');
     render();
   }
-  function send(){
-    if(busy) return;
+  function send(fromVoice){
+    if(busy) return; fromVoice=fromVoice===true;
     var inp=$('coIn'), txt=(inp.value||'').replace(/^\s+|\s+$/g,''); if(!txt) return;
     var key=keyGet(); if(!key){ APP.toast('Add Groq key in Settings',true); return; }
-    STORE.addCoachMsg('user',txt); inp.value=''; inp.style.height='auto'; busy=true; if(window.FX) FX.load('.botsend',true); stat('Scanning your app\u2026'); render();
+    STORE.addCoachMsg('user',txt); inp.value=''; inp.style.height='auto'; busy=true; liveTxt=''; curDelta=liveSay; if(window.VX) VX.begin(fromVoice); if(window.FX) FX.load('.botsend',true); stat('Scanning your app\u2026'); render();
     var db=STORE.read(), now=new Date();
     var nowS=STORE.today()+' '+pad2(now.getHours())+':'+pad2(now.getMinutes())+' ('+WD[now.getDay()]+')';
-    var base=SYS.replace(/\{\{NOW\}\}/g,nowS).replace(/\{\{MONTH\}\}/g,STORE.thisMonth())+'\n\nLIVE APP SCAN:\n'+buildContext(db);
-    var hist=((db.coach&&db.coach.messages)||[]).filter(function(m){ return (m.role==='user'||m.role==='ai')&&!/^Error:/.test(m.content); }).slice(-10).map(function(m){ var c=m.content||''; return {role:m.role==='ai'?'assistant':'user',content:c.length>700?c.slice(0,700)+'\u2026':c}; });
+    var base=sysFor(txt,db).replace(/\{\{NOW\}\}/g,nowS).replace(/\{\{MONTH\}\}/g,STORE.thisMonth())+'\n\nLIVE APP SCAN:\n'+buildContext(db,txt);
+    var hist=((db.coach&&db.coach.messages)||[]).filter(function(m){ return (m.role==='user'||m.role==='ai')&&!/^Error:/.test(m.content); }).slice(-10).map(function(m){ var c=m.content||''; return {role:m.role==='ai'?'assistant':'user',content:c.length>500?c.slice(0,500)+'\u2026':c}; });
     curAsk=txt.slice(0,160); var wantPx=ASSET.test(txt)||MKT.test(txt); aiLinks=wantPx?tvLinks(ASSET.test(txt)?txt:'gold usdinr'):[]; lastWeb=false;
     (wantPx?getPrices().then(function(o){ return '\n\nLIVE PRICES (fetched just now):\n'+pxLine(o); },function(e){ return '\n\nLIVE PRICES UNAVAILABLE right now ('+((e&&e.message)||'network')+'). Tell Sam you could not fetch live prices this time. Never guess or quote a price from memory.'; }):Promise.resolve('')).then(function(pxs){ base+=pxs; return ask(key,base,hist,txt,false); }).then(function(out){
       if(/^Error:/.test(out)){ post(out,{ok:[],fail:[]},false); return; }
       var p=parseOut(out), res=runActions(p.actions);
       if(!res.ok.length&&!res.fail.length&&CLAIM.test(p.say)){
-        stat('Verifying\u2026');
+        stat('Verifying\u2026'); curDelta=null;
         return ask(key,base,hist.concat([{role:'assistant',content:out},{role:'user',content:FIX}]),txt,true).then(function(out2){ var p2=parseOut(out2), r2=runActions(p2.actions); aiLinks=aiLinks.concat(mkLinks(p2.links,lastWeb)); post(p2.say||out2,r2,!r2.ok.length&&!r2.fail.length&&CLAIM.test(p2.say)); });
       }
       aiLinks=aiLinks.concat(mkLinks(p.links,lastWeb)); post(p.say||out,res,false);
-    }).catch(function(e){ busy=false; if(window.FX) FX.load('.botsend',false); render(); setConn('err',(e&&e.message)||'Error'); STORE.addCoachMsg('sys','\u26A0 '+((e&&e.message)||'Error')+' \u2014 check your key in Settings.'); render(); });
+    }).catch(function(e){ busy=false; curDelta=null; liveTxt=''; if(window.VX) VX.fail(); if(window.FX) FX.load('.botsend',false); render(); setConn('err',(e&&e.message)||'Error'); STORE.addCoachMsg('sys','\u26A0 '+((e&&e.message)||'Error')+' \u2014 check your key in Settings.'); render(); });
   }
   function link(i,j){ var m=(STORE.read().coach.messages||[])[i], L=m&&m.links&&m.links[j]; if(L&&L.ics){ CLK.ics(L.ics); APP.toast('Calendar file downloaded \u2014 open it to add'); } }
   function geo(i,j,btn){
@@ -2118,7 +2215,7 @@ var CO=(function(){
   }
   function lastTs(){ var ms=(STORE.read().coach.messages||[]); return ms.length?ms[ms.length-1].ts:0; }
   var geoT={};
-  function autoGeo(ts,j){
+  function autoGeo(ts,j,delay){
     var k=ts+'_'+j; if(geoT[k]) return;
     if(!navigator.geolocation){ STORE.patchCoachLink(ts,j,{state:'failed',err:'Location is not available in this browser'}); render(); return; }
     geoT[k]=setTimeout(function(){ delete geoT[k]; var m=findMsg(ts), L=m&&m.links&&m.links[j]; if(!L||L.state!=='auto') return;
@@ -2132,16 +2229,140 @@ var CO=(function(){
       },function(err){
         STORE.patchCoachLink(ts,j,{state:'failed',err:err&&err.code===1?'Location permission denied \u2014 allow it in browser settings':'Could not get GPS \u2014 turn on location'}); render();
       },{enableHighAccuracy:true,timeout:15000,maximumAge:30000});
-    },5000);
+    },delay==null?5000:delay);
     render();
   }
   function geoStop(ts,j){ var k=ts+'_'+j; if(geoT[k]){ clearTimeout(geoT[k]); delete geoT[k]; } STORE.patchCoachLink(ts,j,{state:'cancelled'}); APP.toast('Location not sent'); render(); }
-  function geoAgain(ts,j){ STORE.patchCoachLink(ts,j,{state:'auto'}); autoGeo(ts,j); }
+  function geoAgain(ts,j){ STORE.patchCoachLink(ts,j,{state:'auto'}); autoGeo(ts,j,0); }
   function quick(t){ if(!isOpen) toggle(true); var i=$('coIn'); if(i){ i.value=t; send(); } }
   function clear(){ APP.confirmBox('Clear the chat from your screen? Samm AI still remembers the conversation and everything it learned about you.',function(){ STORE.clearCoach(); render(); }); }
   STORE.onChange(function(){ if(isOpen&&!busy) render(); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&isOpen) toggle(false); });
-  return {toggle:toggle,render:render,send:send,quick:quick,clear:clear,link:link,geo:geo,geoStop:geoStop,geoAgain:geoAgain,waSave:waSave,waSend:waSend,waCancel:waCancel,waFill:waFill,waTest:waTest,check:check,autoCheck:autoCheck};
+  function voiceSend(t){ if(!isOpen) toggle(true); var i=$('coIn'); if(!i) return; i.value=t; send(true); }
+  function mini(on){ var p=$('botPanel'); if(!p) return; var m=(typeof on==='boolean')?on:p.getAttribute('data-min')!=='1'; p.setAttribute('data-min',m?'1':'0'); if(!m) scrollEnd(); }
+  function proxySave(){ var u=(($('stPxUrl')||{}).value||'').replace(/^\s+|\s+$/g,'').replace(/\/+$/,''), t=(($('stPxTok')||{}).value||'').replace(/^\s+|\s+$/g,'');
+    if(u&&!/^https:\/\/[^\s]+$/.test(u)){ APP.toast('Proxy URL must start with https://',true); return; }
+    lsSet('SAMM_PROXY_URL',u); lsSet('SAMM_PROXY_TOKEN',t); lsSet(LM,''); APP.toast(u?'Key proxy saved \u2014 testing\u2026':'Key proxy removed'); check(); render(); }
+  function trustSave(){ var v=(($('stTrust')||{}).value||'').replace(/\s+/g,' ').replace(/^\s+|\s+$/g,''); lsSet('SAMM_TRUSTED',v); APP.toast(v?'Trusted contacts saved':'No trusted contacts \u2014 location always asks'); }
+  function trusted(num,name){ var L=lsGet('SAMM_TRUSTED').split(','), i; for(i=0;i<L.length;i++){ var t=L[i].replace(/^\s+|\s+$/g,''); if(!t) continue; var d=t.replace(/[^\d]/g,''); if(d.length>=10&&num&&num.slice(-10)===d.slice(-10)) return true; if(name&&t.toLowerCase()===String(name).toLowerCase()) return true; } return false; }
+  function geoGo(ts,j){ STORE.patchCoachLink(ts,j,{state:'auto'}); autoGeo(ts,j,0); }
+  return {toggle:toggle,render:render,send:send,quick:quick,clear:clear,link:link,geo:geo,geoStop:geoStop,geoAgain:geoAgain,geoGo:geoGo,voiceSend:voiceSend,mini:mini,proxySave:proxySave,trustSave:trustSave,gfetch:gfetch,hasKey:function(){ return !!keyGet(); },isBusy:function(){ return busy; },connState:function(){ return conn; },waSave:waSave,waSend:waSend,waCancel:waCancel,waFill:waFill,waTest:waTest,check:check,autoCheck:autoCheck};
+})();
+
+/* ===== VX — SAMM voice: mic → Groq Whisper → bot → spoken reply. Every state shown is a real event. ===== */
+var VX=(function(){
+  var LS='SAMM_VOICE', cfg=load(), st='idle', rec=null, stream=null, actx=null, raf=0, chunks=[], t0=0, spoke=false, lastLoud=0, floor=0, ptt=false, srec=null, sendIt=false, abortMsg='', guardT=0;
+  var q=[], curU=null, spokenLen=0, streamed='', speakOn=false, unlocked=false, pressT=0, held=false, voiceTurn=false, inConvo=false, convoT=0;
+  var PROMPT='Sam speaks Hinglish, written in Roman letters: aaj mere tasks kya hain, Rahul ko WhatsApp bhej, wallet me 500 add kar, kal subah 6 baje alarm laga, market me kya chal raha hai.';
+  var JUNK=/^(thank you\.?|thanks for watching!?|you|bye\.?|\.+|subtitles by .*|please subscribe.*)$/i;
+  function $(id){ return document.getElementById(id); }
+  function load(){ var d={voice:'',rate:1,auto:true,all:false,preview:true,mute:false,convo:true}; try{ var o=JSON.parse(localStorage.getItem(LS)||'{}'); for(var k in o) if(o.hasOwnProperty(k)) d[k]=o[k]; }catch(e){} return d; }
+  function save(){ try{ localStorage.setItem(LS,JSON.stringify(cfg)); }catch(e){} }
+  var LBL={idle:'Idle',listening:'Listening…',transcribing:'Transcribing…',thinking:'Thinking…',speaking:'Speaking'};
+  function setState(s){ st=s; var p=$('botPanel'); if(p) p.setAttribute('data-vs',s); var l=$('vxState'); if(l) l.textContent=LBL[s]||s; var m=$('vxMic'); if(m){ m.setAttribute('aria-pressed',s==='listening'?'true':'false'); m.className='botmic'+(s==='listening'?' on':''); } if(s!=='listening') level(0); }
+  function level(v){ var o=$('vxOrb'); if(o) o.style.setProperty('--lvl',Math.max(0,Math.min(1,v)).toFixed(3)); }
+  function line(t,cls){ var e=$('vxLine'); if(e){ e.textContent=t||''; e.className='vxline'+(cls?' '+cls:''); } }
+  function canRec(){ return !!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&window.MediaRecorder); }
+  function canSpeak(){ return !!(window.speechSynthesis&&window.SpeechSynthesisUtterance); }
+  function unlock(){ if(unlocked||!canSpeak()) return; unlocked=true; try{ var u=new SpeechSynthesisUtterance(' '); u.volume=0; speechSynthesis.speak(u); }catch(e){} }
+
+  /* ---------- listening ---------- */
+  function pickType(){ var c=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg;codecs=opus'], i; if(!MediaRecorder.isTypeSupported) return ''; for(i=0;i<c.length;i++) if(MediaRecorder.isTypeSupported(c[i])) return c[i]; return ''; }
+  function start(isPtt){
+    if(st==='listening'||st==='transcribing') return;
+    if(!canRec()){ APP.toast('Voice input is not supported in this browser',true); return; }
+    if(!CO.hasKey()){ APP.toast('Add your Groq key or key proxy in Settings first',true); return; }
+    if(CO.isBusy()){ APP.toast('Wait for the current reply',true); return; }
+    stopSpeak(); unlock(); ptt=!!isPtt; setState('listening'); line(ptt?'Hold… release to send':'Listening… speak now');
+    navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}}).then(function(s){
+      if(st!=='listening'){ s.getTracks().forEach(function(t){ t.stop(); }); return; }
+      stream=s; chunks=[]; spoke=false; t0=Date.now(); lastLoud=0; floor=0; sendIt=false; abortMsg='';
+      var mt=pickType(); try{ rec=mt?new MediaRecorder(s,{mimeType:mt}):new MediaRecorder(s); }catch(e){ rec=new MediaRecorder(s); }
+      rec.ondataavailable=function(e){ if(e.data&&e.data.size) chunks.push(e.data); };
+      rec.onstop=onStop; rec.start(250);
+      meter(s); preview(true);
+      clearTimeout(guardT); guardT=setTimeout(function(){ if(st==='listening') stopRec(true); },30000);
+    },function(err){ setState('idle'); line(''); APP.toast(err&&(err.name==='NotAllowedError'||err.name==='SecurityError')?'Microphone blocked — allow it in your browser settings':'Could not open the microphone',true); });
+  }
+  function meter(s){
+    try{ var AC=window.AudioContext||window.webkitAudioContext; if(!AC) return; actx=actx||new AC(); if(actx.state==='suspended') actx.resume();
+      var src=actx.createMediaStreamSource(s), an=actx.createAnalyser(); an.fftSize=1024; src.connect(an); var buf=new Uint8Array(an.fftSize), n=0;
+      var tick=function(){ if(st!=='listening') return; an.getByteTimeDomainData(buf); var sum=0, i; for(i=0;i<buf.length;i++){ var v=(buf[i]-128)/128; sum+=v*v; } var rms=Math.sqrt(sum/buf.length), now=Date.now(); n++;
+        if(n<10) floor=Math.min(0.05,Math.max(floor,rms)); var th=Math.max(0.018,floor*2.2); level(rms*7);
+        if(rms>th){ spoke=true; lastLoud=now; }
+        if(!ptt){ if(spoke&&now-lastLoud>1300){ stopRec(true); return; } if(!spoke&&now-t0>8000){ stopRec(false,inConvo?'Conversation ended — tap the mic to talk again.':'I didn’t hear anything — tap the mic and try again.'); return; } }
+        raf=requestAnimationFrame(tick); };
+      raf=requestAnimationFrame(tick);
+    }catch(e){ /* no level meter: tap again to stop */ }
+  }
+  function stopRec(send,msg){ if(!send) inConvo=false; sendIt=!!send; abortMsg=msg||''; clearTimeout(guardT); try{ cancelAnimationFrame(raf); }catch(e){} preview(false); try{ if(rec&&rec.state!=='inactive') rec.stop(); else onStop(); }catch(e){ onStop(); } }
+  function release(){ if(stream){ stream.getTracks().forEach(function(t){ t.stop(); }); stream=null; } }
+  function onStop(){
+    release(); var blob=chunks.length?new Blob(chunks,{type:(rec&&rec.mimeType)||'audio/webm'}):null; rec=null; chunks=[];
+    if(!sendIt||!blob||blob.size<1200){ setState('idle'); line(abortMsg||(sendIt?'Too short — try again.':'')); return; }
+    setState('transcribing'); line('Transcribing…');
+    transcribe(blob).then(function(text){ text=(text||'').replace(/^\s+|\s+$/g,''); if(!text||JUNK.test(text)){ setState('idle'); line('Couldn’t catch that — try again.'); return; } line('“'+text+'”','final'); CO.voiceSend(text); },
+      function(e){ setState('idle'); line(''); APP.toast('Voice: '+((e&&e.message)||'error'),true); });
+  }
+  function transcribe(blob){
+    var ext=/mp4|m4a|aac/.test(blob.type)?'m4a':(/ogg/.test(blob.type)?'ogg':'webm'), fd=new FormData();
+    fd.append('file',blob,'voice.'+ext); fd.append('model','whisper-large-v3-turbo'); fd.append('temperature','0'); fd.append('response_format','json'); fd.append('prompt',PROMPT);
+    return CO.gfetch('/openai/v1/audio/transcriptions',{method:'POST',body:fd}).then(function(r){ return r.json().then(function(j){ if(!r.ok||(j&&j.error)){ var m=(j&&j.error&&j.error.message)||('HTTP '+r.status); throw new Error(/rate limit/i.test(m)?'Groq voice limit reached — wait a minute':m); } return (j&&j.text)||''; }); });
+  }
+  function preview(on){
+    if(!on){ if(srec){ try{ srec.abort(); }catch(e){} srec=null; } return; }
+    if(!cfg.preview||/iPhone|iPad|iPod/.test(navigator.userAgent)) return; var SR=window.SpeechRecognition||window.webkitSpeechRecognition; if(!SR) return;
+    try{ srec=new SR(); srec.lang='en-IN'; srec.interimResults=true; srec.continuous=true; srec.onresult=function(e){ var t='', i; for(i=0;i<e.results.length;i++) t+=e.results[i][0].transcript; if(st==='listening'&&t) line(t,'interim'); }; srec.onerror=function(){}; srec.start(); }catch(e){ srec=null; }
+  }
+
+  /* ---------- speaking (sentence by sentence, interruptible) ---------- */
+  function voices(){ return canSpeak()?speechSynthesis.getVoices():[]; }
+  function pickVoice(){ var vs=voices(), i, p; if(cfg.voice){ for(i=0;i<vs.length;i++) if(vs[i].voiceURI===cfg.voice) return vs[i]; } var pref=[/^en-IN/i,/^hi-IN/i,/^en-GB/i,/^en/i]; for(p=0;p<pref.length;p++) for(i=0;i<vs.length;i++) if(pref[p].test(vs[i].lang)) return vs[i]; return null; }
+  function clean(t){ return String(t||'').replace(/\*\*/g,'').replace(/https?:\/\/\S+/g,'').replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g,'').replace(/[☀-➿️‍⭐⬆↔-⇿]/g,'').replace(/\s+/g,' ').replace(/^\s+|\s+$/g,''); }
+  function enqueue(t){ t=clean(t); if(!t||!speakOn) return; var parts=t.match(/[^.!?।]+[.!?।]*/g)||[t], i; for(i=0;i<parts.length;i++){ var x=parts[i].replace(/^\s+|\s+$/g,''); if(x) q.push(x); } if(!curU) next(); }
+  function next(){
+    if(!q.length){ curU=null; if(st==='speaking') setState(CO.isBusy()?'thinking':'idle'); if(!CO.isBusy()) followUp(); return; }
+    var u=new SpeechSynthesisUtterance(q.shift()), v=pickVoice(); if(v){ u.voice=v; u.lang=v.lang; } u.rate=parseFloat(cfg.rate)||1;
+    u.onstart=function(){ if(curU===u) setState('speaking'); }; u.onboundary=function(){ beat(); };
+    u.onend=u.onerror=function(){ if(curU===u){ curU=null; next(); } };
+    curU=u; try{ speechSynthesis.speak(u); }catch(e){ curU=null; q=[]; setState('idle'); }
+  }
+  /* conversation mode: after SAMM finishes speaking a voice answer, listen again without a tap */
+  function followUp(){ clearTimeout(convoT); if(!voiceTurn||!cfg.convo||cfg.mute||st!=='idle') return; voiceTurn=false; convoT=setTimeout(function(){ if(st==='idle'&&!CO.isBusy()){ inConvo=true; start(false); } },350); }
+  function beat(){ var o=$('vxOrb'); if(!o) return; o.classList.add('beat'); setTimeout(function(){ o.classList.remove('beat'); },110); }
+  function stopSpeak(){ q=[]; curU=null; voiceTurn=false; clearTimeout(convoT); if(canSpeak()){ try{ speechSynthesis.cancel(); }catch(e){} } if(st==='speaking') setState('idle'); }
+
+  /* ---------- hooks used by CO ---------- */
+  function begin(fromVoice){ stopSpeak(); voiceTurn=!!fromVoice; spokenLen=0; streamed=''; speakOn=!!(canSpeak()&&!cfg.mute&&((fromVoice&&cfg.auto)||cfg.all)); setState('thinking'); }
+  function streamText(t){ if(!speakOn||!t) return; streamed=t; var rest=t.slice(spokenLen), cut=-1, re=/[.!?।\n](?=\s)/g, m; while((m=re.exec(rest))) cut=m.index; if(cut>=0){ enqueue(rest.slice(0,cut+1)); spokenLen+=cut+1; } }
+  function finish(say,res){
+    if(speakOn){ say=String(say||''); if(spokenLen&&say.indexOf(streamed.slice(0,spokenLen))!==0){ /* final text differs from what was streamed: don't repeat */ } else enqueue(say.slice(spokenLen));
+      if(res&&res.fail&&res.fail.length) enqueue('Kuch kaam nahi hua. Screen pe details dekho.'); }
+    spokenLen=0; streamed=''; if(!curU&&!q.length){ setState('idle'); if(speakOn) followUp(); }
+  }
+  function fail(){ stopSpeak(); setState('idle'); }
+
+  /* ---------- controls ---------- */
+  function orb(){ inConvo=false; if(st==='speaking'){ stopSpeak(); line('Stopped.'); return; } if(st==='listening'){ stopRec(true); return; } start(false); }
+  function micDown(e){ if(e&&e.button>0) return; held=false; inConvo=false; clearTimeout(pressT); pressT=setTimeout(function(){ pressT=0; held=true; if(st!=='listening') start(true); },380); }
+  function micUp(){ if(pressT){ clearTimeout(pressT); pressT=0; if(st==='listening') stopRec(true); else { if(st==='speaking') stopSpeak(); start(false); } } else if(held){ held=false; if(st==='listening') stopRec(true); } }
+  function toggleMute(){ cfg.mute=!cfg.mute; save(); if(cfg.mute) stopSpeak(); paintMute(); APP.toast(cfg.mute?'Voice replies muted':'Voice replies on'); }
+  function paintMute(){ var b=$('vxMute'); if(b){ b.textContent=cfg.mute?'🔇':'🔊'; b.setAttribute('aria-pressed',cfg.mute?'true':'false'); } }
+  function fillVoices(){ var sel=$('vxVoice'); if(!sel) return; var vs=voices(), h='<option value="">Auto (Indian English / Hindi first)</option>', i; for(i=0;i<vs.length;i++){ if(!/^(en|hi)/i.test(vs[i].lang)) continue; h+='<option value="'+APP.esc(vs[i].voiceURI)+'"'+(vs[i].voiceURI===cfg.voice?' selected':'')+'>'+APP.esc(vs[i].name+' ('+vs[i].lang+')')+'</option>'; } sel.innerHTML=h; }
+  function settings(){ var b=$('vxSet'); if(!b) return; b.hidden=!b.hidden; if(!b.hidden){ fillVoices(); $('vxRate').value=cfg.rate; $('vxRateT').textContent=(+cfg.rate).toFixed(2)+'×'; $('vxAuto').checked=!!cfg.auto; $('vxAll').checked=!!cfg.all; $('vxPrev').checked=!!cfg.preview; $('vxConvo').checked=!!cfg.convo; } }
+  function setVoice(v){ cfg.voice=v; save(); }
+  function setRate(v){ cfg.rate=parseFloat(v)||1; save(); var t=$('vxRateT'); if(t) t.textContent=cfg.rate.toFixed(2)+'×'; }
+  function opt(k,v){ cfg[k]=!!v; save(); }
+  function test(){ if(!canSpeak()){ APP.toast('This browser cannot speak',true); return; } unlock(); stopSpeak(); speakOn=true; enqueue('Hey Sam, main SAMM hoon. Bata, aaj kya karna hai?'); speakOn=false; }
+  function desk(){ var on=!!(window.sammDesktop&&window.sammDesktop.version), d=$('vxDesk'), t=$('vxDeskT'); if(d) d.className='cdot '+(on?'ok':'off'); if(t) t.textContent=on?'Desktop app on':'Desktop app off'; }
+  function init(){
+    var m=$('vxMic'); if(m){ m.addEventListener('pointerdown',micDown); m.addEventListener('pointerup',micUp); m.addEventListener('pointerleave',function(){ if(held){ held=false; if(st==='listening') stopRec(true); } }); m.addEventListener('contextmenu',function(e){ e.preventDefault(); }); }
+    document.addEventListener('keydown',function(e){ if(e.ctrlKey&&e.shiftKey&&(e.code==='Space'||e.key===' ')){ e.preventDefault(); CO.toggle(true); orb(); } else if(e.key==='Escape'&&(st==='speaking'||st==='listening')){ if(st==='speaking') stopSpeak(); else stopRec(false,'Cancelled.'); } });
+    if(canSpeak()&&'onvoiceschanged' in speechSynthesis) speechSynthesis.onvoiceschanged=function(){ var b=$('vxSet'); if(b&&!b.hidden) fillVoices(); };
+    if(!canRec()){ var mm=$('vxMic'); if(mm){ mm.disabled=true; mm.title='Voice input not supported in this browser'; } }
+    paintMute(); desk(); setState('idle');
+  }
+  return {init:init,orb:orb,begin:begin,stream:streamText,finish:finish,fail:fail,stop:function(){ inConvo=false; if(st==='listening') stopRec(false,''); stopSpeak(); },toggleMute:toggleMute,settings:settings,setVoice:setVoice,setRate:setRate,opt:opt,test:test,state:function(){ return st; },_clean:clean};
 })();
 
 var FX=(function(){
@@ -2347,7 +2568,7 @@ var WIN=(function(){
   return {show:show,close:close,zoom:zoom,toggle:toggle,add:add,render:render,boot:boot,why:why,askWhy:askWhy,isOpen:function(){ return isOpen; }};
 })();
 /* boot */
-APP.init(); SYNC.boot(); CLK.boot(); WIN.boot();
+APP.init(); SYNC.boot(); CLK.boot(); WIN.boot(); VX.init();
 /* ---- site-wide 3D tilt on cards ---- */
 (function(){
   if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
