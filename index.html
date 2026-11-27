@@ -925,6 +925,19 @@ input[type=checkbox],input[type=radio],input[type=range]{accent-color:var(--acce
 .siri-x{position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:50%;border:none;background:rgba(255,255,255,.08);color:#A9AECB;font-size:12px;cursor:pointer}
 @media(prefers-reduced-motion:reduce){.siri-edge,.siri-card{animation:none}}
 @media print{.siril{display:none!important}}
+
+/* ===== Siri glow, blended into the chat (no stroke) ===== */
+#botPanel{isolation:isolate}
+#botPanel::before{content:"";position:absolute;inset:-20%;z-index:-1;pointer-events:none;opacity:0;transition:opacity .45s ease;
+  background:radial-gradient(60% 30% at 50% 88%,rgba(124,92,255,.95),transparent 72%),radial-gradient(30% 40% at 14% 66%,rgba(59,166,255,.8),transparent 72%),radial-gradient(30% 40% at 86% 60%,rgba(255,122,198,.7),transparent 72%),radial-gradient(45% 22% at 50% 14%,rgba(45,212,191,.45),transparent 72%);
+  filter:blur(22px) saturate(140%);animation:glowDrift 6s ease-in-out infinite alternate}
+#botPanel[data-vs=listening]::before{opacity:calc(.5 + var(--lvl,0) * .9);transform:scale(calc(1 + var(--lvl,0) * .08))}
+#botPanel[data-vs=transcribing]::before,#botPanel[data-vs=thinking]::before{opacity:.42;animation-duration:2.2s}
+#botPanel[data-vs=speaking]::before{opacity:.62;animation-duration:3s}
+@keyframes glowDrift{0%{filter:blur(22px) saturate(140%) hue-rotate(0deg)}100%{filter:blur(28px) saturate(160%) hue-rotate(35deg)}}
+@media(prefers-reduced-motion:reduce){#botPanel::before{animation:none}}
+.siri-edge{padding:0!important;-webkit-mask:none!important;mask:none!important;border-radius:0!important;mix-blend-mode:screen;
+  background:radial-gradient(60% 40% at 50% 105%,rgba(124,92,255,.6),transparent 70%),radial-gradient(35% 50% at 0% 65%,rgba(59,166,255,.45),transparent 72%),radial-gradient(35% 50% at 100% 60%,rgba(255,122,198,.4),transparent 72%)!important;filter:blur(30px)!important}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
@@ -2871,7 +2884,7 @@ var VX=(function(){
   var LBL={idle:'Idle',listening:'Listening…',transcribing:'Transcribing…',thinking:'Thinking…',speaking:'Speaking'};
   function setState(s){ st=s; var ff=$('botFab'); if(ff) ff.setAttribute('data-vs',s); if(window.SIRI) SIRI.state(s); if(s!=='idle'){ if(wk) wakeStop(); } else if(cfg.wake){ clearTimeout(wkT); wkT=setTimeout(wakeStart,900); } var p=$('botPanel'); if(p) p.setAttribute('data-vs',s); waveKick(); var l=$('vxState'); if(l) l.textContent=LBL[s]||s; var m=$('vxMic'); if(m){ m.setAttribute('aria-pressed',s==='listening'?'true':'false'); m.className='botmic'+(s==='listening'?' on':'')+((s==='transcribing'||s==='thinking')?' busy':''); } var ci=$('coIn'); if(ci) ci.placeholder=s==='listening'?'Listening\u2026 tap the mic to send':(s==='transcribing'?'Transcribing\u2026':'Type or talk \u2014 Hinglish/English'); if(s!=='listening') level(0); }
   var wv=[], wraf=0, wEnergy=0, wLastBeat=0, wT=0;
-  function level(v){ v=Math.max(0,Math.min(1,v)); var o=$('vxOrb'); if(o) o.style.setProperty('--lvl',v.toFixed(3)); var fo=$('botFab'); if(fo) fo.style.setProperty('--lvl',v.toFixed(3)); if(window.SIRI) SIRI.level(v.toFixed(3)); if(st==='listening') wv.push(v); }
+  function level(v){ v=Math.max(0,Math.min(1,v)); var o=$('vxOrb'); if(o) o.style.setProperty('--lvl',v.toFixed(3)); var fo=$('botFab'); if(fo) fo.style.setProperty('--lvl',v.toFixed(3)); if(window.SIRI) SIRI.level(v.toFixed(3)); var bp=$('botPanel'); if(bp) bp.style.setProperty('--lvl',v.toFixed(3)); if(st==='listening') wv.push(v); }
   function waveLoop(){ var el=$('vxWave'); if(!el){ wraf=0; return; } var bars=el.children, n=bars.length, i, now=Date.now(), active=(st!=='idle');
     if(st==='speaking'){ if(srcs.length){ wv.push(Math.min(1,svLevel()*5)); } else { if(now-wLastBeat>700) wEnergy=Math.max(wEnergy,.32+.12*Math.sin(now/180)); wv.push(wEnergy*(.55+.45*Math.abs(Math.sin(now/90+wv.length)))); wEnergy*=.9; } }
     else if(st==='thinking'||st==='transcribing'){ wT+=1; wv=[]; for(i=0;i<n;i++) wv.push(.12+.5*Math.max(0,Math.cos((i-(wT/2)%(n+8))*.45))); }
@@ -3012,7 +3025,7 @@ var VX=(function(){
       wk.start(); }catch(e){ wk=null; wkT=setTimeout(wakeStart,5000); }
     paintWake(); }
   function wakeStop(){ clearTimeout(wkT); if(wk){ var w=wk; wk=null; w.onend=null; w.onresult=null; try{ w.abort(); }catch(e){} } paintWake(); }
-  function wakeHit(){ wakeStop(); if(st!=='idle') return; if(!chatOpen()) SIRI.open(); else CO.mini(false); beat(); line('Hey Samm \u2014 listening\u2026'); setTimeout(function(){ if(st==='idle') start(false); },200); }
+  function wakeHit(){ wakeStop(); if(st!=='idle') return; if(!chatOpen()) CO.toggle(true); CO.mini(false); beat(); line('Hey Samm \u2014 listening\u2026'); setTimeout(function(){ if(st==='idle') start(false); },200); }
   function toggleWake(){ if(!wakeSup()){ APP.toast(/iPhone|iPad|iPod/.test(navigator.userAgent)?'Not on iPhone \u2014 use the Siri Shortcut':'This browser has no speech recognition \u2014 use Edge or Chrome',true); return; } cfg.wake=!cfg.wake; save(); if(cfg.wake){ wkErr=0; unlock(); wakeAudio(); wakeStart(); APP.toast('Say “Hey Samm” any time SAMM is open'); } else { wakeStop(); APP.toast('“Hey Samm” off'); } paintWake(); }
   function paintWake(){ var on=!!cfg.wake, live=!!wk, d=$('wakeDot'), t=$('wakeTxt'), b=$('wakeBtn'), ok=wakeSup();
     if(d) d.className='cdot '+(!on?'off':(live?'ok':(wkErr>=5?'err':'busy'))); var fw=$('botFab'); if(fw) fw.classList.toggle('wake',on&&live);
@@ -3022,7 +3035,7 @@ var VX=(function(){
   /* bottom orb: tap = open + talk (tap again = send/stop), hold = open for typing */
   var fT=0, fHeld=false, fDown=false;
   function chatOpen(){ return /\bopen\b/.test(($('botPanel')||{}).className||''); }
-  function fabTap(){ if(!CO.hasKey()){ CO.toggle(true); return; } if(chatOpen()){ orb(); return; } if(SIRI.active()&&(st==='listening'||st==='speaking')){ orb(); return; } if(SIRI.active()&&st==='idle'){ orb(); return; } SIRI.open(); orb(); }
+  function fabTap(){ if(!chatOpen()) CO.toggle(true); if(!CO.hasKey()) return; orb(); }
   function fabType(){ SIRI.close(false); CO.toggle(true); if(st==='listening') stopRec(false,''); var i=$('coIn'); if(i) setTimeout(function(){ i.focus(); },60); }
   function initFab(){ var f=$('botFab'); if(!f) return;
     f.addEventListener('pointerdown',function(e){ if(e.button>0) return; fDown=true; fHeld=false; clearTimeout(fT); fT=setTimeout(function(){ fT=0; fHeld=true; fabType(); },450); });
