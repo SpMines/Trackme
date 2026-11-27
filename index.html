@@ -2512,7 +2512,8 @@ var CO=(function(){
     return {ok:false,msg:'unknown action "'+(a.type||'')+'"'};
   }
   function runActions(list){ var r={ok:[],fail:[],links:[]}; for(var i=0;i<list.length;i++){ var x; try{ x=applyAction(list[i]); }catch(e){ x={ok:false,msg:'crashed: '+e.message}; } (x.ok?r.ok:r.fail).push(x.msg); if(x.ok&&x.links) r.links=r.links.concat(x.links); } return r; }
-  var CLAIM=/(kar|kr)\s?(diya|di|dia|dia)\b|krdiya|krdia|ho\s?gaya|hogya|add\s?(kar|kr)|\badded\b|set\s?(kar|kr)|\bdone\b|\bscheduled\b|schedule\s?(kar|kr)\s?(diya|di|dia)|daal\s?(diya|di)|dal\s?diya|update\s?(kar|kr)|delete\s?(kar|kr)|hata\s?(diya|di)|\u2705/i;
+  var CLAIM=/(kar|kr)\s?(diya|di|dia|dee)\b|krdiya|krdia|krdi\b|ho\s?gaya|hogya|ho\s?gayi|\badded\b|\bsaved\b|\bdone\b|\bscheduled\b|\bset\s+(for|to|at)\b|daal\s?(diya|di)|dal\s?diya|hata\s?(diya|di)|\bremoved\b|\bdeleted\b|\bupdated\b|\u2705/i;
+  function claims(p){ if(/^(greeting|chat|question)$/.test(p.intent||'')) return false; var t=String(p.say||'').replace(/\b(kya|kuch|agar|if|want|chahiye|karna|karun|karu|karein|karo|bata\s?de?na?|bolo)\b[^.?!]*[?]/gi,''); return CLAIM.test(t); }
   function parseOut(txt){ var s=txt.indexOf('{'), e=txt.lastIndexOf('}'), o; if(s<0||e<=s) return {say:txt,actions:[]}; try{ o=JSON.parse(txt.slice(s,e+1)); }catch(x){ return {say:txt,actions:[]}; } var acts=o.actions||o.action||o.tasks||[]; if(!Array.isArray(acts)) acts=[acts]; return {intent:(typeof o.intent==='string'?o.intent.toLowerCase():''),say:(typeof o.say==='string'?o.say:(o.reply||o.message||txt)),speak:(typeof o.speak==='string'?o.speak:''),actions:acts,links:o.links||o.sources||[]}; }
   function fmt(s){ return esc(s).replace(/\*\*([^*\n]+)\*\*/g,'<b>$1</b>'); }
 
@@ -2730,9 +2731,9 @@ var CO=(function(){
       if(g.fix){ stat('Re-reading your message\u2026'); curDelta=null; if(window.VX) VX.begin(fromVoice);
         return ask(key,base,hist.concat([{role:'assistant',content:out},{role:'user',content:g.fix}]),txt,true).then(function(out3){ var p3=parseOut(out3), g3=vet(txt,p3), r3=runActions(g3.acts); if(g3.dropped&&g3.dropped.length) r3.fail.push('blocked '+g3.dropped.join(', ')+' \u2014 your message did not ask for it'); spk=p3.speak; aiLinks=aiLinks.concat(mkLinks(p3.links,lastWeb)); post(p3.say||out3,r3,false); }); }
       var res=runActions(g.acts);
-      if(!res.ok.length&&!res.fail.length&&CLAIM.test(p.say)){
+      if(!res.ok.length&&!res.fail.length&&claims(p)){
         stat('Verifying\u2026'); curDelta=null;
-        return ask(key,base,hist.concat([{role:'assistant',content:out},{role:'user',content:FIX}]),txt,true).then(function(out2){ var p2=parseOut(out2), r2=runActions(p2.actions); spk=p2.speak; aiLinks=aiLinks.concat(mkLinks(p2.links,lastWeb)); post(p2.say||out2,r2,!r2.ok.length&&!r2.fail.length&&CLAIM.test(p2.say)); });
+        return ask(key,base,hist.concat([{role:'assistant',content:out},{role:'user',content:FIX}]),txt,true).then(function(out2){ var p2=parseOut(out2), r2=runActions(p2.actions); spk=p2.speak; aiLinks=aiLinks.concat(mkLinks(p2.links,lastWeb)); post(p2.say||out2,r2,!r2.ok.length&&!r2.fail.length&&claims(p2)); });
       }
       spk=p.speak; aiLinks=aiLinks.concat(mkLinks(p.links,lastWeb)); post(p.say||out,res,false);
     }).catch(function(e){ busy=false; curDelta=null; liveTxt=''; if(window.VX) VX.fail(); if(window.FX) FX.load('.botsend',false); render(); setConn('err',(e&&e.message)||'Error'); STORE.addCoachMsg('sys','\u26A0 '+((e&&e.message)||'Error')+' \u2014 check your key in Settings.'); render(); });
