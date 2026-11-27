@@ -889,6 +889,42 @@ input[type=checkbox],input[type=radio],input[type=range]{accent-color:var(--acce
 @media(prefers-reduced-motion:reduce){body::before{animation:none}}
 @media(max-width:720px){.card{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}}
 @media print{body::before{display:none}.card{backdrop-filter:none;-webkit-backdrop-filter:none}}
+
+/* ===== Siri mode: voice without opening the chat (iPhone-style) ===== */
+#botPanel .vxstage{display:none}
+#botPanel .botmic.busy{position:relative;color:#B9AEFF}
+#botPanel .botmic.busy::after{content:"";position:absolute;inset:-3px;border-radius:50%;border:2px solid transparent;border-top-color:#9583FF;border-right-color:#3BA6FF;animation:srSpin .8s linear infinite}
+.siril{position:fixed;inset:0;z-index:89;pointer-events:none}
+.siril[hidden]{display:none}
+.siri-dim{position:absolute;inset:0;pointer-events:auto;background:linear-gradient(180deg,rgba(5,6,16,.15) 0%,rgba(5,6,16,.45) 45%,rgba(5,6,16,.82) 100%);opacity:0;transition:opacity .3s}
+.siril.show .siri-dim{opacity:1}
+.siri-edge{position:absolute;inset:0;border-radius:0;padding:5px;opacity:0;transition:opacity .35s;pointer-events:none;
+  background:linear-gradient(120deg,#7C5CFF,#3BA6FF,#2DD4BF,#FF7AC6,#FFB86B,#7C5CFF);background-size:300% 300%;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;
+  filter:blur(calc(6px + var(--lvl,0) * 10px)) saturate(140%);animation:siriFlow 3.5s linear infinite}
+@media(pointer:coarse){.siri-edge{border-radius:44px}}
+.siril.show[data-vs=listening] .siri-edge{opacity:calc(.65 + var(--lvl,0) * .35)}
+.siril.show[data-vs=transcribing] .siri-edge,.siril.show[data-vs=thinking] .siri-edge{opacity:.55;animation-duration:1.4s}
+.siril.show[data-vs=speaking] .siri-edge{opacity:.8;animation-duration:2.2s}
+@keyframes siriFlow{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+.siri-stack{position:absolute;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%);width:min(440px,calc(100vw - 24px));display:flex;flex-direction:column;gap:12px;align-items:center;pointer-events:none}
+.siri-you{pointer-events:none;text-align:center;color:#EEF0FF;font-size:19px;line-height:1.35;font-weight:500;text-shadow:0 2px 14px rgba(0,0,0,.6);max-width:100%;min-height:1.35em;opacity:0;transform:translateY(8px);transition:opacity .25s,transform .25s}
+.siril.show .siri-you:not(:empty){opacity:1;transform:none}
+.siri-you.dim{color:#A9AECB;font-size:16px}
+.siri-card{pointer-events:auto;position:relative;width:100%;max-height:52vh;overflow:auto;padding:16px 18px 14px;border-radius:22px;color:#EEF0FF;
+  background:radial-gradient(120% 80% at 0% 0%,rgba(124,92,255,.22),transparent 60%),rgba(16,18,36,.9);border:1px solid rgba(149,131,255,.3);
+  -webkit-backdrop-filter:blur(26px) saturate(150%);backdrop-filter:blur(26px) saturate(150%);box-shadow:0 24px 70px rgba(0,0,0,.55);animation:siriIn .32s cubic-bezier(.2,.9,.3,1.15)}
+.siri-card[hidden]{display:none}
+@keyframes siriIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+.siri-ans{font-size:15.5px;line-height:1.55;padding-right:22px;white-space:pre-wrap;word-wrap:break-word}
+.siri-rc{margin-top:8px;font-size:13px;color:#9be7c4}.siri-rc:empty{display:none}
+.siri-rc.bad{color:#ff9aa9}
+.siri-act{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.siri-act:empty{display:none}
+.siri-act button{font:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.07);color:#EEF0FF;cursor:pointer}
+.siri-act button.pri{background:linear-gradient(135deg,#7C5CFF,#3BA6FF);border-color:transparent}
+.siri-x{position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:50%;border:none;background:rgba(255,255,255,.08);color:#A9AECB;font-size:12px;cursor:pointer}
+@media(prefers-reduced-motion:reduce){.siri-edge,.siri-card{animation:none}}
+@media print{.siril{display:none!important}}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
@@ -1182,8 +1218,8 @@ input[type=checkbox],input[type=radio],input[type=range]{accent-color:var(--acce
 </div>
 
 <div id="botPanel" class="botpanel" role="dialog" aria-label="SAMM assistant" data-vs="idle" data-min="0">
- <div class="bothead"><div class="botava"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V5"/><circle cx="12" cy="4" r="1"/><circle cx="9" cy="13.5" r="1" fill="currentColor"/><circle cx="15" cy="13.5" r="1" fill="currentColor"/></svg></div><div style="flex:1;min-width:0"><div class="botname">SAMM</div><div class="botsub" id="coStat">Online · scans your app live</div></div><button class="iconbtn" onclick="VX.settings()" title="Voice settings" aria-label="Voice settings">⚙︎</button><button class="iconbtn" onclick="CO.mini()" title="Minimize / restore" aria-label="Minimize">–</button><button class="iconbtn" onclick="CO.clear()" title="Clear chat">🗑</button><button class="iconbtn" onclick="CO.toggle(false)" title="Close">✕</button></div>
- <div class="vxstage"><button id="vxOrb" class="vxorb" onclick="VX.orb()" aria-label="Talk to SAMM"><span class="vxcore"></span></button><div class="vxinfo" onclick="CO.mini(false)"><div class="vxtop"><b id="vxState">Idle</b><span class="vxst"><span class="cdot off" id="vxAi"></span>AI<span class="cdot off" id="vxDesk"></span><span id="vxDeskT">Desktop app off</span></span></div><div id="vxLine" class="vxline">Tap the orb or the mic and talk. Hold the mic for push-to-talk.</div><div class="vxwave" id="vxWave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><button id="vxMute" class="iconbtn" onclick="VX.toggleMute()" title="Mute voice replies" aria-label="Mute voice replies">🔊</button></div>
+ <div class="bothead"><div class="botava"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V5"/><circle cx="12" cy="4" r="1"/><circle cx="9" cy="13.5" r="1" fill="currentColor"/><circle cx="15" cy="13.5" r="1" fill="currentColor"/></svg></div><div style="flex:1;min-width:0"><div class="botname">SAMM</div><div class="botsub" id="coStat">Online · scans your app live</div></div><button id="vxMute" class="iconbtn" onclick="VX.toggleMute()" title="Mute voice replies" aria-label="Mute voice replies">🔊</button><button class="iconbtn" onclick="VX.settings()" title="Voice settings" aria-label="Voice settings">⚙︎</button><button class="iconbtn" onclick="CO.mini()" title="Minimize / restore" aria-label="Minimize">–</button><button class="iconbtn" onclick="CO.clear()" title="Clear chat">🗑</button><button class="iconbtn" onclick="CO.toggle(false)" title="Close">✕</button></div>
+ <div class="vxstage"><button id="vxOrb" class="vxorb" onclick="VX.orb()" aria-label="Talk to SAMM"><span class="vxcore"></span></button><div class="vxinfo" onclick="CO.mini(false)"><div class="vxtop"><b id="vxState">Idle</b><span class="vxst"><span class="cdot off" id="vxAi"></span>AI<span class="cdot off" id="vxDesk"></span><span id="vxDeskT">Desktop app off</span></span></div><div id="vxLine" class="vxline">Tap the orb or the mic and talk. Hold the mic for push-to-talk.</div><div class="vxwave" id="vxWave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
  <div id="vxSet" class="vxset" hidden><div class="vxrow"><label for="vxEng">Engine</label><select id="vxEng" onchange="VX.setEngine(this.value)"><option value="auto">Free voice (this device / Edge)</option><option value="cloud">Cloud voice (Google / Sarvam key needed)</option></select></div><div class="vxrow"><label for="vxProv">Provider</label><select id="vxProv" onchange="VX.setProv(this.value)"><option value="google">Google Chirp 3 HD — free tier</option><option value="sarvam">Sarvam Bulbul v4 Flash — paid</option></select></div><div class="vxnote" id="vxEngNote"></div><div class="vxrow"><label for="vxVoice">Voice</label><select id="vxVoice"></select></div><div class="vxrow"><label for="vxRate">Speed <span id="vxRateT">1.0×</span></label><input id="vxRate" type="range" min="0.7" max="1.5" step="0.05" oninput="VX.setRate(this.value)"></div><div class="vxrow"><label for="vxVol">Volume <span id="vxVolT">100%</span></label><input id="vxVol" type="range" min="0" max="1.5" step="0.05" oninput="VX.setVol(this.value)"></div><label class="vxchk"><input type="checkbox" id="vxAuto" onchange="VX.opt('auto',this.checked)"> Speak replies when I talk</label><label class="vxchk"><input type="checkbox" id="vxConvo" onchange="VX.opt('convo',this.checked)"> Conversation mode: keep listening after SAMM answers (stops after 8 s of silence)</label><label class="vxchk"><input type="checkbox" id="vxAll" onchange="VX.opt('all',this.checked)"> Also speak replies to typed messages</label><label class="vxchk"><input type="checkbox" id="vxPrev" onchange="VX.opt('preview',this.checked)"> Live preview while I talk (Chrome/Edge; uses the browser's speech service)</label><label class="vxchk"><input type="checkbox" id="vxWake" onchange="if(this.checked!==!!(VX.wakeCfg&&VX.wakeCfg()))VX.toggleWake()"> “Hey Samm” wake word (PC Edge/Chrome, while SAMM is open)</label><label class="vxchk"><input type="checkbox" id="vxBack" onchange="VX.opt('backup',this.checked)"> If SAMM voice fails, use the device voice (lower quality)</label><div class="vxcmp"><div class="vxcmp-h">Compare voices — same 4 test sentences, generated live</div><div class="vxcmp-b" id="vxCmpB"></div></div><div class="vxrow" style="margin-top:6px"><button class="btn mini" onclick="VX.test()">Test voice</button><span class="sub" style="margin:0;font-size:12px">Shortcut: Ctrl+Shift+Space = talk</span></div></div>
  <div id="coMsgs" class="botmsgs"></div>
  <div class="botchips"><button onclick="WIN.show(this)">Today’s tasks</button><button onclick="CO.quick('What should I do first today? Check my patterns and set priorities.')">Today’s priority</button><button onclick="CO.quick('Give me my status for the last 2 weeks — what am I skipping and what is strong?')">My status</button><button onclick="CO.quick('How is my money this month — spending, and where is most of it going?')">Money</button><button onclick="CO.quick('Give me today’s global financial and market news in short — gold, Nifty, USD/INR.')">Market news</button><button onclick="CO.quick('Live prices right now: XAUUSD, silver, BTC and USD/INR.')">Live prices</button></div>
@@ -1191,6 +1227,7 @@ input[type=checkbox],input[type=radio],input[type=range]{accent-color:var(--acce
 </div>
 <div id="clkChip" class="clkchip" role="button" aria-label="Timers and alarms" onclick="CLK.openList()"></div>
 <div id="clkRing" class="clkring" role="alertdialog" aria-live="assertive"><div class="clkbox"><div class="clkic" id="clkIc">⏰</div><div class="clklbl" id="clkLbl">Alarm</div><div class="clktime" id="clkTime"></div><div class="row" style="justify-content:center;gap:12px;margin-top:22px"><button class="btn" onclick="CLK.snooze()">Snooze 5 min</button><button class="btn primary" onclick="CLK.stop()">Stop</button></div></div></div>
+<div id="siri" class="siril" hidden aria-live="polite"><div class="siri-dim" onclick="SIRI.close()"></div><div class="siri-edge" aria-hidden="true"></div><div class="siri-stack"><div class="siri-you" id="siriYou"></div><div class="siri-card" id="siriCard" hidden><button class="siri-x" onclick="SIRI.close()" aria-label="Close">✕</button><div class="siri-ans" id="siriAns"></div><div class="siri-rc" id="siriRc"></div><div class="siri-act" id="siriAct"></div></div></div></div>
 <button id="botFab" class="botfab siri" data-vs="idle" aria-label="Talk to SAMM (hold to type)" title="Tap: talk · Hold: type"><span class="sr-glow"></span><span class="sr-ring"></span><span class="sr-core"><span class="sr-blob b1"></span><span class="sr-blob b2"></span><span class="sr-blob b3"></span></span></button>
 
 <div class="notif-ov" id="notifOv" onclick="APP.closeNotifs()"></div>
@@ -1642,7 +1679,7 @@ var APP=(function(){
   function siriCopy(){ var e=$('siriUrl'); if(!e) return; var v=e.value; if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(v).then(function(){ toast('Copied'); },function(){ e.select(); toast('Select and copy'); }); else { e.select(); try{ document.execCommand('copy'); toast('Copied'); }catch(x){ toast('Select and copy',true); } } }
   function urlEntry(){ var qs; try{ qs=new URLSearchParams(location.search); }catch(x){ return; } var ask=(qs.get('ask')||'').replace(/^\s+|\s+$/g,'').slice(0,600), talk=qs.get('talk'), k=qs.get('k')||'';
     if(!ask&&!talk) return; try{ history.replaceState(null,'',location.pathname+location.hash); }catch(x){}
-    setTimeout(function(){ if(!window.CO) return; if(talk&&!ask){ CO.toggle(true); if(window.VX) VX.orb(); return; }
+    setTimeout(function(){ if(!window.CO) return; if(talk&&!ask){ if(window.VX) VX.fabTap(); return; }
       if(ask==='TEXT'){ toast('Siri Shortcut: put the Dictated Text variable in place of TEXT',true); return; }
       var ok=false, c=''; try{ c=localStorage.getItem('SAMM_SIRI_CODE')||''; }catch(x){} if(c&&k.length===c.length){ var d=0, i; for(i=0;i<c.length;i++) d|=c.charCodeAt(i)^k.charCodeAt(i); ok=d===0; }
       CO.urlAsk(ask,ok); },700); }
@@ -2470,7 +2507,7 @@ var CO=(function(){
   function wire(){ if(wired) return; var inp=$('coIn'); if(!inp) return; wired=true;
     inp.addEventListener('keydown',function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); send(); } });
     inp.addEventListener('input',function(){ inp.style.height='auto'; inp.style.height=Math.min(inp.scrollHeight,110)+'px'; }); }
-  function toggle(force){ isOpen=(typeof force==='boolean')?force:!isOpen; var p=$('botPanel'),f=$('botFab'); if(p) p.className='botpanel'+(isOpen?' open':''); if(f){ f.className='botfab siri'+(isOpen?' on':''); void f.offsetWidth; f.className+=' pop'; f.setAttribute('aria-label',isOpen?'Talk to SAMM (hold to type)':'Talk to SAMM (hold to type)'); } if(!isOpen&&window.VX) VX.stop(); if(isOpen){ wire(); autoCheck(); render(); greet(); var i=$('coIn'); if(i&&window.innerWidth>600) setTimeout(function(){i.focus();},50); } }
+  function toggle(force){ isOpen=(typeof force==='boolean')?force:!isOpen; if(isOpen&&window.SIRI&&SIRI.active()) SIRI.close(false); var p=$('botPanel'),f=$('botFab'); if(p) p.className='botpanel'+(isOpen?' open':''); if(f){ f.className='botfab siri'+(isOpen?' on':''); void f.offsetWidth; f.className+=' pop'; f.setAttribute('aria-label',isOpen?'Talk to SAMM (hold to type)':'Talk to SAMM (hold to type)'); } if(!isOpen&&window.VX) VX.stop(); if(isOpen){ wire(); autoCheck(); render(); greet(); var i=$('coIn'); if(i&&window.innerWidth>600) setTimeout(function(){i.focus();},50); } }
   function greetText(db){
     var n=(db.profile&&db.profile.name)||'Sam', hr=new Date().getHours(), t=STORE.today(), td=db.dailyGoals.filter(function(g){ return g.date===t; }), left=td.filter(function(g){ return !g.done; }).length;
     var tod=hr<5?'Up late':(hr<12?'Good morning':(hr<17?'Good afternoon':(hr<21?'Good evening':'Hey night owl')));
@@ -2625,7 +2662,7 @@ var CO=(function(){
   function sayFrom(acc,key){ var a=acc.replace(/^\s+/,''); if(a.charAt(0)!=='{'&&a.indexOf('```')!==0) return key?'':a; var m=a.match(key==='speak'?/"speak"\s*:\s*"/:/"say"\s*:\s*"/); if(!m) return ''; var i=m.index+m[0].length, o='';
     while(i<a.length){ var ch=a.charAt(i); if(ch==='"') return o; if(ch==='\\'){ var nx=a.charAt(i+1); if(!nx) return o; if(nx==='n'){ o+='\n'; i+=2; continue; } if(nx==='t'){ o+=' '; i+=2; continue; } if(nx==='u'){ var hx=a.substr(i+2,4); if(hx.length<4) return o; o+=String.fromCharCode(parseInt(hx,16)); i+=6; continue; } o+=nx; i+=2; continue; } o+=ch; i++; }
     return o; }
-  function liveSay(acc){ var t=sayFrom(acc); if(window.VX){ if(VX.wantsSpeak()&&(/"speak"\s*:/.test(acc)||!/"say"\s*:/.test(acc))) VX.stream(sayFrom(acc,'speak')); else if(t!==liveTxt) VX.stream(t,true); } if(t===liveTxt) return; liveTxt=t; var el=$('coLive'); if(el&&t){ el.className='cobub ai'; el.innerHTML=fmt(t); scrollEnd(); } }
+  function liveSay(acc){ var t=sayFrom(acc); if(window.VX){ if(VX.wantsSpeak()&&(/"speak"\s*:/.test(acc)||!/"say"\s*:/.test(acc))) VX.stream(sayFrom(acc,'speak')); else if(t!==liveTxt) VX.stream(t,true); } if(t===liveTxt) return; liveTxt=t; if(window.SIRI) SIRI.live(t); var el=$('coLive'); if(el&&t){ el.className='cobub ai'; el.innerHTML=fmt(t); scrollEnd(); } }
   function whyOf(a){ var w=String(a.why||a.reason||'').slice(0,200), ev=a.evidence||a.proof||[]; if(!Array.isArray(ev)) ev=[ev]; ev=ev.map(function(x){ return String(x).slice(0,160); }).filter(function(x){ return x.replace(/\s/g,''); }).slice(0,5); return {why:w,evidence:ev}; }
   function mkLinks(list,web){ var out=[], i; if(!list) return out; if(!Array.isArray(list)) list=[list];
     for(i=0;i<list.length&&out.length<4;i++){ var L=list[i]; if(!L||typeof L!=='object') continue; var lab=(''+(L.label||L.title||'')).slice(0,80);
@@ -2755,7 +2792,7 @@ var CO=(function(){
   function clear(){ APP.confirmBox('Clear the chat from your screen? Samm AI still remembers the conversation and everything it learned about you.',function(){ STORE.clearCoach(); render(); }); }
   STORE.onChange(function(){ if(isOpen&&!busy) render(); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&isOpen) toggle(false); });
-  function voiceSend(t){ if(!isOpen) toggle(true); var i=$('coIn'); if(!i) return; i.value=t; send(true); }
+  function voiceSend(t,quiet){ if(!isOpen&&!quiet) toggle(true); var i=$('coIn'); if(!i) return; i.value=t; send(true); }
   function mini(on){ var p=$('botPanel'); if(!p) return; var m=(typeof on==='boolean')?on:p.getAttribute('data-min')!=='1'; p.setAttribute('data-min',m?'1':'0'); if(!m) scrollEnd(); }
   function proxySave(){ var u=(($('stPxUrl')||{}).value||'').replace(/^\s+|\s+$/g,'').replace(/\/+$/,''), t=(($('stPxTok')||{}).value||'').replace(/^\s+|\s+$/g,'');
     if(u&&!/^https:\/\/[^\s]+$/.test(u)){ APP.toast('Proxy URL must start with https://',true); return; }
@@ -2764,6 +2801,33 @@ var CO=(function(){
   function trusted(num,name){ var L=lsGet('SAMM_TRUSTED').split(','), i; for(i=0;i<L.length;i++){ var t=L[i].replace(/^\s+|\s+$/g,''); if(!t) continue; var d=t.replace(/[^\d]/g,''); if(d.length>=10&&num&&num.slice(-10)===d.slice(-10)) return true; if(name&&t.toLowerCase()===String(name).toLowerCase()) return true; } return false; }
   function geoGo(ts,j){ STORE.patchCoachLink(ts,j,{state:'auto'}); autoGeo(ts,j,0); }
   return {toggle:toggle,render:render,send:send,quick:quick,clear:clear,link:link,geo:geo,geoStop:geoStop,geoAgain:geoAgain,geoGo:geoGo,voiceSend:voiceSend,mini:mini,proxySave:proxySave,trustSave:trustSave,gfetch:gfetch,proxyOn:function(){ return !!proxyCfg(); },hasKey:function(){ return !!keyGet(); },isBusy:function(){ return busy; },connState:function(){ return conn; },waSave:waSave,waSend:waSend,waCancel:waCancel,waFill:waFill,waTest:waTest,check:check,autoCheck:autoCheck,gmSave:gmSave,gmSend:gmSend,gmFill:gmFill,urlAsk:urlAsk};
+})();
+
+
+/* ===== SIRI — voice mode without the chat panel: edge glow, live words, answer card ===== */
+var SIRI=(function(){
+  var on=false, hideT=0;
+  function $(id){ return document.getElementById(id); }
+  function esc(t){ return APP.esc(String(t||'')); }
+  function el(){ return $('siri'); }
+  function active(){ return on; }
+  function open(){ var e=el(); if(!e) return; clearTimeout(hideT); on=true; e.hidden=false; void e.offsetWidth; e.classList.add('show'); $('siriCard').hidden=true; $('siriYou').textContent=''; }
+  function close(stop){ var e=el(); if(!e||!on) return; on=false; clearTimeout(hideT); e.classList.remove('show'); setTimeout(function(){ if(!on) e.hidden=true; },300); if(stop!==false&&window.VX) VX.stop(); }
+  function state(s){ var e=el(); if(!e) return; e.setAttribute('data-vs',s); clearTimeout(hideT);
+    if(on&&s==='idle'){ var c=$('siriCard'); if(c&&!c.hidden) hideT=setTimeout(function(){ if(VX.state()==='idle'&&!CO.isBusy()) close(false); },15000); else if(!CO.isBusy()) hideT=setTimeout(function(){ if(VX.state()==='idle'&&!CO.isBusy()) close(false); },4000); } }
+  function level(v){ var e=el(); if(e) e.style.setProperty('--lvl',v); }
+  function line(t,cls){ if(!on) return; var y=$('siriYou'); if(!y) return; if(cls==='final') t=String(t||'').replace(/^“|”$/g,''); y.textContent=t||''; y.className='siri-you'+((cls==='final'||cls==='interim')?'':' dim'); if(cls==='final') $('siriCard').hidden=true; }
+  function live(t){ if(!on||!t) return; var c=$('siriCard'); c.hidden=false; $('siriAns').innerHTML=esc(t).replace(/\n/g,'<br>'); $('siriRc').textContent=''; $('siriAct').innerHTML=''; }
+  function answer(say,res){ if(!on) return; var c=$('siriCard'); c.hidden=false; $('siriAns').innerHTML=esc(say).replace(/\*\*/g,'').replace(/\n/g,'<br>');
+    var ok=(res&&res.ok)||[], bad=(res&&res.fail)||[], rc=$('siriRc'), L=(res&&res.links)||[], i, tap=false;
+    rc.className='siri-rc'+(bad.length&&!ok.length?' bad':''); rc.textContent=(ok.length?ok.slice(0,3).map(function(x){ return '✅ '+String(x).split('\n')[0].slice(0,90); }).join('\n'):'')+(bad.length?((ok.length?'\n':'')+'⚠ '+String(bad[0]).slice(0,90)):'');
+    for(i=0;i<L.length;i++){ if(L[i].wa||L[i].gm||L[i].geo||L[i].ics||L[i].url) tap=true; }
+    var a=''; if(tap) a+='<button class="pri" onclick="SIRI.openChat()">Review &amp; tap in chat</button>'; else a+='<button onclick="SIRI.openChat()">Open chat</button>';
+    $('siriAct').innerHTML=a; }
+  function oops(msg){ if(!on) return; var c=$('siriCard'); c.hidden=false; $('siriAns').textContent=msg||'Something went wrong.'; $('siriRc').textContent=''; $('siriAct').innerHTML='<button onclick="SIRI.openChat()">Open chat</button>'; }
+  function openChat(){ close(false); CO.toggle(true); }
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&on) close(); });
+  return {active:active,open:open,close:close,state:state,level:level,line:line,live:live,answer:answer,oops:oops,openChat:openChat};
 })();
 
 /* ===== VX — SAMM voice: mic → Groq Whisper → bot → spoken reply. Every state shown is a real event. ===== */
@@ -2805,9 +2869,9 @@ var VX=(function(){
   function load(){ var d={voice:'',rate:1,auto:true,all:false,preview:true,mute:false,convo:true,engine:'auto',tp:'google',sv:'shubh_enhi_banking',gv:'Charon',vol:1,backup:false,wake:false}; try{ var o=JSON.parse(localStorage.getItem(LS)||'{}'); for(var k in o) if(o.hasOwnProperty(k)) d[k]=o[k]; }catch(e){} if(d.engine==='sarvam'){ d.engine='cloud'; d.tp='sarvam'; } if(d.engine==='device') d.engine='auto'; return d; }
   function save(){ try{ localStorage.setItem(LS,JSON.stringify(cfg)); }catch(e){} }
   var LBL={idle:'Idle',listening:'Listening…',transcribing:'Transcribing…',thinking:'Thinking…',speaking:'Speaking'};
-  function setState(s){ st=s; var ff=$('botFab'); if(ff) ff.setAttribute('data-vs',s); if(s!=='idle'){ if(wk) wakeStop(); } else if(cfg.wake){ clearTimeout(wkT); wkT=setTimeout(wakeStart,900); } var p=$('botPanel'); if(p) p.setAttribute('data-vs',s); waveKick(); var l=$('vxState'); if(l) l.textContent=LBL[s]||s; var m=$('vxMic'); if(m){ m.setAttribute('aria-pressed',s==='listening'?'true':'false'); m.className='botmic'+(s==='listening'?' on':''); } if(s!=='listening') level(0); }
+  function setState(s){ st=s; var ff=$('botFab'); if(ff) ff.setAttribute('data-vs',s); if(window.SIRI) SIRI.state(s); if(s!=='idle'){ if(wk) wakeStop(); } else if(cfg.wake){ clearTimeout(wkT); wkT=setTimeout(wakeStart,900); } var p=$('botPanel'); if(p) p.setAttribute('data-vs',s); waveKick(); var l=$('vxState'); if(l) l.textContent=LBL[s]||s; var m=$('vxMic'); if(m){ m.setAttribute('aria-pressed',s==='listening'?'true':'false'); m.className='botmic'+(s==='listening'?' on':'')+((s==='transcribing'||s==='thinking')?' busy':''); } var ci=$('coIn'); if(ci) ci.placeholder=s==='listening'?'Listening\u2026 tap the mic to send':(s==='transcribing'?'Transcribing\u2026':'Type or talk \u2014 Hinglish/English'); if(s!=='listening') level(0); }
   var wv=[], wraf=0, wEnergy=0, wLastBeat=0, wT=0;
-  function level(v){ v=Math.max(0,Math.min(1,v)); var o=$('vxOrb'); if(o) o.style.setProperty('--lvl',v.toFixed(3)); var fo=$('botFab'); if(fo) fo.style.setProperty('--lvl',v.toFixed(3)); if(st==='listening') wv.push(v); }
+  function level(v){ v=Math.max(0,Math.min(1,v)); var o=$('vxOrb'); if(o) o.style.setProperty('--lvl',v.toFixed(3)); var fo=$('botFab'); if(fo) fo.style.setProperty('--lvl',v.toFixed(3)); if(window.SIRI) SIRI.level(v.toFixed(3)); if(st==='listening') wv.push(v); }
   function waveLoop(){ var el=$('vxWave'); if(!el){ wraf=0; return; } var bars=el.children, n=bars.length, i, now=Date.now(), active=(st!=='idle');
     if(st==='speaking'){ if(srcs.length){ wv.push(Math.min(1,svLevel()*5)); } else { if(now-wLastBeat>700) wEnergy=Math.max(wEnergy,.32+.12*Math.sin(now/180)); wv.push(wEnergy*(.55+.45*Math.abs(Math.sin(now/90+wv.length)))); wEnergy*=.9; } }
     else if(st==='thinking'||st==='transcribing'){ wT+=1; wv=[]; for(i=0;i<n;i++) wv.push(.12+.5*Math.max(0,Math.cos((i-(wT/2)%(n+8))*.45))); }
@@ -2815,7 +2879,7 @@ var VX=(function(){
     for(i=0;i<n;i++){ var v=wv[wv.length-n+i]; bars[i].style.setProperty('--h',(v==null?2:Math.max(2,Math.round(v*22)))+'px'); }
     if(active) wraf=requestAnimationFrame(waveLoop); else { wv=[]; for(i=0;i<n;i++) bars[i].style.setProperty('--h','2px'); wraf=0; } }
   function waveKick(){ if(!wraf) wraf=requestAnimationFrame(waveLoop); }
-  function line(t,cls){ var e=$('vxLine'); if(e){ e.textContent=t||''; e.className='vxline'+(cls?' '+cls:''); } }
+  function line(t,cls){ if(window.SIRI) SIRI.line(t,cls); var e=$('vxLine'); if(e){ e.textContent=t||''; e.className='vxline'+(cls?' '+cls:''); } }
   function canRec(){ return !!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&window.MediaRecorder); }
   function canSpeak(){ return !!(window.speechSynthesis&&window.SpeechSynthesisUtterance); }
   function unlock(){ if(unlocked||!canSpeak()) return; unlocked=true; try{ var u=new SpeechSynthesisUtterance(' '); u.volume=0; speechSynthesis.speak(u); }catch(e){} }
@@ -2860,7 +2924,7 @@ var VX=(function(){
     release(); var blob=chunks.length?new Blob(chunks,{type:(rec&&rec.mimeType)||'audio/webm'}):null; rec=null; chunks=[];
     if(!sendIt||!blob||blob.size<1200){ setState('idle'); line(abortMsg||(sendIt?'Too short — try again.':'')); return; }
     setState('transcribing'); line('Transcribing…');
-    transcribe(blob).then(function(text){ text=(text||'').replace(/^\s+|\s+$/g,''); if(!text||JUNK.test(text)){ setState('idle'); line('Couldn’t catch that — try again.'); return; } line('“'+text+'”','final'); CO.voiceSend(text); },
+    transcribe(blob).then(function(text){ text=(text||'').replace(/^\s+|\s+$/g,''); if(!text||JUNK.test(text)){ setState('idle'); line('Couldn’t catch that — try again.'); return; } line('“'+text+'”','final'); CO.voiceSend(text,SIRI.active()); },
       function(e){ setState('idle'); line(''); APP.toast('Voice: '+((e&&e.message)||'error'),true); });
   }
   function transcribe(blob){
@@ -2903,11 +2967,12 @@ var VX=(function(){
   var fromSay=false;
   function streamText(t,isSay){ if(!speakOn||!t) return; if(isSay) fromSay=true; streamed=t; var rest=t.slice(spokenLen), cut=-1, re=/[.!?।\n](?=\s)/g, m; while((m=re.exec(rest))) cut=m.index; if(cut>=0){ say(rest.slice(0,cut+1)); spokenLen+=cut+1; } }
   function finish(sayTxt,res,speakTxt){
+    if(window.SIRI) SIRI.answer(sayTxt,res);
     if(speakOn){ var t=String(((useSv()||hindiVoice())&&speakTxt&&!fromSay)?speakTxt:(sayTxt||'')); if(spokenLen&&t.indexOf(streamed.slice(0,spokenLen))!==0){ /* final text differs from what was streamed: don't repeat */ } else say(t.slice(spokenLen));
       if(res&&res.fail&&res.fail.length) say(useSv()?'कुछ काम नहीं हुआ। Screen पर details देखो।':'Kuch kaam nahi hua. Screen pe details dekho.'); }
     spokenLen=0; streamed=''; fromSay=false; if(!curU&&!q.length&&!srcs.length&&!sq.length){ setState('idle'); if(speakOn) followUp(); }
   }
-  function fail(){ stopSpeak(); setState('idle'); }
+  function fail(){ stopSpeak(); if(window.SIRI) SIRI.oops('Couldn\u2019t get an answer \u2014 check the chat.'); setState('idle'); }
 
   /* ---------- controls ---------- */
   function orb(){ inConvo=false; if(st==='speaking'){ stopSpeak(); line('Stopped.'); return; } if(st==='listening'){ stopRec(true); return; } start(false); }
@@ -2947,7 +3012,7 @@ var VX=(function(){
       wk.start(); }catch(e){ wk=null; wkT=setTimeout(wakeStart,5000); }
     paintWake(); }
   function wakeStop(){ clearTimeout(wkT); if(wk){ var w=wk; wk=null; w.onend=null; w.onresult=null; try{ w.abort(); }catch(e){} } paintWake(); }
-  function wakeHit(){ wakeStop(); if(st!=='idle') return; CO.toggle(true); CO.mini(false); beat(); line('Hey Samm \u2014 listening\u2026'); setTimeout(function(){ if(st==='idle') start(false); },200); }
+  function wakeHit(){ wakeStop(); if(st!=='idle') return; if(!chatOpen()) SIRI.open(); else CO.mini(false); beat(); line('Hey Samm \u2014 listening\u2026'); setTimeout(function(){ if(st==='idle') start(false); },200); }
   function toggleWake(){ if(!wakeSup()){ APP.toast(/iPhone|iPad|iPod/.test(navigator.userAgent)?'Not on iPhone \u2014 use the Siri Shortcut':'This browser has no speech recognition \u2014 use Edge or Chrome',true); return; } cfg.wake=!cfg.wake; save(); if(cfg.wake){ wkErr=0; unlock(); wakeAudio(); wakeStart(); APP.toast('Say “Hey Samm” any time SAMM is open'); } else { wakeStop(); APP.toast('“Hey Samm” off'); } paintWake(); }
   function paintWake(){ var on=!!cfg.wake, live=!!wk, d=$('wakeDot'), t=$('wakeTxt'), b=$('wakeBtn'), ok=wakeSup();
     if(d) d.className='cdot '+(!on?'off':(live?'ok':(wkErr>=5?'err':'busy'))); var fw=$('botFab'); if(fw) fw.classList.toggle('wake',on&&live);
@@ -2956,8 +3021,9 @@ var VX=(function(){
   function desk(){ var app=APP.standalone&&APP.standalone(), d=$('vxDesk'), t=$('vxDeskT'); if(d) d.className='cdot '+(cfg.wake&&wk?'ok':(app?'ok':'off')); if(t) t.textContent=cfg.wake?(wk?'Hey Samm on':'Hey Samm paused'):(app?'App mode':'Hey Samm off'); }
   /* bottom orb: tap = open + talk (tap again = send/stop), hold = open for typing */
   var fT=0, fHeld=false, fDown=false;
-  function fabTap(){ var open=/\bopen\b/.test(($('botPanel')||{}).className||''); if(!open) CO.toggle(true); if(!CO.hasKey()){ return; } orb(); }
-  function fabType(){ CO.toggle(true); if(st==='listening') stopRec(false,''); var i=$('coIn'); if(i) setTimeout(function(){ i.focus(); },60); }
+  function chatOpen(){ return /\bopen\b/.test(($('botPanel')||{}).className||''); }
+  function fabTap(){ if(!CO.hasKey()){ CO.toggle(true); return; } if(chatOpen()){ orb(); return; } if(SIRI.active()&&(st==='listening'||st==='speaking')){ orb(); return; } if(SIRI.active()&&st==='idle'){ orb(); return; } SIRI.open(); orb(); }
+  function fabType(){ SIRI.close(false); CO.toggle(true); if(st==='listening') stopRec(false,''); var i=$('coIn'); if(i) setTimeout(function(){ i.focus(); },60); }
   function initFab(){ var f=$('botFab'); if(!f) return;
     f.addEventListener('pointerdown',function(e){ if(e.button>0) return; fDown=true; fHeld=false; clearTimeout(fT); fT=setTimeout(function(){ fT=0; fHeld=true; fabType(); },450); });
     f.addEventListener('pointerup',function(){ if(!fDown) return; fDown=false; if(fT){ clearTimeout(fT); fT=0; fabTap(); } });
@@ -2968,7 +3034,7 @@ var VX=(function(){
   function init(){
     initFab();
     var m=$('vxMic'); if(m){ m.addEventListener('pointerdown',micDown); m.addEventListener('pointerup',micUp); m.addEventListener('pointerleave',function(){ if(held){ held=false; if(st==='listening') stopRec(true); } }); m.addEventListener('contextmenu',function(e){ e.preventDefault(); }); }
-    document.addEventListener('keydown',function(e){ if(e.ctrlKey&&e.shiftKey&&(e.code==='Space'||e.key===' ')){ e.preventDefault(); CO.toggle(true); orb(); } else if(e.key==='Escape'&&(st==='speaking'||st==='listening')){ if(st==='speaking') stopSpeak(); else stopRec(false,'Cancelled.'); } });
+    document.addEventListener('keydown',function(e){ if(e.ctrlKey&&e.shiftKey&&(e.code==='Space'||e.key===' ')){ e.preventDefault(); fabTap(); } else if(e.key==='Escape'&&(st==='speaking'||st==='listening')){ if(st==='speaking') stopSpeak(); else stopRec(false,'Cancelled.'); } });
     if(canSpeak()&&'onvoiceschanged' in speechSynthesis) speechSynthesis.onvoiceschanged=function(){ var b=$('vxSet'); if(b&&!b.hidden) fillVoices(); };
     if(!canRec()){ var mm=$('vxMic'); if(mm){ mm.disabled=true; mm.title='Voice input not supported in this browser'; } }
     document.addEventListener('visibilitychange',function(){ if(!document.hidden&&cfg.wake&&!wk&&st==='idle') wakeStart(); });
